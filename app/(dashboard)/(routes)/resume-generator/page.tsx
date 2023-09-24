@@ -30,7 +30,7 @@ import { Packer } from "docx";
 import { DocumentCreator } from "@/lib/cv-generator";
 import { experiences, education, skills, achievements } from "@/lib/cv-data"; // dummy data
 
-const LetterWriterPage = () => {
+const ResumeGeneratorPage = () => {
   const router = useRouter();
   const proModal = useProModal();
   const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
@@ -92,7 +92,7 @@ const LetterWriterPage = () => {
   return (
     <div>
       <Heading
-        title="Written letter generator"
+        title="Resume generator"
         description="Our most advanced teacher, modeled after an Ivy Leage college professor."
         icon={MessageSquare}
         iconColor="text-violet-500"
@@ -194,5 +194,5 @@ const LetterWriterPage = () => {
   );
 }
 
-export default LetterWriterPage;
+export default ResumeGeneratorPage;
 

@@ -43,9 +43,9 @@ const routes = [
   //   color: "text-violet-500",
   // },
   {
-    label: 'Letter Writer',
+    label: 'Resume generator',
     icon: MessageSquare,
-    href: '/letter-writer',
+    href: '/resume-generator',
     color: "text-violet-500",
   },
   // {
