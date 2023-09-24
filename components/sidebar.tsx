@@ -18,42 +18,42 @@ const routes = [
     href: '/dashboard',
     color: "text-sky-500"
   },
-  {
-    label: 'Conversation',
-    icon: MessageSquare,
-    href: '/conversation',
-    color: "text-violet-500",
-  },
-  {
-    label: 'Therapist',
-    icon: MessageSquare,
-    href: '/therapist',
-    color: "text-violet-500",
-  },
+  // {
+  //   label: 'Conversation',
+  //   icon: MessageSquare,
+  //   href: '/conversation',
+  //   color: "text-violet-500",
+  // },
+  // {
+  //   label: 'Therapist',
+  //   icon: MessageSquare,
+  //   href: '/therapist',
+  //   color: "text-violet-500",
+  // },
   // {
   //   label: 'Life Coach',
   //   icon: MessageSquare,
   //   href: '/life-coach',
   //   color: "text-violet-500",
   // },
-  {
-    label: 'College Professor',
-    icon: MessageSquare,
-    href: '/college-professor',
-    color: "text-violet-500",
-  },
+  // {
+  //   label: 'College Professor',
+  //   icon: MessageSquare,
+  //   href: '/college-professor',
+  //   color: "text-violet-500",
+  // },
   {
     label: 'Letter Writer',
     icon: MessageSquare,
     href: '/letter-writer',
     color: "text-violet-500",
   },
-  {
-    label: 'Greeting Card Generator',
-    icon: ImageIcon,
-    color: "text-pink-700",
-    href: '/image',
-  },
+  // {
+  //   label: 'Greeting Card Generator',
+  //   icon: ImageIcon,
+  //   color: "text-pink-700",
+  //   href: '/image',
+  // },
   // {
   //   label: 'Video Generation',
   //   icon: VideoIcon,
@@ -96,7 +96,7 @@ export const Sidebar = ({
             <Image fill alt="Logo" src="/logo.png" />
           </div>
           <h1 className={cn("text-2xl font-bold", poppins.className)}>
-            DingDong
+            ResumAI
           </h1>
         </Link>
         <div className="space-y-1">
