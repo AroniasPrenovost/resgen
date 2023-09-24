@@ -113,8 +113,7 @@ https://app.crisp.chat/initiate/signup/?locale=en
 
 ## Available commands
 
-Running commands with npm `npm run [command]`
-
-| command         | description                              |
-| :-------------- | :--------------------------------------- |
-| `dev`           | Starts a development instance of the app |
+| command                 | description                              |
+| :-----------------------| :--------------------------------------- |
+| `npm run dev`           | Starts a development instance of the app |
+| `npx prisma studio`     | Opens Prisma database editor             |
