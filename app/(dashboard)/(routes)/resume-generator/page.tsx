@@ -93,7 +93,7 @@ const ResumeGeneratorPage = () => {
     <div>
       <Heading
         title="Resume generator"
-        description="Our most advanced teacher, modeled after an Ivy Leage college professor."
+        description="Generate a professional resume designed to pass automated systems and get you in front of the hiring manager."
         icon={MessageSquare}
         iconColor="text-violet-500"
         bgColor="bg-violet-500/10"
