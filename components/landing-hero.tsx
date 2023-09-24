@@ -17,10 +17,9 @@ export const LandingHero = () => {
           <TypewriterComponent
             options={{
               strings: [
-                "Chatbot.",
-                "Photo Generation.",
-                "Blog Writing.",
-                "Mail Writing."
+                "Resume generation.",
+                "Getting that first interview.",
+                "Getting hired.",
               ],
               autoStart: true,
               loop: true,
@@ -29,17 +28,17 @@ export const LandingHero = () => {
         </div>
       </div>
       <div className="text-sm md:text-xl font-light text-zinc-400">
-        Create content using AI 10x faster.
+        Create your resume 10x faster using AI.
       </div>
       <div>
         <Link href={isSignedIn ? "/dashboard" : "/sign-up"}>
           <Button variant="premium" className="md:text-lg p-4 md:p-6 rounded-full font-semibold">
-            Start Generating For Free
+            Generate your next resume
           </Button>
         </Link>
       </div>
       <div className="text-zinc-400 text-xs md:text-sm font-normal">
-        No credit card required.
+        Skip the guesswork.
       </div>
     </div>
   );
