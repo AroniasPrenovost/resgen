@@ -23,6 +23,13 @@ import { useProModal } from "@/hooks/use-pro-modal";
 
 import { formSchema } from "./constants";
 
+// PDF and .docx generation
+import { jsPDF,HTMLOptionImage } from "jspdf";
+import { saveAs } from "file-saver";
+import { Packer } from "docx";
+import { DocumentCreator } from "@/lib/cv-generator";
+import { experiences, education, skills, achievements } from "@/lib/cv-data"; // dummy data
+
 const LetterWriterPage = () => {
   const router = useRouter();
   const proModal = useProModal();
@@ -57,6 +64,31 @@ const LetterWriterPage = () => {
     }
   }
 
+  function generateDocx(): void {
+    const documentCreator = new DocumentCreator();
+    const doc = documentCreator.create([
+      experiences,
+      education,
+      skills,
+      achievements
+    ]);
+
+    Packer.toBlob(doc).then(blob => {
+      console.log(blob);
+      saveAs(blob, "example.docx");
+      console.log("Document created successfully");
+    });
+  }
+
+  function generatePDF(){
+    var doc = new jsPDF();
+    doc.setFontSize(14);  
+    doc.text(['test', 'test'], 20, 10);
+    //doc.text(35, 25, "Paranyan loves jsPDF");
+    //doc.addImage(imgData, 'JPEG', 15, 40, 180, 160);
+    doc.save('my.pdf');
+  }
+
   return (
     <div>
       <Heading
@@ -66,6 +98,7 @@ const LetterWriterPage = () => {
         iconColor="text-violet-500"
         bgColor="bg-violet-500/10"
       />
+
       <div className="px-4 lg:px-8">
         <div>
           <Form {...form}>
@@ -99,9 +132,34 @@ const LetterWriterPage = () => {
                   </FormItem>
                 )}
               />
-              <Button className="col-span-12 lg:col-span-2 w-full" type="submit" disabled={isLoading} size="icon">
-                Generate
+              <Button 
+                style={{backgroundColor: "orange"}} 
+                className="col-span-12 lg:col-span-2 w-full" 
+                type="submit" 
+                disabled={isLoading} 
+                size="icon">
+                Write my resume
               </Button>
+             
+              <Button 
+                  onClick={generateDocx} 
+                  className="col-span-12 lg:col-span-2 w-full" 
+                  // type="submit" 
+                  disabled={isLoading} 
+                  size="icon"
+                >
+                 Generate docx
+                </Button>
+
+                <Button 
+                  onClick={generatePDF} 
+                  className="col-span-12 lg:col-span-2 w-full" 
+                  // type="submit" 
+                  disabled={isLoading} 
+                  size="icon"
+                >
+                  Generate PDF
+                </Button>
             </form>
           </Form>
         </div>
