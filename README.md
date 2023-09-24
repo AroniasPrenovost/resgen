@@ -68,19 +68,19 @@ if things are busted and prisma studio isn't working..
 npx prisma migrate reset && npx prisma generate && npx prisma db push 
 ```
 
-### Start the app [MUST BE RUNNING]
+### Start the app
 
 ```shell
 npm run dev
 ```
 
-### Prisma studio [MUST BE RUNNING]
+### Prisma studio
 ```shell
 npx prisma studio # runs at http://localhost:5555/
 ```
 
 
-### Stripe  [MUST BE RUNNING] (log shows webhook signing secret ('whsec_...'))
+- Stripe  [MUST BE RUNNING] (log shows webhook signing secret ('whsec_...'))
 
 ```shell
 stripe listen --forward-to localhost:3000/api/webhook
