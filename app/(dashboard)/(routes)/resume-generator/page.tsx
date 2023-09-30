@@ -190,6 +190,17 @@ Input:
     doc.save('resume.pdf');
   }
 
+
+
+  // TOGGLE FORM FIELD VISIBILITY
+
+  // EDUCATION - College section
+  const [educationCollegeVisibility, setEducationCollegeVisibility] = useState<boolean>(false);
+  // EDUCATION - Masters section
+  const [educationMastersVisibility, setEducationMastersVisibility] = useState<boolean>(false);
+    // EDUCATION - PhD section
+  const [educationPhDVisibility, setEducationPhDVisibility] = useState<boolean>(false);
+
   return (
     <div>
       <Heading
@@ -234,8 +245,8 @@ Input:
                     </FormControl>
                   </FormItem>
                 )}
-              />
-
+              /> 
+ 
               <FormField
                 name="email_address"
                 render={({ field }) => (
@@ -374,204 +385,239 @@ Input:
 
               {/* EDUCATION */}
 
-              <FormField
-                name="college_name"
-                render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-10">
-                    <FormControl className="m-0 p-0">
-                      <Input
-                        className="border-0 outline-none  "
-                        disabled={isLoading}
-                        placeholder="College name"
-                        {...field}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
+              <input name="checked" type="checkbox" checked={educationCollegeVisibility} 
+              onChange={e => setEducationCollegeVisibility(!educationCollegeVisibility)} />
 
-              <FormField
-                name="college_degree"
-                render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-10">
-                    <FormControl className="m-0 p-0">
-                      <Input
-                        className="border-0 outline-none  "
-                        disabled={isLoading}
-                        placeholder="College degree"
-                        {...field}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
+              {educationCollegeVisibility ? 
+                <>
 
-              <FormField
-                name="college_start_year"
-                render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-10">
-                    <FormControl className="m-0 p-0">
-                      <Input
-                        className="border-0 outline-none  "
-                        disabled={isLoading}
-                        placeholder="College start year"
-                        {...field}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
+                <FormField
+                  name="college_name"
+                  render={({ field }) => (
+                    <FormItem className="col-span-12 lg:col-span-10">
+                      <FormControl className="m-0 p-0">
+                        <Input
+                          className="border-0 outline-none  "
+                          disabled={isLoading}
+                          placeholder="College name"
+                          {...field}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
 
-              <FormField
-                name="college_end_year"
-                render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-10">
-                    <FormControl className="m-0 p-0">
-                      <Input
-                        className="border-0 outline-none  "
-                        disabled={isLoading}
-                        placeholder="Graduating year"
-                        {...field}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
+                <FormField
+                  name="college_degree"
+                  render={({ field }) => (
+                    <FormItem className="col-span-12 lg:col-span-10">
+                      <FormControl className="m-0 p-0">
+                        <Input
+                          className="border-0 outline-none  "
+                          disabled={isLoading}
+                          placeholder="College degree"
+                          {...field}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  name="college_start_year"
+                  render={({ field }) => (
+                    <FormItem className="col-span-12 lg:col-span-10">
+                      <FormControl className="m-0 p-0">
+                        <Input
+                          className="border-0 outline-none  "
+                          disabled={isLoading}
+                          placeholder="College start year"
+                          {...field}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  name="college_end_year"
+                  render={({ field }) => (
+                    <FormItem className="col-span-12 lg:col-span-10">
+                      <FormControl className="m-0 p-0">
+                        <Input
+                          className="border-0 outline-none  "
+                          disabled={isLoading}
+                          placeholder="Graduating year"
+                          {...field}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+
+              </>
+
+              : ''}
 
 
               {/*EDUCATION - MASTERS */}
 
-               <FormField
-                name="college_name_masters"
-                render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-10">
-                    <FormControl className="m-0 p-0">
-                      <Input
-                        className="border-0 outline-none  "
-                        disabled={isLoading}
-                        placeholder="College name for Masters degree"
-                        {...field}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
+              <input name="checked" type="checkbox" checked={educationMastersVisibility} 
+              onChange={e => setEducationMastersVisibility(!educationMastersVisibility)} />
 
-              <FormField
-                name="college_degree_masters"
-                render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-10">
-                    <FormControl className="m-0 p-0">
-                      <Input
-                        className="border-0 outline-none  "
-                        disabled={isLoading}
-                        placeholder="College degree Masters"
-                        {...field}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
 
-              <FormField
-                name="college_start_year_masters"
-                render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-10">
-                    <FormControl className="m-0 p-0">
-                      <Input
-                        className="border-0 outline-none  "
-                        disabled={isLoading}
-                        placeholder="College start year Masters degree"
-                        {...field}
+              {educationMastersVisibility ? 
+                <>
+                     <FormField
+                        name="college_name_masters"
+                        render={({ field }) => (
+                          <FormItem className="col-span-12 lg:col-span-10">
+                            <FormControl className="m-0 p-0">
+                              <Input
+                                className="border-0 outline-none  "
+                                disabled={isLoading}
+                                placeholder="College name for Masters degree"
+                                {...field}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
                       />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
 
-              <FormField
-                name="college_end_year_masters"
-                render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-10">
-                    <FormControl className="m-0 p-0">
-                      <Input
-                        className="border-0 outline-none  "
-                        disabled={isLoading}
-                        placeholder="Graduating year Masters degree"
-                        {...field}
+                      <FormField
+                        name="college_degree_masters"
+                        render={({ field }) => (
+                          <FormItem className="col-span-12 lg:col-span-10">
+                            <FormControl className="m-0 p-0">
+                              <Input
+                                className="border-0 outline-none  "
+                                disabled={isLoading}
+                                placeholder="College degree Masters"
+                                {...field}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
                       />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
 
+                      <FormField
+                        name="college_start_year_masters"
+                        render={({ field }) => (
+                          <FormItem className="col-span-12 lg:col-span-10">
+                            <FormControl className="m-0 p-0">
+                              <Input
+                                className="border-0 outline-none  "
+                                disabled={isLoading}
+                                placeholder="College start year Masters degree"
+                                {...field}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        name="college_end_year_masters"
+                        render={({ field }) => (
+                          <FormItem className="col-span-12 lg:col-span-10">
+                            <FormControl className="m-0 p-0">
+                              <Input
+                                className="border-0 outline-none  "
+                                disabled={isLoading}
+                                placeholder="Graduating year Masters degree"
+                                {...field}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+
+
+
+                  </>
+
+
+
+              : ''}
 
 
               {/*EDUCATION - PHD */}
 
-               <FormField
-                name="college_name_phd"
-                render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-10">
-                    <FormControl className="m-0 p-0">
-                      <Input
-                        className="border-0 outline-none  "
-                        disabled={isLoading}
-                        placeholder="College name for PhD"
-                        {...field}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
 
-              <FormField
-                name="college_degree_phd"
-                render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-10">
-                    <FormControl className="m-0 p-0">
-                      <Input
-                        className="border-0 outline-none"
-                        disabled={isLoading}
-                        placeholder="PhD"
-                        {...field}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
+               <input name="checked" type="checkbox" checked={educationPhDVisibility} 
+              onChange={e => setEducationPhDVisibility(!educationPhDVisibility)} />
 
-              <FormField
-                name="college_start_year_phd"
-                render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-10">
-                    <FormControl className="m-0 p-0">
-                      <Input
-                        className="border-0 outline-none  "
-                        disabled={isLoading}
-                        placeholder="College start year PhD"
-                        {...field}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
 
-              <FormField
-                name="college_end_year_phd"
-                render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-10">
-                    <FormControl className="m-0 p-0">
-                      <Input
-                        className="border-0 outline-none  "
-                        disabled={isLoading}
-                        placeholder="Graduating year PhD"
-                        {...field}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
+              {educationPhDVisibility ? 
+                <>
+
+                   <FormField
+                    name="college_name_phd"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-10">
+                        <FormControl className="m-0 p-0">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="College name for PhD"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="college_degree_phd"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-10">
+                        <FormControl className="m-0 p-0">
+                          <Input
+                            className="border-0 outline-none"
+                            disabled={isLoading}
+                            placeholder="PhD"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="college_start_year_phd"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-10">
+                        <FormControl className="m-0 p-0">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="College start year PhD"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="college_end_year_phd"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-10">
+                        <FormControl className="m-0 p-0">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Graduating year PhD"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+              </>
+
+              : ''}
 
 
               {/* CIVIc */}
