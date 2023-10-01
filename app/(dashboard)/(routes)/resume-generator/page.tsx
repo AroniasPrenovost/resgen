@@ -384,9 +384,15 @@ Input:
               />
 
               {/* EDUCATION */}
-
-              <input name="checked" type="checkbox" checked={educationCollegeVisibility} 
-              onChange={e => setEducationCollegeVisibility(!educationCollegeVisibility)} />
+              <FormItem className="col-span-12 lg:col-span-10">
+                <FormControl className="m-0 p-0">
+                <label>
+                  <input name="checked" type="checkbox" checked={educationCollegeVisibility} 
+                  onChange={e => setEducationCollegeVisibility(!educationCollegeVisibility)} />
+                  College Education (Associates/Bachelor's)
+                </label>  
+                </FormControl>
+              </FormItem>
 
               {educationCollegeVisibility ? 
                 <>
@@ -461,10 +467,15 @@ Input:
 
 
               {/*EDUCATION - MASTERS */}
-
-              <input name="checked" type="checkbox" checked={educationMastersVisibility} 
-              onChange={e => setEducationMastersVisibility(!educationMastersVisibility)} />
-
+              <FormItem className="col-span-12 lg:col-span-10">
+                <FormControl className="m-0 p-0">
+                  <label>
+                    <input name="checked" type="checkbox" checked={educationMastersVisibility} 
+                    onChange={e => setEducationMastersVisibility(!educationMastersVisibility)} />
+                      Additional college education (Masters)
+                  </label>  
+                </FormControl>
+              </FormItem>
 
               {educationMastersVisibility ? 
                 <>
@@ -543,10 +554,15 @@ Input:
 
               {/*EDUCATION - PHD */}
 
-
-               <input name="checked" type="checkbox" checked={educationPhDVisibility} 
-              onChange={e => setEducationPhDVisibility(!educationPhDVisibility)} />
-
+              <FormItem className="col-span-12 lg:col-span-10">
+                <FormControl className="m-0 p-0">
+                  <label>
+                   <input name="checked" type="checkbox" checked={educationPhDVisibility} 
+                    onChange={e => setEducationPhDVisibility(!educationPhDVisibility)} />
+                    Additional college education (PhD)
+                  </label>  
+                </FormControl>
+              </FormItem>
 
               {educationPhDVisibility ? 
                 <>
