@@ -2,6 +2,19 @@ import { Code, ImageIcon, MessageSquare, Music, VideoIcon } from "lucide-react";
 
 export const MAX_FREE_COUNTS = 5;
 
+// TODO 
+/* 
+
+export const MAX_PRO_PLAN_GENERATIONS = 3;
+
+
+if (proPlan && (numberOfResumesGenerated > MAX_PRO_PLAN_GENERATIONS)) {
+
+}
+
+
+*/
+
 export const tools = [
   // {
   //   label: 'Conversation',
@@ -32,7 +45,7 @@ export const tools = [
   //   bgColor: "bg-violet-500/10",
   // },
   {
-    label: 'Resume generator',
+    label: 'Resume Generator',
     icon: MessageSquare,
     href: '/resume-generator',
     color: "text-violet-500",
@@ -67,3 +80,4 @@ export const tools = [
   //   href: '/code',
   // },
 ];
+

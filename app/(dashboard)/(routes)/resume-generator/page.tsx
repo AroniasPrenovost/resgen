@@ -1,4 +1,4 @@
-"use client";
+ "use client";
 
 import * as z from "zod";
 import axios from "axios";
@@ -24,7 +24,7 @@ import { useProModal } from "@/hooks/use-pro-modal";
 import { formSchema } from "./constants";
 
 // PDF and .docx generation
-import { jsPDF,HTMLOptionImage } from "jspdf";
+import { jsPDF, HTMLOptionImage } from "jspdf";
 import { saveAs } from "file-saver";
 import { Packer } from "docx";
 import { DocumentCreator } from "@/lib/cv-generator";
@@ -42,112 +42,568 @@ const ResumeGeneratorPage = () => {
       email_address: "",
       phone_number: "",
       personal_website: "",
-         // job #1
+      linkedin_profile: "",
+      //
+      interests: "",
+      //
+      skills: "",
+      // job #1
       job_1_employer: "",
       job_1_title: "",
-      job_1_start_date: "",
-      job_1_end_date: "",
-      job_1_description: "",
+      job_1_start_month: "",
+      job_1_start_year: "",
+      job_1_end_month: "",
+      job_1_end_year: "",
+      job_1_summary: "",
       // job #2
       job_2_employer: "",
       job_2_title: "",
-      job_2_start_date: "",
-      job_2_end_date: "",
-      job_2_description: "",
+      job_2_start_month: "",
+      job_2_start_year: "",
+      job_2_end_month: "",
+      job_2_end_year: "",
+      job_2_summary: "",
       // job #3
       job_3_employer: "",
       job_3_title: "",
-      job_3_start_date: "",
-      job_3_end_date: "",
-      job_3_description: "",
+      job_3_start_month: "",
+      job_3_start_year: "",
+      job_3_end_month: "",
+      job_3_end_year: "",
+      job_3_summary: "",
       // job #4
       job_4_employer: "",
       job_4_title: "",
-      job_4_start_date: "",
-      job_4_end_date: "",
-      job_4_description: "",
-        // job #5
+      job_4_start_month: "",
+      job_4_start_year: "",
+      job_4_end_month: "",
+      job_4_end_year: "",
+      job_4_summary: "",
+      // job #5
       job_5_employer: "",
       job_5_title: "",
-      job_5_start_date: "",
-      job_5_end_date: "",
-      job_5_description: "",
-        // job #6
+      job_5_start_month: "",
+      job_5_start_year: "",
+      job_5_end_month: "",
+      job_5_end_year: "",
+      job_5_summary: "",
+      // job #6
       job_6_employer: "",
       job_6_title: "",
-      job_6_start_date: "",
-      job_6_end_date: "",
-      job_6_description: "",
+      job_6_start_month: "",
+      job_6_start_year: "",
+      job_6_end_month: "",
+      job_6_end_year: "",
+      job_6_summary: "",
       // job #7
-      job_7_employer: "",
-      job_7_title: "",
-      job_7_start_date: "",
-      job_7_end_date: "",
-      job_7_description: "",
-        // job #8
-      job_8_employer: "",
-      job_8_title: "",
-      job_8_start_date: "",
-      job_8_end_date: "",
-      job_8_description: "",
-        // job #9
-      job_9_employer: "",
-      job_9_title: "",
-      job_9_start_date: "",
-      job_9_end_date: "",
-      job_9_description: "",
+      // job_7_employer: "",
+      // job_7_title: "",
+      // job_7_start_month: "",
+      // job_7_start_year: "",
+      // job_7_end_month: "",
+      // job_7_end_year: "",
+      // job_7_summary: "",
+      // job #8
+      // job_8_employer: "",
+      // job_8_title: "",
+      // job_8_start_month: "",
+      // job_8_start_year: "",
+      // job_8_end_month: "",
+      // job_8_end_year: "",
+      // job_8_summary: "",
+      // job #9
+      // job_9_employer: "",
+      // job_9_title: "",
+      // job_9_start_month: "",
+      // job_9_start_year: "",
+      // job_9_end_month: "",
+      // job_9_end_year: "",
+      // job_9_summary: "",
       // job #10
-      job_10_employer: "",
-      job_10_title: "",
-      job_10_start_date: "",
-      job_10_end_date: "",
-      job_10_description: "",
+      // job_10_employer: "",
+      // job_10_title: "",
+      // job_10_start_month: "",
+      // job_10_start_year: "",
+      // job_10_end_month: "",
+      // job_10_end_year: "",
+      // job_10_summary: "",
+
       // education
-      college_name: "",
-      college_degree: "",
-      college_start_year: "",
-      college_end_year: "",
-      college_name_masters: "",
-      college_degree_masters: "",
-      college_start_year_masters: "",
-      college_end_year_masters: "",
-      college_name_phd: "",
-      college_degree_phd: "",
-      college_start_year_phd: "",
-      college_end_year_phd: "",
+      college_name_1: "",
+      college_degree_1: "",
+      college_field_of_study_1: "",
+      college_notes_1: "",
+      college_start_year_1: "",
+      college_end_year_1: "",
+
+      college_name_2: "",
+      college_degree_2: "",
+      college_field_of_study_2: "",
+      college_notes_2: "",
+      college_start_year_2: "",
+      college_end_year_2: "",
+
+      college_name_3: "",
+      college_degree_3: "",
+      college_field_of_study_3: "",
+      college_notes_3: "",
+      college_start_year_3: "",
+      college_end_year_3: "",
+
       // civic service/extra - 1 
-      civic_1_org: "",
-      civic_1_description: "",
-        // civic service/extra - 2
-      civic_2_org: "",
-      civic_2_description: "",
-      // leftover
-      prompt: "",
+      achievement_1_issuer: "",
+      achievement_1_name: "",
+      // civic service/extra - 2
+      achievement_2_issuer: "",
+      achievement_2_name: "",
+      //
+      achievement_3_issuer: "",
+      achievement_3_name: "",
+      //
+      //
+      reference_1_info: "",
+      reference_2_info: "",
+      reference_3_info: "",
+      reference_4_info: "",
     }
   });
 
   const isLoading = form.formState.isSubmitting;
 
+
+
+  function mapFormValuesToResumeObject(formValues: any) {
+    let RESUME_OBJECT: any = {
+      personal_info: {
+        name: '',
+        phone_number: '',
+        email_address: '',
+        linkedin: '',
+        personal_website: '',
+        interests: '',
+      },
+      experiences: [],
+      education: [],
+      skills: [], // [{ name: 'Angular' }, { name: 'PHP'}]
+      achievements: [],
+      references: [],
+    };
+
+    //
+    //
+    // PERSONAL INFO 
+    //
+    //
+
+    if (formValues.full_name) {
+      RESUME_OBJECT.personal_info.name = formValues.full_name;
+    }
+
+    if (formValues.email_address) {
+      RESUME_OBJECT.personal_info.email_address = formValues.email_address;
+    }
+
+    if (formValues.phone_number) {
+      RESUME_OBJECT.personal_info.phone_number = formValues.phone_number;
+    }
+
+    if (formValues.personal_website) {
+      RESUME_OBJECT.personal_info.personal_website = formValues.personal_website;
+    }
+
+    if (formValues.linkedin_profile) {
+      RESUME_OBJECT.personal_info.linkedin = formValues.linkedin_profile;
+    }
+
+    if (formValues.interests) {
+      RESUME_OBJECT.personal_info.interests = formValues.interests;
+    }
+
+    if (formValues.skills) {
+      let skills = formValues.skills.replaceAll(',', ' ').split(' ');
+      for (const element of skills) {
+        let vv = { name: element };
+        if (vv.name.length > 0) {
+          // console.log('skill: ', vv);
+          RESUME_OBJECT.skills.push(vv);
+        }
+      }
+    }
+
+    //
+    //
+    // JOBS - experience_obj
+    // 
+    //
+
+    if (formValues.job_1_employer || formValues.job_1_title) {
+      let new_experence_obj_1: any = {
+        isCurrent: true,
+        company: {
+          name: formValues.job_1_employer,
+        },
+        title: formValues.job_1_title,
+        summary: formValues.job_1_summary,
+        startDate: {
+          month: formValues.job_1_start_month,
+          year: formValues.job_1_start_year,
+        },
+        endDate: {
+          month: formValues.job_1_end_month,
+          year: formValues.job_1_end_year,
+        }
+      }
+      RESUME_OBJECT.experiences.push(new_experence_obj_1);
+    }
+
+    if (formValues.job_2_employer || formValues.job_2_title) {
+      let new_experence_obj_2: any = {
+        isCurrent: false,
+        company: {
+          name: formValues.job_2_employer,
+        },
+        title: formValues.job_2_title,
+        summary: formValues.job_2_summary,
+        startDate: {
+          month: formValues.job_2_start_month,
+          year: formValues.job_2_start_year,
+        },
+        endDate: {
+          month: formValues.job_2_end_month,
+          year: formValues.job_2_end_year,
+        }
+      }
+      RESUME_OBJECT.experiences.push(new_experence_obj_2);
+    }
+
+    if (formValues.job_3_employer || formValues.job_3_title) {
+      let new_experence_obj_3: any = {
+        isCurrent: false,
+        company: {
+          name: formValues.job_3_employer,
+        },
+        title: formValues.job_3_title,
+        summary: formValues.job_3_summary,
+        startDate: {
+          month: formValues.job_3_start_month,
+          year: formValues.job_3_start_year,
+        },
+        endDate: {
+          month: formValues.job_3_end_month,
+          year: formValues.job_3_end_year,
+        }
+      }
+      RESUME_OBJECT.experiences.push(new_experence_obj_3);
+    }
+
+    if (formValues.job_4_employer || formValues.job_4_title) {
+      let new_experence_obj_4: any = {
+        isCurrent: false,
+        company: {
+          name: formValues.job_4_employer,
+        },
+        title: formValues.job_4_title,
+        summary: formValues.job_4_summary,
+        startDate: {
+          month: formValues.job_4_start_month,
+          year: formValues.job_4_start_year,
+        },
+        endDate: {
+          month: formValues.job_4_end_month,
+          year: formValues.job_4_end_year,
+        }
+      }
+      RESUME_OBJECT.experiences.push(new_experence_obj_4);
+    }
+
+    if (formValues.job_5_employer || formValues.job_5_title) {
+      let new_experence_obj_5: any = {
+        isCurrent: false,
+        company: {
+          name: formValues.job_5_employer,
+        },
+        title: formValues.job_5_title,
+        summary: formValues.job_5_summary,
+        startDate: {
+          month: formValues.job_5_start_month,
+          year: formValues.job_5_start_year,
+        },
+        endDate: {
+          month: formValues.job_5_end_month,
+          year: formValues.job_5_end_year,
+        }
+      }
+      RESUME_OBJECT.experiences.push(new_experence_obj_5);
+    }
+
+    if (formValues.job_6_employer || formValues.job_6_title) {
+      let new_experence_obj_6: any = {
+        isCurrent: false,
+        company: {
+          name: formValues.job_6_employer,
+        },
+        title: formValues.job_6_title,
+        summary: formValues.job_6_summary,
+        startDate: {
+          month: formValues.job_6_start_month,
+          year: formValues.job_6_start_year,
+        },
+        endDate: {
+          month: formValues.job_6_end_month,
+          year: formValues.job_6_end_year,
+        }
+      }
+      RESUME_OBJECT.experiences.push(new_experence_obj_6);
+    }
+
+    //
+    //
+    // education - education_obj 
+    //
+    //
+
+    /* 
+
+      let education_obj: any = {
+        schoolName: '',
+        degree: '',
+        fieldOfStudy: '',
+        notes: '',
+        startDate: {
+          year: 2012
+        },
+        endDate: {
+          year: 2013
+        }
+      }
+
+    */
+
+    if (formValues.college_name_1 || formValues.college_degree_1) {
+      let new_education_obj_1: any = {
+        schoolName: formValues.college_name_1,
+        degree: formValues.college_degree_1,
+        fieldOfStudy: formValues.college_field_of_study_1,
+        notes: formValues.college_notes_1,
+        startDate: {
+          year: formValues.college_start_year_1
+        },
+        endDate: {
+          year: formValues.college_end_year_1
+        }
+      }
+      RESUME_OBJECT.education.push(new_education_obj_1);
+    }
+
+    if (formValues.college_name_2 || formValues.college_degree_2) {
+      let new_education_obj_2: any = {
+        schoolName: formValues.college_name_2,
+        degree: formValues.college_degree_2,
+        fieldOfStudy: formValues.college_field_of_study_2,
+        notes: formValues.college_notes_2,
+        startDate: {
+          year: formValues.college_start_year_2
+        },
+        endDate: {
+          year: formValues.college_end_year_2
+        }
+      }
+      RESUME_OBJECT.education.push(new_education_obj_2);
+    }
+
+    if (formValues.college_name_3 || formValues.college_degree_3) {
+      let new_education_obj_3: any = {
+        schoolName: formValues.college_name_3,
+        degree: formValues.college_degree_3,
+        fieldOfStudy: formValues.college_field_of_study_3,
+        notes: formValues.college_notes_3,
+        startDate: {
+          year: formValues.college_start_year_3
+        },
+        endDate: {
+          year: formValues.college_end_year_3
+        }
+      }
+      RESUME_OBJECT.education.push(new_education_obj_3);
+    }
+
+    //
+    //
+    //  Achievements
+    //
+    //
+
+    /* 
+ 
+      let achievement_obj: any = {
+        issuer: '',
+        name: '',
+      }
+
+    */
+
+
+    if (formValues.achievement_1_issuer || formValues.achievement_1_name) {
+      let new_achievement_obj_1: any = {
+        issuer: formValues.achievement_1_issuer,
+        name: formValues.achievement_1_name,
+      }
+      RESUME_OBJECT.achievements.push(new_achievement_obj_1);
+    }
+
+    if (formValues.achievement_2_issuer || formValues.achievement_2_name) {
+      let new_achievement_obj_2: any = {
+        issuer: formValues.achievement_2_issuer,
+        name: formValues.achievement_2_name,
+      }
+      RESUME_OBJECT.achievements.push(new_achievement_obj_2);
+    }
+
+    if (formValues.achievement_3_issuer || formValues.achievement_3_name) {
+      let new_achievement_obj_3: any = {
+        issuer: formValues.achievement_3_issuer,
+        name: formValues.achievement_3_name,
+      }
+      RESUME_OBJECT.achievements.push(new_achievement_obj_3);
+    }
+
+    //
+    //
+    // references
+    //
+    //
+    if (formValues.reference_1_info) {
+      let new_reference_obj_1: any = {
+        info: formValues.reference_1_info,
+      }
+      RESUME_OBJECT.references.push(new_reference_obj_1);
+    }
+    if (formValues.reference_2_info) {
+      let new_reference_obj_2: any = {
+        info: formValues.reference_2_info,
+      }
+      RESUME_OBJECT.references.push(new_reference_obj_2);
+    }
+    if (formValues.reference_3_info) {
+      let new_reference_obj_3: any = {
+        info: formValues.reference_3_info,
+      }
+      RESUME_OBJECT.references.push(new_reference_obj_3);
+    }
+    if (formValues.reference_4_info) {
+      let new_reference_obj_4: any = {
+        info: formValues.reference_4_info,
+      }
+      RESUME_OBJECT.references.push(new_reference_obj_4);
+    }
+
+    return RESUME_OBJECT;
+  }
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
 
-    // somehow morpth eveything into the API call? 
-    const PROMPT = `Persona: You are an expert resume writer. 
-
-Take the structured data object input and create a valid resume with the information following this format:
-
+    // format data 
+    const mappedFormValues = mapFormValuesToResumeObject(values);
+    const stringifiedMappedFormValues = JSON.stringify(mappedFormValues);
+    const promptString = `Persona: you are a professional resume writer with an expert command of the english language. 
+Act as a grammarly-type tool by improving the verbiage, tone, and professionalism of the inputted content so it can be used in a resume.
 Rules: 
-1. Take a deep breath
-2. Expand and rewrite experience when appropriate
-
-Input: 
-
-
+1. The output should maintain the exact same object structure of the original 'resume_object', meaning only the key properties' values should be modified.
+2. Fix typos, sentance structure, and grammar when necessary.
+3. Elaborate in the job experience and achievement section.
+4. Incorporate words such as 'managed', 'solved', 'planned', 'executed', 'demonstrated', 'succeeded', 'collaborated', etc.  
+5. Do not include an explanation, the returned result should only be a stringifief version of the resume_object.
+resume_object: 
+${stringifiedMappedFormValues}
     `;
 
+    // console.log('____');
+    // console.log({
+    //   values,
+    //   mappedFormValues,
+    //   promptString,
+    // })
+
+
+    // make API call 
+
+
+
+    // generate word doc (for debugging)
+    const documentCreator = new DocumentCreator();
+    const doc = documentCreator.create([
+      mappedFormValues.personal_info,
+      mappedFormValues.experiences,
+      mappedFormValues.education,
+      mappedFormValues.skills,
+      mappedFormValues.achievements,
+      mappedFormValues.references,
+    ]);
+    Packer.toBlob(doc).then(blob => {
+      saveAs(blob, "resume.docx");
+      console.log("Document created successfully");
+    });
+
+    // BLOCKED FOR DEBUGGING PURPOSES
+    return;
 
 
     try {
-      const userMessage: ChatCompletionRequestMessage = { role: "user", content: values.prompt };
+      const userMessage: ChatCompletionRequestMessage = { role: "user", content: promptString };
+      const newMessages = [...messages, userMessage];
+
+      const response = await axios.post('/api/conversation', { messages: newMessages });
+      setMessages((current) => [...current, userMessage, response.data]);
+
+      console.log('try/catch data: ', response.data.content);
+
+      //
+      //
+      // Generate word doc 
+      //
+      //
+      // const newObj = response.data;
+      // console.log(newObj);
+      // TODO: ensure this consistently works
+      const outputObject = JSON.parse(response.data.content);
+      console.log({ outputObject });
+
+      const documentCreator = new DocumentCreator();
+      const doc = documentCreator.create([
+        outputObject.personal_info,
+        outputObject.experiences,
+        outputObject.education,
+        outputObject.skills,
+        outputObject.achievements,
+        outputObject.references,
+      ]);
+
+      Packer.toBlob(doc).then(blob => {
+        saveAs(blob, "resume.docx");
+        console.log("Document created successfully");
+      });
+      //
+      //
+
+      form.reset();
+    } catch (error: any) {
+      if (error?.response?.status === 403) {
+        proModal.onOpen();
+      } else {
+        toast.error("Something went wrong.");
+      }
+    } finally {
+      router.refresh();
+    }
+
+
+    // download word doc 
+
+
+    return;
+
+    try {
+      const userMessage: ChatCompletionRequestMessage = { role: "user", content: promptString };
       const newMessages = [...messages, userMessage];
 
       const response = await axios.post('/api/conversation', { messages: newMessages });
@@ -165,47 +621,70 @@ Input:
     }
   }
 
-  function generateDocx(): void {
-    const documentCreator = new DocumentCreator();
-    const doc = documentCreator.create([
-      experiences,
-      education,
-      skills,
-      achievements
-    ]);
-
-    Packer.toBlob(doc).then(blob => {
-      console.log(blob);
-      saveAs(blob, "resume.docx");
-      console.log("Document created successfully");
-    });
-  }
-
-  function generatePDF(){
-    var doc = new jsPDF();
-    doc.setFontSize(14);  
-    doc.text(['test', 'test'], 20, 10);
-    //doc.text(35, 25, "Paranyan loves jsPDF");
-    //doc.addImage(imgData, 'JPEG', 15, 40, 180, 160);
-    doc.save('resume.pdf');
-  }
+  console.log({
+    experiences,
+    education,
+    skills,
+    achievements,
+  })
 
 
 
-  // TOGGLE FORM FIELD VISIBILITY
+  // function generatePDF() {
+  //   var doc = new jsPDF();
+  //   doc.setFontSize(12);
+  //   doc.text(['Aron Prenovost'], 10, 10);
+  //   //doc.text(35, 25, "Paranyan loves jsPDF");
+  //   //doc.addImage(imgData, 'JPEG', 15, 40, 180, 160);
+  //   doc.save('resume.pdf');
+  // }
+
+
+  //
+  //
+  // Toggle form field visibility
+  //
+  //
+
+  // Professional experience section 
+  const [job1Visibility, setJob1Visibility] = useState<boolean>(false);
+  const [job2Visibility, setJob2Visibility] = useState<boolean>(false);
+  const [job3Visibility, setJob3Visibility] = useState<boolean>(false);
+  const [job4Visibility, setJob4Visibility] = useState<boolean>(false);
+  const [job5Visibility, setJob5Visibility] = useState<boolean>(false);
+  const [job6Visibility, setJob6Visibility] = useState<boolean>(false);
+
+  //
+  //
 
   // EDUCATION - College section
-  const [educationCollegeVisibility, setEducationCollegeVisibility] = useState<boolean>(false);
-  // EDUCATION - Masters section
-  const [educationMastersVisibility, setEducationMastersVisibility] = useState<boolean>(false);
-    // EDUCATION - PhD section
-  const [educationPhDVisibility, setEducationPhDVisibility] = useState<boolean>(false);
+  const [education1Visibility, setEducation1Visibility] = useState<boolean>(false);
+  // EDUCATION - 2nd section
+  const [education2Visibility, setEducation2Visibility] = useState<boolean>(false);
+  // EDUCATION - 3rd section
+  const [educationInput3Visibility, setEducationInput3Visibility] = useState<boolean>(false);
+
+  //
+  //
+
+  // Civic engagement - 1st section
+  const [civic1Visibility, setCivic1Visibility] = useState<boolean>(false);
+  // Civic engagement - 2nd section
+  const [civic2Visibility, setCivic2Visibility] = useState<boolean>(false);
+  // Civic engagement - 3rd section
+  const [civic3Visibility, setCivic3Visibility] = useState<boolean>(false);
+
+  //
+  //
+
+  // References - 1st section
+  const [references1Visibility, setReferences1Visibility] = useState<boolean>(false);
 
   return (
     <div>
       <Heading
-        title="Resume generator"
-        description="Generate a professional resume designed to pass automated systems and get you in front of the hiring manager."
+        title="Resume Generator"
+        description="Generate a professional resume that gets you in front of the hiring manager."
         icon={MessageSquare}
         iconColor="text-violet-500"
         bgColor="bg-violet-500/10"
@@ -230,28 +709,39 @@ Input:
               "
             >
 
+              {/* PERSONAL INFO  */}
+
+              <FormItem className="col-span-12 lg:col-span-10">
+                <FormControl className="m-0 p-2">
+                  <label style={{ fontWeight: 'bold' }}>
+                    Personal Information
+                  </label>
+                </FormControl>
+              </FormItem>
+
 
               <FormField
                 name="full_name"
                 render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-10">
-                    <FormControl className="m-0 p-0">
+                  <FormItem className="col-span-12 lg:col-span-4 border-2 rounded-lg border-gray-100">
+                    <FormControl className="m-0 p-2" >
                       <Input
+
                         className="border-0 outline-none  "
                         disabled={isLoading}
-                        placeholder="Your first and last name"
+                        placeholder="Full name"
                         {...field}
                       />
                     </FormControl>
                   </FormItem>
                 )}
-              /> 
- 
+              />
+
               <FormField
                 name="email_address"
                 render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-10">
-                    <FormControl className="m-0 p-0">
+                  <FormItem className="col-span-12 lg:col-span-4 border-2 rounded-lg border-gray-100">
+                    <FormControl className="m-0 p-2">
                       <Input
                         className="border-0 outline-none  "
                         disabled={isLoading}
@@ -263,13 +753,11 @@ Input:
                 )}
               />
 
-
-
               <FormField
                 name="phone_number"
                 render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-10">
-                    <FormControl className="m-0 p-0">
+                  <FormItem className="col-span-12 lg:col-span-4 border-2 rounded-lg border-gray-100">
+                    <FormControl className="m-0 p-2">
                       <Input
                         className="border-0 outline-none  "
                         disabled={isLoading}
@@ -281,12 +769,27 @@ Input:
                 )}
               />
 
+              <FormField
+                name="linkedin_profile"
+                render={({ field }) => (
+                  <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                    <FormControl className="m-0 p-2">
+                      <Input
+                        className="border-0 outline-none  "
+                        disabled={isLoading}
+                        placeholder="Linkedin profile (if applicable)"
+                        {...field}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
 
               <FormField
                 name="personal_website"
                 render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-10">
-                    <FormControl className="m-0 p-0">
+                  <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                    <FormControl className="m-0 p-2">
                       <Input
                         className="border-0 outline-none  "
                         disabled={isLoading}
@@ -298,17 +801,31 @@ Input:
                 )}
               />
 
-              {/*JOBS*/}
+              <FormField
+                name="skills"
+                render={({ field }) => (
+                  <FormItem className="col-span-12 lg:col-span-12 border-2 rounded-lg border-gray-100">
+                    <FormControl className="m-0 p-2">
+                      <Input
+                        className="border-0 outline-none  "
+                        disabled={isLoading}
+                        placeholder="List any skills or technical abilities"
+                        {...field}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
 
               <FormField
-                name="job_1_employer"
+                name="interests"
                 render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-10">
-                    <FormControl className="m-0 p-0">
+                  <FormItem className="col-span-12 lg:col-span-12 border-2 rounded-lg border-gray-100">
+                    <FormControl className="m-0 p-2">
                       <Input
                         className="border-0 outline-none  "
                         disabled={isLoading}
-                        placeholder="Job 1 employer"
+                        placeholder="Add your interests"
                         {...field}
                       />
                     </FormControl>
@@ -317,265 +834,40 @@ Input:
               />
 
 
-              <FormField
-                name="job_1_title"
-                render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-10">
-                    <FormControl className="m-0 p-0">
-                      <Input
-                        className="border-0 outline-none  "
-                        disabled={isLoading}
-                        placeholder="Job 1 title"
-                        {...field}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
+              {/* Professional experience */}
 
-             <FormField
-                name="job_1_start_date"
-                render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-10">
-                    <FormControl className="m-0 p-0">
-                      <Input
-                        className="border-0 outline-none  "
-                        disabled={isLoading}
-                        placeholder="Job 1 start date"
-                        {...field}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-
-
-              <FormField
-                name="job_1_end_date"
-                render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-10">
-                    <FormControl className="m-0 p-0">
-                      <Input
-                        className="border-0 outline-none  "
-                        disabled={isLoading}
-                        placeholder="Job 1 end date"
-                        {...field}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-
-
-              <FormField
-                name="job_1_description"
-                render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-10">
-                    <FormControl className="m-0 p-0">
-                      <Input
-                        className="border-0 outline-none  "
-                        disabled={isLoading}
-                        placeholder="Job 1 description"
-                        {...field}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-
-              {/* EDUCATION */}
               <FormItem className="col-span-12 lg:col-span-10">
-                <FormControl className="m-0 p-0">
-                <label>
-                  <input name="checked" type="checkbox" checked={educationCollegeVisibility} 
-                  onChange={e => setEducationCollegeVisibility(!educationCollegeVisibility)} />
-                  College Education (Associates/Bachelor's)
-                </label>  
+                <FormControl className="m-0 p-2">
+                  <label style={{ fontWeight: 'bold' }}>
+                    Employment History
+                  </label>
                 </FormControl>
               </FormItem>
 
-              {educationCollegeVisibility ? 
-                <>
-
-                <FormField
-                  name="college_name"
-                  render={({ field }) => (
-                    <FormItem className="col-span-12 lg:col-span-10">
-                      <FormControl className="m-0 p-0">
-                        <Input
-                          className="border-0 outline-none  "
-                          disabled={isLoading}
-                          placeholder="College name"
-                          {...field}
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  name="college_degree"
-                  render={({ field }) => (
-                    <FormItem className="col-span-12 lg:col-span-10">
-                      <FormControl className="m-0 p-0">
-                        <Input
-                          className="border-0 outline-none  "
-                          disabled={isLoading}
-                          placeholder="College degree"
-                          {...field}
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  name="college_start_year"
-                  render={({ field }) => (
-                    <FormItem className="col-span-12 lg:col-span-10">
-                      <FormControl className="m-0 p-0">
-                        <Input
-                          className="border-0 outline-none  "
-                          disabled={isLoading}
-                          placeholder="College start year"
-                          {...field}
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  name="college_end_year"
-                  render={({ field }) => (
-                    <FormItem className="col-span-12 lg:col-span-10">
-                      <FormControl className="m-0 p-0">
-                        <Input
-                          className="border-0 outline-none  "
-                          disabled={isLoading}
-                          placeholder="Graduating year"
-                          {...field}
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-
-              </>
-
-              : ''}
-
-
-              {/*EDUCATION - MASTERS */}
+              {/* EXPERIENCE 1 */}
               <FormItem className="col-span-12 lg:col-span-10">
-                <FormControl className="m-0 p-0">
-                  <label>
-                    <input name="checked" type="checkbox" checked={educationMastersVisibility} 
-                    onChange={e => setEducationMastersVisibility(!educationMastersVisibility)} />
-                      Additional college education (Masters)
-                  </label>  
+                <FormControl className="m-0 p-2">
+                  <label style={{ color: '#576574' }} className="text-sm">
+                    <input
+                      name="checked" type="checkbox" checked={job1Visibility}
+                      onChange={e => setJob1Visibility(!job1Visibility)} />
+                    &nbsp; Add experience (1)
+                  </label>
                 </FormControl>
               </FormItem>
 
-              {educationMastersVisibility ? 
-                <>
-                     <FormField
-                        name="college_name_masters"
-                        render={({ field }) => (
-                          <FormItem className="col-span-12 lg:col-span-10">
-                            <FormControl className="m-0 p-0">
-                              <Input
-                                className="border-0 outline-none  "
-                                disabled={isLoading}
-                                placeholder="College name for Masters degree"
-                                {...field}
-                              />
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        name="college_degree_masters"
-                        render={({ field }) => (
-                          <FormItem className="col-span-12 lg:col-span-10">
-                            <FormControl className="m-0 p-0">
-                              <Input
-                                className="border-0 outline-none  "
-                                disabled={isLoading}
-                                placeholder="College degree Masters"
-                                {...field}
-                              />
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        name="college_start_year_masters"
-                        render={({ field }) => (
-                          <FormItem className="col-span-12 lg:col-span-10">
-                            <FormControl className="m-0 p-0">
-                              <Input
-                                className="border-0 outline-none  "
-                                disabled={isLoading}
-                                placeholder="College start year Masters degree"
-                                {...field}
-                              />
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        name="college_end_year_masters"
-                        render={({ field }) => (
-                          <FormItem className="col-span-12 lg:col-span-10">
-                            <FormControl className="m-0 p-0">
-                              <Input
-                                className="border-0 outline-none  "
-                                disabled={isLoading}
-                                placeholder="Graduating year Masters degree"
-                                {...field}
-                              />
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
-
-
-
-                  </>
-
-
-
-              : ''}
-
-
-              {/*EDUCATION - PHD */}
-
-              <FormItem className="col-span-12 lg:col-span-10">
-                <FormControl className="m-0 p-0">
-                  <label>
-                   <input name="checked" type="checkbox" checked={educationPhDVisibility} 
-                    onChange={e => setEducationPhDVisibility(!educationPhDVisibility)} />
-                    Additional college education (PhD)
-                  </label>  
-                </FormControl>
-              </FormItem>
-
-              {educationPhDVisibility ? 
+              {job1Visibility ?
                 <>
 
-                   <FormField
-                    name="college_name_phd"
+                  <FormField
+                    name="job_1_start_month"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-10">
-                        <FormControl className="m-0 p-0">
+                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
                             disabled={isLoading}
-                            placeholder="College name for PhD"
+                            placeholder="Start month"
                             {...field}
                           />
                         </FormControl>
@@ -584,14 +876,513 @@ Input:
                   />
 
                   <FormField
-                    name="college_degree_phd"
+                    name="job_1_start_year"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-10">
-                        <FormControl className="m-0 p-0">
+                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Start year"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="job_1_end_month"
+                    render={({ field }) => (
+                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="End month"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="job_1_end_year"
+                    render={({ field }) => (
+                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="End year"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="job_1_employer"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Employer"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="job_1_title"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Job title"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="job_1_summary"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Job description"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                </> : ''}
+
+              {/* EXPERIENCE 2 */}
+              <FormItem className="col-span-12 lg:col-span-10">
+                <FormControl className="m-0 p-2">
+                  <label style={{ color: '#576574' }} className="text-sm">
+                    <input
+                      name="checked" type="checkbox" checked={job2Visibility}
+                      onChange={e => setJob2Visibility(!job2Visibility)} />
+                    &nbsp; Add experience (2)
+                  </label>
+                </FormControl>
+              </FormItem>
+
+              {job2Visibility ?
+                <>
+
+                  <FormField
+                    name="job_2_start_month"
+                    render={({ field }) => (
+                      <FormItem className="col-span-3 lg:col-span-3  border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Start month"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="job_2_start_year"
+                    render={({ field }) => (
+                      <FormItem className="col-span-3 lg:col-span-3  border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Start year"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="job_2_end_month"
+                    render={({ field }) => (
+                      <FormItem className="col-span-3 lg:col-span-3  border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="End month"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="job_2_end_year"
+                    render={({ field }) => (
+                      <FormItem className="col-span-3 lg:col-span-3  border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="End year"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="job_2_employer"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Employer"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="job_2_title"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Job title"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="job_2_summary"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Job description"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                </> : ''}
+
+
+              {/* EXPERIENCE 3 */}
+              <FormItem className="col-span-12 lg:col-span-10">
+                <FormControl className="m-0 p-2">
+                  <label style={{ color: '#576574' }} className="text-sm">
+                    <input
+                      name="checked" type="checkbox" checked={job2Visibility}
+                      onChange={e => setJob3Visibility(!job3Visibility)} />
+                    &nbsp; Add experience (3)
+                  </label>
+                </FormControl>
+              </FormItem>
+
+              {job3Visibility ?
+                <>
+
+                  <FormField
+                    name="job_3_start_month"
+                    render={({ field }) => (
+                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Start month"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="job_3_start_year"
+                    render={({ field }) => (
+                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Start year"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="job_3_end_month"
+                    render={({ field }) => (
+                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="End month"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="job_3_end_year"
+                    render={({ field }) => (
+                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="End year"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="job_3_employer"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Employer"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="job_3_title"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Job title"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="job_3_summary"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Job description"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                </> : ''}
+
+
+
+
+              {/* EXPERIENCE 4 */}
+              <FormItem className="col-span-12 lg:col-span-10">
+                <FormControl className="m-0 p-2">
+                  <label style={{ color: '#576574' }} className="text-sm">
+                    <input
+                      name="checked" type="checkbox" checked={job4Visibility}
+                      onChange={e => setJob4Visibility(!job4Visibility)} />
+                    &nbsp; Add experience (4)
+                  </label>
+                </FormControl>
+              </FormItem>
+
+              {job4Visibility ?
+                <>
+
+                  <FormField
+                    name="job_4_start_month"
+                    render={({ field }) => (
+                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Start month"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="job_4_start_year"
+                    render={({ field }) => (
+                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Start year"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="job_4_end_month"
+                    render={({ field }) => (
+                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="End month"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="job_4_end_year"
+                    render={({ field }) => (
+                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="End year"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="job_4_employer"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Employer"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="job_4_title"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Job title"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="job_4_summary"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Job description"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                </> : ''}
+
+              {/* EXPERIENCE 5 */}
+              <FormItem className="col-span-12 lg:col-span-10">
+                <FormControl className="m-0 p-2">
+                  <label style={{ color: '#576574' }} className="text-sm">
+                    <input
+                      name="checked" type="checkbox" checked={job5Visibility}
+                      onChange={e => setJob5Visibility(!job5Visibility)} />
+                    &nbsp; Add experience (5)
+                  </label>
+                </FormControl>
+              </FormItem>
+
+              {job5Visibility ?
+                <>
+                  <FormField
+                    name="job_5_start_month"
+                    render={({ field }) => (
+                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none"
                             disabled={isLoading}
-                            placeholder="PhD"
+                            placeholder="Start month"
                             {...field}
                           />
                         </FormControl>
@@ -600,14 +1391,14 @@ Input:
                   />
 
                   <FormField
-                    name="college_start_year_phd"
+                    name="job_5_start_year"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-10">
-                        <FormControl className="m-0 p-0">
+                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
                           <Input
-                            className="border-0 outline-none  "
+                            className="border-0 outline-none"
                             disabled={isLoading}
-                            placeholder="College start year PhD"
+                            placeholder="Start year"
                             {...field}
                           />
                         </FormControl>
@@ -616,14 +1407,14 @@ Input:
                   />
 
                   <FormField
-                    name="college_end_year_phd"
+                    name="job_5_end_month"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-10">
-                        <FormControl className="m-0 p-0">
+                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
                             disabled={isLoading}
-                            placeholder="Graduating year PhD"
+                            placeholder="End month"
                             {...field}
                           />
                         </FormControl>
@@ -631,131 +1422,836 @@ Input:
                     )}
                   />
 
-              </>
+                  <FormField
+                    name="job_5_end_year"
+                    render={({ field }) => (
+                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="End year"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
 
-              : ''}
+                  <FormField
+                    name="job_5_employer"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Employer"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
 
+                  <FormField
+                    name="job_5_title"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Job title"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
 
-              {/* CIVIc */}
-
-               <FormField
-                name="civic_1_org"
-                render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-10">
-                    <FormControl className="m-0 p-0">
-                      <Input
-                        className="border-0 outline-none  "
-                        disabled={isLoading}
-                        placeholder="Civic involvement organization 1"
-                        {...field}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
- 
-
-              <FormField
-                name="civic_1_description"
-                render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-10">
-                    <FormControl className="m-0 p-0">
-                      <Input
-                        className="border-0 outline-none  "
-                        disabled={isLoading}
-                        placeholder="Describe your involvement"
-                        {...field}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-
-                             <FormField
-                name="civic_2_org"
-                render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-10">
-                    <FormControl className="m-0 p-0">
-                      <Input
-                        className="border-0 outline-none  "
-                        disabled={isLoading}
-                        placeholder="Civic involvement organization 2"
-                        {...field}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
- 
-
-              <FormField
-                name="civic_2_description"
-                render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-10">
-                    <FormControl className="m-0 p-0">
-                      <Input
-                        className="border-0 outline-none  "
-                        disabled={isLoading}
-                        placeholder="Describe your involvement"
-                        {...field}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
+                  <FormField
+                    name="job_5_summary"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Job description"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                </> : ''}
 
 
+              {/* EXPERIENCE 6 */}
+              <FormItem className="col-span-12 lg:col-span-10">
+                <FormControl className="m-0 p-2">
+                  <label style={{ color: '#576574' }} className="text-sm">
+                    <input
+                      name="checked" type="checkbox" checked={job6Visibility}
+                      onChange={e => setJob6Visibility(!job6Visibility)} />
+                    &nbsp; Add experience (6)
+                  </label>
+                </FormControl>
+              </FormItem>
+
+              {job6Visibility ?
+                <>
+                  <FormField
+                    name="job_6_start_month"
+                    render={({ field }) => (
+                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Start month"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="job_6_start_year"
+                    render={({ field }) => (
+                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Start year"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="job_6_end_month"
+                    render={({ field }) => (
+                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="End month"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="job_6_end_year"
+                    render={({ field }) => (
+                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="End year"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="job_6_employer"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Employer"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="job_6_title"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Job title"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="job_6_summary"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Job description"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                </> : ''}
 
 
 
 
-              {/*separator*/}
+              {/* EDUCATION */}
 
-              <FormField
-                name="prompt"
-                render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-10">
-                    <FormControl className="m-0 p-0">
-                      <Input
-                        className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
-                        disabled={isLoading}
-                        placeholder="Teach me about generative AI"
-                        {...field}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
+              <FormItem className="col-span-12 lg:col-span-10">
+                <FormControl className="m-0 p-2">
+                  <label style={{ fontWeight: 'bold' }}>
+                    Education
+                  </label>
+                </FormControl>
+              </FormItem>
+
+              <FormItem className="col-span-12 lg:col-span-10">
+                <FormControl className="m-0 p-2">
+                  <label style={{ color: '#576574' }} className="text-sm">
+                    <input
+                      name="checked" type="checkbox" checked={education1Visibility}
+                      onChange={e => setEducation1Visibility(!education1Visibility)} />
+                    &nbsp; Education
+                  </label>
+                </FormControl>
+              </FormItem>
+
+              {education1Visibility ?
+                <>
+
+                  <FormField
+                    name="college_name_1"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="School name"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
 
 
-              <Button 
-                style={{backgroundColor: "orange"}} 
-                className="col-span-12 lg:col-span-2 w-full" 
-                type="submit" 
-                disabled={isLoading} 
+
+                  <FormField
+                    name="college_degree_1"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Degree or certificate"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+
+                  <FormField
+                    name="college_field_of_study_1"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Field of Study"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="college_start_year_1"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Start year"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="college_end_year_1"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Graduating year"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="college_notes_1"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Notes"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                </>
+
+                : ''}
+
+
+              {/*EDUCATION - 2 */}
+              <FormItem className="col-span-12 lg:col-span-10">
+                <FormControl className="m-0 p-2">
+                  <label style={{ color: '#576574' }} className="text-sm">
+                    <input
+                      name="checked" type="checkbox" checked={education2Visibility}
+                      onChange={e => setEducation2Visibility(!education2Visibility)} />
+                    &nbsp; Additional education (1)
+                  </label>
+                </FormControl>
+              </FormItem>
+
+              {education2Visibility ?
+                <>
+                  <FormField
+                    name="college_name_2"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="College name"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="college_degree_2"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Degree or certificate"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="college_field_of_study_2"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Field of Study"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="college_start_year_2"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Start year"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="college_end_year_2"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Graduating year"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="college_notes_2"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Notes"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                </>
+
+
+
+                : ''}
+
+
+              {/*EDUCATION - 3 */}
+              <FormItem className="col-span-12 lg:col-span-10">
+                <FormControl className="m-0 p-2">
+                  <label style={{ color: '#576574' }} className="text-sm">
+                    <input
+                      name="checked" type="checkbox" checked={educationInput3Visibility}
+                      onChange={e => setEducationInput3Visibility(!educationInput3Visibility)} />
+                    &nbsp; Additional education (2)
+                  </label>
+                </FormControl>
+              </FormItem>
+
+              {educationInput3Visibility ?
+                <>
+                  <FormField
+                    name="college_name_3"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="College name"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="college_degree_3"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none"
+                            disabled={isLoading}
+                            placeholder="Degree or certificate"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="college_field_of_study_3"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Field of Study"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="college_start_year_3"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Start year"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="college_end_year_3"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Graduating year"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="college_notes_3"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Notes"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                </>
+
+                : ''}
+
+              {/* CIVIC INVOLVEMENT */}
+
+              <FormItem className="col-span-12 lg:col-span-10">
+                <FormControl className="m-0 p-2">
+                  <label style={{ fontWeight: 'bold' }}>
+                    Achievements and Recognitions
+                  </label>
+                </FormControl>
+              </FormItem>
+
+              {/* CIVIC 1 DROPDOWN */}
+              <FormItem className="col-span-12 lg:col-span-10">
+                <FormControl className="m-0 p-2">
+                  <label style={{ color: '#576574' }} className="text-sm">
+                    <input
+                      name="checked" type="checkbox" checked={civic1Visibility}
+                      onChange={e => setCivic1Visibility(!civic1Visibility)} />
+                    &nbsp; Add entry
+                  </label>
+                </FormControl>
+              </FormItem>
+
+              {civic1Visibility ?
+                <>
+                  <FormField
+                    name="achievement_1_issuer"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Civic organization (if applicable)"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+
+                  <FormField
+                    name="achievement_1_name"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Describe any skills, achievements, or interests."
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                </> : ''}
+
+
+              {/* CIVIC 2 DROPDOWN */}
+
+              <FormItem className="col-span-12 lg:col-span-10">
+                <FormControl className="m-0 p-2">
+                  <label style={{ color: '#576574' }} className="text-sm">
+                    <input
+                      name="checked" type="checkbox" checked={civic2Visibility}
+                      onChange={e => setCivic2Visibility(!civic2Visibility)} />
+                    &nbsp; Add entry (2)
+                  </label>
+                </FormControl>
+              </FormItem>
+
+              {civic2Visibility ?
+                <>
+                  <FormField
+                    name="achievement_2_issuer"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Civic organization (if applicable)"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="achievement_2_name"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Describe any skills, achievements, or interests."
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                </> : ''}
+
+
+              {/* CIVIC 3 DROPDOWN */}
+
+              <FormItem className="col-span-12 lg:col-span-10">
+                <FormControl className="m-0 p-2">
+                  <label style={{ color: '#576574' }} className="text-sm">
+                    <input
+                      name="checked" type="checkbox" checked={civic3Visibility}
+                      onChange={e => setCivic3Visibility(!civic3Visibility)} />
+                    &nbsp; Add entry (3)
+                  </label>
+                </FormControl>
+              </FormItem>
+
+              {civic3Visibility ?
+                <>
+                  <FormField
+                    name="achievement_3_issuer"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Civic organization (if applicable)"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="achievement_3_name"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Describe any skills, achievements, or interests."
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                </> : ''}
+
+
+              {/* REFERENCES DROPDOWN */}
+
+
+              <FormItem className="col-span-12 lg:col-span-10">
+                <FormControl className="m-0 p-2">
+                  <label style={{ fontWeight: 'bold' }}>
+                    Professional References
+                  </label>
+                </FormControl>
+              </FormItem>
+
+              <FormItem className="col-span-12 lg:col-span-10">
+                <FormControl className="m-0 p-2">
+                  <label style={{ color: '#576574' }} className="text-sm">
+                    <input
+                      name="checked" type="checkbox" checked={references1Visibility}
+                      onChange={e => setReferences1Visibility(!references1Visibility)} />
+                    &nbsp; Add references
+                  </label>
+                </FormControl>
+              </FormItem>
+
+              {references1Visibility ?
+                <>
+                  <FormField
+                    name="reference_1_info"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Name, title and contact info"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="reference_2_info"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Name, title and contact info"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="reference_3_info"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Name, title and contact info"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="reference_4_info"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-100">
+                        <FormControl className="m-0 p-2">
+                          <Input
+                            className="border-0 outline-none  "
+                            disabled={isLoading}
+                            placeholder="Name, title and contact info"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                </> : ''}
+
+
+              <Button
+                // style={{ whiteSpace: 'nowrap' }}
+                className="col-span-12 lg:col-span-2 w-full"
+                type="submit"
+                disabled={isLoading}
                 size="icon">
-                Write my resume
+                Generate resume
               </Button>
-             
-              <Button 
-                  onClick={generateDocx} 
-                  className="col-span-12 lg:col-span-2 w-full" 
-                  // type="submit" 
-                  disabled={isLoading} 
-                  size="icon"
-                >
-                 Generate docx
-                </Button>
 
-                <Button 
-                  onClick={generatePDF} 
-                  className="col-span-12 lg:col-span-2 w-full" 
-                  // type="submit" 
-                  disabled={isLoading} 
-                  size="icon"
-                >
-                  Generate PDF
-                </Button>
+              {/* <Button
+                onClick={generateDocx}
+                className="col-span-12 lg:col-span-2 w-full"
+                // type="submit" 
+                disabled={isLoading}
+                size="icon"
+              >
+                Generate resume doc
+              </Button> */}
+
+              {/* <Button
+                onClick={generatePDF}
+                className="col-span-12 lg:col-span-2 w-full"
+                // type="submit" 
+                disabled={isLoading}
+                size="icon"
+              >
+                Generate PDF
+              </Button> */}
             </form>
           </Form>
         </div>
@@ -766,7 +2262,7 @@ Input:
             </div>
           )}
           {messages.length === 0 && !isLoading && (
-            <Empty label="No conversation started." />
+            <Empty label="Enter your info to generate a resume." />
           )}
           <div className="flex flex-col-reverse gap-y-4">
             {messages.map((message) => (

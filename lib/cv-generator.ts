@@ -8,51 +8,31 @@ import {
   TabStopType,
   TextRun
 } from "docx";
-const PHONE_NUMBER = "07534563401";
-const PROFILE_URL = "https://www.linkedin.com/in/dolan1";
-const EMAIL = "docx@docx.com";
 
 export class DocumentCreator {
   // tslint:disable-next-line: typedef
-  public create([experiences, educations, skills, achivements]): Document {
+  public create([personal_info, experiences, educations, skills, achivements, references]): Document {
+
+    // console.log('create doc', { personal_info });
     const document = new Document({
       sections: [
         {
           children: [
             new Paragraph({
-              text: "Dolan Miu",
+              text: personal_info.name,
               heading: HeadingLevel.TITLE
             }),
-            this.createContactInfo(PHONE_NUMBER, PROFILE_URL, EMAIL),
-            this.createHeading("Education"),
-            ...educations
-              .map(education => {
-                const arr: Paragraph[] = [];
-                arr.push(
-                  this.createInstitutionHeader(
-                    education.schoolName,
-                    `${education.startDate.year} - ${education.endDate.year}`
-                  )
-                );
-                arr.push(
-                  this.createRoleText(
-                    `${education.fieldOfStudy} - ${education.degree}`
-                  )
-                );
-
-                const bulletPoints = this.splitParagraphIntoBullets(
-                  education.notes
-                );
-                bulletPoints.forEach(bulletPoint => {
-                  arr.push(this.createBullet(bulletPoint));
-                });
-
-                return arr;
-              })
-              .reduce((prev, curr) => prev.concat(curr), []),
-            this.createHeading("Experience"),
+            this.createContactInfo(
+              personal_info.phone_number,
+              personal_info.linkedin,
+              personal_info.email_address,
+              personal_info.personal_website,
+            ),
+            this.createHeading("Skills"),
+            this.createSkillList(skills),
+            this.createHeading("Professional Experience"),
             ...experiences
-              .map(position => {
+              .map((position: any) => {
                 const arr: Paragraph[] = [];
 
                 arr.push(
@@ -77,26 +57,73 @@ export class DocumentCreator {
 
                 return arr;
               })
-              .reduce((prev, curr) => prev.concat(curr), []),
-            this.createHeading("Skills, Achievements and Interests"),
-            this.createSubHeading("Skills"),
-            this.createSkillList(skills),
+              .reduce((prev: any, curr: any) => prev.concat(curr), []),
+            this.createHeading("Achievements and Recognition"),
             this.createSubHeading("Achievements"),
             ...this.createAchivementsList(achivements),
+
+
+            // ...educations
+            //   .map((education: any) => {
+
+
             this.createSubHeading("Interests"),
             this.createInterests(
-              "Programming, Technology, Music Production, Web Design, 3D Modelling, Dancing."
+              personal_info.interests
             ),
+            // SECTION: education
+            this.createHeading("Education"),
+            ...educations
+              .map((education: any) => {
+                const arr: Paragraph[] = [];
+                arr.push(
+                  this.createInstitutionHeader(
+                    education.schoolName,
+                    `${education.startDate.year} - ${education.endDate.year}`
+                  )
+                );
+                arr.push(
+                  this.createRoleText(
+                    `${education.fieldOfStudy} - ${education.degree}`
+                  )
+                );
+
+                const educationNotesLength = (education.notes).length;
+                if (educationNotesLength > 0) {
+                  const bulletPoints = this.splitParagraphIntoBullets(
+                    education.notes
+                  );
+                  bulletPoints.forEach(bulletPoint => {
+                    arr.push(this.createBullet(bulletPoint));
+                  });
+                }
+
+                return arr;
+              })
+              .reduce((prev: any, curr: any) => prev.concat(curr), []),
+            // SECTION: references
             this.createHeading("References"),
-            new Paragraph(
-              "Dr. Dean Mohamedally Director of Postgraduate Studies Department of Computer Science, University College London Malet Place, Bloomsbury, London WC1E d.mohamedally@ucl.ac.uk"
-            ),
-            new Paragraph("More references upon request"),
-            new Paragraph({
-              text:
-                "This CV was generated in real-time based on my Linked-In profile from my personal website www.dolan.bio.",
-              alignment: AlignmentType.CENTER
-            })
+            ...references
+              .map((reference: any) => {
+                const arr: Paragraph[] = [];
+                arr.push(
+                  new Paragraph(
+                    reference.info
+                  ),
+                );
+                return arr;
+              })
+              .reduce((prev: any, curr: any) => prev.concat(curr), []),
+            // new Paragraph(
+            //   "Dr. Dean Mohamedally Director of Postgraduate Studies Department of Computer Science, University College London Malet Place, Bloomsbury, London WC1E d.mohamedally@ucl.ac.uk"
+            // ),
+            // new Paragraph("More references available upon request"),
+
+            // new Paragraph({
+            //   text:
+            //     "This CV was generated in real-time based on my Linked-In profile from my personal website www.dolan.bio.",
+            //   alignment: AlignmentType.CENTER
+            // })
           ]
         }
       ]
@@ -108,16 +135,17 @@ export class DocumentCreator {
   public createContactInfo(
     phoneNumber: string,
     profileUrl: string,
-    email: string
+    email: string,
+    personalWebsite: string,
   ): Paragraph {
     return new Paragraph({
       alignment: AlignmentType.CENTER,
       children: [
         new TextRun(
-          `Mobile: ${phoneNumber} | LinkedIn: ${profileUrl} | Email: ${email}`
+          `Phone: ${phoneNumber} | LinkedIn: ${profileUrl} | Email: ${email}`
         ),
         new TextRun({
-          text: "Address: 58 Elm Avenue, Kent ME4 6ER, UK",
+          text: `${personalWebsite.length ? ('Website: ' + personalWebsite) : ''}`,
           break: 1
         })
       ]
@@ -195,7 +223,7 @@ export class DocumentCreator {
     return achivements.map(
       achievement =>
         new Paragraph({
-          text: achievement.name,
+          text: (achievement.issuer + ' - ' + achievement.name),
           bullet: {
             level: 0
           }
@@ -229,7 +257,11 @@ export class DocumentCreator {
   }
 
   public getMonthFromInt(value: number): string {
-    switch (value) {
+    // console.log('typeof value ===  ', typeof value);
+    // value = parseInt(value);
+    const val = parseInt(value);
+    // console.log('value = ', typeof val);
+    switch (val) {
       case 1:
         return "Jan";
       case 2:
@@ -259,3 +291,4 @@ export class DocumentCreator {
     }
   }
 }
+

@@ -31,7 +31,8 @@ export const LandingHero = () => {
         Create your resume 10x faster using AI.
       </div>
       <div>
-        <Link href={isSignedIn ? "/dashboard" : "/sign-up"}>
+        {/* <Link href={isSignedIn ? "/dashboard" : "/sign-up"}> */}
+        <Link href={isSignedIn ? "/resume-generator" : "/sign-up"}>
           <Button variant="premium" className="md:text-lg p-4 md:p-6 rounded-full font-semibold">
             Generate your last resume
           </Button>
@@ -40,6 +41,7 @@ export const LandingHero = () => {
       <div className="text-zinc-400 text-xs md:text-sm font-normal">
         Simple, ATS-friendly formatting lets your experience do the talking.
       </div>
-    </div>
+    </div >
   );
 };
+
