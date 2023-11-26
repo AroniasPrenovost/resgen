@@ -29,6 +29,7 @@ import { checkSubscription } from "@/lib/subscription";
 import { saveAs } from "file-saver";
 import { Packer } from "docx";
 import { DocumentCreator } from "@/lib/resume-generator";
+import { CoverLetterDocumentCreator } from "@/lib/cover-letter-generator";
 import { experiences, education, skills, achievements } from "@/lib/cv-data"; // dummy data
 
 const ResumeGeneratorPage = () => {
@@ -601,14 +602,14 @@ ${stringifiedMappedFormValues}
     // format data 
     const mappedFormValues = mapFormValuesToResumeObject(values);
     const stringifiedMappedFormValues = JSON.stringify(mappedFormValues);
-    const promptString = `Persona: you are a professional cover letter writer with an expert command of the English language. Craft a well written cover letter based on the given input data.
+    const promptString = `Persona: you are a professional cover letter writer with an expert command of the English language. Based on the given resume data, craft a well written cover letter with emphasis on my experiences and professional accomplishments.
 Rules: 
 1. The output should maintain the exact same object structure of the original 'resume_object', meaning only the key properties' values should be modified.
 2. Fix typos, sentance structure, and grammar when necessary. Capitalize school names and do not add 'N/A' to the document.
 3. Elaborate in the job experience and achievement section (add at least 1 new sentance to each).
 4. Incorporate words such as 'managed', 'solved', 'planned', 'executed', 'demonstrated', 'succeeded', 'collaborated', etc.  
 5. The outputted result should only be a string-ified version of the resume_object.
-resume_object: 
+Raw resume data: 
 ${stringifiedMappedFormValues}
     `;
 
@@ -620,9 +621,9 @@ ${stringifiedMappedFormValues}
 
     //
     // generate word doc  
-    /* 
+  
 
-      const documentCreator = new DocumentCreator();
+      const documentCreator = new CoverLetterDocumentCreator();
       const doc = documentCreator.create([
         mappedFormValues.personal_info,
         mappedFormValues.experiences,
@@ -632,12 +633,12 @@ ${stringifiedMappedFormValues}
         mappedFormValues.references,
       ]);
       Packer.toBlob(doc).then(blob => {
-        saveAs(blob, "resume.docx");
-        console.log("Document created successfully");
+        saveAs(blob, "cover-letter.docx");
+        console.log("Cover letter created successfully");
       });
 
-    */
-
+   
+       return; 
     // make API call 
     try {
       const userMessage: ChatCompletionRequestMessage = { role: "user", content: promptString };
@@ -658,7 +659,7 @@ ${stringifiedMappedFormValues}
       const outputObject = JSON.parse(response.data.content);
       console.log({ outputObject });
 
-      const documentCreator = new DocumentCreator();
+      const documentCreator = new CoverLetterDocumentCreator();
       const doc = documentCreator.create([
         outputObject.personal_info,
         outputObject.experiences,
