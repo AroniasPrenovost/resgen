@@ -2307,7 +2307,7 @@ ${stringifiedMappedFormValues}
                 Generate Resume
               </Button>
 
-   {/*           <Button
+               <Button
                 onClick={generateCoverLetter}
                 className="col-span-12 lg:col-span-2 w-full"
                 // type="submit" 
@@ -2316,7 +2316,7 @@ ${stringifiedMappedFormValues}
                 size="icon"
               >
                 Generate Cover Letter
-              </Button>  */}
+              </Button>   
 
               {/* <Button
                 onClick={generateDocx}
