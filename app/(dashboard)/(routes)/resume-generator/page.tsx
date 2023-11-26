@@ -28,7 +28,7 @@ import { checkSubscription } from "@/lib/subscription";
 // .docx generation
 import { saveAs } from "file-saver";
 import { Packer } from "docx";
-import { DocumentCreator } from "@/lib/cv-generator";
+import { DocumentCreator } from "@/lib/resume-generator";
 import { experiences, education, skills, achievements } from "@/lib/cv-data"; // dummy data
 
 const ResumeGeneratorPage = () => {
