@@ -21,7 +21,7 @@ export class CoverLetterDocumentCreator {
             new Paragraph({
               text: personal_info.name,
               heading: HeadingLevel.TITLE,
-              alignment: AlignmentType.CENTER, // still trying to decide if should be centered or left-aligned
+              alignment: AlignmentType.LEFT // still trying to decide if should be centered or left-aligned
             }),
             this.createContactInfo(
               personal_info.phone_number,
@@ -29,49 +29,102 @@ export class CoverLetterDocumentCreator {
               personal_info.email_address,
               personal_info.personal_website,
             ),
-            // this.createHeading("Skills"),
-            // this.createSkillList(skills),
-            // this.createHeading("Professional Experience"),
-            // ...experiences
-            //   .map((position: any) => {
-            //     const arr: Paragraph[] = [];
+            this.createHeading("Skills"),
+            this.createSkillList(skills),
+            this.createHeading("Professional Experience"),
+            ...experiences
+              .map((position: any) => {
+                const arr: Paragraph[] = [];
 
-            //     arr.push(
-            //       this.createInstitutionHeader(
-            //         position.company.name,
-            //         this.createPositionDateText(
-            //           position.startDate,
-            //           position.endDate,
-            //           position.isCurrent
-            //         )
-            //       )
-            //     );
-            //     arr.push(this.createRoleText(position.title));
+                arr.push(
+                  this.createInstitutionHeader(
+                    position.company.name,
+                    this.createPositionDateText(
+                      position.startDate,
+                      position.endDate,
+                      position.isCurrent
+                    )
+                  )
+                );
+                arr.push(this.createRoleText(position.title));
 
-            //     const bulletPoints = this.splitParagraphIntoBullets(
-            //       position.summary
-            //     );
+                const bulletPoints = this.splitParagraphIntoBullets(
+                  position.summary
+                );
 
-            //     bulletPoints.forEach(bulletPoint => {
-            //       arr.push(this.createBullet(bulletPoint));
-            //     });
+                bulletPoints.forEach(bulletPoint => {
+                  arr.push(this.createBullet(bulletPoint));
+                });
 
-            //     return arr;
-            //   })
-            //   .reduce((prev: any, curr: any) => prev.concat(curr), []),
-            // this.createHeading("Achievements and Recognition"),
-            // this.createSubHeading("Achievements"),
-            // ...this.createAchivementsList(achivements),
+                return arr;
+              })
+              .reduce((prev: any, curr: any) => prev.concat(curr), []),
+            this.createHeading("Achievements and Recognition"),
+            this.createSubHeading("Achievements"),
+            ...this.createAchivementsList(achivements),
 
 
             // ...educations
             //   .map((education: any) => {
 
 
-            // this.createSubHeading("Interests"),
+            this.createSubHeading("Interests"),
             this.createInterests(
-              "Body content of CV"
+              personal_info.interests
             ),
+            // SECTION: education
+            this.createHeading("Education"),
+            ...educations
+              .map((education: any) => {
+                const arr: Paragraph[] = [];
+                arr.push(
+                  this.createInstitutionHeader(
+                    education.schoolName,
+                    `${education.startDate.year} - ${education.endDate.year}`
+                  )
+                );
+                arr.push(
+                  this.createRoleText(
+                    `${education.fieldOfStudy} - ${education.degree}`
+                  )
+                );
+
+                const educationNotesLength = (education.notes).length;
+                if (educationNotesLength > 0) {
+                  const bulletPoints = this.splitParagraphIntoBullets(
+                    education.notes
+                  );
+                  bulletPoints.forEach(bulletPoint => {
+                    arr.push(this.createBullet(bulletPoint));
+                  });
+                }
+
+                return arr;
+              })
+              .reduce((prev: any, curr: any) => prev.concat(curr), []),
+            // SECTION: references
+            this.createHeading("References"),
+            ...references
+              .map((reference: any) => {
+                const arr: Paragraph[] = [];
+                arr.push(
+                  new Paragraph(
+                    reference.info
+                  ),
+                );
+                return arr;
+              })
+              .reduce((prev: any, curr: any) => prev.concat(curr), []),
+            // new Paragraph(
+            //   "Dr. Dean Mohamedally Director of Postgraduate Studies Department of Computer Science, University College London Malet Place, Bloomsbury, London WC1E d.mohamedally@ucl.ac.uk"
+            // ),
+            // new Paragraph("More references available upon request"),
+
+            // new Paragraph({
+            //   text:
+            //     "This CV was generated in real-time based on my Linked-In profile from my personal website www.dolan.bio.",
+            //   alignment: AlignmentType.CENTER
+            // })
           ]
         }
       ]
