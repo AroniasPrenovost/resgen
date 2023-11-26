@@ -17,7 +17,7 @@ export async function POST(
   try {
     const { userId } = auth();
     const body = await req.json();
-    const { messages  } = body;
+    const { messages } = body;
 
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -31,8 +31,10 @@ export async function POST(
       return new NextResponse("Messages are required", { status: 400 });
     }
 
-    const freeTrial = await checkApiLimit();
+    const freeTrial = await checkApiLimit(); // HACK: this endpoint where we throw the error for non-paying users
     const isPro = await checkSubscription();
+
+    console.log({ isPro, freeTrial });
 
     if (!freeTrial && !isPro) {
       return new NextResponse("Free trial has expired. Please upgrade to pro.", { status: 403 });
@@ -53,3 +55,5 @@ export async function POST(
     return new NextResponse("Internal Error", { status: 500 });
   }
 };
+
+

@@ -5,11 +5,11 @@ import { useState } from "react";
 import { Check, Zap } from "lucide-react";
 import { toast } from "react-hot-toast";
 
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogHeader, 
-  DialogTitle, 
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
   DialogDescription,
   DialogFooter
 } from "@/components/ui/dialog";
@@ -43,11 +43,16 @@ export const ProModal = () => {
         <DialogHeader>
           <DialogTitle className="flex justify-center items-center flex-col gap-y-4 pb-2">
             <div className="flex items-center gap-x-2 font-bold text-xl">
-              Upgrade to ResumAI Pro
+              Get ResumAI Pro
               <Badge variant="premium" className="uppercase text-sm py-1">
                 pro
               </Badge>
             </div>
+            <p>
+              {/* <em> */}
+              ... and download your new resume today!
+              {/* </em> */}
+            </p>
           </DialogTitle>
           <DialogDescription className="text-center pt-2 space-y-2 text-zinc-900 font-medium">
             {tools.map((tool) => (
@@ -67,7 +72,7 @@ export const ProModal = () => {
         </DialogHeader>
         <DialogFooter>
           <Button disabled={loading} onClick={onSubscribe} size="lg" variant="premium" className="w-full">
-            Upgrade
+            Get Access Now
             <Zap className="w-4 h-4 ml-2 fill-white" />
           </Button>
         </DialogFooter>

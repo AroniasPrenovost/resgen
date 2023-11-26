@@ -1,10 +1,10 @@
- "use client";
+"use client";
 
 import * as z from "zod";
 import axios from "axios";
 import { MessageSquare } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { ChatCompletionRequestMessage } from "openai";
@@ -23,8 +23,9 @@ import { useProModal } from "@/hooks/use-pro-modal";
 
 import { formSchema } from "./constants";
 
-// PDF and .docx generation
-import { jsPDF, HTMLOptionImage } from "jspdf";
+import { checkSubscription } from "@/lib/subscription";
+
+// .docx generation
 import { saveAs } from "file-saver";
 import { Packer } from "docx";
 import { DocumentCreator } from "@/lib/cv-generator";
@@ -47,7 +48,9 @@ const ResumeGeneratorPage = () => {
       interests: "",
       //
       skills: "",
+      //
       // job #1
+      //
       job_1_employer: "",
       job_1_title: "",
       job_1_start_month: "",
@@ -95,40 +98,9 @@ const ResumeGeneratorPage = () => {
       job_6_end_month: "",
       job_6_end_year: "",
       job_6_summary: "",
-      // job #7
-      // job_7_employer: "",
-      // job_7_title: "",
-      // job_7_start_month: "",
-      // job_7_start_year: "",
-      // job_7_end_month: "",
-      // job_7_end_year: "",
-      // job_7_summary: "",
-      // job #8
-      // job_8_employer: "",
-      // job_8_title: "",
-      // job_8_start_month: "",
-      // job_8_start_year: "",
-      // job_8_end_month: "",
-      // job_8_end_year: "",
-      // job_8_summary: "",
-      // job #9
-      // job_9_employer: "",
-      // job_9_title: "",
-      // job_9_start_month: "",
-      // job_9_start_year: "",
-      // job_9_end_month: "",
-      // job_9_end_year: "",
-      // job_9_summary: "",
-      // job #10
-      // job_10_employer: "",
-      // job_10_title: "",
-      // job_10_start_month: "",
-      // job_10_start_year: "",
-      // job_10_end_month: "",
-      // job_10_end_year: "",
-      // job_10_summary: "",
-
+      //
       // education
+      //
       college_name_1: "",
       college_degree_1: "",
       college_field_of_study_1: "",
@@ -149,17 +121,17 @@ const ResumeGeneratorPage = () => {
       college_notes_3: "",
       college_start_year_3: "",
       college_end_year_3: "",
-
-      // civic service/extra - 1 
+      //
+      // civic service/extra 
+      //
       achievement_1_issuer: "",
       achievement_1_name: "",
-      // civic service/extra - 2
       achievement_2_issuer: "",
       achievement_2_name: "",
-      //
       achievement_3_issuer: "",
       achievement_3_name: "",
       //
+      // references
       //
       reference_1_info: "",
       reference_2_info: "",
@@ -171,6 +143,22 @@ const ResumeGeneratorPage = () => {
   const isLoading = form.formState.isSubmitting;
 
 
+  // Possibly do?
+  // [ ] prefill forms for demo purposes 
+  // [ ] only run if user hasn't been to the page before (check if cookie is set)
+  // useEffect(() => {
+  //   setTimeout(function () {
+  //     form.setValue('full_name', 'test');
+  //   }, 1200)
+
+  //   setTimeout(function () {
+  //     form.setValue('email_address', 'alex_doe@yahoo.com');
+  //   }, 2200)
+
+  //   setTimeout(function () {
+  //     form.setValue('phone_number', '(222) 555-5555');
+  //   }, 3200)
+  // }, [form]);
 
   function mapFormValuesToResumeObject(formValues: any) {
     let RESUME_OBJECT: any = {
@@ -505,7 +493,7 @@ const ResumeGeneratorPage = () => {
     // format data 
     const mappedFormValues = mapFormValuesToResumeObject(values);
     const stringifiedMappedFormValues = JSON.stringify(mappedFormValues);
-    const promptString = `Persona: you are a professional resume writer with an expert command of the english language. 
+    const promptString = `Persona: you are a professional resume writer with an expert command of the English language. 
 Act as a grammarly-type tool by improving the verbiage, tone, and professionalism of the inputted content so it can be used in a resume.
 Rules: 
 1. The output should maintain the exact same object structure of the original 'resume_object', meaning only the key properties' values should be modified.
@@ -517,37 +505,33 @@ resume_object:
 ${stringifiedMappedFormValues}
     `;
 
-    // console.log('____');
-    // console.log({
+    // console.log('_ onSubmit(): ', {
     //   values,
     //   mappedFormValues,
     //   promptString,
-    // })
+    // });
 
+    //
+    // generate word doc  
+    /* 
+
+      const documentCreator = new DocumentCreator();
+      const doc = documentCreator.create([
+        mappedFormValues.personal_info,
+        mappedFormValues.experiences,
+        mappedFormValues.education,
+        mappedFormValues.skills,
+        mappedFormValues.achievements,
+        mappedFormValues.references,
+      ]);
+      Packer.toBlob(doc).then(blob => {
+        saveAs(blob, "resume.docx");
+        console.log("Document created successfully");
+      });
+
+    */
 
     // make API call 
-
-
-
-    // generate word doc (for debugging)
-    const documentCreator = new DocumentCreator();
-    const doc = documentCreator.create([
-      mappedFormValues.personal_info,
-      mappedFormValues.experiences,
-      mappedFormValues.education,
-      mappedFormValues.skills,
-      mappedFormValues.achievements,
-      mappedFormValues.references,
-    ]);
-    Packer.toBlob(doc).then(blob => {
-      saveAs(blob, "resume.docx");
-      console.log("Document created successfully");
-    });
-
-    // BLOCKED FOR DEBUGGING PURPOSES
-    return;
-
-
     try {
       const userMessage: ChatCompletionRequestMessage = { role: "user", content: promptString };
       const newMessages = [...messages, userMessage];
@@ -555,16 +539,15 @@ ${stringifiedMappedFormValues}
       const response = await axios.post('/api/conversation', { messages: newMessages });
       setMessages((current) => [...current, userMessage, response.data]);
 
-      console.log('try/catch data: ', response.data.content);
+      // console.log('try/catch data: ', response.data.content);
 
       //
       //
       // Generate word doc 
       //
       //
-      // const newObj = response.data;
-      // console.log(newObj);
-      // TODO: ensure this consistently works
+
+      // NOTE: hopefully these instructions work consistently
       const outputObject = JSON.parse(response.data.content);
       console.log({ outputObject });
 
@@ -585,19 +568,33 @@ ${stringifiedMappedFormValues}
       //
       //
 
-      form.reset();
+      // persist form data if they want to submit again
+      // form.reset();
     } catch (error: any) {
       if (error?.response?.status === 403) {
         proModal.onOpen();
       } else {
-        toast.error("Something went wrong.");
+        // generate a resume regardless
+        const documentCreator = new DocumentCreator();
+        const doc = documentCreator.create([
+          mappedFormValues.personal_info,
+          mappedFormValues.experiences,
+          mappedFormValues.education,
+          mappedFormValues.skills,
+          mappedFormValues.achievements,
+          mappedFormValues.references,
+        ]);
+        Packer.toBlob(doc).then(blob => {
+          saveAs(blob, "resume.docx");
+          console.log("Document created successfully");
+        });
+
+        toast.error("Something went wrong with the AI connection, but your resume was still generated with correct formatting.");
       }
     } finally {
       router.refresh();
     }
 
-
-    // download word doc 
 
 
     return;
@@ -621,23 +618,13 @@ ${stringifiedMappedFormValues}
     }
   }
 
-  console.log({
-    experiences,
-    education,
-    skills,
-    achievements,
-  })
-
-
-
-  // function generatePDF() {
-  //   var doc = new jsPDF();
-  //   doc.setFontSize(12);
-  //   doc.text(['Aron Prenovost'], 10, 10);
-  //   //doc.text(35, 25, "Paranyan loves jsPDF");
-  //   //doc.addImage(imgData, 'JPEG', 15, 40, 180, 160);
-  //   doc.save('resume.pdf');
-  // }
+  //
+  //
+  //
+  //
+  //
+  //
+  //
 
 
   //
@@ -2229,6 +2216,7 @@ ${stringifiedMappedFormValues}
                 className="col-span-12 lg:col-span-2 w-full"
                 type="submit"
                 disabled={isLoading}
+                style={{ float: 'left' }}
                 size="icon">
                 Generate resume
               </Button>
@@ -2274,6 +2262,7 @@ ${stringifiedMappedFormValues}
                 )}
               >
                 {message.role === "user" ? <UserAvatar /> : <BotAvatar />}
+                {message.role !== "user" ? "Raw output:" : ""}
                 <p className="text-sm">
                   {message.content}
                 </p>
@@ -2287,4 +2276,5 @@ ${stringifiedMappedFormValues}
 }
 
 export default ResumeGeneratorPage;
+
 

@@ -14,6 +14,7 @@ const openai = new OpenAIApi(configuration);
 export async function POST(
   req: Request
 ) {
+  return; // DISABLE
   try {
     const { userId } = auth();
     const body = await req.json();
