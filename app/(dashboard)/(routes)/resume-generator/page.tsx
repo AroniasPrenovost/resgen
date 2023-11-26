@@ -497,10 +497,10 @@ const ResumeGeneratorPage = () => {
 Act as a grammarly-type tool by improving the verbiage, tone, and professionalism of the inputted content so it can be used in a resume.
 Rules: 
 1. The output should maintain the exact same object structure of the original 'resume_object', meaning only the key properties' values should be modified.
-2. Fix typos, sentance structure, and grammar when necessary.
-3. Elaborate in the job experience and achievement section.
+2. Fix typos, sentance structure, and grammar when necessary. Capitalize school names and do not add 'N/A' to the document.
+3. Elaborate in the job experience and achievement section (add at least 1 new sentance to each).
 4. Incorporate words such as 'managed', 'solved', 'planned', 'executed', 'demonstrated', 'succeeded', 'collaborated', etc.  
-5. Do not include an explanation, the returned result should only be a stringifief version of the resume_object.
+5. The outputted result should only be a string-ified version of the resume_object.
 resume_object: 
 ${stringifiedMappedFormValues}
     `;
