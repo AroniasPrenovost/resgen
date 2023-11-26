@@ -596,6 +596,113 @@ ${stringifiedMappedFormValues}
     }
   }
 
+    const generateCoverLetter = async (values: any) => {
+
+    // format data 
+    const mappedFormValues = mapFormValuesToResumeObject(values);
+    const stringifiedMappedFormValues = JSON.stringify(mappedFormValues);
+    const promptString = `Persona: you are a professional cover letter writer with an expert command of the English language. Craft a well written cover letter based on the given input data.
+Rules: 
+1. The output should maintain the exact same object structure of the original 'resume_object', meaning only the key properties' values should be modified.
+2. Fix typos, sentance structure, and grammar when necessary. Capitalize school names and do not add 'N/A' to the document.
+3. Elaborate in the job experience and achievement section (add at least 1 new sentance to each).
+4. Incorporate words such as 'managed', 'solved', 'planned', 'executed', 'demonstrated', 'succeeded', 'collaborated', etc.  
+5. The outputted result should only be a string-ified version of the resume_object.
+resume_object: 
+${stringifiedMappedFormValues}
+    `;
+
+    // console.log('_ onSubmit(): ', {
+    //   values,
+    //   mappedFormValues,
+    //   promptString,
+    // });
+
+    //
+    // generate word doc  
+    /* 
+
+      const documentCreator = new DocumentCreator();
+      const doc = documentCreator.create([
+        mappedFormValues.personal_info,
+        mappedFormValues.experiences,
+        mappedFormValues.education,
+        mappedFormValues.skills,
+        mappedFormValues.achievements,
+        mappedFormValues.references,
+      ]);
+      Packer.toBlob(doc).then(blob => {
+        saveAs(blob, "resume.docx");
+        console.log("Document created successfully");
+      });
+
+    */
+
+    // make API call 
+    try {
+      const userMessage: ChatCompletionRequestMessage = { role: "user", content: promptString };
+      const newMessages = [...messages, userMessage];
+
+      const response = await axios.post('/api/cover-letter-generator', { messages: newMessages });
+      setMessages((current) => [...current, userMessage, response.data]);
+
+      // console.log('try/catch data: ', response.data.content);
+
+      //
+      //
+      // Generate word doc 
+      //
+      //
+
+      // NOTE: hopefully these instructions work consistently
+      const outputObject = JSON.parse(response.data.content);
+      console.log({ outputObject });
+
+      const documentCreator = new DocumentCreator();
+      const doc = documentCreator.create([
+        outputObject.personal_info,
+        outputObject.experiences,
+        outputObject.education,
+        outputObject.skills,
+        outputObject.achievements,
+        outputObject.references,
+      ]);
+
+      Packer.toBlob(doc).then(blob => {
+        saveAs(blob, "resume.docx");
+        console.log("Document created successfully");
+      });
+      //
+      //
+
+      // persist form data if they want to submit again
+      // form.reset();
+    } catch (error: any) {
+      if (error?.response?.status === 403) {
+        proModal.onOpen();
+      } else {
+        // generate a resume regardless
+        const documentCreator = new DocumentCreator();
+        const doc = documentCreator.create([
+          mappedFormValues.personal_info,
+          mappedFormValues.experiences,
+          mappedFormValues.education,
+          mappedFormValues.skills,
+          mappedFormValues.achievements,
+          mappedFormValues.references,
+        ]);
+        Packer.toBlob(doc).then(blob => {
+          saveAs(blob, "resume.docx");
+          console.log("Document created successfully");
+        });
+
+        toast.error("Something went wrong with the AI connection, but your resume was still generated with correct formatting.");
+      }
+    } finally {
+      router.refresh();
+    }
+  }
+
   //
   //
   //
@@ -2196,8 +2303,19 @@ ${stringifiedMappedFormValues}
                 disabled={isLoading}
                 style={{ float: 'left' }}
                 size="icon">
-                Generate resume
+                Generate Resume
               </Button>
+
+   {/*           <Button
+                onClick={generateCoverLetter}
+                className="col-span-12 lg:col-span-2 w-full"
+                // type="submit" 
+                disabled={isLoading}
+                        style={{ float: 'left', backgroundColor: 'orange' }}
+                size="icon"
+              >
+                Generate Cover Letter
+              </Button>  */}
 
               {/* <Button
                 onClick={generateDocx}
