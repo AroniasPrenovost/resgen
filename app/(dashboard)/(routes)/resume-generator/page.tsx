@@ -536,7 +536,7 @@ ${stringifiedMappedFormValues}
       const userMessage: ChatCompletionRequestMessage = { role: "user", content: promptString };
       const newMessages = [...messages, userMessage];
 
-      const response = await axios.post('/api/conversation', { messages: newMessages });
+      const response = await axios.post('/api/resume-generator', { messages: newMessages });
       setMessages((current) => [...current, userMessage, response.data]);
 
       // console.log('try/catch data: ', response.data.content);
