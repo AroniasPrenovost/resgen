@@ -117,3 +117,6 @@ https://app.crisp.chat/initiate/signup/?locale=en
 | :-----------------------| :--------------------------------------- |
 | `npm run dev`           | Starts a development instance of the app |
 | `npx prisma studio`     | Opens Prisma database editor             |
+
+### Favicon
+https://realfavicongenerator.net/
