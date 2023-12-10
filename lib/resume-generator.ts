@@ -9,10 +9,26 @@ import {
   TextRun
 } from "docx";
 
+type PersonalInfo = {
+  name: string;
+  phone_number: string;
+  linkedin: string;
+  email_address: string;
+  personal_website: string;
+  interests: string;
+  // ... add other properties as needed
+};
+
 export class DocumentCreator {
   // tslint:disable-next-line: typedef
-  public create([personal_info, experiences, educations, skills, achivements, references]): Document {
-
+  public create([
+    personal_info,
+    experiences,
+    educations,
+    skills,
+    achievements,
+    references
+  ]: [PersonalInfo, any[], any[], any[], any[], any[]]): Document {
     // console.log('create doc', { personal_info });
     const document = new Document({
       sections: [
@@ -61,7 +77,7 @@ export class DocumentCreator {
               .reduce((prev: any, curr: any) => prev.concat(curr), []),
             this.createHeading("Achievements and Recognition"),
             this.createSubHeading("Achievements"),
-            ...this.createAchivementsList(achivements),
+            ...this.createAchivementsList(achievements),
 
 
             // ...educations
@@ -260,7 +276,7 @@ export class DocumentCreator {
   public getMonthFromInt(value: number): string {
     // console.log('typeof value ===  ', typeof value);
     // value = parseInt(value);
-    const val = parseInt(value);
+    const val = parseInt(String(value));
     // console.log('value = ', typeof val);
     switch (val) {
       case 1:
