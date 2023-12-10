@@ -46,7 +46,7 @@ export async function GET() {
               name: "ResumAI Pro",
               description: "Unlimited Resume Generations"
             },
-            unit_amount: 1000,
+            unit_amount: 999,
             recurring: {
               interval: "month"
             }
