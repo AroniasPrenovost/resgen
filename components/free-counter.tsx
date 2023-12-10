@@ -37,7 +37,7 @@ export const FreeCounter = ({
           {/* HACK: hiding this to force subscriptions by default */}
           <div className="text-center text-sm text-white mb-4 space-y-2">
             <p>
-              1-Step Download
+               1 Simple Download
               {/* {apiLimitCount} / {MAX_FREE_COUNTS} Free Generations */}
             </p>
             {/* <Progress className="h-3" value={(apiLimitCount / MAX_FREE_COUNTS) * 100} /> */}
