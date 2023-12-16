@@ -37,9 +37,6 @@ export const checkApiLimit = async () => {
     where: { userId: userId },
   });
 
-  // // //
-  // return false; // HACK: return FALSE to force subscription before use
-
   if (!userApiLimit || userApiLimit.count < MAX_FREE_COUNTS) {
     return true;
   } else {
