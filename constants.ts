@@ -1,19 +1,7 @@
 import { Code, ImageIcon, MessageSquare, Music, VideoIcon } from "lucide-react";
 
 export const MAX_FREE_COUNTS = 1;
-
-// TODO 
-/* 
-
-export const MAX_PRO_PLAN_GENERATIONS = 3;
-
-
-if (proPlan && (numberOfResumesGenerated > MAX_PRO_PLAN_GENERATIONS)) {
-
-}
-
-
-*/
+ 
 
 export const tools = [
   // {
