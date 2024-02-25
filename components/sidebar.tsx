@@ -18,60 +18,12 @@ const routes = [
   //   href: '/dashboard',
   //   color: "text-sky-500"
   // },
-  // {
-  //   label: 'Conversation',
-  //   icon: MessageSquare,
-  //   href: '/conversation',
-  //   color: "text-violet-500",
-  // },
-  // {
-  //   label: 'Therapist',
-  //   icon: MessageSquare,
-  //   href: '/therapist',
-  //   color: "text-violet-500",
-  // },
-  // {
-  //   label: 'Life Coach',
-  //   icon: MessageSquare,
-  //   href: '/life-coach',
-  //   color: "text-violet-500",
-  // },
-  // {
-  //   label: 'College Professor',
-  //   icon: MessageSquare,
-  //   href: '/college-professor',
-  //   color: "text-violet-500",
-  // },
   {
     label: 'Resume Generator',
     icon: MessageSquare,
     href: '/resume-generator',
     color: "text-violet-500",
   },
-  // {
-  //   label: 'Greeting Card Generator',
-  //   icon: ImageIcon,
-  //   color: "text-pink-700",
-  //   href: '/image',
-  // },
-  // {
-  //   label: 'Video Generation',
-  //   icon: VideoIcon,
-  //   color: "text-orange-700",
-  //   href: '/video',
-  // },
-  // {
-  //   label: 'Music Generation',
-  //   icon: Music,
-  //   color: "text-emerald-500",
-  //   href: '/music',
-  // },
-  // {
-  //   label: 'Code Generation',
-  //   icon: Code,
-  //   color: "text-green-700",
-  //   href: '/code',
-  // },
   // {
   //   label: 'Settings',
   //   icon: Settings,
