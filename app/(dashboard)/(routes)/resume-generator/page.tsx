@@ -512,6 +512,7 @@ resume_object:
 ${stringifiedMappedFormValues}
     `;
 
+    const fileName = `${(mappedFormValues.personal_info.name).replace(' ', '')}_Resume.docx`;
     // console.log('_ onSubmit(): ', {
     //   values,
     //   mappedFormValues,
@@ -532,11 +533,13 @@ ${stringifiedMappedFormValues}
         mappedFormValues.references,
       ]);
       Packer.toBlob(doc).then(blob => {
-        saveAs(blob, "resume.docx");
+        saveAs(blob, fileName);
         console.log("Successfully created resume.");
       });
 
     */
+
+
 
     // make API call 
     try {
@@ -569,11 +572,11 @@ ${stringifiedMappedFormValues}
       ]);
 
       Packer.toBlob(doc).then(blob => {
-        saveAs(blob, `${mappedFormValues.personal_info.name}_resume.docx`);
+        saveAs(blob, fileName);
         console.log("Successfully created resume.");
       });
 
-      toast.success("successfully generated resume. Please check your downloads folder.");
+      toast.success("successfully generated resume. Please check your downloads.");
 
       //
       //
@@ -595,7 +598,7 @@ ${stringifiedMappedFormValues}
           mappedFormValues.references,
         ]);
         Packer.toBlob(doc).then(blob => {
-          saveAs(blob, `${mappedFormValues.personal_info.name}_resume.docx`);
+          saveAs(blob, fileName);
           console.log("Successfully created resume.");
         });
 
