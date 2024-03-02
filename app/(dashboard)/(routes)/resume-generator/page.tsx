@@ -494,7 +494,7 @@ const ResumeGeneratorPage = () => {
     // format data 
     const mappedFormValues = mapFormValuesToResumeObject(values);
     const stringifiedMappedFormValues = JSON.stringify(mappedFormValues);
-    const promptString = `Persona: you are a expert resume writer with with years of experience improving résumés. 
+    const promptString = `Persona: you are a expert resume writer with with years of experience improving resumes. 
 Act as a grammarly-type tool by improving the verbiage, tone, and professionalism of the inputted content so it can be used in a resume.
 Rules: 
 1. The output should maintain the exact same object structure of the original 'resume_object', meaning only the key properties' values should be modified.
