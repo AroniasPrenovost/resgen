@@ -489,6 +489,12 @@ const ResumeGeneratorPage = () => {
     return RESUME_OBJECT;
   }
 
+  //
+  //
+  // onSubmit
+  //
+  //
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
 
     // format data 
@@ -610,15 +616,6 @@ ${stringifiedMappedFormValues}
   }
 
  
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-
-
   //
   //
   // Toggle form field visibility
