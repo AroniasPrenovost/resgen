@@ -41,10 +41,13 @@ export async function POST(
     // }
 
     const response = await openai.createChatCompletion({
-      // model: "gpt-3.5-turbo",
-      model: "gpt-4-turbo-preview",
+      model: "gpt-3.5-turbo",
+      // model: "gpt-4-turbo-preview",
       messages
     });
+
+    console.log('_____')
+    console.log(response.data.choices[0].message);
 
     // if (!isPro) {
     //   await incrementApiLimit();
