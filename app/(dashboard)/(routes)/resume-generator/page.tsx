@@ -569,9 +569,12 @@ ${stringifiedMappedFormValues}
       ]);
 
       Packer.toBlob(doc).then(blob => {
-        saveAs(blob, "resume.docx");
+        saveAs(blob, `${mappedFormValues.personal_info.name}_resume.docx`);
         console.log("Document created successfully");
       });
+
+      toast.success("Successfully generated resume. Please check your downloads folder.");
+
       //
       //
 
@@ -592,11 +595,11 @@ ${stringifiedMappedFormValues}
           mappedFormValues.references,
         ]);
         Packer.toBlob(doc).then(blob => {
-          saveAs(blob, "resume.docx");
+          saveAs(blob, `${mappedFormValues.personal_info.name}_resume.docx`);
           console.log("Document created successfully");
         });
 
-        toast.error("Something went wrong with the AI connection, but your resume was still generated with correct formatting.");
+        toast.error("Something went wrong with the AI connection, but your resume was still generated with improved formatting.");
       }
     } finally {
       router.refresh();
