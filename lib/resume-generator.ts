@@ -29,7 +29,17 @@ export class DocumentCreator {
     achievements,
     references
   ]: [PersonalInfo, any[], any[], any[], any[], any[]]): Document {
-    // console.log('create doc', { personal_info });
+    
+    console.log('create doc', { personal_info, other: [
+      personal_info,
+      experiences,
+      educations,
+      skills,
+      achievements,
+      references
+    ]});
+
+
     const document = new Document({
       sections: [
         {
