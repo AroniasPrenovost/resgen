@@ -494,15 +494,20 @@ const ResumeGeneratorPage = () => {
     // format data 
     const mappedFormValues = mapFormValuesToResumeObject(values);
     const stringifiedMappedFormValues = JSON.stringify(mappedFormValues);
-    const promptString = `Persona: you are a professional resume writer with an expert command of the English language. 
+    const promptString = `Persona: you are a expert resume writer with with years of experience improving résumés. 
 Act as a grammarly-type tool by improving the verbiage, tone, and professionalism of the inputted content so it can be used in a resume.
 Rules: 
 1. The output should maintain the exact same object structure of the original 'resume_object', meaning only the key properties' values should be modified.
-2. Fix typos, sentance structure, and grammar when necessary. Capitalize school names and do not add 'N/A' to the document.
-3. Elaborate in the job experience and achievement section (add at least 1 new sentance to each section).
-4. Incorporate words such as 'managed', 'solved', 'planned', 'executed', 'demonstrated', 'succeeded', 'collaborated', etc.  
-5. The outputted content should be a markedly improved version of the input.
-6. The outputted result should only be a string-ified version of the resume_object.
+2. Fix any typos, sentence structure issues, and grammar when necessary. 
+3. Capitalize proper nouns, expand acronyms when necessary.
+4. Leave blank if a section does not exist.
+5. For 'resume_object.experiences' data, elaborate when necessary so most of the experience summary instances are at least least 2 sentances.
+6. For 'resume_object.education' section, ensure school names are proper and clear. 
+7. For 'resume_object.achievements' section, elaborate when necessary to explain context of achievement. 
+8. For 'resume_object.references' section, elaborate when necessary to explain context of relationship.
+9. Incorporate words such as 'managed', 'solved', 'planned', 'executed', 'demonstrated', 'succeeded', 'collaborated', 'implemented', 'strategized', 'lead', etc.  
+10. The outputted content should be a markedly improved version of the input.
+11. The outputted result should only be a string-ified version of the 'resume_object'.
 resume_object: 
 ${stringifiedMappedFormValues}
     `;
@@ -2245,7 +2250,7 @@ ${stringifiedMappedFormValues}
             <Empty label="Enter your info to generate a resume." />
           )}
           <div className="flex flex-col-reverse gap-y-4">
-            {messages.map((message) => (
+            {(messages.reverse()).map((message) => (
               <div
                 key={message.content}
                 className={cn(
@@ -2254,7 +2259,7 @@ ${stringifiedMappedFormValues}
                 )}
               >
                 {message.role === "user" ? <UserAvatar /> : <BotAvatar />}
-                {message.role !== "user" ? "Raw output:" : ""}
+                {message.role !== "user" ? "Data output: " : "Prompt: "}
                 <p className="text-sm">
                   {message.content}
                 </p>
