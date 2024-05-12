@@ -1,4 +1,4 @@
-# Resume Generator SaaS built w/ Next.js 13, React, Tailwind, Prisma, Stripe 
+	# Resume Generator SaaS built w/ Next.js 13, React, Tailwind, Prisma, Stripe 
 
 This is a repository based on [this tutorial video](https://www.youtube.com/watch?v=ffJ38dBzrlY&t=16662s).
 
@@ -78,10 +78,23 @@ npx prisma studio # runs at http://localhost:5555/
 ```
 
 
-- Stripe  [MUST BE RUNNING] (log shows webhook signing secret ('whsec_...'))
+### Stripe 
+## setup - https://www.youtube.com/watch?v=uQAf6huBIks
+
+(Test environment)
+
+1. create Stripe account 
+2. toggle on 'Test Mode'
+2. Dashboard --> Create payment --> Payment link 
+	used to redirect users to payment link when they try to download
+3. add STRIPE_API_KEY and STRIPE_SECRET_KEY to .env
+https://docs.stripe.com/stripe-cli
+1. get webhook secret for Stripe CLI ('whsec_...'))
 
 ```shell
-stripe listen --forward-to localhost:3000/api/webhook
+$ stripe login # then follow the link it generates 
+
+$ stripe listen --forward-to localhost:3000/api/webhook # generates WEBHOOK_SECRET
 
 ```
  

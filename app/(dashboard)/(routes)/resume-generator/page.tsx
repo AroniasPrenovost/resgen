@@ -9,6 +9,8 @@ import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { ChatCompletionRequestMessage } from "openai";
 
+import { redirect } from 'next/navigation'
+
 import { BotAvatar } from "@/components/bot-avatar";
 import { Heading } from "@/components/heading";
 import { Button } from "@/components/ui/button";
@@ -31,6 +33,11 @@ import { Packer } from "docx";
 import { DocumentCreator } from "@/lib/resume-generator";
 import { CoverLetterDocumentCreator } from "@/lib/cover-letter-generator";
 import { experiences, education, skills, achievements } from "@/lib/cv-data"; // dummy data
+
+
+import { headers } from 'next/headers'
+
+const STRIPE_PAYMENT_LINK: string = process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK ?? 'https://stripe.com';
 
 const ResumeGeneratorPage = () => {
   const router = useRouter();
@@ -213,7 +220,6 @@ const ResumeGeneratorPage = () => {
       for (const element of skills) {
         let vv = { name: element };
         if (vv.name.length > 0) {
-          // console.log('skill: ', vv);
           RESUME_OBJECT.skills.push(vv);
         }
       }
@@ -491,17 +497,126 @@ const ResumeGeneratorPage = () => {
 
   //
   //
+  // PAYMENT APPROACH 
+  //
+  //
+
+  /*
+
+    [ ] save form data in localStorag
+    [x] show payment link button 
+    [ ] user clicks payment link, completes
+    [ ] validate response to know they completed payment
+    [x] if valid, show generate resume button
+
+  */
+
+
+  //     const headersList = headers()
+  // const referer = headersList.get('referer')
+
+
+
+
+
+  const current_time: any = new Date();
+
+  let payment_received: any = false;
+  let last_payment_received: any = false;
+
+  let number_of_downloads: any = 0;
+
+  let storedFormValues: any = {};
+  if (global?.window !== undefined) { // now it's safe to access window and localStorage
+
+    number_of_downloads = Number(localStorage.getItem('number_of_downloads'));
+
+    payment_received = localStorage.getItem('payment_received') === 'true';
+    last_payment_received = localStorage.getItem('last_payment_received');
+    
+    // Timestamps
+    const timestamp1: any = new Date(current_time);
+    const timestamp2: any = new Date(last_payment_received);
+
+    // Calculate the difference in milliseconds
+    const differenceInMilliseconds = timestamp1 - timestamp2;
+
+    // Convert milliseconds to minutes
+    const differenceInMinutes = differenceInMilliseconds / (1000 * 60);
+
+    console.log('diff in minutes: ', differenceInMinutes);
+    console.log('# of downloads: ', number_of_downloads);
+
+
+    let clearCache = false;
+    clearCache = payment_received && (differenceInMinutes > 30);
+    clearCache = payment_received && (number_of_downloads > 3);
+
+    if (clearCache) {
+      console.log(' ')
+      console.log('cleared cache');
+      localStorage.setItem('payment_received', 'false');
+      localStorage.setItem('last_payment_received', '');
+      localStorage.setItem('number_of_downloads', '0');
+    }
+
+    storedFormValues = localStorage.getItem('stored_form_values');
+ 
+  }  
+
+
+  //
+  //
+  // onload ? 
+  //
+  //
+
+    // todo: use stored form values to prepopulate form fields 
+
+  //
+  //      
   // onSubmit
   //
   //
 
+
+
+
+
+
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
 
-    // format data 
+
     const mappedFormValues = mapFormValuesToResumeObject(values);
+    localStorage.setItem('stored_form_values', JSON.stringify(values));
+
+    if (!(payment_received)) {
+      localStorage.setItem('payment_received', 'true');
+      var date = new Date();
+      localStorage.setItem('last_payment_received', String(date));
+      window.location.assign(STRIPE_PAYMENT_LINK);
+      return;
+    } 
+
+
+    // console.log('OK, ACTUALLY GENERATE RES')
+
+    // increment on # of downloads
+    let new_download_count = number_of_downloads + 1;
+    localStorage.setItem('number_of_downloads', new_download_count);
+
+    // toast.success("successfully generated resume. Please check your downloads.");
+    // return;
+
+    // format form data to match necessary structure for resume template
+    // const mappedFormValues = mapFormValuesToResumeObject(values);
+    
+    // localStorage.setItem('stored_form_values', JSON.stringify(values));
+
     const stringifiedMappedFormValues = JSON.stringify(mappedFormValues);
     const promptString = `Persona: you are a expert resume writer with with years of experience improving resumes. 
-Act as a grammarly-type tool by improving the verbiage, tone, and professionalism of the inputted content so it can be used in a resume.
+Improve the verbiage, tone, and professionalism of the inputted content so it can be used in a resume.
 Rules: 
 1. The output should maintain the exact same object structure of the original 'resume_object', meaning only the key properties' values should be modified.
 2. Fix any typos, sentence structure issues, and grammar when necessary. 
@@ -582,12 +697,16 @@ ${stringifiedMappedFormValues}
         console.log("Successfully created resume.");
       });
 
+      // Only clear the purchase history once they've been able to download the file
+      if (global?.window !== undefined) { // now it's safe to access window and localStorage
+        localStorage.removeItem('payment_received');
+      }
+
+      // show toast 
       toast.success("successfully generated resume. Please check your downloads.");
 
-      //
-      //
 
-      // persist form data if they want to submit again
+      // we want to persist form data if they want to submit again
       // form.reset();
     } catch (error: any) {
       if (error?.response?.status === 403) {
@@ -2199,7 +2318,6 @@ ${stringifiedMappedFormValues}
                   />
                 </> : ''}
 
-
               <Button
                 // style={{ whiteSpace: 'nowrap' }}
                 className="col-span-12 lg:col-span-2 w-full"
@@ -2207,8 +2325,9 @@ ${stringifiedMappedFormValues}
                 disabled={isLoading}
                 style={{ float: 'left' }}
                 size="icon">
-                Generate Resume
+                {"Download Available"}
               </Button>
+
 
    {/*            <Button
                 onClick={generateCoverLetter}

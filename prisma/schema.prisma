@@ -16,6 +16,12 @@ model UserApiLimit {
   updatedAt DateTime @updatedAt
 }
 
+model Purchase { 
+  id        String      @id @default(cuid())
+
+  createdAt DateTime @default(now())
+}
+
 model UserSubscription {
   id        String      @id @default(cuid())
   userId    String   @unique
