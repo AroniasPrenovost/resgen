@@ -67,6 +67,21 @@ export const Sidebar = ({
               </div>
             </Link>
           ))}
+
+           <div className="space-y-1" style={{paddingTop: '24px', padding: '8px'}}>
+              <b>How It Works:</b><br/>
+              <ol>
+                <li><b>1. </b>Enter your experience</li>
+                <br/>
+                <li><b>2.</b> Generate your new resume with AI (up to 3 versions)</li>
+                <br/>
+                <li><b>3.</b> If you don't own a computer with Microsoft Word, take the downloaded file and upload it to <Link className={cn(
+                  "hover:text-white transition",
+                   "text-zinc-400",
+                )} href='https://www.microsoft.com/en-us/microsoft-365/word'>Google Docs</Link> to see/use the correct formatting.
+                </li>
+              </ol>
+          </div>
         </div>
       </div>
       <FreeCounter
