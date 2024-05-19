@@ -558,7 +558,7 @@ const ResumeGeneratorPage = () => {
 
 
     let clearCache = false;
-    clearCache = payment_received && (differenceInMinutes > 30);
+    clearCache = payment_received && (differenceInMinutes > 3600); // 1 hour
     clearCache = payment_received && (number_of_downloads > 2);
 
     if (clearCache) {
@@ -614,6 +614,16 @@ const ResumeGeneratorPage = () => {
     // increment on # of downloads
     let new_download_count = number_of_downloads + 1;
     localStorage.setItem('number_of_downloads', new_download_count);
+
+
+    /* 
+
+
+
+
+
+
+    */ 
 
 
     console.log('actually downloading now...')
