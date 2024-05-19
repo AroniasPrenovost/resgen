@@ -71,7 +71,7 @@ export const Sidebar = ({
            <div className="space-y-1" style={{paddingTop: '24px', padding: '8px'}}>
               <b>How It Works:</b><br/>
               <ol>
-                <li><b>1. </b>Enter your experience</li>
+                <li><b>1.</b> Enter your experience</li>
                 <br/>
                 <li><b>2.</b> Generate your new resume with AI (up to 3 versions)</li>
                 <br/>
