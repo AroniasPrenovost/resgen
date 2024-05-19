@@ -824,12 +824,18 @@ ${stringifiedMappedFormValues}
   //
 
   // Professional experience section
-  console.log('stored', storedFormValues);
+
+
   const [job1Visibility, setJob1Visibility] = useState<boolean>(false);
+
   const [job2Visibility, setJob2Visibility] = useState<boolean>(false);
+
   const [job3Visibility, setJob3Visibility] = useState<boolean>(false);
+
   const [job4Visibility, setJob4Visibility] = useState<boolean>(false);
+
   const [job5Visibility, setJob5Visibility] = useState<boolean>(false);
+
   const [job6Visibility, setJob6Visibility] = useState<boolean>(false);
 
   //
