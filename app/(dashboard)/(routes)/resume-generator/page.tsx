@@ -70,7 +70,9 @@ const ResumeGeneratorPage = () => {
     last_payment_received = localStorage.getItem('last_payment_received');
 
     let sfv = localStorage.getItem('stored_form_values') ?? '';
-    if (sfv.length) storedFormValues = JSON.parse(sfv);
+    if (sfv && sfv.length) {
+      storedFormValues = JSON.parse(sfv);
+    }
     
     // Timestamps
     const timestamp1: any = new Date(current_time);
@@ -817,28 +819,18 @@ ${stringifiedMappedFormValues}
  
   //
   //
-  // Toggle form field visibility / persist form accordion state 
+  // Toggle form field visibility
   //
   //
 
   // Professional experience section
-  const jobVisible1 = storedFormValues ? (storedFormValues.job_1_employer.length || storedFormValues.job_1_title.length || storedFormValues.job_1_start_month.length || storedFormValues.job_1_start_year.length || storedFormValues.job_1_end_month.length || storedFormValues.job_1_end_year.length || storedFormValues.job_1_summary.length) : false;
-  const [job1Visibility, setJob1Visibility] = useState<boolean>(jobVisible1);
-
-  const jobVisible2 = storedFormValues ? (storedFormValues.job_2_employer.length || storedFormValues.job_2_title.length || storedFormValues.job_2_start_month.length || storedFormValues.job_2_start_year.length || storedFormValues.job_2_end_month.length || storedFormValues.job_2_end_year.length || storedFormValues.job_2_summary.length) : false;
-  const [job2Visibility, setJob2Visibility] = useState<boolean>(jobVisible2);
-
-  const jobVisible3 = storedFormValues ? (storedFormValues.job_3_employer.length || storedFormValues.job_3_title.length || storedFormValues.job_3_start_month.length || storedFormValues.job_3_start_year.length || storedFormValues.job_3_end_month.length || storedFormValues.job_3_end_year.length || storedFormValues.job_3_summary.length) : false;
-  const [job3Visibility, setJob3Visibility] = useState<boolean>(jobVisible3);
-
-  const jobVisible4 = storedFormValues ? (storedFormValues.job_4_employer.length || storedFormValues.job_4_title.length || storedFormValues.job_4_start_month.length || storedFormValues.job_4_start_year.length || storedFormValues.job_4_end_month.length || storedFormValues.job_4_end_year.length || storedFormValues.job_4_summary.length) : false;
-  const [job4Visibility, setJob4Visibility] = useState<boolean>(jobVisible4);
-
-  const jobVisible5 = storedFormValues ? (storedFormValues.job_5_employer.length || storedFormValues.job_5_title.length || storedFormValues.job_5_start_month.length || storedFormValues.job_5_start_year.length || storedFormValues.job_5_end_month.length || storedFormValues.job_5_end_year.length || storedFormValues.job_5_summary.length) : false;
-  const [job5Visibility, setJob5Visibility] = useState<boolean>(jobVisible5);
-
-  const jobVisible6 = storedFormValues ? (storedFormValues.job_6_employer.length || storedFormValues.job_6_title.length || storedFormValues.job_6_start_month.length || storedFormValues.job_6_start_year.length || storedFormValues.job_6_end_month.length || storedFormValues.job_6_end_year.length || storedFormValues.job_6_summary.length) : false;
-  const [job6Visibility, setJob6Visibility] = useState<boolean>(jobVisible6);
+  console.log('stored', storedFormValues);
+  const [job1Visibility, setJob1Visibility] = useState<boolean>(false);
+  const [job2Visibility, setJob2Visibility] = useState<boolean>(false);
+  const [job3Visibility, setJob3Visibility] = useState<boolean>(false);
+  const [job4Visibility, setJob4Visibility] = useState<boolean>(false);
+  const [job5Visibility, setJob5Visibility] = useState<boolean>(false);
+  const [job6Visibility, setJob6Visibility] = useState<boolean>(false);
 
   //
   //
