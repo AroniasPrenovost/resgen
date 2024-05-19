@@ -526,6 +526,8 @@ const ResumeGeneratorPage = () => {
 
   let number_of_downloads: any = 0;
 
+  let message = 'Instant Access to 3 Downloads';
+
   let storedFormValues: any = {};
   if (global?.window !== undefined) { // now it's safe to access window and localStorage
 
@@ -533,6 +535,10 @@ const ResumeGeneratorPage = () => {
 
     payment_received = localStorage.getItem('payment_received') === 'true';
     last_payment_received = localStorage.getItem('last_payment_received');
+
+    // if (payment_received) {
+    //   message = 'Downloads available: ' + (4 - Number(number_of_downloads));
+    // }
     
     // Timestamps
     const timestamp1: any = new Date(current_time);
@@ -550,7 +556,7 @@ const ResumeGeneratorPage = () => {
 
     let clearCache = false;
     clearCache = payment_received && (differenceInMinutes > 30);
-    clearCache = payment_received && (number_of_downloads > 3);
+    clearCache = payment_received && (number_of_downloads > 2);
 
     if (clearCache) {
       console.log(' ')
@@ -605,6 +611,10 @@ const ResumeGeneratorPage = () => {
     // increment on # of downloads
     let new_download_count = number_of_downloads + 1;
     localStorage.setItem('number_of_downloads', new_download_count);
+
+
+    console.log('actually downloading now...')
+    return;
 
     // toast.success("successfully generated resume. Please check your downloads.");
     // return;
@@ -2320,12 +2330,14 @@ ${stringifiedMappedFormValues}
 
               <Button
                 // style={{ whiteSpace: 'nowrap' }}
-                className="col-span-12 lg:col-span-2 w-full"
+                className="col-span-12 lg:col-span-12 w-full"
                 type="submit"
                 disabled={isLoading}
                 style={{ float: 'left' }}
-                size="icon">
-                {"Download Available"}
+                size="icon"
+                >
+                {message}
+                {/*{"Download Available"}*/}
               </Button>
 
 
