@@ -629,7 +629,7 @@ const ResumeGeneratorPage = () => {
     console.log('actually downloading now...')
     toast.dismiss();
     let remaining_downloads = (3 - new_download_count); // 3, 2, 1
-    toast.success(`Successfully generated resume.\n\nPlease check your downloads folder.\n\nDownloads remaining: ${remaining_downloads}`, {
+    toast.success(`Successfully generated resume. Please check your downloads folder.\n\nDownloads remaining: ${remaining_downloads}`, {
       duration: 20000,
     });
     return;
@@ -733,7 +733,7 @@ ${stringifiedMappedFormValues}
       // show toast 
       toast.dismiss();
       let remaining_downloads = (3 - new_download_count); // 3, 2, 1
-      toast.success(`Successfully generated resume.\n\nPlease check your downloads folder.\n\nDownloads remaining: ${remaining_downloads}`, {
+      toast.success(`Successfully generated resume. Please check your downloads folder.\n\nDownloads remaining: ${remaining_downloads}`, {
         duration: 20000,
       });
 
