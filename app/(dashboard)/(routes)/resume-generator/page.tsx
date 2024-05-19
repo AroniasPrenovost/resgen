@@ -44,23 +44,82 @@ const ResumeGeneratorPage = () => {
   const proModal = useProModal();
   const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
 
+    //
+  //
+  // PAYMENT APPROACH 
+  //
+  //
+
+ 
+  const current_time: any = new Date();
+
+  let payment_received: any = false;
+  let last_payment_received: any = false;
+
+  let number_of_downloads: any = 0;
+
+  // let message = 'Instant Access to 3 Downloads';
+  const [message] = useState('Instant Access to 3 Downloads');
+
+  let storedFormValues: any = {};
+  if (global?.window !== undefined) { // now it's safe to access window and localStorage
+
+    number_of_downloads = Number(localStorage.getItem('number_of_downloads'));
+
+    payment_received = localStorage.getItem('payment_received') === 'true';
+    last_payment_received = localStorage.getItem('last_payment_received');
+
+    let sfv = localStorage.getItem('stored_form_values') ?? '';
+    storedFormValues = JSON.parse(sfv);
+    
+    // Timestamps
+    const timestamp1: any = new Date(current_time);
+    const timestamp2: any = new Date(last_payment_received);
+
+    const differenceInMilliseconds = timestamp1 - timestamp2;
+    const differenceInMinutes = differenceInMilliseconds / (1000 * 60);
+
+    console.log('diff in minutes: ', differenceInMinutes);
+    console.log('# of downloads: ', number_of_downloads);
+    console.log('payment_received: ', payment_received);
+
+    let clearCache = false;
+    clearCache = payment_received && (differenceInMinutes > 3600); // 1 hour
+    clearCache = payment_received && (number_of_downloads > 2);
+
+    if (clearCache) {
+      console.log(' ')
+      console.log('cleared cache');
+      localStorage.removeItem('payment_received');
+      localStorage.setItem('last_payment_received', '');
+      localStorage.setItem('number_of_downloads', '0');
+    } 
+  }  
+
+
+  //
+  //
+  //
+  //
+  //
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      full_name: "",
-      email_address: "",
-      phone_number: "",
-      personal_website: "",
-      linkedin_profile: "",
+      full_name: storedFormValues.full_name ?? '',
+      email_address: storedFormValues.email_address ?? '',
+      phone_number: storedFormValues.phone_number ?? '',
+      personal_website: storedFormValues.personal_website ?? '',
+      linkedin_profile: storedFormValues.linkedin_profile ?? '',
       //
-      interests: "",
+      interests: storedFormValues.interests ?? '',
       //
-      skills: "",
+      skills: storedFormValues.skills ?? '',
       //
       // job #1
       //
-      job_1_employer: "",
-      job_1_title: "",
+      job_1_employer: storedFormValues.job_1_employer ?? '',
+      job_1_title: storedFormValues.job_1_title ?? '',
       job_1_start_month: "",
       job_1_start_year: "",
       job_1_end_month: "",
@@ -495,101 +554,103 @@ const ResumeGeneratorPage = () => {
     return RESUME_OBJECT;
   }
 
-  //
-  //
-  // PAYMENT APPROACH 
-  //
-  //
 
-  /*
+  if (storedFormValues) {
+    console.log(' there are stored values', storedFormValues);
+    // todo: write them
+    /* 
 
-    [ ] save form data in localStorag
-    [x] show payment link button 
-    [ ] user clicks payment link, completes
-    [ ] validate response to know they completed payment
-    [x] if valid, show generate resume button
+{
+    "full_name": "sadas",
+    "email_address": "sd",
+    "phone_number": "sad",
+    "personal_website": "asdas",
+    "linkedin_profile": "sadasd",
+    "interests": "sdasd",
+    "skills": "sadas",
+    "job_1_employer": "",
+    "job_1_title": "",
+    "job_1_start_month": "",
+    "job_1_start_year": "",
+    "job_1_end_month": "",
+    "job_1_end_year": "",
+    "job_1_summary": "",
+    "job_2_employer": "",
+    "job_2_title": "",
+    "job_2_start_month": "",
+    "job_2_start_year": "",
+    "job_2_end_month": "",
+    "job_2_end_year": "",
+    "job_2_summary": "",
+    "job_3_employer": "",
+    "job_3_title": "",
+    "job_3_start_month": "",
+    "job_3_start_year": "",
+    "job_3_end_month": "",
+    "job_3_end_year": "",
+    "job_3_summary": "",
+    "job_4_employer": "",
+    "job_4_title": "",
+    "job_4_start_month": "",
+    "job_4_start_year": "",
+    "job_4_end_month": "",
+    "job_4_end_year": "",
+    "job_4_summary": "",
+    "job_5_employer": "",
+    "job_5_title": "",
+    "job_5_start_month": "",
+    "job_5_start_year": "",
+    "job_5_end_month": "",
+    "job_5_end_year": "",
+    "job_5_summary": "",
+    "job_6_employer": "",
+    "job_6_title": "",
+    "job_6_start_month": "",
+    "job_6_start_year": "",
+    "job_6_end_month": "",
+    "job_6_end_year": "",
+    "job_6_summary": "",
+    "college_name_1": "",
+    "college_degree_1": "",
+    "college_field_of_study_1": "",
+    "college_notes_1": "",
+    "college_start_year_1": "",
+    "college_end_year_1": "",
+    "college_name_2": "",
+    "college_degree_2": "",
+    "college_field_of_study_2": "",
+    "college_notes_2": "",
+    "college_start_year_2": "",
+    "college_end_year_2": "",
+    "college_name_3": "",
+    "college_field_of_study_3": "",
+    "college_degree_3": "",
+    "college_notes_3": "",
+    "college_start_year_3": "",
+    "college_end_year_3": "",
+    "achievement_1_issuer": "",
+    "achievement_1_name": "",
+    "achievement_2_issuer": "",
+    "achievement_2_name": "",
+    "achievement_3_issuer": "",
+    "achievement_3_name": "",
+    "reference_1_info": "",
+    "reference_2_info": "",
+    "reference_3_info": "",
+    "reference_4_info": ""
+}
 
-  */
+
+    */ 
+  }
 
 
-  //     const headersList = headers()
-  // const referer = headersList.get('referer')
-
-
-
-
-
-  const current_time: any = new Date();
-
-  let payment_received: any = false;
-  let last_payment_received: any = false;
-
-  let number_of_downloads: any = 0;
-
-  // let message = 'Instant Access to 3 Downloads';
-  const [message] = useState('Instant Access to 3 Downloads');
-
-  let storedFormValues: any = {};
-  if (global?.window !== undefined) { // now it's safe to access window and localStorage
-
-    number_of_downloads = Number(localStorage.getItem('number_of_downloads'));
-
-    payment_received = localStorage.getItem('payment_received') === 'true';
-    last_payment_received = localStorage.getItem('last_payment_received');
-
-
-    // if (payment_received) {
-    //   message = 'Downloads available: ' + (4 - Number(number_of_downloads));
-    // }
-    
-    // Timestamps
-    const timestamp1: any = new Date(current_time);
-    const timestamp2: any = new Date(last_payment_received);
-
-    // Calculate the difference in milliseconds
-    const differenceInMilliseconds = timestamp1 - timestamp2;
-
-    // Convert milliseconds to minutes
-    const differenceInMinutes = differenceInMilliseconds / (1000 * 60);
-
-    console.log('diff in minutes: ', differenceInMinutes);
-    console.log('# of downloads: ', number_of_downloads);
-    console.log('payment_received: ', payment_received);
-
-
-    let clearCache = false;
-    clearCache = payment_received && (differenceInMinutes > 3600); // 1 hour
-    clearCache = payment_received && (number_of_downloads > 2);
-
-    if (clearCache) {
-      console.log(' ')
-      console.log('cleared cache');
-      localStorage.removeItem('payment_received');
-      localStorage.setItem('last_payment_received', '');
-      localStorage.setItem('number_of_downloads', '0');
-    }
-
-    storedFormValues = localStorage.getItem('stored_form_values');
- 
-  }  
-
-
-  //
-  //
-  // onload ? 
-  //
-  //
-
-    // todo: use stored form values to prepopulate form fields 
 
   //
   //      
   // onSubmit
   //
   //
-
-
-
 
 
 
@@ -608,8 +669,6 @@ const ResumeGeneratorPage = () => {
       return;
     } 
 
-
-    // console.log('OK, ACTUALLY GENERATE RES')
 
     // increment on # of downloads
     let new_download_count = number_of_downloads + 1;
@@ -708,7 +767,7 @@ ${stringifiedMappedFormValues}
 
       // NOTE: hopefully these instructions work consistently
       const outputObject = JSON.parse(response.data.content);
-      console.log({ outputObject });
+      // console.log({ outputObject });
 
       const documentCreator = new DocumentCreator();
       const doc = documentCreator.create([
