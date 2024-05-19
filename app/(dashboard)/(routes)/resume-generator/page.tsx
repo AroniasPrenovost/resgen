@@ -617,9 +617,11 @@ const ResumeGeneratorPage = () => {
 
 
     console.log('actually downloading now...')
-
+    toast.dismiss();
     let remaining_downloads = (3 - new_download_count); // 3, 2, 1
-    toast.success(`Successfully generated resume.\n\nPlease check your downloads folder.\n\nYou have ${remaining_downloads} downloads left.`);
+    toast.success(`Successfully generated resume.\n\nPlease check your downloads folder.\n\nDownloads remaining: ${remaining_downloads}`, {
+      duration: 20000,
+    });
     return;
 
     // toast.success("successfully generated resume. Please check your downloads.");
@@ -719,8 +721,11 @@ ${stringifiedMappedFormValues}
       }
 
       // show toast 
+      toast.dismiss();
       let remaining_downloads = (3 - new_download_count); // 3, 2, 1
-      toast.success(`Successfully generated resume.\n\nPlease check your downloads folder.\n\nYou have ${remaining_downloads} downloads left.`);
+      toast.success(`Successfully generated resume.\n\nPlease check your downloads folder.\n\nDownloads remaining: ${remaining_downloads}`, {
+        duration: 20000,
+      });
 
 
       // we want to persist form data if they want to submit again
