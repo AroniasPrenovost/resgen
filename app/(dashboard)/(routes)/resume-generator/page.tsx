@@ -70,7 +70,7 @@ const ResumeGeneratorPage = () => {
     last_payment_received = localStorage.getItem('last_payment_received');
 
     let sfv = localStorage.getItem('stored_form_values') ?? '';
-    storedFormValues = JSON.parse(sfv);
+    if (sfv.length) storedFormValues = JSON.parse(sfv);
     
     // Timestamps
     const timestamp1: any = new Date(current_time);
@@ -120,112 +120,101 @@ const ResumeGeneratorPage = () => {
       //
       job_1_employer: storedFormValues.job_1_employer ?? '',
       job_1_title: storedFormValues.job_1_title ?? '',
-      job_1_start_month: "",
-      job_1_start_year: "",
-      job_1_end_month: "",
-      job_1_end_year: "",
-      job_1_summary: "",
+      job_1_start_month: storedFormValues.job_1_start_month ?? '',
+      job_1_start_year: storedFormValues.job_1_start_year ?? '',
+      job_1_end_month: storedFormValues.job_1_end_month ?? '',
+      job_1_end_year: storedFormValues.job_1_end_year ?? '',
+      job_1_summary: storedFormValues.job_1_summary ?? '',
       // job #2
-      job_2_employer: "",
-      job_2_title: "",
-      job_2_start_month: "",
-      job_2_start_year: "",
-      job_2_end_month: "",
-      job_2_end_year: "",
-      job_2_summary: "",
+      job_2_employer: storedFormValues.job_2_employer ?? '',
+      job_2_title: storedFormValues.job_2_title ?? '',
+      job_2_start_month: storedFormValues.job_2_start_month ?? '',
+      job_2_start_year: storedFormValues.job_2_start_year ?? '',
+      job_2_end_month: storedFormValues.job_2_end_month ?? '',
+      job_2_end_year: storedFormValues.job_2_end_year ?? '',
+      job_2_summary: storedFormValues.job_2_summary ?? '',
       // job #3
-      job_3_employer: "",
-      job_3_title: "",
-      job_3_start_month: "",
-      job_3_start_year: "",
-      job_3_end_month: "",
-      job_3_end_year: "",
-      job_3_summary: "",
+      job_3_employer: storedFormValues.job_3_employer ?? '',
+      job_3_title: storedFormValues.job_3_title ?? '',
+      job_3_start_month: storedFormValues.job_3_start_month ?? '',
+      job_3_start_year: storedFormValues.job_3_start_year ?? '',
+      job_3_end_month: storedFormValues.job_3_end_month ?? '',
+      job_3_end_year: storedFormValues.job_3_end_year ?? '',
+      job_3_summary: storedFormValues.job_3_summary ?? '',
       // job #4
-      job_4_employer: "",
-      job_4_title: "",
-      job_4_start_month: "",
-      job_4_start_year: "",
-      job_4_end_month: "",
-      job_4_end_year: "",
-      job_4_summary: "",
+      job_4_employer: storedFormValues.job_4_employer ?? '',
+      job_4_title: storedFormValues.job_4_title ?? '',
+      job_4_start_month: storedFormValues.job_4_start_month ?? '',
+      job_4_start_year: storedFormValues.job_4_start_year ?? '',
+      job_4_end_month: storedFormValues.job_4_end_month ?? '',
+      job_4_end_year: storedFormValues.job_4_end_year ?? '',
+      job_4_summary: storedFormValues.job_4_summary ?? '',
       // job #5
-      job_5_employer: "",
-      job_5_title: "",
-      job_5_start_month: "",
-      job_5_start_year: "",
-      job_5_end_month: "",
-      job_5_end_year: "",
-      job_5_summary: "",
+      job_5_employer: storedFormValues.job_5_employer ?? '',
+      job_5_title: storedFormValues.job_5_title ?? '',
+      job_5_start_month: storedFormValues.job_5_start_month ?? '',
+      job_5_start_year: storedFormValues.job_5_start_year ?? '',
+      job_5_end_month: storedFormValues.job_5_end_month ?? '',
+      job_5_end_year: storedFormValues.job_5_end_year ?? '',
+      job_5_summary: storedFormValues.job_5_summary ?? '',
       // job #6
-      job_6_employer: "",
-      job_6_title: "",
-      job_6_start_month: "",
-      job_6_start_year: "",
-      job_6_end_month: "",
-      job_6_end_year: "",
-      job_6_summary: "",
+      job_6_employer: storedFormValues.job_6_employer ?? '',
+      job_6_title: storedFormValues.job_6_title ?? '',
+      job_6_start_month: storedFormValues.job_6_start_month ?? '',
+      job_6_start_year: storedFormValues.job_6_start_year ?? '',
+      job_6_end_month: storedFormValues.job_6_end_month ?? '',
+      job_6_end_year: storedFormValues.job_6_end_year ?? '',
+      job_6_summary: storedFormValues.job_6_summary ?? '',
       //
       // education
       //
-      college_name_1: "",
-      college_degree_1: "",
-      college_field_of_study_1: "",
-      college_notes_1: "",
-      college_start_year_1: "",
-      college_end_year_1: "",
+      college_name_1: storedFormValues.college_name_1 ?? '',
+      college_degree_1: storedFormValues.college_degree_1 ?? '',
+      college_field_of_study_1: storedFormValues.college_field_of_study_1 ?? '',
+      college_notes_1: storedFormValues.college_notes_1 ?? '',
+      college_start_year_1: storedFormValues.college_start_year_1 ?? '',
+      college_end_year_1: storedFormValues.college_end_year_1 ?? '',
 
-      college_name_2: "",
-      college_degree_2: "",
-      college_field_of_study_2: "",
-      college_notes_2: "",
-      college_start_year_2: "",
-      college_end_year_2: "",
+      college_name_2: storedFormValues.college_name_2 ?? '',
+      college_degree_2: storedFormValues.college_degree_2 ?? '',
+      college_field_of_study_2: storedFormValues.college_field_of_study_2 ?? '',
+      college_notes_2: storedFormValues.college_notes_2 ?? '',
+      college_start_year_2: storedFormValues.college_start_year_2 ?? '',
+      college_end_year_2: storedFormValues.college_end_year_2 ?? '',
 
-      college_name_3: "",
-      college_degree_3: "",
-      college_field_of_study_3: "",
-      college_notes_3: "",
-      college_start_year_3: "",
-      college_end_year_3: "",
+      college_name_3: storedFormValues.college_name_3 ?? '',
+      college_degree_3: storedFormValues.college_degree_3 ?? '',
+      college_field_of_study_3: storedFormValues.college_field_of_study_3 ?? '',
+      college_notes_3: storedFormValues.college_notes_3 ?? '',
+      college_start_year_3: storedFormValues.college_start_year_3 ?? '',
+      college_end_year_3: storedFormValues.college_end_year_3 ?? '',
       //
       // civic service/extra 
       //
-      achievement_1_issuer: "",
-      achievement_1_name: "",
-      achievement_2_issuer: "",
-      achievement_2_name: "",
-      achievement_3_issuer: "",
-      achievement_3_name: "",
+      achievement_1_issuer: storedFormValues.achievement_1_issuer ?? '',
+      achievement_1_name: storedFormValues.achievement_1_name ?? '',
+      achievement_2_issuer: storedFormValues.achievement_2_issuer ?? '',
+      achievement_2_name: storedFormValues.achievement_2_name ?? '',
+      achievement_3_issuer: storedFormValues.achievement_3_issuer ?? '',
+      achievement_3_name: storedFormValues.achievement_3_name ?? '',
       //
       // references
       //
-      reference_1_info: "",
-      reference_2_info: "",
-      reference_3_info: "",
-      reference_4_info: "",
+      reference_1_info: storedFormValues.reference_1_info ?? '',
+      reference_2_info: storedFormValues.reference_2_info ?? '',
+      reference_3_info: storedFormValues.reference_3_info ?? '',
+      reference_4_info: storedFormValues.reference_4_info ?? '',
     }
   });
 
   const isLoading = form.formState.isSubmitting;
 
 
-  // Possibly do?
-  // [ ] prefill forms for demo purposes 
-  // [ ] only run if user hasn't been to the page before (check if cookie is set)
-  // useEffect(() => {
-  //   setTimeout(function () {
-  //     form.setValue('full_name', 'test');
-  //   }, 1200)
-
-  //   setTimeout(function () {
-  //     form.setValue('email_address', 'alex_doe@yahoo.com');
-  //   }, 2200)
-
-  //   setTimeout(function () {
-  //     form.setValue('phone_number', '(222) 555-5555');
-  //   }, 3200)
-  // }, [form]);
+  //
+  //
+  // self-explanatory
+  //
+  //
 
   function mapFormValuesToResumeObject(formValues: any) {
     let RESUME_OBJECT: any = {
@@ -828,17 +817,28 @@ ${stringifiedMappedFormValues}
  
   //
   //
-  // Toggle form field visibility
+  // Toggle form field visibility / persist form accordion state 
   //
   //
 
-  // Professional experience section 
-  const [job1Visibility, setJob1Visibility] = useState<boolean>(false);
-  const [job2Visibility, setJob2Visibility] = useState<boolean>(false);
-  const [job3Visibility, setJob3Visibility] = useState<boolean>(false);
-  const [job4Visibility, setJob4Visibility] = useState<boolean>(false);
-  const [job5Visibility, setJob5Visibility] = useState<boolean>(false);
-  const [job6Visibility, setJob6Visibility] = useState<boolean>(false);
+  // Professional experience section
+  const jobVisible1 = storedFormValues ? (storedFormValues.job_1_employer.length || storedFormValues.job_1_title.length || storedFormValues.job_1_start_month.length || storedFormValues.job_1_start_year.length || storedFormValues.job_1_end_month.length || storedFormValues.job_1_end_year.length || storedFormValues.job_1_summary.length) : false;
+  const [job1Visibility, setJob1Visibility] = useState<boolean>(jobVisible1);
+
+  const jobVisible2 = storedFormValues ? (storedFormValues.job_2_employer.length || storedFormValues.job_2_title.length || storedFormValues.job_2_start_month.length || storedFormValues.job_2_start_year.length || storedFormValues.job_2_end_month.length || storedFormValues.job_2_end_year.length || storedFormValues.job_2_summary.length) : false;
+  const [job2Visibility, setJob2Visibility] = useState<boolean>(jobVisible2);
+
+  const jobVisible3 = storedFormValues ? (storedFormValues.job_3_employer.length || storedFormValues.job_3_title.length || storedFormValues.job_3_start_month.length || storedFormValues.job_3_start_year.length || storedFormValues.job_3_end_month.length || storedFormValues.job_3_end_year.length || storedFormValues.job_3_summary.length) : false;
+  const [job3Visibility, setJob3Visibility] = useState<boolean>(jobVisible3);
+
+  const jobVisible4 = storedFormValues ? (storedFormValues.job_4_employer.length || storedFormValues.job_4_title.length || storedFormValues.job_4_start_month.length || storedFormValues.job_4_start_year.length || storedFormValues.job_4_end_month.length || storedFormValues.job_4_end_year.length || storedFormValues.job_4_summary.length) : false;
+  const [job4Visibility, setJob4Visibility] = useState<boolean>(jobVisible4);
+
+  const jobVisible5 = storedFormValues ? (storedFormValues.job_5_employer.length || storedFormValues.job_5_title.length || storedFormValues.job_5_start_month.length || storedFormValues.job_5_start_year.length || storedFormValues.job_5_end_month.length || storedFormValues.job_5_end_year.length || storedFormValues.job_5_summary.length) : false;
+  const [job5Visibility, setJob5Visibility] = useState<boolean>(jobVisible5);
+
+  const jobVisible6 = storedFormValues ? (storedFormValues.job_6_employer.length || storedFormValues.job_6_title.length || storedFormValues.job_6_start_month.length || storedFormValues.job_6_start_year.length || storedFormValues.job_6_end_month.length || storedFormValues.job_6_end_year.length || storedFormValues.job_6_summary.length) : false;
+  const [job6Visibility, setJob6Visibility] = useState<boolean>(jobVisible6);
 
   //
   //
