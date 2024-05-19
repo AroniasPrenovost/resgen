@@ -526,7 +526,8 @@ const ResumeGeneratorPage = () => {
 
   let number_of_downloads: any = 0;
 
-  let message = 'Instant Access to 3 Downloads';
+  // let message = 'Instant Access to 3 Downloads';
+  const [message] = useState('Instant Access to 3 Downloads');
 
   let storedFormValues: any = {};
   if (global?.window !== undefined) { // now it's safe to access window and localStorage
@@ -535,6 +536,7 @@ const ResumeGeneratorPage = () => {
 
     payment_received = localStorage.getItem('payment_received') === 'true';
     last_payment_received = localStorage.getItem('last_payment_received');
+
 
     // if (payment_received) {
     //   message = 'Downloads available: ' + (4 - Number(number_of_downloads));
@@ -552,6 +554,7 @@ const ResumeGeneratorPage = () => {
 
     console.log('diff in minutes: ', differenceInMinutes);
     console.log('# of downloads: ', number_of_downloads);
+    console.log('payment_received: ', payment_received);
 
 
     let clearCache = false;
@@ -561,7 +564,7 @@ const ResumeGeneratorPage = () => {
     if (clearCache) {
       console.log(' ')
       console.log('cleared cache');
-      localStorage.setItem('payment_received', 'false');
+      localStorage.removeItem('payment_received');
       localStorage.setItem('last_payment_received', '');
       localStorage.setItem('number_of_downloads', '0');
     }
@@ -614,6 +617,9 @@ const ResumeGeneratorPage = () => {
 
 
     console.log('actually downloading now...')
+
+    let remaining_downloads = (3 - new_download_count); // 3, 2, 1
+    toast.success(`Successfully generated resume.\n\nPlease check your downloads folder.\n\nYou have ${remaining_downloads} downloads left.`);
     return;
 
     // toast.success("successfully generated resume. Please check your downloads.");
@@ -713,7 +719,8 @@ ${stringifiedMappedFormValues}
       }
 
       // show toast 
-      toast.success("successfully generated resume. Please check your downloads.");
+      let remaining_downloads = (3 - new_download_count); // 3, 2, 1
+      toast.success(`Successfully generated resume.\n\nPlease check your downloads folder.\n\nYou have ${remaining_downloads} downloads left.`);
 
 
       // we want to persist form data if they want to submit again
