@@ -39,7 +39,7 @@ export const LandingHero = () => {
         </Link>
       </div>
       <div className="text-zinc-400 text-xs md:text-sm font-normal">
-        Simple, ATS-friendly formatting lets your experience do the talking.
+        AI-enhanced resume generation that lets your experience do the talking. <br/>Download <b>multiple</b> versions of an ATS-friendly resume today!
       </div>
     </div >
   );

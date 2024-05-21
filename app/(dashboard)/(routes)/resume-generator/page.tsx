@@ -59,7 +59,7 @@ const ResumeGeneratorPage = () => {
   let number_of_downloads: any = 0;
 
   // let message = 'Instant Access to 3 Downloads';
-  const [message] = useState('Instant Access to 3 Downloads');
+  const [message] = useState('Get Instant Access to 3 Downloads');
 
   let storedFormValues: any = {};
   if (global?.window !== undefined) { // now it's safe to access window and localStorage
@@ -868,7 +868,7 @@ ${stringifiedMappedFormValues}
     <div>
       <Heading
         title="Resume Generator"
-        description="Generate a professional resume that gets you in front of the hiring manager."
+        description="Generate a professional, ATS-compliant resume that gets you in front of the hiring manager."
         icon={MessageSquare}
         iconColor="text-violet-500"
         bgColor="bg-violet-500/10"
@@ -2460,7 +2460,7 @@ ${stringifiedMappedFormValues}
             </div>
           )}
           {messages.length === 0 && !isLoading && (
-            <Empty label="Enter your info to generate a resume." />
+            <Empty label="AI-enhanced resume generation that takes your experience to the next level" />
           )}
           <div className="flex flex-col-reverse gap-y-4">
             {(messages.reverse()).map((message) => (

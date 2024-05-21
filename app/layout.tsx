@@ -11,7 +11,7 @@ import './globals.css'
 const font = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'ResumAI - Generate a great resume, fast.',
+  title: 'ResumAI - AI-Enhanced Resume Generation',
   description: 'AI Platform',
 }
 

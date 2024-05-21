@@ -4,28 +4,28 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const testimonials = [
   {
-    name: "Bryce",
+    name: "Bryce M.",
     avatar: "B",
     title: "Project Manager",
     description: "I recently re-entered the workforce and this tool saved me a lot of time. I'm pleased with how my resume turned out.",
   },
   {
-    name: "Mary",
+    name: "Mary P.",
     avatar: "M",
-    title: "Program Manager",
+    title: "HR Lead",
     description: "As someone who struggles writing resumes and overcoming writer's block, this tool was a game-changer to help me quit overthinking things and starting putting words on the page.",
   },
   {
-    name: "Mitch",
+    name: "Paul W.",
     avatar: "M",
-    title: "Project Manager",
+    title: "Customer Success Manager",
     description: "The investment was worth it, and I've since gotten interviews (and an offer) using the template.",
   },
   {
-    name: "Joel",
+    name: "Joyce K.",
     avatar: "J",
     title: "Software Engineer",
-    description: "The resume you gave me was simple and effective. Thanks again.",
+    description: "The resume I got was simple and effective. Thanks again.",
   },
 ];
 

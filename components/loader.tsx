@@ -11,7 +11,7 @@ export const Loader = () => {
         />
       </div>
       <p className="text-sm text-muted-foreground">
-        ResumAI is writing your resume...
+        ResumAI is generating your resume...
       </p>
     </div>
   );
