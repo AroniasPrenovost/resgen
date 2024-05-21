@@ -8,24 +8,28 @@ const testimonials = [
     avatar: "B",
     title: "Project Manager",
     description: "I recently re-entered the workforce and this tool saved me a lot of time. I'm pleased with how my resume turned out.",
+    location: 'Seattle, WA',
   },
   {
     name: "Mary P.",
     avatar: "M",
     title: "HR Lead",
     description: "As someone who struggles writing resumes and overcoming writer's block, this tool was a game-changer to help me quit overthinking things and starting putting words on the page.",
+    location: 'New York, NY',
   },
   {
     name: "Paul W.",
     avatar: "M",
     title: "Customer Success Manager",
     description: "The investment was worth it, and I've since gotten interviews (and an offer) using the template.",
+    location: 'Seattle, WA',
   },
   {
     name: "Joyce K.",
     avatar: "J",
     title: "Software Engineer",
     description: "The resume I got was simple and effective. Thanks again.",
+    location: 'Seattle, WA',
   },
 ];
 
@@ -46,6 +50,7 @@ export const LandingContent = () => {
               <CardContent className="pt-4 px-0">
                 {item.description}
               </CardContent>
+              {/*{item.location}*/}
             </CardHeader>
           </Card>
         ))}
