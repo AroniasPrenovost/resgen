@@ -2460,7 +2460,7 @@ ${stringifiedMappedFormValues}
             </div>
           )}
           {messages.length === 0 && !isLoading && (
-            <Empty label="AI-enhanced resume generation that takes your experience to the next level" />
+            <Empty label="AI-enhanced proofreading, copywriting, and resume generation." />
           )}
           <div className="flex flex-col-reverse gap-y-4">
             {(messages.reverse()).map((message) => (
