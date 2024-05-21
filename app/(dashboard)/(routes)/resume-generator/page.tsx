@@ -85,11 +85,10 @@ const ResumeGeneratorPage = () => {
     console.log('# of downloads: ', number_of_downloads);
     console.log('payment_received: ', payment_received);
 
-    let clearCache = false;
-    clearCache = payment_received && (differenceInMinutes > 3600); // 1 hour
-    clearCache = payment_received && (number_of_downloads > 2);
+    let clearCache1 = payment_received && (differenceInMinutes > 3600); // 1 hour
+    let clearCache2 = payment_received && (number_of_downloads > 2);
 
-    if (clearCache) {
+    if (clearCache1 || clearCache2) {
       console.log(' ')
       console.log('cleared cache');
       localStorage.removeItem('payment_received');
