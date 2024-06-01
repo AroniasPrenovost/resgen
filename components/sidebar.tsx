@@ -75,10 +75,12 @@ export const Sidebar = ({
                 <br/>
                 <li><b>2.</b> Generate your new resume with AI (up to 3 versions)</li>
                 <br/>
-                <li><b>3.</b> If you do not own a computer with Microsoft Word, take the downloaded file and upload it to <Link className={cn(
+                <li><b>3.</b> Download multiple variations.</li>
+                <br/>
+                <li><b>4.</b> <em>Optional:</em> If you do not own Microsoft Word, take the downloaded file and upload it to <Link className={cn(
                   "hover:text-white transition",
                    "text-zinc-400",
-                )} href='https://www.microsoft.com/en-us/microsoft-365/word'>Google Docs</Link> to see/use the correct formatting.
+                )} href="https://drive.google.com/drive/home">Google Drive</Link> to modify formatting.
                 </li>
               </ol>
           </div>
