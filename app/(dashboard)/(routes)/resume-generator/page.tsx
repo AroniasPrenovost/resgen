@@ -734,9 +734,7 @@ ${stringifiedMappedFormValues}
         duration: 20000,
       });
 
-
-      // we want to persist form data if they want to submit again
-      // form.reset();
+      // form.reset(); // we want to persist form data if they want to submit again
     } catch (error: any) {
       if (error?.response?.status === 403) {
         proModal.onOpen();
