@@ -44,13 +44,12 @@ const ResumeGeneratorPage = () => {
   const proModal = useProModal();
   const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
 
-    //
   //
-  // PAYMENT APPROACH 
+  //
+  // MANAGING PAYMENT HISTORY/CACHE 
   //
   //
 
- 
   const current_time: any = new Date();
 
   let payment_received: any = false;
@@ -96,10 +95,9 @@ const ResumeGeneratorPage = () => {
     } 
   }  
 
-
   //
   //
-  //
+  // MANAGING FORM FIELDS 
   //
   //
 
@@ -546,88 +544,88 @@ const ResumeGeneratorPage = () => {
 
   if (storedFormValues) {
     console.log(' there are stored values', storedFormValues);
-    // todo: write them
+    // RAW DATA
     /* 
 
-{
-    "full_name": "sadas",
-    "email_address": "sd",
-    "phone_number": "sad",
-    "personal_website": "asdas",
-    "linkedin_profile": "sadasd",
-    "interests": "sdasd",
-    "skills": "sadas",
-    "job_1_employer": "",
-    "job_1_title": "",
-    "job_1_start_month": "",
-    "job_1_start_year": "",
-    "job_1_end_month": "",
-    "job_1_end_year": "",
-    "job_1_summary": "",
-    "job_2_employer": "",
-    "job_2_title": "",
-    "job_2_start_month": "",
-    "job_2_start_year": "",
-    "job_2_end_month": "",
-    "job_2_end_year": "",
-    "job_2_summary": "",
-    "job_3_employer": "",
-    "job_3_title": "",
-    "job_3_start_month": "",
-    "job_3_start_year": "",
-    "job_3_end_month": "",
-    "job_3_end_year": "",
-    "job_3_summary": "",
-    "job_4_employer": "",
-    "job_4_title": "",
-    "job_4_start_month": "",
-    "job_4_start_year": "",
-    "job_4_end_month": "",
-    "job_4_end_year": "",
-    "job_4_summary": "",
-    "job_5_employer": "",
-    "job_5_title": "",
-    "job_5_start_month": "",
-    "job_5_start_year": "",
-    "job_5_end_month": "",
-    "job_5_end_year": "",
-    "job_5_summary": "",
-    "job_6_employer": "",
-    "job_6_title": "",
-    "job_6_start_month": "",
-    "job_6_start_year": "",
-    "job_6_end_month": "",
-    "job_6_end_year": "",
-    "job_6_summary": "",
-    "college_name_1": "",
-    "college_degree_1": "",
-    "college_field_of_study_1": "",
-    "college_notes_1": "",
-    "college_start_year_1": "",
-    "college_end_year_1": "",
-    "college_name_2": "",
-    "college_degree_2": "",
-    "college_field_of_study_2": "",
-    "college_notes_2": "",
-    "college_start_year_2": "",
-    "college_end_year_2": "",
-    "college_name_3": "",
-    "college_field_of_study_3": "",
-    "college_degree_3": "",
-    "college_notes_3": "",
-    "college_start_year_3": "",
-    "college_end_year_3": "",
-    "achievement_1_issuer": "",
-    "achievement_1_name": "",
-    "achievement_2_issuer": "",
-    "achievement_2_name": "",
-    "achievement_3_issuer": "",
-    "achievement_3_name": "",
-    "reference_1_info": "",
-    "reference_2_info": "",
-    "reference_3_info": "",
-    "reference_4_info": ""
-}
+        {
+            "full_name": "sadas",
+            "email_address": "sd",
+            "phone_number": "sad",
+            "personal_website": "asdas",
+            "linkedin_profile": "sadasd",
+            "interests": "sdasd",
+            "skills": "sadas",
+            "job_1_employer": "",
+            "job_1_title": "",
+            "job_1_start_month": "",
+            "job_1_start_year": "",
+            "job_1_end_month": "",
+            "job_1_end_year": "",
+            "job_1_summary": "",
+            "job_2_employer": "",
+            "job_2_title": "",
+            "job_2_start_month": "",
+            "job_2_start_year": "",
+            "job_2_end_month": "",
+            "job_2_end_year": "",
+            "job_2_summary": "",
+            "job_3_employer": "",
+            "job_3_title": "",
+            "job_3_start_month": "",
+            "job_3_start_year": "",
+            "job_3_end_month": "",
+            "job_3_end_year": "",
+            "job_3_summary": "",
+            "job_4_employer": "",
+            "job_4_title": "",
+            "job_4_start_month": "",
+            "job_4_start_year": "",
+            "job_4_end_month": "",
+            "job_4_end_year": "",
+            "job_4_summary": "",
+            "job_5_employer": "",
+            "job_5_title": "",
+            "job_5_start_month": "",
+            "job_5_start_year": "",
+            "job_5_end_month": "",
+            "job_5_end_year": "",
+            "job_5_summary": "",
+            "job_6_employer": "",
+            "job_6_title": "",
+            "job_6_start_month": "",
+            "job_6_start_year": "",
+            "job_6_end_month": "",
+            "job_6_end_year": "",
+            "job_6_summary": "",
+            "college_name_1": "",
+            "college_degree_1": "",
+            "college_field_of_study_1": "",
+            "college_notes_1": "",
+            "college_start_year_1": "",
+            "college_end_year_1": "",
+            "college_name_2": "",
+            "college_degree_2": "",
+            "college_field_of_study_2": "",
+            "college_notes_2": "",
+            "college_start_year_2": "",
+            "college_end_year_2": "",
+            "college_name_3": "",
+            "college_field_of_study_3": "",
+            "college_degree_3": "",
+            "college_notes_3": "",
+            "college_start_year_3": "",
+            "college_end_year_3": "",
+            "achievement_1_issuer": "",
+            "achievement_1_name": "",
+            "achievement_2_issuer": "",
+            "achievement_2_name": "",
+            "achievement_3_issuer": "",
+            "achievement_3_name": "",
+            "reference_1_info": "",
+            "reference_2_info": "",
+            "reference_3_info": "",
+            "reference_4_info": ""
+        }
     */ 
   }
 
