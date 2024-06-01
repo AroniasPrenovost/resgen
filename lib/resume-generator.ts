@@ -47,7 +47,7 @@ export class DocumentCreator {
             new Paragraph({
               text: personal_info.name,
               heading: HeadingLevel.TITLE,
-              // alignment: AlignmentType.LEFT // still trying to decide if should be centered or left-aligned
+              alignment: AlignmentType.CENTER // still trying to decide if should be centered or left-aligned
             }),
             this.createContactInfo(
               personal_info.phone_number,
