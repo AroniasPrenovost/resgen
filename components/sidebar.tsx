@@ -73,7 +73,7 @@ export const Sidebar = ({
               <ol>
                 <li><b>1. </b>Enter your experience.</li>
                 <br/>
-                <li><b>2.</b> Our AI assistant tailors your resume.</li>
+                <li><b>2.</b> AI assistant tailors your resume.</li>
                 <br/>
                 <li><b>3.</b> Instantly download multiple variations.</li>
                 <br/>
