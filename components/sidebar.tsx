@@ -71,11 +71,11 @@ export const Sidebar = ({
            <div className="space-y-1" style={{paddingTop: '24px', padding: '8px', fontSize: '14px'}}>
               <b style={{fontSize: '18px', marginBottom: '10px !important'}}>How It Works:</b><br/>
               <ol>
-                <li><b>1. </b>Enter your experience</li>
+                <li><b>1. </b>Enter your experience.</li>
                 <br/>
                 <li><b>2.</b> Our AI assistant tailors your resume.</li>
                 <br/>
-                <li><b>3.</b> Download multiple variations.</li>
+                <li><b>3.</b> Instantly download multiple variations.</li>
                 <br/>
                 <li><b>4.</b> <em>Optional:</em> If you do not own Microsoft Word, upload downloaded file to <Link className={cn(
                   "hover:text-white transition",
