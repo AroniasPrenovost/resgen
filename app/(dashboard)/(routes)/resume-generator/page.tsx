@@ -628,11 +628,8 @@ const ResumeGeneratorPage = () => {
     "reference_3_info": "",
     "reference_4_info": ""
 }
-
-
     */ 
   }
-
 
 
   //
@@ -642,10 +639,7 @@ const ResumeGeneratorPage = () => {
   //
 
 
-
-
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-
 
     // format form data to match necessary structure for resume template
     const mappedFormValues = mapFormValuesToResumeObject(values);
@@ -660,9 +654,6 @@ const ResumeGeneratorPage = () => {
       window.location.assign(STRIPE_PAYMENT_LINK);
       return;
     } 
-
-
-
 
     /* 
 
