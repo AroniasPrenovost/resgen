@@ -647,7 +647,10 @@ const ResumeGeneratorPage = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
 
 
+    // format form data to match necessary structure for resume template
     const mappedFormValues = mapFormValuesToResumeObject(values);
+
+    // persist form values
     localStorage.setItem('stored_form_values', JSON.stringify(values));
 
     if (!(payment_received)) {
@@ -679,14 +682,6 @@ const ResumeGeneratorPage = () => {
       duration: 20000,
     });
     return;
-
-    // toast.success("successfully generated resume. Please check your downloads.");
-    // return;
-
-    // format form data to match necessary structure for resume template
-    // const mappedFormValues = mapFormValuesToResumeObject(values);
-    
-    // localStorage.setItem('stored_form_values', JSON.stringify(values));
 
     const stringifiedMappedFormValues = JSON.stringify(mappedFormValues);
     const promptString = `Persona: you are a expert resume writer with with years of experience improving resumes. 
