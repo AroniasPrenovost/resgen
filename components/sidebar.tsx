@@ -80,7 +80,7 @@ export const Sidebar = ({
                 <li><b>4.</b> <em>Optional:</em> If you do not own Microsoft Word, take the downloaded file and upload it to <Link className={cn(
                   "hover:text-white transition",
                    "text-zinc-400",
-                )} target="_blank" href='https://www.microsoft.com/en-us/microsoft-365/word'>Google Docs</Link> to modify formatting.
+                )} target="_blank" href='https://docs.google.com/document/u/0/'>Google Docs</Link> to modify formatting.
                 </li>
               </ol>
           </div>
