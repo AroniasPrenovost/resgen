@@ -732,9 +732,11 @@ ${stringifiedMappedFormValues}
 
       // form.reset(); // we want to persist form data if they want to submit again
     } catch (error: any) {
-      if (error?.response?.status === 403) {
+      if (error?.response?.status === 999/* 403 */) {
+        // don't want this to ever happen, 999 doesn't exist
         proModal.onOpen();
       } else {
+
         // Generate word doc without AI-assisted content
         //
         //
