@@ -654,7 +654,9 @@ const ResumeGeneratorPage = () => {
     } 
 
     /* 
-         FOR TESTING
+
+         __ FOR TESTING __
+
     */ 
     // increment on # of downloads
     // let new_download_count = number_of_downloads + 1;
@@ -665,7 +667,36 @@ const ResumeGeneratorPage = () => {
     // toast.success(`Successfully generated resume. Please check your downloads folder.\n\nDownloads remaining: ${remaining_downloads}`, {
     //   duration: 20000,
     // });
-    // return;
+
+    const fileNameTest = 'test-name';
+    // Generate word doc 
+    //
+    //
+    const documentCreator = new DocumentCreator();
+    const doc = documentCreator.create([
+      mappedFormValues.personal_info,
+      mappedFormValues.experiences,
+      mappedFormValues.education,
+      mappedFormValues.skills,
+      mappedFormValues.achievements,
+      mappedFormValues.references,
+    ]);
+
+    Packer.toBlob(doc).then(blob => {
+      saveAs(blob, fileNameTest);
+      console.log("Successfully created resume.");
+    });
+
+    
+    return;
+
+    /* 
+
+         __ FOR TESTING __
+
+    */ 
+
+
 
     const stringifiedMappedFormValues = JSON.stringify(mappedFormValues);
     const promptString = `Persona: you are a expert resume writer with with years of experience improving resumes. 
