@@ -696,19 +696,15 @@ ${stringifiedMappedFormValues}
 
       const response = await axios.post('/api/resume-generator', { messages: newMessages });
       setMessages((current) => [...current, userMessage, response.data]);
-
       // console.log('try/catch data: ', response.data.content);
-
-      //
-      //
-      // Generate word doc 
-      //
-      //
 
       // NOTE: hopefully these instructions work consistently
       const outputObject = JSON.parse(response.data.content);
       // console.log({ outputObject });
 
+      // Generate word doc 
+      //
+      //
       const documentCreator = new DocumentCreator();
       const doc = documentCreator.create([
         outputObject.personal_info,
@@ -739,7 +735,9 @@ ${stringifiedMappedFormValues}
       if (error?.response?.status === 403) {
         proModal.onOpen();
       } else {
-        // generate a resume regardless
+        // Generate word doc without AI-assisted content
+        //
+        //
         const documentCreator = new DocumentCreator();
         const doc = documentCreator.create([
           mappedFormValues.personal_info,
