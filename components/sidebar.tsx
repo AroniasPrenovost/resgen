@@ -81,10 +81,10 @@ export const Sidebar = ({
                   "hover:text-white transition",
                    "text-zinc-400",
                 )} href="https://drive.google.com/drive/home">Google Drive</Link> to access and modify formatting.
-                     <span style={{marginRight: '14px'}}></span> - Click '+ New' <br/>
-                     <span style={{marginRight: '14px'}}></span> - Click 'File upload' 
                 </li>
               </ol>
+                                  <p><span style={{marginRight: '14px'}}></span> - Click '+ New' <br/>
+                     <span style={{marginRight: '14px'}}></span> - Click 'File upload'</p>
           </div>
         </div>
       </div>
