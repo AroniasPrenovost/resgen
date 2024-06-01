@@ -659,24 +659,22 @@ const ResumeGeneratorPage = () => {
     } 
 
 
-    // increment on # of downloads
-    let new_download_count = number_of_downloads + 1;
-    localStorage.setItem('number_of_downloads', new_download_count);
 
 
     /* 
 
 
-
-
+          TEST
 
 
     */ 
 
 
-    console.log('actually downloading now...')
-    toast.dismiss();
+    // increment on # of downloads
+    let new_download_count = number_of_downloads + 1;
+    localStorage.setItem('number_of_downloads', new_download_count);
     let remaining_downloads = (3 - new_download_count); // 3, 2, 1
+    toast.dismiss();
     toast.success(`Successfully generated resume. Please check your downloads folder.\n\nDownloads remaining: ${remaining_downloads}`, {
       duration: 20000,
     });
