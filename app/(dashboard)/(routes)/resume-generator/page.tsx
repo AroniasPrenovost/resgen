@@ -703,32 +703,6 @@ ${stringifiedMappedFormValues}
     `;
 
     const fileName = `${(mappedFormValues.personal_info.name).replace(' ', '')}_Resume.docx`;
-    // console.log('_ onSubmit(): ', {
-    //   values,
-    //   mappedFormValues,
-    //   promptString,
-    // });
-
-    //
-    // generate word doc  
-    /* 
-
-      const documentCreator = new DocumentCreator();
-      const doc = documentCreator.create([
-        mappedFormValues.personal_info,
-        mappedFormValues.experiences,
-        mappedFormValues.education,
-        mappedFormValues.skills,
-        mappedFormValues.achievements,
-        mappedFormValues.references,
-      ]);
-      Packer.toBlob(doc).then(blob => {
-        saveAs(blob, fileName);
-        console.log("Successfully created resume.");
-      });
-
-    */
-
 
 
     // make API call 
