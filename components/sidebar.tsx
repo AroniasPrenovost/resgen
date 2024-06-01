@@ -67,26 +67,27 @@ export const Sidebar = ({
               </div>
             </Link>
           ))}
-          <br />
-           <div className="space-y-1" style={{paddingTop: '24px', padding: '8px', fontSize: '14px'}}>
-              <b style={{fontSize: '18px', marginBottom: '10px !important'}}>How It Works:</b><br/>
+
+           <div className="space-y-1" style={{paddingTop: '24px', padding: '8px'}}>
+              <b>How It Works:</b><br/>
               <ol>
-                <li><b>1.</b> Enter your work experience.</li>
+                <li><b>1.</b> Enter your experience</li>
                 <br/>
-                <li><b>2.</b> Our AI assistant tailors your resume to meet a high level of professionalism and ATS-compliance.</li>
-                <br />
-                <li><b>3.</b> Download multiple variations.</li>
+                <li><b>2.</b> Generate your new resume with AI (up to 3 versions)</li>
                 <br/>
-                <li><b>4.</b> <em>Optional:</em> If you do not own Microsoft Word, take the downloaded file and upload it to <Link className={cn(
+                <li><b>3.</b> If you do not own a computer with Microsoft Word, take the downloaded file and upload it to <Link className={cn(
                   "hover:text-white transition",
                    "text-zinc-400",
-                )} href="https://drive.google.com/drive/home">Google Drive</Link> to modify formatting.
+                )} href='https://www.microsoft.com/en-us/microsoft-365/word'>Google Docs</Link> to see/use the correct formatting.
                 </li>
               </ol>
           </div>
         </div>
       </div>
+      <FreeCounter
+        apiLimitCount={apiLimitCount}
+        isPro={isPro}
+      />
     </div>
   );
 };
-
