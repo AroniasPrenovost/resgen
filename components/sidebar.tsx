@@ -68,12 +68,12 @@ export const Sidebar = ({
             </Link>
           ))}
 
-           <div className="space-y-1" style={{paddingTop: '24px', padding: '8px'}}>
-              <b>How It Works:</b><br/>
+           <div className="space-y-1" style={{paddingTop: '24px', padding: '8px', fontSize: '14px'}}>
+              <b style={{fontSize: '18px', marginBottom: '10px !important'}}>How It Works:</b><br/>
               <ol>
                 <li><b>1. </b>Enter your experience</li>
                 <br/>
-                <li><b>2.</b> Generate your new resume with AI (up to 3 versions)</li>
+                <li><b>2.</b> Our AI assistant tailors your resume to meet a high level of professionalism and ATS-compliance.</li>
                 <br/>
                 <li><b>3.</b> Download multiple variations.</li>
                 <br/>
