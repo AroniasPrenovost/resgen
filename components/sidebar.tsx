@@ -83,8 +83,6 @@ export const Sidebar = ({
                 )} target="_blank" href="https://drive.google.com/drive/home">Google Drive</Link> to modify formatting:
                 </li>
               </ol>
-               <span style={{marginRight: '14px'}}></span> - Click '+ New' <br />
-               <span style={{marginRight: '14px'}}></span> - Click 'File upload' 
           </div>
         </div>
       </div>
