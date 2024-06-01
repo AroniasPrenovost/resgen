@@ -666,22 +666,19 @@ const ResumeGeneratorPage = () => {
 
     /* 
 
-
-          TEST
-
+          TESTING
 
     */ 
-
-
     // increment on # of downloads
-    let new_download_count = number_of_downloads + 1;
-    localStorage.setItem('number_of_downloads', new_download_count);
-    let remaining_downloads = (3 - new_download_count); // 3, 2, 1
-    toast.dismiss();
-    toast.success(`Successfully generated resume. Please check your downloads folder.\n\nDownloads remaining: ${remaining_downloads}`, {
-      duration: 20000,
-    });
-    return;
+    // let new_download_count = number_of_downloads + 1;
+    // localStorage.setItem('number_of_downloads', new_download_count);
+    // let remaining_downloads = (3 - new_download_count); // 3, 2, 1
+
+    // toast.dismiss();
+    // toast.success(`Successfully generated resume. Please check your downloads folder.\n\nDownloads remaining: ${remaining_downloads}`, {
+    //   duration: 20000,
+    // });
+    // return;
 
     const stringifiedMappedFormValues = JSON.stringify(mappedFormValues);
     const promptString = `Persona: you are a expert resume writer with with years of experience improving resumes. 
@@ -740,14 +737,12 @@ ${stringifiedMappedFormValues}
         console.log("Successfully created resume.");
       });
 
-      // Only clear the purchase history once they've been able to download the file
-      if (global?.window !== undefined) { // now it's safe to access window and localStorage
-        localStorage.removeItem('payment_received');
-      }
-
-      // show toast 
-      toast.dismiss();
+       // increment on # of downloads
+      let new_download_count = number_of_downloads + 1;
+      localStorage.setItem('number_of_downloads', new_download_count);
       let remaining_downloads = (3 - new_download_count); // 3, 2, 1
+
+      toast.dismiss();
       toast.success(`Successfully generated resume. Please check your downloads folder.\n\nDownloads remaining: ${remaining_downloads}`, {
         duration: 20000,
       });
@@ -774,7 +769,7 @@ ${stringifiedMappedFormValues}
           console.log("Successfully created resume.");
         });
 
-        toast.error("Something went wrong with the AI connection, but your resume was still generated with improved formatting.");
+        toast.error("Something went wrong with the AI connection, but your resume was still generated with improved formatting.\n\nThis did not count against your remaining downloads: ${number_of_downloads}/3");
       }
     } finally {
       router.refresh();
