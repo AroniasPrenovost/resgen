@@ -654,9 +654,7 @@ const ResumeGeneratorPage = () => {
     } 
 
     /* 
-
-          TESTING
-
+         FOR TESTING
     */ 
     // increment on # of downloads
     // let new_download_count = number_of_downloads + 1;
