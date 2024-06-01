@@ -760,11 +760,10 @@ ${stringifiedMappedFormValues}
       router.refresh();
     }
   }
-
  
   //
   //
-  // Toggle form field visibility
+  // TOGGLE FORM FIELD VISIBILITY
   //
   //
 
