@@ -8,6 +8,8 @@ import {
   TabStopType,
   TextRun,
   ExternalHyperlink,
+  TableRow,
+  TableCell,
 } from "docx";
 
 type PersonalInfo = {
@@ -50,6 +52,27 @@ export class DocumentCreator {
               heading: HeadingLevel.TITLE,
               alignment: AlignmentType.LEFT,  
             }),
+
+
+
+            // test
+            //
+            //
+
+           new TableRow({
+                children: [
+                    new TableCell({
+                        children: [new Paragraph("hello")],
+                    }),
+                    new TableCell({
+                        children: [new Paragraph("hello")],
+                    }),
+                ],
+            }),
+
+           //
+           //
+           // test
 
             /*
 
@@ -331,11 +354,6 @@ export class DocumentCreator {
           ((phoneNumber.length || emailLink.length || linkedinLink.length) ? ' • ': '')
         ),
         personalWebsiteLink,
-  
-        // new TextRun({
-        //   text: `${personalWebsite.length ? personalWebsite : ''}`,
-        //   break: 1
-        // })
       ]
     });
   }
