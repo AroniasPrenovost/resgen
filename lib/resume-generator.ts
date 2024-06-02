@@ -48,7 +48,7 @@ export class DocumentCreator {
             new Paragraph({
               text: personal_info.name,
               heading: HeadingLevel.TITLE,
-              alignment: AlignmentType.CENTER // still trying to decide if should be centered or left-aligned
+              alignment: AlignmentType.CENTER  
             }),
 
             ///////////////////////
@@ -273,6 +273,7 @@ export class DocumentCreator {
     return new Paragraph({
       text: text,
       heading: HeadingLevel.HEADING_1,
+      alignment: AlignmentType.CENTER,
       thematicBreak: true
     });
   }
