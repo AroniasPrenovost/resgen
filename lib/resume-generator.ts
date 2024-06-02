@@ -246,10 +246,15 @@ export class DocumentCreator {
     personalWebsite: string,
   ): Paragraph {
     let contactstring = '';
-    if (phoneNumber.length) contactstring = phoneNumber;
+
+    if (phoneNumber.length) {
+      contactstring = phoneNumber;
+    }
+
     if (email.length) {
       contactstring = contactstring.length ? `${contactstring} • ${email}` : `${email}`;
-    } 
+    }
+
     if (profileUrl.length) {
       contactstring = contactstring.length ? `${contactstring} • ${profileUrl}` : `${profileUrl}`;
     }
