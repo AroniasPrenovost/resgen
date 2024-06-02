@@ -25,6 +25,8 @@ import { useProModal } from "@/hooks/use-pro-modal";
 
 import { formSchema } from "./constants";
 
+// import { checkSubscription } from "@/lib/subscription";/x
+
 // .docx generation
 import { saveAs } from "file-saver";
 import { Packer } from "docx";
@@ -36,21 +38,6 @@ import { experiences, education, skills, achievements } from "@/lib/cv-data"; //
 import { headers } from 'next/headers'
 
 const STRIPE_PAYMENT_LINK: string = process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK ?? 'https://stripe.com';
-
-
-
-// test
-
-// const path = require('path');/
-// const fs = require('fs').promises;
-const libre = require('libreoffice-convert');
-libre.convertAsync = require('util').promisify(libre.convert);
-
-
-
-// test 
-
-
 
 const ResumeGeneratorPage = () => {
   const router = useRouter();
@@ -699,17 +686,6 @@ const ResumeGeneratorPage = () => {
       saveAs(blob, fileNameTest);
       console.log("Successfully created resume.");
     });
-
-
-    // PDF 
-  const ext = 'pdf'; // Output extension.
-  // const inputPath = path.join(__dirname, '/example.doc');
-  // const outputPath = path.join(__dirname, `/example.${ext}`);
-
-  // Read the input file.
-  // const docxBuf = await fs.readFile(inputPath);
-   let pdfBuf = await libre.convertAsync(doc, ext, undefined);
-   saveAs(pdfBuf);
 
     
     return;
