@@ -349,12 +349,25 @@ export class DocumentCreator {
   public createAchivementsList(achivements: any[]): Paragraph[] {
     return achivements.map(
       achievement =>
-        new Paragraph({
-          text: (achievement.issuer + ' - ' + achievement.name),
-          bullet: {
-            level: 0
-          }
-        })
+
+
+      new Paragraph({
+        children: [
+          new TextRun({
+            text: achievement.issuer,
+            bold: true
+          }),
+          new TextRun({
+            text: achievement.name,
+            // bold: true
+          })
+         ],
+        // text: (achievement.issuer + ' - ' + achievement.name),
+        // bold: true,
+        bullet: {
+          level: 0
+        }
+      })
     );
   }
 
