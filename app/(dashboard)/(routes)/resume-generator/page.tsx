@@ -41,8 +41,8 @@ const STRIPE_PAYMENT_LINK: string = process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK 
 
 // test
 
-const path = require('path');
-const fs = require('fs').promises;
+// const path = require('path');/
+// const fs = require('fs').promises;
 const libre = require('libreoffice-convert');
 libre.convertAsync = require('util').promisify(libre.convert);
 
