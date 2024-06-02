@@ -332,15 +332,15 @@ export class DocumentCreator {
         // ),
         phoneNumber,
         new TextRun(
-          ' • '
+          (phoneNumber.length ? ' • ': '')
         ),
         emailLink,
         new TextRun(
-          ' • '
+          ((phoneNumber.length || emailLink.length) ? ' • ': '')
         ),
         linkedinLink,
         new TextRun(
-          ' • '
+          ((phoneNumber.length || emailLink.length || linkedinLink.length) ? ' • ': '')
         ),
         personalWebsiteLink,
       //   new ExternalHyperlink({
