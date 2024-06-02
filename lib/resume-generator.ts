@@ -91,15 +91,32 @@ export class DocumentCreator {
             ...this.createAchivementsList(achievements),
 
 
-            // ...educations
-            //   .map((education: any) => {
+ 
 
 
-            this.createSubHeading("Interests"),
-            this.createInterests(
-              personal_info.interests
-            ),
+            ///////////////////////
+            //
+            //
+            // SECTION: interests (not important)
+            //
+            //
+            ///////////////////////
+
+
+            // this.createSubHeading("Interests"),
+            // this.createInterests(
+            //   personal_info.interests
+            // ),
+
+
+            ///////////////////////
+            //
+            //
             // SECTION: education
+            //
+            //
+            ///////////////////////
+
             this.createHeading("Education"),
             ...educations
               .map((education: any) => {
@@ -159,6 +176,14 @@ export class DocumentCreator {
 
     return document;
   }
+
+  /////////////////////
+  //
+  //
+  // HEADER SECTION
+  //
+  //
+  /////////////////////
 
   public createContactInfo(
     phoneNumber: string,
