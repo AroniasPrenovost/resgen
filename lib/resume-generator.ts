@@ -76,7 +76,7 @@ export class DocumentCreator {
             ///////////////////////
 
 
-            this.createSubHeading("Interests"),
+            this.createHeading("Interests"),
             this.createInterests(
               personal_info.interests
             ),
