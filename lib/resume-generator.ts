@@ -323,15 +323,15 @@ export class DocumentCreator {
     return new Paragraph({
       alignment: AlignmentType.LEFT,
       text: contactstring,
-      children: [
-        // new TextRun(
-        //   `${contactstring}`
-        // ),
-        // new TextRun({
-        //   text: `${personalWebsite.length ? personalWebsite : ''}`,
-        //   break: 1
-        // })
-      ]
+      // children: [
+      //   // new TextRun(
+      //   //   `${contactstring}`
+      //   // ),
+      //   // new TextRun({
+      //   //   text: `${personalWebsite.length ? personalWebsite : ''}`,
+      //   //   break: 1
+      //   // })
+      // ]
     });
   }
 
