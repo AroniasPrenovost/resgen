@@ -278,7 +278,7 @@ export class DocumentCreator {
       emailLink = new ExternalHyperlink({
         children: [
               new TextRun({
-                  text: phoneNumber,
+                  text: email,
                   style: "Hyperlink",
               }),
         ],
@@ -316,7 +316,9 @@ export class DocumentCreator {
     return new Paragraph({
       alignment: AlignmentType.LEFT,
       children: [
-        phoneNumber,
+         new TextRun(
+            phoneNumber,
+         ),
         new TextRun(
           (phoneNumber.length ? ' • ': '')
         ),
@@ -329,16 +331,7 @@ export class DocumentCreator {
           ((phoneNumber.length || emailLink.length || linkedinLink.length) ? ' • ': '')
         ),
         personalWebsiteLink,
-      //   new ExternalHyperlink({
-      //   children: [
-      //         new TextRun({
-      //             text: personalWebsite,
-      //             style: "Hyperlink",
-      //         }),
-      //   ],
-      //   link: personalWebsite,
-      // }),
-
+  
         // new TextRun({
         //   text: `${personalWebsite.length ? personalWebsite : ''}`,
         //   break: 1
