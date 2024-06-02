@@ -272,13 +272,6 @@ export class DocumentCreator {
     email: string,
     personalWebsite: string,
   ): Paragraph {
-    let contactstring = '';
-
-
-
-    if (phoneNumber.length) {
-      contactstring = phoneNumber;
-    }
 
     let emailLink: any;
     if (email.length) {
@@ -291,7 +284,6 @@ export class DocumentCreator {
         ],
         link: `mailto:${email}`,
       });
-      contactstring = contactstring.length ? `${contactstring} • ${emailLink}` : `${emailLink}`;
     }
 
     let linkedinLink: any;
@@ -305,7 +297,6 @@ export class DocumentCreator {
         ],
         link: profileUrl,
       });
-      contactstring = contactstring.length ? `${contactstring} • ${linkedinLink}` : `${linkedinLink}`;
     }
 
     let personalWebsiteLink:any;
@@ -319,17 +310,12 @@ export class DocumentCreator {
         ],
         link: personalWebsite,
       });
-      contactstring = contactstring.length ? `${contactstring} • ${personalWebsiteLink}` : `${personalWebsiteLink}`;
     }
       
 
     return new Paragraph({
       alignment: AlignmentType.LEFT,
-      // text: contactstring,
       children: [
-        // new TextRun(
-        //   `${contactstring}`
-        // ),
         phoneNumber,
         new TextRun(
           (phoneNumber.length ? ' • ': '')
