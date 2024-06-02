@@ -50,18 +50,35 @@ export class DocumentCreator {
               heading: HeadingLevel.TITLE,
               alignment: AlignmentType.CENTER // still trying to decide if should be centered or left-aligned
             }),
+
+            ///////////////////////
+            //
+            //
+            // SECTION: header contact info
+            //
+            //
+            ///////////////////////
+
             this.createContactInfo(
               personal_info.phone_number,
               personal_info.linkedin,
               personal_info.email_address,
               personal_info.personal_website,
             ),
+
+
+
+            ///////////////////////
+            //
+            //
+            // SECTION: skills
+            //
+            //
+            ///////////////////////
+
+          
             this.createHeading("Skills"),
             this.createSkillList(skills),
-
-
-
-
 
 
             ///////////////////////
@@ -77,6 +94,11 @@ export class DocumentCreator {
             this.createInterests(
               personal_info.interests
             ),
+
+
+
+
+
 
 
 
