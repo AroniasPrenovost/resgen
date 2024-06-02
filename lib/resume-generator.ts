@@ -325,7 +325,7 @@ export class DocumentCreator {
 
     return new Paragraph({
       alignment: AlignmentType.LEFT,
-      text: contactstring,
+      // text: contactstring,
       children: [
         new TextRun(
           `${contactstring}`
@@ -334,6 +334,15 @@ export class DocumentCreator {
         emailLink,
         linkedinLink,
         personalWebsiteLink,
+        new ExternalHyperlink({
+        children: [
+              new TextRun({
+                  text: personalWebsite,
+                  style: "Hyperlink",
+              }),
+        ],
+        link: personalWebsite,
+      }),
 
         // new TextRun({
         //   text: `${personalWebsite.length ? personalWebsite : ''}`,
