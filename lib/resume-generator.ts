@@ -327,22 +327,31 @@ export class DocumentCreator {
       alignment: AlignmentType.LEFT,
       // text: contactstring,
       children: [
-        new TextRun(
-          `${contactstring}`
-        ),
+        // new TextRun(
+        //   `${contactstring}`
+        // ),
         phoneNumber,
+        new TextRun(
+          ' • '
+        ),
         emailLink,
+        new TextRun(
+          ' • '
+        ),
         linkedinLink,
+        new TextRun(
+          ' • '
+        ),
         personalWebsiteLink,
-        new ExternalHyperlink({
-        children: [
-              new TextRun({
-                  text: personalWebsite,
-                  style: "Hyperlink",
-              }),
-        ],
-        link: personalWebsite,
-      }),
+      //   new ExternalHyperlink({
+      //   children: [
+      //         new TextRun({
+      //             text: personalWebsite,
+      //             style: "Hyperlink",
+      //         }),
+      //   ],
+      //   link: personalWebsite,
+      // }),
 
         // new TextRun({
         //   text: `${personalWebsite.length ? personalWebsite : ''}`,
