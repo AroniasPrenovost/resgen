@@ -6,7 +6,8 @@ import {
   Paragraph,
   TabStopPosition,
   TabStopType,
-  TextRun
+  TextRun,
+  ExternalHyperlink,
 } from "docx";
 
 type PersonalInfo = {
@@ -168,7 +169,22 @@ export class DocumentCreator {
     let contactstring = '';
     if (phoneNumber.length) contactstring = phoneNumber;
     if (email.length) contactstring = `${contactstring} • ${email}`;
-    if (profileUrl.length) contactstring = `${contactstring} • ${profileUrl}`;
+
+
+    let xx: any;
+    if (profileUrl) {
+       xx = 
+          new ExternalHyperlink({
+            children: [
+              new TextRun({
+                text: profileUrl,
+                style: "Hyperlink",
+              })
+            ],
+            link: profileUrl,
+          });
+    }
+    if (xx.length) contactstring = `${xx} • ${profileUrl}`;
 
     return new Paragraph({
       alignment: AlignmentType.CENTER,
