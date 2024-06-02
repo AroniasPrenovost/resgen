@@ -25,7 +25,7 @@ import { useProModal } from "@/hooks/use-pro-modal";
 
 import { formSchema } from "./constants";
 
-// import { checkSubscription } from "@/lib/subscription";/x
+// import { checkSubscription } from "@/lib/subscription";
 
 // .docx generation
 import { saveAs } from "file-saver";
