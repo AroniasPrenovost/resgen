@@ -106,7 +106,7 @@ export class DocumentCreator {
                 arr.push(
                   this.createInstitutionHeader(
                     education.schoolName,
-                    `${education.startDate.year} - ${education.endDate.year}`
+                    ` ${education.startDate.year} - ${education.endDate.year}`
                   )
                 );
                 arr.push(
@@ -165,14 +165,19 @@ export class DocumentCreator {
     email: string,
     personalWebsite: string,
   ): Paragraph {
+    let contactstring = '';
+    if (phoneNumber.length) contactstring = phoneNumber;
+    if (email.length) contactstring = `${contactstring} • ${email}`;
+    if (profileUrl.length) contactstring = `${contactstring} • ${profileUrl}`;
+
     return new Paragraph({
       alignment: AlignmentType.CENTER,
       children: [
         new TextRun(
-          `Phone: ${phoneNumber} | LinkedIn: ${profileUrl} | Email: ${email}`
+          `${contactstring}`
         ),
         new TextRun({
-          text: `${personalWebsite.length ? ('Website: ' + personalWebsite) : ''}`,
+          text: `${personalWebsite.length ? personalWebsite : ''}`,
           break: 1
         })
       ]
