@@ -139,22 +139,6 @@ export class DocumentCreator {
               .reduce((prev: any, curr: any) => prev.concat(curr), []),
 
 
-            ///////////////////////
-            //
-            //
-            // SECTION: achievements  and recognitions
-            //
-            //
-            ///////////////////////
-
-
-            this.createHeading("Achievements and Recognition"),
-            // this.createSubHeading("Achievements"),
-            ...this.createAchivementsList(achievements),
-
-
- 
-
 
             ///////////////////////
             //
@@ -193,7 +177,30 @@ export class DocumentCreator {
                 return arr;
               })
               .reduce((prev: any, curr: any) => prev.concat(curr), []),
+
+            ///////////////////////
+            //
+            //
+            // SECTION: achievements  and recognitions
+            //
+            //
+            ///////////////////////
+
+
+            this.createHeading("Achievements and Recognition"),
+            // this.createSubHeading("Achievements"),
+            ...this.createAchivementsList(achievements),
+
+
+
+            ///////////////////////
+            //
+            //
             // SECTION: references
+            //
+            //
+            ///////////////////////
+
             this.createHeading("References"),
             ...references
               .map((reference: any) => {
