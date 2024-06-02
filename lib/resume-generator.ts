@@ -47,7 +47,7 @@ export class DocumentCreator {
           children: [
             new Paragraph({
               text: personal_info.name,
-              heading: HeadingLevel.TITLE,
+              heading: HeadingLevel.HEADING_2,
               alignment: AlignmentType.CENTER // still trying to decide if should be centered or left-aligned
             }),
 
