@@ -169,22 +169,7 @@ export class DocumentCreator {
     let contactstring = '';
     if (phoneNumber.length) contactstring = phoneNumber;
     if (email.length) contactstring = `${contactstring} • ${email}`;
-
-
-    let xx: any;
-    if (profileUrl) {
-       xx = 
-          new ExternalHyperlink({
-            children: [
-              new TextRun({
-                text: profileUrl,
-                style: "Hyperlink",
-              })
-            ],
-            link: profileUrl,
-          });
-    }
-    if (xx.length) contactstring = `${xx} • ${profileUrl}`;
+    if (profileUrl.length) contactstring = `${contactstring} • ${profileUrl}`;
 
     return new Paragraph({
       alignment: AlignmentType.CENTER,
