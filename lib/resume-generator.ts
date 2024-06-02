@@ -137,8 +137,19 @@ export class DocumentCreator {
                 return arr;
               })
               .reduce((prev: any, curr: any) => prev.concat(curr), []),
+
+
+            ///////////////////////
+            //
+            //
+            // SECTION: achievements  and recognitions
+            //
+            //
+            ///////////////////////
+
+
             this.createHeading("Achievements and Recognition"),
-            this.createSubHeading("Achievements"),
+            // this.createSubHeading("Achievements"),
             ...this.createAchivementsList(achievements),
 
 
