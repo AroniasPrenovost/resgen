@@ -280,8 +280,9 @@ export class DocumentCreator {
       contactstring = phoneNumber;
     }
 
+    let emailLink: any;
     if (email.length) {
-      const emailLink = new ExternalHyperlink({
+      emailLink = new ExternalHyperlink({
         children: [
               new TextRun({
                   text: phoneNumber,
@@ -293,8 +294,9 @@ export class DocumentCreator {
       contactstring = contactstring.length ? `${contactstring} • ${emailLink}` : `${emailLink}`;
     }
 
+    let linkedinLink: any;
     if (profileUrl.length) {
-      const linkedinLink = new ExternalHyperlink({
+      linkedinLink = new ExternalHyperlink({
         children: [
               new TextRun({
                   text: profileUrl,
@@ -306,8 +308,9 @@ export class DocumentCreator {
       contactstring = contactstring.length ? `${contactstring} • ${linkedinLink}` : `${linkedinLink}`;
     }
 
+    let personalWebsiteLink:any;
     if (personalWebsite.length) {
-      const personalWebsiteLink = new ExternalHyperlink({
+      personalWebsiteLink = new ExternalHyperlink({
         children: [
               new TextRun({
                   text: personalWebsite,
@@ -323,15 +326,20 @@ export class DocumentCreator {
     return new Paragraph({
       alignment: AlignmentType.LEFT,
       text: contactstring,
-      // children: [
-      //   // new TextRun(
-      //   //   `${contactstring}`
-      //   // ),
-      //   // new TextRun({
-      //   //   text: `${personalWebsite.length ? personalWebsite : ''}`,
-      //   //   break: 1
-      //   // })
-      // ]
+      children: [
+        new TextRun(
+          `${contactstring}`
+        ),
+        phoneNumber,
+        emailLink,
+        linkedinLink,
+        personalWebsiteLink,
+
+        // new TextRun({
+        //   text: `${personalWebsite.length ? personalWebsite : ''}`,
+        //   break: 1
+        // })
+      ]
     });
   }
 
