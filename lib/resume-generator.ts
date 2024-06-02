@@ -47,7 +47,7 @@ export class DocumentCreator {
           children: [  
             new Paragraph({
               text: personal_info.name,
-              heading: HeadingLevel.HEADING_3,
+              heading: HeadingLevel.HEADING_4,
               alignment: AlignmentType.LEFT,  
             }),
 
