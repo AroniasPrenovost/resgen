@@ -45,11 +45,41 @@ export class DocumentCreator {
       sections: [
         {
           children: [  
+
+
+
+
+
             new Paragraph({
-              text: personal_info.name,
-              heading: HeadingLevel.TITLE,
+              // tabStops: [
+              //   {
+              //     type: TabStopType.RIGHT,
+              //     position: TabStopPosition.MAX
+              //   }
+              // ],
+                       heading: HeadingLevel.TITLE,
               alignment: AlignmentType.LEFT,  
+              children: [
+                new TextRun({
+               text: personal_info.name,
+                  bold: true,
+                  color: 'blue',
+                }),
+                // new TextRun({
+                //   text: `\t${dateText}`,
+                //   bold: true
+                // })
+              ]
             }),
+
+
+
+
+            // new Paragraph({
+            //   text: personal_info.name,
+            //   heading: HeadingLevel.TITLE,
+            //   alignment: AlignmentType.LEFT,  
+            // }),
 
             ///////////////////////
             //
