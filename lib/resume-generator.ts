@@ -155,7 +155,7 @@ export class DocumentCreator {
                 arr.push(
                   this.createInstitutionHeader(
                     education.schoolName,
-                    ` ${education.startDate.year} - ${education.endDate.year}`
+                    `${education.startDate.year} - ${education.endDate.year}`
                   )
                 );
                 arr.push(
