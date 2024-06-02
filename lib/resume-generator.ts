@@ -44,10 +44,10 @@ export class DocumentCreator {
     const document = new Document({
       sections: [
         {
-          children: [
+          children: [  
             new Paragraph({
               text: personal_info.name,
-              heading: HeadingLevel.TITLE,
+              heading: HeadingLevel.HEADING_3,
               alignment: AlignmentType.LEFT,  
             }),
 
