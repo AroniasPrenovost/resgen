@@ -227,7 +227,7 @@ export class DocumentCreator {
   /////////////////////
   //
   //
-  // HEADER SECTION
+  // header code
   //
   //
   /////////////////////
