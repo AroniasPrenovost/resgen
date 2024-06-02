@@ -265,7 +265,7 @@ export class DocumentCreator {
       
 
     return new Paragraph({
-      alignment: AlignmentType.CENTER,
+      alignment: AlignmentType.LEFT,
       children: [
         new TextRun(
           `${contactstring}`
