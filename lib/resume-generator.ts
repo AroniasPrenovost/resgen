@@ -45,8 +45,13 @@ export class DocumentCreator {
       sections: [
         {
           children: [  
+            new Paragraph({
+              text: personal_info.name,
+              heading: HeadingLevel.TITLE,
+              alignment: AlignmentType.LEFT,  
+            }),
 
-
+            /*
 
 
 
@@ -62,24 +67,16 @@ export class DocumentCreator {
               children: [
                 new TextRun({
                text: personal_info.name,
-                  bold: true,
-                  color: 'blue',
+                  bold: true
                 }),
                 // new TextRun({
                 //   text: `\t${dateText}`,
                 //   bold: true
                 // })
               ]
-            }),
+            })
 
-
-
-
-            // new Paragraph({
-            //   text: personal_info.name,
-            //   heading: HeadingLevel.TITLE,
-            //   alignment: AlignmentType.LEFT,  
-            // }),
+            */
 
             ///////////////////////
             //
