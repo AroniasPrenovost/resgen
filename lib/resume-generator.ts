@@ -93,7 +93,7 @@ export class DocumentCreator {
             ///////////////////////
 
           
-            this.createHeading("Skills"),
+            this.createHeading("Technical Skills"),
             this.createSkillList(skills),
 
 
