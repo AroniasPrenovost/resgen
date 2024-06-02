@@ -155,7 +155,7 @@ export class DocumentCreator {
                 arr.push(
                   this.createInstitutionHeader(
                     education.schoolName,
-                    `${education.startDate.year} - ${education.endDate.year}`
+                    ` ${education.startDate.year} - ${education.endDate.year}`
                   )
                 );
                 arr.push(
@@ -273,7 +273,7 @@ export class DocumentCreator {
     return new Paragraph({
       text: text,
       heading: HeadingLevel.HEADING_1,
-      alignment: AlignmentType.CENTER,
+      // alignment: AlignmentType.CENTER,
       thematicBreak: true
     });
   }
