@@ -58,6 +58,37 @@ export class DocumentCreator {
             ),
             this.createHeading("Skills"),
             this.createSkillList(skills),
+
+
+
+
+
+
+            ///////////////////////
+            //
+            //
+            // SECTION: interests (not important)
+            //
+            //
+            ///////////////////////
+
+
+            // this.createSubHeading("Interests"),
+            // this.createInterests(
+            //   personal_info.interests
+            // ),
+
+
+            ///////////////////////
+            //
+            //
+            // SECTION: professional experience
+            //
+            //
+            ///////////////////////
+
+
+
             this.createHeading("Professional Experience"),
             ...experiences
               .map((position: any) => {
@@ -92,21 +123,6 @@ export class DocumentCreator {
 
 
  
-
-
-            ///////////////////////
-            //
-            //
-            // SECTION: interests (not important)
-            //
-            //
-            ///////////////////////
-
-
-            // this.createSubHeading("Interests"),
-            // this.createInterests(
-            //   personal_info.interests
-            // ),
 
 
             ///////////////////////
