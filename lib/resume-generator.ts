@@ -168,8 +168,13 @@ export class DocumentCreator {
   ): Paragraph {
     let contactstring = '';
     if (phoneNumber.length) contactstring = phoneNumber;
-    if (email.length) contactstring = `${contactstring} • ${email}`;
-    if (profileUrl.length) contactstring = `${contactstring} • ${profileUrl}`;
+    if (email.length) {
+      contactstring = contactstring.length ? `${contactstring} • ${email}` : `${email}`;
+    } 
+    if (profileUrl.length) {
+      contactstring = contactstring.length ? `${contactstring} • ${profileUrl}` : `${profileUrl}`;
+    }
+      
 
     return new Paragraph({
       alignment: AlignmentType.CENTER,
