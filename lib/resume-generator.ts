@@ -67,6 +67,22 @@ export class DocumentCreator {
             ),
 
 
+            ///////////////////////
+            //
+            //
+            // SECTION: interests (not important)
+            //
+            //
+            ///////////////////////
+
+
+            this.createSubHeading("Interests"),
+            this.createInterests(
+              personal_info.interests
+            ),
+
+
+
 
             ///////////////////////
             //
@@ -81,19 +97,6 @@ export class DocumentCreator {
             this.createSkillList(skills),
 
 
-            ///////////////////////
-            //
-            //
-            // SECTION: interests (not important)
-            //
-            //
-            ///////////////////////
-
-
-            this.createSubHeading("Interests"),
-            this.createInterests(
-              personal_info.interests
-            ),
 
 
 
