@@ -274,20 +274,49 @@ export class DocumentCreator {
   ): Paragraph {
     let contactstring = '';
 
+
+
     if (phoneNumber.length) {
       contactstring = phoneNumber;
     }
 
     if (email.length) {
-      contactstring = contactstring.length ? `${contactstring} • ${email}` : `${email}`;
+      const emailLink = new ExternalHyperlink({
+        children: [
+              new TextRun({
+                  text: phoneNumber,
+                  style: "Hyperlink",
+              }),
+        ],
+        link: `mailto:${email}`,
+      });
+      contactstring = contactstring.length ? `${contactstring} • ${emailLink}` : `${emailLink}`;
     }
 
     if (profileUrl.length) {
-      contactstring = contactstring.length ? `${contactstring} • ${profileUrl}` : `${profileUrl}`;
+      const linkedinLink = new ExternalHyperlink({
+        children: [
+              new TextRun({
+                  text: profileUrl,
+                  style: "Hyperlink",
+              }),
+        ],
+        link: profileUrl,
+      });
+      contactstring = contactstring.length ? `${contactstring} • ${linkedinLink}` : `${linkedinLink}`;
     }
 
     if (personalWebsite.length) {
-      contactstring = contactstring.length ? `${contactstring} • ${personalWebsite}` : `${personalWebsite}`;
+      const personalWebsiteLink = new ExternalHyperlink({
+        children: [
+              new TextRun({
+                  text: personalWebsite,
+                  style: "Hyperlink",
+              }),
+        ],
+        link: personalWebsite,
+      });
+      contactstring = contactstring.length ? `${contactstring} • ${personalWebsiteLink}` : `${personalWebsiteLink}`;
     }
       
 
