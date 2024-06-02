@@ -48,7 +48,7 @@ export class DocumentCreator {
             new Paragraph({
               text: personal_info.name,
               heading: HeadingLevel.TITLE,
-              alignment: AlignmentType.LEFT  
+              alignment: AlignmentType.LEFT,  
             }),
 
             ///////////////////////
@@ -253,6 +253,10 @@ export class DocumentCreator {
     if (profileUrl.length) {
       contactstring = contactstring.length ? `${contactstring} • ${profileUrl}` : `${profileUrl}`;
     }
+
+    if (personalWebsite.length) {
+      contactstring = contactstring.length ? `${contactstring} • ${personalWebsite}` : `${personalWebsite}`;
+    }
       
 
     return new Paragraph({
@@ -261,10 +265,10 @@ export class DocumentCreator {
         new TextRun(
           `${contactstring}`
         ),
-        new TextRun({
-          text: `${personalWebsite.length ? personalWebsite : ''}`,
-          break: 1
-        })
+        // new TextRun({
+        //   text: `${personalWebsite.length ? personalWebsite : ''}`,
+        //   break: 1
+        // })
       ]
     });
   }
