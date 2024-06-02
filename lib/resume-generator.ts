@@ -73,10 +73,13 @@ export class DocumentCreator {
             ///////////////////////
 
 
-            // this.createSubHeading("Interests"),
-            // this.createInterests(
-            //   personal_info.interests
-            // ),
+            this.createSubHeading("Interests"),
+            this.createInterests(
+              personal_info.interests
+            ),
+
+
+
 
 
             ///////////////////////
