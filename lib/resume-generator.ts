@@ -48,7 +48,7 @@ export class DocumentCreator {
             new Paragraph({
               text: personal_info.name,
               heading: HeadingLevel.TITLE,
-              alignment: AlignmentType.CENTER  
+              alignment: AlignmentType.LEFT  
             }),
 
             ///////////////////////
