@@ -54,7 +54,7 @@ export class DocumentCreator {
             new Paragraph({
               text: personal_info.name,
               heading: HeadingLevel.TITLE,
-              alignment: AlignmentType.CENTER,  
+              alignment: AlignmentType.LEFT,  
               spacing: {
                 // after: 80, // SPACING 
               },
@@ -374,7 +374,7 @@ export class DocumentCreator {
       text: text,
       heading: HeadingLevel.HEADING_1,
       // alignment: AlignmentType.CENTER,
-      alignment: AlignmentType.CENTER,  
+      // alignment: AlignmentType.CENTER,  
       thematicBreak: true
     });
   }
