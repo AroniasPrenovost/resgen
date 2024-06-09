@@ -364,31 +364,31 @@ export class DocumentCreator {
       children: [
          new TextRun({
              text: phoneNumber,
-             size: 11,
+             size: 22,
          }),
         new TextRun({
           text: (phoneNumber.length ? ' • ': ''),
-          size: 11,
+          size: 22,
          }),
         new TextRun({
              text: emailLink,
-             size: 11,
+             size: 22,
          }),
         new TextRun({
          text: ((phoneNumber.length || emailLink.length) ? ' • ': ''),
-         size: 11,
+         size: 22,
         }),
         new TextRun({
              text:  linkedinLink,
-             size: 11,
+             size: 22,
          }),
         new TextRun({
           text: ((phoneNumber.length || emailLink.length || linkedinLink.length) ? ' • ': ''),
-          size: 11,
+          size: 22,
         }),
         new TextRun({
              text:  personalWebsiteLink,
-             size: 11,
+             size: 22,
          }),
       ]
     });
@@ -424,7 +424,7 @@ export class DocumentCreator {
         new TextRun({
           text: institutionName,
           bold: true,
-          size: 11,
+          size: 22,
         }),
         new TextRun({
           text: "\t",
@@ -435,7 +435,7 @@ export class DocumentCreator {
             dateText,
           ],
           bold: true,
-          size: 11,
+          size: 22,
         })
       ],
       tabStops: [
@@ -485,11 +485,11 @@ export class DocumentCreator {
           new TextRun({
             text: achievement.issuer,
             bold: true,
-            size: 11,
+            size: 22,
           }),
           new TextRun({
             text: achievement.name,
-            size: 11,
+            size: 22,
             // bold: true
           })
          ],
