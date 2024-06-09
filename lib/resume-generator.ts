@@ -55,6 +55,9 @@ export class DocumentCreator {
               text: personal_info.name,
               heading: HeadingLevel.TITLE,
               alignment: AlignmentType.LEFT,  
+              spacing: {
+                after: 120,
+              },
             }),
 
 
