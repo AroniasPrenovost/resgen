@@ -372,7 +372,7 @@ export class DocumentCreator {
   public createHeading(text: string): Paragraph {
     return new Paragraph({
       text: text,
-      heading: HeadingLevel.HEADING_1,
+      heading: HeadingLevel.HEADING_2,
       // alignment: AlignmentType.CENTER,
       // alignment: AlignmentType.CENTER,  
       thematicBreak: true
