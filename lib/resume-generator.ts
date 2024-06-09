@@ -53,7 +53,7 @@ export class DocumentCreator {
           children: [  
             new Paragraph({
               text: personal_info.name,
-              heading: HeadingLevel.HEADING_1,
+              heading: HeadingLevel.TITLE,
               alignment: AlignmentType.LEFT,  
               spacing: {
                 // after: 80, // SPACING 
