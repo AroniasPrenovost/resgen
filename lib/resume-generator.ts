@@ -392,7 +392,10 @@ export class DocumentCreator {
           bold: true
         }),
         new TextRun({
-          text: `\t${dateText}`,
+          text: "\t",
+        }),
+        new TextRun({
+          text: dateText,
           bold: true
         })
       ],
