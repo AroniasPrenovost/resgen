@@ -48,6 +48,18 @@ export class DocumentCreator {
 
 
     const document = new Document({
+      creator: personal_info.name,
+      title: `${personal_info.name}'s Resume`,
+      description: '',
+      styles: {
+      default: {
+        document: {
+            run: {
+              size: '11pt',
+            }
+          }
+        }
+      },
       sections: [
         {
           children: [  
