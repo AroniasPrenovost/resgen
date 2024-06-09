@@ -374,6 +374,7 @@ export class DocumentCreator {
       text: text,
       heading: HeadingLevel.HEADING_1,
       // alignment: AlignmentType.CENTER,
+      alignment: AlignmentType.CENTER,  
       thematicBreak: true
     });
   }
@@ -382,7 +383,6 @@ export class DocumentCreator {
     return new Paragraph({
       text: text,
       heading: HeadingLevel.HEADING_2,
-      alignment: AlignmentType.CENTER,
     });
   }
 
