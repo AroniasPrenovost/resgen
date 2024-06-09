@@ -393,7 +393,6 @@ export class DocumentCreator {
         }),
         new TextRun({
           text: '\t',
-          break: 1,
         }),
         new TextRun({
           text: dateText,
