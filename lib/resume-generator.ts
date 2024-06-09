@@ -54,7 +54,7 @@ export class DocumentCreator {
             new Paragraph({
               text: personal_info.name,
               heading: HeadingLevel.TITLE,
-              alignment: AlignmentType.LEFT,  
+              alignment: AlignmentType.CENTER,  
               spacing: {
                 // after: 80, // SPACING 
               },
@@ -381,7 +381,8 @@ export class DocumentCreator {
   public createSubHeading(text: string): Paragraph {
     return new Paragraph({
       text: text,
-      heading: HeadingLevel.HEADING_2
+      heading: HeadingLevel.HEADING_2,
+      alignment: AlignmentType.CENTER,
     });
   }
 
