@@ -401,7 +401,7 @@ export class DocumentCreator {
             dateText,
           ],
           // text: dateText,
-          // bold: true
+          bold: true,
         })
       ],
       tabStops: [
