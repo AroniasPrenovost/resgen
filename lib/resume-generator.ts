@@ -352,6 +352,7 @@ export class DocumentCreator {
               new TextRun({
                   text: personalWebsite,
                   style: "Hyperlink",
+                  size: 22,
               }),
         ],
         link: personalWebsite,
@@ -364,32 +365,20 @@ export class DocumentCreator {
       children: [
          new TextRun({
              text: phoneNumber,
-             size: 22, // = 11pt
+             size: 22,
          }),
-        new TextRun({
-          text: (phoneNumber.length ? ' • ': ''),
-          size: 22, // = 11pt
-         }),
-        new TextRun({
-             text: emailLink,
-             size: 22, // = 11pt
-         }),
-        new TextRun({
-         text: ((phoneNumber.length || emailLink.length) ? ' • ': ''),
-         size: 22, // = 11pt
-        }),
-        new TextRun({
-             text:  linkedinLink,
-             size: 22, // = 11pt
-         }),
-        new TextRun({
-          text: ((phoneNumber.length || emailLink.length || linkedinLink.length) ? ' • ': ''),
-          size: 22, // = 11pt
-        }),
-        new TextRun({
-             text:  personalWebsiteLink,
-             size: 22, // = 11pt
-         }),
+        new TextRun(
+          (phoneNumber.length ? ' • ': '')
+        ),
+        emailLink,
+        new TextRun(
+          ((phoneNumber.length || emailLink.length) ? ' • ': '')
+        ),
+        linkedinLink,
+        new TextRun(
+          ((phoneNumber.length || emailLink.length || linkedinLink.length) ? ' • ': '')
+        ),
+        personalWebsiteLink,
       ]
     });
   }
@@ -424,7 +413,7 @@ export class DocumentCreator {
         new TextRun({
           text: institutionName,
           bold: true,
-          size: 22, // = 11pt
+          size: 22,
         }),
         new TextRun({
           text: "\t",
@@ -435,7 +424,7 @@ export class DocumentCreator {
             dateText,
           ],
           bold: true,
-          size: 22, // = 11pt
+          size: 22,
         })
       ],
       tabStops: [
@@ -485,11 +474,11 @@ export class DocumentCreator {
           new TextRun({
             text: achievement.issuer,
             bold: true,
-            size: 22, // = 11pt
+            size: 22,
           }),
           new TextRun({
             text: achievement.name,
-            size: 22, // = 11pt
+            size: 22,
             // bold: true
           })
          ],
