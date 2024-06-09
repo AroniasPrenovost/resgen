@@ -51,15 +51,15 @@ export class DocumentCreator {
       creator: personal_info.name,
       title: `${personal_info.name}'s Resume`,
       description: '',
-      styles: {
-      default: {
-        document: {
-            run: {
-              size: '11pt',
-            }
-          }
-        }
-      },
+      // styles: {
+      // default: {
+      //   document: {
+      //       run: {
+      //         size: '11pt',
+      //       }
+      //     }
+      //   }
+      // },
       sections: [
         {
           children: [  
@@ -437,7 +437,8 @@ export class DocumentCreator {
       children: [
         new TextRun({
           text: roleText,
-          italics: true
+          italics: true,
+           size: 28,
         })
       ]
     });
@@ -473,6 +474,7 @@ export class DocumentCreator {
           }),
           new TextRun({
             text: achievement.name,
+              size: 40,
             // bold: true
           })
          ],
