@@ -56,7 +56,7 @@ export class DocumentCreator {
               heading: HeadingLevel.TITLE,
               alignment: AlignmentType.LEFT,  
               spacing: {
-                after: 120,
+                after: 80, // SPACING 
               },
             }),
 
