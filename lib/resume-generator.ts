@@ -397,10 +397,9 @@ export class DocumentCreator {
         }),
         new TextRun({
           children: [
-            new Tab(),
+            new Tab(), // this is how you right-align the text :/ 
             dateText,
           ],
-          // text: dateText,
           bold: true,
         })
       ],
