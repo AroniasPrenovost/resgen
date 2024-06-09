@@ -377,7 +377,7 @@ export class DocumentCreator {
       // alignment: AlignmentType.CENTER,  
       thematicBreak: true,
        spacing: {
-         before: 80,
+         before: 60,
         // after: 80, // SPACING 
       },
     });
