@@ -256,11 +256,12 @@ export class DocumentCreator {
             this.createHeading("References"),
             ...references
               .map((reference: any) => {
-                const arr: Paragraph[] = [];
+                const arr: TextRun[] = [];
                 arr.push(
-                  new Paragraph(
-                    reference.info
-                  ),
+                  new TextRun({
+                    text: reference.info,
+                    size: 22,
+                  }),
                 );
                 return arr;
               })
@@ -442,9 +443,9 @@ export class DocumentCreator {
     return new Paragraph({
       children: [
         new TextRun({
-          text: roleText,
-          italics: true,
-          size: 22,
+            text: roleText,
+            italics: true,
+            size: 22,
           })
       ]
     });
@@ -501,7 +502,12 @@ export class DocumentCreator {
 
   public createInterests(interests: string): Paragraph {
     return new Paragraph({
-      children: [new TextRun(interests)]
+      children: [
+        new TextRun({
+          text: interests,
+          size: 22,
+        }),
+      ]
     });
   }
 
