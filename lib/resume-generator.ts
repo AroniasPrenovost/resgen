@@ -256,12 +256,11 @@ export class DocumentCreator {
             this.createHeading("References"),
             ...references
               .map((reference: any) => {
-                const arr: TextRun[] = [];
+                const arr: Paragraph[] = [];
                 arr.push(
-                  new TextRun({
-                    text: reference.info,
-                    size: 22,
-                  }),
+                  new Paragraph(
+                    reference.info
+                  ),
                 );
                 return arr;
               })
