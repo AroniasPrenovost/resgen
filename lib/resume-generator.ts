@@ -386,22 +386,25 @@ export class DocumentCreator {
     dateText: string
   ): Paragraph {
     return new Paragraph({
-      tabStops: [
-        {
-          type: TabStopType.RIGHT,
-          position: TabStopPosition.MAX
-        }
-      ],
       children: [
         new TextRun({
           text: institutionName,
           bold: true
         }),
         new TextRun({
-          text: `\t${dateText}`,
+          text: '\t',
+        }),
+        new TextRun({
+          text: `${dateText}`,
           bold: true
         })
-      ]
+      ],
+      tabStops: [
+        {
+          type: TabStopType.RIGHT,
+          position: TabStopPosition.MAX
+        }
+      ],
     });
   }
 
