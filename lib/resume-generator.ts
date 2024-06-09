@@ -396,7 +396,7 @@ export class DocumentCreator {
           break: 1,
         }),
         new TextRun({
-          text: `${dateText}`,
+          text: dateText,
           bold: true
         })
       ],
