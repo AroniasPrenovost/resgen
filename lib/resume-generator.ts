@@ -362,21 +362,34 @@ export class DocumentCreator {
     return new Paragraph({
       alignment: AlignmentType.LEFT,
       children: [
-         new TextRun(
-            phoneNumber,
-         ),
-        new TextRun(
-          (phoneNumber.length ? ' • ': '')
-        ),
-        emailLink,
-        new TextRun(
-          ((phoneNumber.length || emailLink.length) ? ' • ': '')
-        ),
-        linkedinLink,
-        new TextRun(
-          ((phoneNumber.length || emailLink.length || linkedinLink.length) ? ' • ': '')
-        ),
-        personalWebsiteLink,
+         new TextRun({
+             text: phoneNumber,
+             size: 11,
+         }),
+        new TextRun({
+          text: (phoneNumber.length ? ' • ': ''),
+          size: 11,
+         }),
+        new TextRun({
+             text: emailLink,
+             size: 11,
+         }),
+        new TextRun({
+         text: ((phoneNumber.length || emailLink.length) ? ' • ': ''),
+         size: 11,
+        }),
+        new TextRun({
+             text:  linkedinLink,
+             size: 11,
+         }),
+        new TextRun({
+          text: ((phoneNumber.length || emailLink.length || linkedinLink.length) ? ' • ': ''),
+          size: 11,
+        }),
+        new TextRun({
+             text:  personalWebsiteLink,
+             size: 11,
+         }),
       ]
     });
   }
@@ -410,7 +423,8 @@ export class DocumentCreator {
       children: [
         new TextRun({
           text: institutionName,
-          bold: true
+          bold: true,
+          size: 11,
         }),
         new TextRun({
           text: "\t",
@@ -421,6 +435,7 @@ export class DocumentCreator {
             dateText,
           ],
           bold: true,
+          size: 11,
         })
       ],
       tabStops: [
@@ -438,8 +453,7 @@ export class DocumentCreator {
         new TextRun({
           text: roleText,
           italics: true,
-           size: 28,
-        })
+          })
       ]
     });
   }
@@ -470,11 +484,12 @@ export class DocumentCreator {
         children: [
           new TextRun({
             text: achievement.issuer,
-            bold: true
+            bold: true,
+            size: 11,
           }),
           new TextRun({
             text: achievement.name,
-              size: 40,
+            size: 11,
             // bold: true
           })
          ],
