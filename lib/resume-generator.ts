@@ -13,6 +13,7 @@ import {
   TableCell,
   VerticalAlign,
   TextDirection,
+  Tab,
 } from "docx";
 
 type PersonalInfo = {
@@ -395,8 +396,12 @@ export class DocumentCreator {
           text: "\t",
         }),
         new TextRun({
-          text: dateText,
-          bold: true
+          children: [
+            new Tab(),
+            dateText,
+          ],
+          // text: dateText,
+          // bold: true
         })
       ],
       tabStops: [
