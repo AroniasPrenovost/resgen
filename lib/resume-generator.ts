@@ -326,6 +326,7 @@ export class DocumentCreator {
               new TextRun({
                   text: email,
                   style: "Hyperlink",
+                  size: 22,
               }),
         ],
         link: `mailto:${email}`,
@@ -339,6 +340,7 @@ export class DocumentCreator {
               new TextRun({
                   text: profileUrl,
                   style: "Hyperlink",
+                  size: 22,
               }),
         ],
         link: profileUrl,
@@ -442,6 +444,7 @@ export class DocumentCreator {
         new TextRun({
           text: roleText,
           italics: true,
+          size: 22,
           })
       ]
     });
@@ -459,7 +462,12 @@ export class DocumentCreator {
   // tslint:disable-next-line:no-any
   public createSkillList(skills: any[]): Paragraph {
     return new Paragraph({
-      children: [new TextRun(skills.map(skill => skill.name).join(", ") + ".")]
+      children: [
+        new TextRun({
+          text: (skills.map(skill => skill.name).join(", ") + "."),
+          size: 22,
+        })
+      ]
     });
   }
 
