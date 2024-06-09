@@ -375,7 +375,11 @@ export class DocumentCreator {
       heading: HeadingLevel.HEADING_2,
       // alignment: AlignmentType.CENTER,
       // alignment: AlignmentType.CENTER,  
-      thematicBreak: true
+      thematicBreak: true,
+       spacing: {
+         before: 80,
+        // after: 80, // SPACING 
+      },
     });
   }
 
