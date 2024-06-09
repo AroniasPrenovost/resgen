@@ -402,7 +402,7 @@ export class DocumentCreator {
           position: TabStopPosition.MAX,
         }
       ],
-      alignment: AlignmentType.RIGHT,
+      // alignment: AlignmentType.RIGHT,
     });
   }
 
