@@ -51,6 +51,27 @@ export class DocumentCreator {
       creator: personal_info.name,
       title: `${personal_info.name}'s Resume`,
       description: `${personal_info.name}'s Professional Resume`,
+      styles: {
+        default: {
+            heading1: {
+              run: {
+                font: "Calibri",
+              },
+            },
+            heading2: {
+              run: {
+                font: "Calibri",
+                bold: true,
+              },
+            },
+           document: {
+             run: {
+               size: 22,
+               font: "Calibri",
+             },
+           },
+        },
+      },
       sections: [
         {
           children: [  
