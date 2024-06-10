@@ -62,7 +62,7 @@ export class DocumentCreator {
               run: {
                 font: "Calibri",
                 bold: true,
-                color: "#3867d6",
+                color: "#0c2461",
               },
             },
            document: {
