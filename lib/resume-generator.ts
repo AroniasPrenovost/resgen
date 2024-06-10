@@ -67,7 +67,7 @@ export class DocumentCreator {
             },
            document: {
              run: {
-               size: 22,
+               // size: 22,
                font: "Calibri",
              },
            },
