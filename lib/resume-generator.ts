@@ -256,12 +256,23 @@ export class DocumentCreator {
             this.createHeading("References"),
             ...references
               .map((reference: any) => {
+
+
+
+
                 const arr: Paragraph[] = [];
-                arr.push(
-                  new Paragraph(
-                    reference.info
-                  ),
-                );
+                const children:any = [];
+
+                children.push(         new TextRun({
+             text: reference.info,
+             size: 22,
+         }));
+                arr.push(children);
+                // arr.push(
+                //   new Paragraph(
+                //     reference.info
+                //   ),
+                // );
                 return arr;
               })
               .reduce((prev: any, curr: any) => prev.concat(curr), []),
