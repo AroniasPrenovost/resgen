@@ -50,23 +50,15 @@ export class DocumentCreator {
     const document = new Document({
       creator: personal_info.name,
       title: `${personal_info.name}'s Resume`,
-      description: '',
-      // styles: {
-      // default: {
-      //   document: {
-      //       run: {
-      //         size: '11pt',
-      //       }
-      //     }
-      //   }
-      // },
+      description: `${personal_info.name}'s Professional Resume`,
       sections: [
         {
           children: [  
             new Paragraph({
               text: personal_info.name,
               heading: HeadingLevel.TITLE,
-              alignment: AlignmentType.LEFT,  
+              alignment: AlignmentType.LEFT, 
+              // font: 'Calibri',
               spacing: {
                 // after: 80, // SPACING 
               },
@@ -327,6 +319,7 @@ export class DocumentCreator {
                   text: email,
                   style: "Hyperlink",
                   size: 22,
+                  font: 'Calibri',
               }),
         ],
         link: `mailto:${email}`,
@@ -341,6 +334,7 @@ export class DocumentCreator {
                   text: profileUrl,
                   style: "Hyperlink",
                   size: 22,
+                  font: 'Calibri',
               }),
         ],
         link: profileUrl,
@@ -355,6 +349,7 @@ export class DocumentCreator {
                   text: personalWebsite,
                   style: "Hyperlink",
                   size: 22,
+                  font: 'Calibri',
               }),
         ],
         link: personalWebsite,
@@ -368,6 +363,7 @@ export class DocumentCreator {
          new TextRun({
              text: phoneNumber,
              size: 22,
+             font: 'Calibri',
          }),
         new TextRun(
           (phoneNumber.length ? ' • ': '')
@@ -416,6 +412,7 @@ export class DocumentCreator {
           text: institutionName,
           bold: true,
           size: 22,
+          font: 'Calibri',
         }),
         new TextRun({
           text: "\t",
@@ -427,6 +424,7 @@ export class DocumentCreator {
           ],
           bold: true,
           size: 22,
+          font: 'Calibri',
         })
       ],
       tabStops: [
@@ -445,6 +443,7 @@ export class DocumentCreator {
             text: roleText,
             italics: true,
             size: 22,
+            font: 'Calibri',
           })
       ]
     });
@@ -466,6 +465,7 @@ export class DocumentCreator {
         new TextRun({
           text: (skills.map(skill => skill.name).join(", ") + "."),
           size: 22,
+          font: 'Calibri',
         })
       ]
     });
@@ -483,10 +483,12 @@ export class DocumentCreator {
             text: achievement.issuer,
             bold: true,
             size: 22,
+            font: 'Calibri',
           }),
           new TextRun({
             text: achievement.name,
             size: 22,
+            font: 'Calibri',
             // bold: true
           })
          ],
@@ -505,6 +507,7 @@ export class DocumentCreator {
         new TextRun({
           text: interests,
           size: 22,
+          font: 'Calibri',
         }),
       ]
     });
