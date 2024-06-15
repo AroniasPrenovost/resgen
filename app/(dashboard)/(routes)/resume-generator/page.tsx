@@ -56,7 +56,7 @@ const ResumeGeneratorPage = () => {
   let last_payment_received: any = false;
 
   let number_of_downloads: any = 0;
-  const max_downloads = 5;
+  const max_download_count = 5;
 
   // let message = 'Instant Access to 3 Downloads';
   // const [message, setMessage] = useState('Get Instant Access to 3 Downloads');
@@ -87,8 +87,8 @@ const ResumeGeneratorPage = () => {
     // console.log('payment_received: ', payment_received);
 
     let clearCache1 = payment_received && (differenceInMinutes > 360000); // 100 hours
-    let clearCache2 = payment_received && (number_of_downloads > (max_downloads - 1));
-    
+    let clearCache2 = payment_received && (number_of_downloads > (max_download_count - 1));
+
     if (clearCache1 || clearCache2) {
       // console.log(' ')
       // console.log('cleared cache');
@@ -763,7 +763,7 @@ ${stringifiedMappedFormValues}
        // increment on # of downloads
       let new_download_count = number_of_downloads + 1;
       localStorage.setItem('x8u_000_vb_nod', new_download_count); // 'number_of_downloads'
-      let remaining_downloads = (max_downloads - new_download_count); // 3, 2, 1
+      let remaining_downloads = (max_download_count - new_download_count); // 3, 2, 1
 
       toast.dismiss();
       toast.success(`Successfully generated resume. Please check your downloads folder.\n\nDownloads remaining: ${remaining_downloads}`, {
