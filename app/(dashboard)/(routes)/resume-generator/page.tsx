@@ -65,7 +65,7 @@ const ResumeGeneratorPage = () => {
 
     number_of_downloads = Number(localStorage.getItem('number_of_downloads'));
 
-    payment_received = localStorage.getItem('payment_received') === 'true';
+    payment_received = localStorage.getItem('pr_0012') === 'true'; // 'payment_received'
     last_payment_received = localStorage.getItem('last_payment_received');
 
     let sfv = localStorage.getItem('stored_form_values') ?? '';
@@ -89,7 +89,7 @@ const ResumeGeneratorPage = () => {
     if (clearCache1 || clearCache2) {
       // console.log(' ')
       // console.log('cleared cache');
-      localStorage.removeItem('payment_received');
+      localStorage.removeItem('pr_0012'); // 'payment_received'
       localStorage.setItem('last_payment_received', '');
       localStorage.setItem('number_of_downloads', '0');
     } 
@@ -646,7 +646,7 @@ const ResumeGeneratorPage = () => {
     localStorage.setItem('stored_form_values', JSON.stringify(values));
 
     if (!(payment_received)) {
-      localStorage.setItem('payment_received', 'true');
+      localStorage.setItem('pr_0012', 'true'); // 'payment_received'
       var date = new Date();
       localStorage.setItem('last_payment_received', String(date));
       window.location.assign(STRIPE_PAYMENT_LINK);
