@@ -698,13 +698,22 @@ const ResumeGeneratorPage = () => {
 
 
     const stringifiedMappedFormValues = JSON.stringify(mappedFormValues);
+
+
+    // add AI-generated content for empty form fields
+    const fill_in_the_blank = false;
+    let fill_in_the_blank_phrase = fill_in_the_blank 
+      ? 'Add realistic content to sections that are blank.' 
+      : 'Leave blank if a section does not exist.'
+    ;
+
     const promptString = `Persona: you are a expert resume writer with with years of experience improving resumes. 
 Improve the verbiage, tone, and professionalism of the inputted content so it can be used in a resume.
 Rules: 
 1. The output should maintain the exact same object structure of the original 'resume_object', meaning only the key properties' values should be modified.
 2. Fix any typos, sentence structure issues, and grammar when necessary. 
 3. Capitalize proper nouns, expand acronyms when necessary.
-4. Leave blank if a section does not exist.
+4. ${fill_in_the_blank_phrase}
 5. For 'resume_object.experiences' data, elaborate when necessary so most of the experience summary instances are at least least 2 sentances.
 6. For 'resume_object.education' section, ensure school names are proper and clear. 
 7. For 'resume_object.achievements' section, elaborate when necessary to explain context of achievement. 
@@ -717,7 +726,6 @@ ${stringifiedMappedFormValues}
     `;
 
     const fileName = `${(mappedFormValues.personal_info.name).replace(' ', '')}-Resume.docx`;
-
 
     // make API call 
     try {
