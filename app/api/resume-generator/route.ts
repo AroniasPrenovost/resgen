@@ -46,8 +46,8 @@ export async function POST(
       messages
     });
 
-    console.log('_____')
-    console.log(response.data.choices[0].message);
+    console.log('success');
+    // console.log(response.data.choices[0].message);
 
     // if (!isPro) {
     //   await incrementApiLimit();
