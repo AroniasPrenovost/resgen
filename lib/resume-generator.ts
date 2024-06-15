@@ -61,7 +61,7 @@ export class DocumentCreator {
                     // size: 28,
                     bold: true,
                     // italics: true,
-                    color: "#0652DD",
+                    color: "#273c75",
                 },
                 paragraph: {
                     spacing: {
@@ -77,7 +77,7 @@ export class DocumentCreator {
                   // size: 28,
                   bold: true,
                   // italics: true,
-                  color: "#0652DD",
+                  color: "#273c75",
                 },
                 paragraph: {
                     spacing: {
@@ -94,8 +94,8 @@ export class DocumentCreator {
             new Paragraph({
               text: (personal_info.name), // .toUpperCase(),
               heading: HeadingLevel.TITLE,
-              // alignment: AlignmentType.LEFT, 
-              alignment: AlignmentType.CENTER,   
+              alignment: AlignmentType.LEFT, 
+              // alignment: AlignmentType.CENTER,   
               spacing: {
                  before: -80,
                 after: 40, // SPACING 
@@ -403,8 +403,8 @@ export class DocumentCreator {
       
 
     return new Paragraph({
-      // alignment: AlignmentType.LEFT,
-       alignment: AlignmentType.CENTER,
+      alignment: AlignmentType.LEFT,
+       // alignment: AlignmentType.CENTER,
        thematicBreak: true,
       children: [
          new TextRun({
@@ -432,8 +432,8 @@ export class DocumentCreator {
     return new Paragraph({
       text: text,
       heading: HeadingLevel.HEADING_2,
-      alignment: AlignmentType.CENTER,
-      // alignment: AlignmentType.LEFT,  
+      // alignment: AlignmentType.CENTER,
+      alignment: AlignmentType.LEFT,  
       thematicBreak: true,
        spacing: {
         before: 60,
@@ -530,8 +530,8 @@ export class DocumentCreator {
   // tslint:disable-next-line:no-any
   public createSkillList(skills: any[]): Paragraph {
     return new Paragraph({
-      alignment: AlignmentType.CENTER,
-      // alignment: AlignmentType.LEFT,
+      // alignment: AlignmentType.CENTER,
+      alignment: AlignmentType.LEFT,
       children: [
         new TextRun({
           text: (skills.map(skill => skill.name).join(", ") + "."),
@@ -578,8 +578,8 @@ export class DocumentCreator {
 
   public createInterests(interests: string): Paragraph {
     return new Paragraph({
-      alignment: AlignmentType.CENTER,
-      // alignment: AlignmentType.LEFT,
+      // alignment: AlignmentType.CENTER,
+      alignment: AlignmentType.LEFT,
       children: [
         new TextRun({
           text: interests,
