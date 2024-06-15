@@ -58,7 +58,8 @@ const ResumeGeneratorPage = () => {
   let number_of_downloads: any = 0;
 
   // let message = 'Instant Access to 3 Downloads';
-  const [message, setMessage] = useState('Get Instant Access to 3 Downloads');
+  // const [message, setMessage] = useState('Get Instant Access to 3 Downloads');
+  const [message, setMessage] = useState('Get Instant Access');
 
   let storedFormValues: any = {};
   if (global?.window !== undefined) { // now it's safe to access window and localStorage
