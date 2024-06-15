@@ -63,7 +63,7 @@ const ResumeGeneratorPage = () => {
   let storedFormValues: any = {};
   if (global?.window !== undefined) { // now it's safe to access window and localStorage
 
-    number_of_downloads = Number(localStorage.getItem('number_of_downloads'));
+    number_of_downloads = Number(localStorage.getItem('x8u_000_vb_nod')); // 'number_of_downloads'
 
     payment_received = localStorage.getItem('pr_0012') === 'true'; // 'payment_received'
     last_payment_received = localStorage.getItem('last_payment_received');
@@ -91,7 +91,7 @@ const ResumeGeneratorPage = () => {
       // console.log('cleared cache');
       localStorage.removeItem('pr_0012'); // 'payment_received'
       localStorage.setItem('last_payment_received', '');
-      localStorage.setItem('number_of_downloads', '0');
+      localStorage.setItem('x8u_000_vb_nod', '0'); // 'number_of_downloads'
     } 
   }  
 
@@ -660,7 +660,7 @@ const ResumeGeneratorPage = () => {
     */ 
     // increment on # of downloads
     // let new_download_count = number_of_downloads + 1;
-    // localStorage.setItem('number_of_downloads', new_download_count);
+    // localStorage.setItem('x8u_000_vb_nod', new_download_count); // 'number_of_downloads'
     // let remaining_downloads = (3 - new_download_count); // 3, 2, 1
 
     // toast.dismiss();
@@ -751,7 +751,7 @@ ${stringifiedMappedFormValues}
 
        // increment on # of downloads
       let new_download_count = number_of_downloads + 1;
-      localStorage.setItem('number_of_downloads', new_download_count);
+      localStorage.setItem('x8u_000_vb_nod', new_download_count); // 'number_of_downloads'
       let remaining_downloads = (3 - new_download_count); // 3, 2, 1
 
       toast.dismiss();
@@ -988,7 +988,7 @@ ${stringifiedMappedFormValues}
         }
 
         if (payment_received) {
-          setMessage(`Download Now (${localStorage.getItem('number_of_downloads')}/3)`);
+          setMessage(`Download Now (${localStorage.getItem('x8u_000_vb_nod')}/3)`); // 'number_of_downloads'
         }
 
       }, 250);
