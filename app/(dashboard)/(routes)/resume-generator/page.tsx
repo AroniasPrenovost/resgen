@@ -1040,7 +1040,7 @@ ${stringifiedMappedFormValues}
               <FormField
                 name="full_name"
                 render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-4 border-2 rounded-lg border-gray-100">
+                  <FormItem className="col-span-12 lg:col-span-4 border-2 rounded-lg border-gray-300">
                     <FormControl className="m-0 p-2" >
                       <Input
 
@@ -1057,7 +1057,7 @@ ${stringifiedMappedFormValues}
               <FormField
                 name="email_address"
                 render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-4 border-2 rounded-lg border-gray-100">
+                  <FormItem className="col-span-12 lg:col-span-4 border-2 rounded-lg border-gray-300">
                     <FormControl className="m-0 p-2">
                       <Input
                         className="border-0 outline-none  "
@@ -1073,7 +1073,7 @@ ${stringifiedMappedFormValues}
               <FormField
                 name="phone_number"
                 render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-4 border-2 rounded-lg border-gray-100">
+                  <FormItem className="col-span-12 lg:col-span-4 border-2 rounded-lg border-gray-300">
                     <FormControl className="m-0 p-2">
                       <Input
                         className="border-0 outline-none  "
@@ -1089,7 +1089,7 @@ ${stringifiedMappedFormValues}
               <FormField
                 name="linkedin_profile"
                 render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                  <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
                     <FormControl className="m-0 p-2">
                       <Input
                         className="border-0 outline-none  "
@@ -1105,7 +1105,7 @@ ${stringifiedMappedFormValues}
               <FormField
                 name="personal_website"
                 render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                  <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
                     <FormControl className="m-0 p-2">
                       <Input
                         className="border-0 outline-none  "
@@ -1121,7 +1121,7 @@ ${stringifiedMappedFormValues}
               <FormField
                 name="skills"
                 render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-12 border-2 rounded-lg border-gray-100">
+                  <FormItem className="col-span-12 lg:col-span-12 border-2 rounded-lg border-gray-300">
                     <FormControl className="m-0 p-2">
                       <Input
                         className="border-0 outline-none  "
@@ -1137,7 +1137,7 @@ ${stringifiedMappedFormValues}
               <FormField
                 name="interests"
                 render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-12 border-2 rounded-lg border-gray-100">
+                  <FormItem className="col-span-12 lg:col-span-12 border-2 rounded-lg border-gray-300">
                     <FormControl className="m-0 p-2">
                       <Input
                         className="border-0 outline-none  "
@@ -1179,7 +1179,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_1_start_month"
                     render={({ field }) => (
-                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1195,7 +1195,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_1_start_year"
                     render={({ field }) => (
-                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1211,7 +1211,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_1_end_month"
                     render={({ field }) => (
-                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1227,7 +1227,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_1_end_year"
                     render={({ field }) => (
-                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1243,7 +1243,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_1_employer"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1259,7 +1259,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_1_title"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1275,7 +1275,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_1_summary"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1307,7 +1307,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_2_start_month"
                     render={({ field }) => (
-                      <FormItem className="col-span-3 lg:col-span-3  border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-3 lg:col-span-3  border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1323,7 +1323,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_2_start_year"
                     render={({ field }) => (
-                      <FormItem className="col-span-3 lg:col-span-3  border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-3 lg:col-span-3  border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1339,7 +1339,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_2_end_month"
                     render={({ field }) => (
-                      <FormItem className="col-span-3 lg:col-span-3  border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-3 lg:col-span-3  border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1355,7 +1355,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_2_end_year"
                     render={({ field }) => (
-                      <FormItem className="col-span-3 lg:col-span-3  border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-3 lg:col-span-3  border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1371,7 +1371,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_2_employer"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1387,7 +1387,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_2_title"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1403,7 +1403,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_2_summary"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1436,7 +1436,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_3_start_month"
                     render={({ field }) => (
-                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1452,7 +1452,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_3_start_year"
                     render={({ field }) => (
-                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1468,7 +1468,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_3_end_month"
                     render={({ field }) => (
-                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1484,7 +1484,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_3_end_year"
                     render={({ field }) => (
-                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1500,7 +1500,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_3_employer"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1516,7 +1516,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_3_title"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1532,7 +1532,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_3_summary"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1567,7 +1567,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_4_start_month"
                     render={({ field }) => (
-                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1583,7 +1583,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_4_start_year"
                     render={({ field }) => (
-                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1599,7 +1599,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_4_end_month"
                     render={({ field }) => (
-                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1615,7 +1615,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_4_end_year"
                     render={({ field }) => (
-                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1631,7 +1631,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_4_employer"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1647,7 +1647,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_4_title"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1663,7 +1663,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_4_summary"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1694,7 +1694,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_5_start_month"
                     render={({ field }) => (
-                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none"
@@ -1710,7 +1710,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_5_start_year"
                     render={({ field }) => (
-                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none"
@@ -1726,7 +1726,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_5_end_month"
                     render={({ field }) => (
-                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1742,7 +1742,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_5_end_year"
                     render={({ field }) => (
-                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1758,7 +1758,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_5_employer"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1774,7 +1774,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_5_title"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1790,7 +1790,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_5_summary"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1822,7 +1822,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_6_start_month"
                     render={({ field }) => (
-                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1838,7 +1838,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_6_start_year"
                     render={({ field }) => (
-                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1854,7 +1854,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_6_end_month"
                     render={({ field }) => (
-                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1870,7 +1870,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_6_end_year"
                     render={({ field }) => (
-                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-3 lg:col-span-3 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1886,7 +1886,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_6_employer"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1902,7 +1902,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_6_title"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1918,7 +1918,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_6_summary"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1962,7 +1962,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="college_name_1"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1980,7 +1980,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="college_degree_1"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1997,7 +1997,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="college_field_of_study_1"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2013,7 +2013,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="college_start_year_1"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2029,7 +2029,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="college_end_year_1"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2045,7 +2045,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="college_notes_1"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2080,7 +2080,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="college_name_2"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2096,7 +2096,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="college_degree_2"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2112,7 +2112,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="college_field_of_study_2"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2128,7 +2128,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="college_start_year_2"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2144,7 +2144,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="college_end_year_2"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2160,7 +2160,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="college_notes_2"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2197,7 +2197,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="college_name_3"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2213,7 +2213,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="college_degree_3"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none"
@@ -2229,7 +2229,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="college_field_of_study_3"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2245,7 +2245,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="college_start_year_3"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2261,7 +2261,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="college_end_year_3"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2277,7 +2277,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="college_notes_3"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2321,7 +2321,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="achievement_1_issuer"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2338,7 +2338,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="achievement_1_name"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2371,7 +2371,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="achievement_2_issuer"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2387,7 +2387,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="achievement_2_name"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2420,7 +2420,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="achievement_3_issuer"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2436,7 +2436,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="achievement_3_name"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2478,7 +2478,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="reference_1_info"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2494,7 +2494,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="reference_2_info"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2510,7 +2510,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="reference_3_info"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2526,7 +2526,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="reference_4_info"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-100">
+                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
