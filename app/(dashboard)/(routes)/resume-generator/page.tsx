@@ -756,7 +756,7 @@ ${stringifiedMappedFormValues}
 
       toast.dismiss();
       toast.success(`Successfully generated resume. Please check your downloads folder.\n\nDownloads remaining: ${remaining_downloads}`, {
-        duration: 20000,
+        duration: 12000,
       });
 
       // form.reset(); // we want to persist form data if they want to submit again
