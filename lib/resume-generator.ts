@@ -61,7 +61,7 @@ export class DocumentCreator {
                     // size: 28,
                     bold: true,
                     // italics: true,
-                    color: "#273c75",
+                    color: "#3867d6",
                 },
                 paragraph: {
                     spacing: {
@@ -77,7 +77,7 @@ export class DocumentCreator {
                   // size: 28,
                   bold: true,
                   // italics: true,
-                  color: "#273c75",
+                  color: "#3867d6",
                 },
                 paragraph: {
                     spacing: {
