@@ -57,7 +57,7 @@ export class DocumentCreator {
                 run: {
                   // font: 'Calibri',
                   font: 'Gill Sans',
-                  size: 40,
+                  size: 48,
                     // size: 28,
                     bold: true,
                     // italics: true,
@@ -66,7 +66,7 @@ export class DocumentCreator {
                 paragraph: {
                     spacing: {
                         before: -80,
-                        after: 40,
+                        after: 0,
                     },
                 },  
             },
