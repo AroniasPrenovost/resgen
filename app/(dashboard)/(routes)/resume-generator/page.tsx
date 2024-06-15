@@ -84,7 +84,7 @@ const ResumeGeneratorPage = () => {
     // console.log('# of downloads: ', number_of_downloads);
     // console.log('payment_received: ', payment_received);
 
-    let clearCache1 = payment_received && (differenceInMinutes > 3600); // 1 hour
+    let clearCache1 = payment_received && (differenceInMinutes > 360000); // 100 hours
     let clearCache2 = payment_received && (number_of_downloads > 2);
     if (clearCache1 || clearCache2) {
       // console.log(' ')
