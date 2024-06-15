@@ -58,7 +58,7 @@ const ResumeGeneratorPage = () => {
   let number_of_downloads: any = 0;
 
   // let message = 'Instant Access to 3 Downloads';
-  const [message] = useState('Get Instant Access to 3 Downloads');
+  const [message, setMessage] = useState('Get Instant Access to 3 Downloads');
 
   let storedFormValues: any = {};
   if (global?.window !== undefined) { // now it's safe to access window and localStorage
@@ -987,6 +987,9 @@ ${stringifiedMappedFormValues}
           setReferences1Visibility(true);
         }
 
+        if (payment_received) {
+          setMessage(`Download Now (${localStorage.getItem('number_of_downloads')}/3)`);
+        }
 
       }, 250);
 
