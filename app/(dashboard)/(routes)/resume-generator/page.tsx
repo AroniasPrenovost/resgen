@@ -717,7 +717,7 @@ resume_object:
 ${stringifiedMappedFormValues}
     `;
 
-    const fileName = `${(mappedFormValues.personal_info.name).replace(' ', '')}_Resume.docx`;
+    const fileName = `${(mappedFormValues.personal_info.name).replace(' ', '')}-Resume.docx`;
 
 
     // make API call 
