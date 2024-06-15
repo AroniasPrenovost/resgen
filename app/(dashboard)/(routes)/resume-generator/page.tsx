@@ -821,7 +821,7 @@ ${stringifiedMappedFormValues}
   // EDUCATION - 2nd section
   const [education2Visibility, setEducation2Visibility] = useState<boolean>(false);
   // EDUCATION - 3rd section
-  const [educationInput3Visibility, setEducationInput3Visibility] = useState<boolean>(false);
+  const [education3Visibility, setEducation3Visibility] = useState<boolean>(false);
 
   //
   //
@@ -838,6 +838,164 @@ ${stringifiedMappedFormValues}
 
   // References - 1st section
   const [references1Visibility, setReferences1Visibility] = useState<boolean>(false);
+
+
+      // job_1_employer: storedFormValues.job_1_employer ?? '',
+      // job_1_title: storedFormValues.job_1_title ?? '',
+      // job_1_start_month: storedFormValues.job_1_start_month ?? '',
+      // job_1_start_year: storedFormValues.job_1_start_year ?? '',
+      // job_1_end_month: storedFormValues.job_1_end_month ?? '',
+      // job_1_end_year: storedFormValues.job_1_end_year ?? '',
+      // job_1_summary: storedFormValues.job_1_summary ?? '',
+
+    useEffect(() => {
+      // Use setTimeout to update the message after 2000 milliseconds (2 seconds)
+      const timeoutId = setTimeout(() => {
+        if (
+          storedFormValues.job_1_employer.length ||
+          storedFormValues.job_1_title.length ||
+          storedFormValues.job_1_start_month.length ||
+          storedFormValues.job_1_start_year.length ||
+          storedFormValues.job_1_end_month.length  ||
+          storedFormValues.job_1_end_year.length ||
+          storedFormValues.job_1_summary.length
+        ) {
+          setJob1Visibility(true);
+        }
+
+        if (
+          storedFormValues.job_2_employer.length ||
+          storedFormValues.job_2_title.length ||
+          storedFormValues.job_2_start_month.length ||
+          storedFormValues.job_2_start_year.length ||
+          storedFormValues.job_2_end_month.length  ||
+          storedFormValues.job_2_end_year.length ||
+          storedFormValues.job_2_summary.length
+        ) {
+          setJob2Visibility(true);
+        }
+
+        if (
+          storedFormValues.job_3_employer.length ||
+          storedFormValues.job_3_title.length ||
+          storedFormValues.job_3_start_month.length ||
+          storedFormValues.job_3_start_year.length ||
+          storedFormValues.job_3_end_month.length  ||
+          storedFormValues.job_3_end_year.length ||
+          storedFormValues.job_3_summary.length
+        ) {
+          setJob3Visibility(true);
+        }
+
+        if (
+          storedFormValues.job_4_employer.length ||
+          storedFormValues.job_4_title.length ||
+          storedFormValues.job_4_start_month.length ||
+          storedFormValues.job_4_start_year.length ||
+          storedFormValues.job_4_end_month.length  ||
+          storedFormValues.job_4_end_year.length ||
+          storedFormValues.job_4_summary.length
+        ) {
+          setJob4Visibility(true);
+        }
+
+        if (
+          storedFormValues.job_5_employer.length ||
+          storedFormValues.job_5_title.length ||
+          storedFormValues.job_5_start_month.length ||
+          storedFormValues.job_5_start_year.length ||
+          storedFormValues.job_5_end_month.length  ||
+          storedFormValues.job_5_end_year.length ||
+          storedFormValues.job_5_summary.length
+        ) {
+          setJob5Visibility(true);
+        }
+
+        if (
+          storedFormValues.job_6_employer.length ||
+          storedFormValues.job_6_title.length ||
+          storedFormValues.job_6_start_month.length ||
+          storedFormValues.job_6_start_year.length ||
+          storedFormValues.job_6_end_month.length  ||
+          storedFormValues.job_6_end_year.length ||
+          storedFormValues.job_6_summary.length
+        ) {
+          setJob6Visibility(true);
+        }
+
+        // education 
+        if (
+          storedFormValues.college_name_1 ||
+          storedFormValues.college_degree_1 ||
+          storedFormValues.college_field_of_study_1 ||
+          storedFormValues.college_notes_1 ||
+          storedFormValues.college_start_year_1 ||
+          storedFormValues.college_end_year_1
+        ) {
+          setEducation1Visibility(true);
+        }
+
+        if (
+          storedFormValues.college_name_2 ||
+          storedFormValues.college_degree_2 ||
+          storedFormValues.college_field_of_study_2 ||
+          storedFormValues.college_notes_2 ||
+          storedFormValues.college_start_year_2 ||
+          storedFormValues.college_end_year_2
+        ) {
+          setEducation2Visibility(true);
+        }
+
+        if (
+          storedFormValues.college_name_3 ||
+          storedFormValues.college_degree_3 ||
+          storedFormValues.college_field_of_study_3 ||
+          storedFormValues.college_notes_3 ||
+          storedFormValues.college_start_year_3 ||
+          storedFormValues.college_end_year_3
+        ) {
+          setEducation3Visibility(true);
+        }
+
+        // civic
+        if (
+          storedFormValues.achievement_1_issuer ||
+          storedFormValues.achievement_1_name 
+        ) {
+          setCivic1Visibility(true);
+        }
+
+        if (
+          storedFormValues.achievement_2_issuer ||
+          storedFormValues.achievement_2_name 
+        ) {
+          setCivic2Visibility(true);
+        }
+
+        if (
+          storedFormValues.achievement_3_name ||
+          storedFormValues.achievement_3_issuer
+        ) {
+          setCivic3Visibility(true);
+        }
+
+        // references 
+        if (
+          storedFormValues.reference_1_info ||
+          storedFormValues.reference_2_info ||
+          storedFormValues.reference_3_info ||
+          storedFormValues.reference_4_info 
+        ) {
+          setReferences1Visibility(true);
+        }
+
+
+      }, 2500);
+
+      // Cleanup function to clear the timeout if the component unmounts
+      return () => clearTimeout(timeoutId);
+    }, []); // Empty dependency array ensures the effect runs only once
+
 
   return (
     <div>
@@ -1793,7 +1951,7 @@ ${stringifiedMappedFormValues}
                     <input
                       name="checked" type="checkbox" checked={education1Visibility}
                       onChange={e => setEducation1Visibility(!education1Visibility)} />
-                    &nbsp; Education
+                    &nbsp; Add education
                   </label>
                 </FormControl>
               </FormItem>
@@ -1912,7 +2070,7 @@ ${stringifiedMappedFormValues}
                     <input
                       name="checked" type="checkbox" checked={education2Visibility}
                       onChange={e => setEducation2Visibility(!education2Visibility)} />
-                    &nbsp; Additional education (1)
+                    &nbsp; Add education (1)
                   </label>
                 </FormControl>
               </FormItem>
@@ -2027,14 +2185,14 @@ ${stringifiedMappedFormValues}
                 <FormControl className="m-0 p-2">
                   <label style={{ color: '#576574' }} className="text-sm">
                     <input
-                      name="checked" type="checkbox" checked={educationInput3Visibility}
-                      onChange={e => setEducationInput3Visibility(!educationInput3Visibility)} />
-                    &nbsp; Additional education (2)
+                      name="checked" type="checkbox" checked={education3Visibility}
+                      onChange={e => setEducation3Visibility(!education3Visibility)} />
+                    &nbsp; Add education (2)
                   </label>
                 </FormControl>
               </FormItem>
 
-              {educationInput3Visibility ?
+              {education3Visibility ?
                 <>
                   <FormField
                     name="college_name_3"
@@ -2153,7 +2311,7 @@ ${stringifiedMappedFormValues}
                     <input
                       name="checked" type="checkbox" checked={civic1Visibility}
                       onChange={e => setCivic1Visibility(!civic1Visibility)} />
-                    &nbsp; Add entry
+                    &nbsp; Add achievement
                   </label>
                 </FormControl>
               </FormItem>
@@ -2168,7 +2326,7 @@ ${stringifiedMappedFormValues}
                           <Input
                             className="border-0 outline-none  "
                             disabled={isLoading}
-                            placeholder="Civic organization (if applicable)"
+                            placeholder="Organization (if applicable)"
                             {...field}
                           />
                         </FormControl>
@@ -2203,7 +2361,7 @@ ${stringifiedMappedFormValues}
                     <input
                       name="checked" type="checkbox" checked={civic2Visibility}
                       onChange={e => setCivic2Visibility(!civic2Visibility)} />
-                    &nbsp; Add entry (2)
+                      &nbsp; Add achievement (2)
                   </label>
                 </FormControl>
               </FormItem>
@@ -2218,7 +2376,7 @@ ${stringifiedMappedFormValues}
                           <Input
                             className="border-0 outline-none  "
                             disabled={isLoading}
-                            placeholder="Civic organization (if applicable)"
+                            placeholder="Organization (if applicable)"
                             {...field}
                           />
                         </FormControl>
@@ -2252,7 +2410,7 @@ ${stringifiedMappedFormValues}
                     <input
                       name="checked" type="checkbox" checked={civic3Visibility}
                       onChange={e => setCivic3Visibility(!civic3Visibility)} />
-                    &nbsp; Add entry (3)
+                      &nbsp; Add achievement (3)
                   </label>
                 </FormControl>
               </FormItem>
@@ -2267,7 +2425,7 @@ ${stringifiedMappedFormValues}
                           <Input
                             className="border-0 outline-none  "
                             disabled={isLoading}
-                            placeholder="Civic organization (if applicable)"
+                            placeholder="Organization (if applicable)"
                             {...field}
                           />
                         </FormControl>

@@ -51,21 +51,55 @@ export class DocumentCreator {
       creator: personal_info.name,
       title: `${personal_info.name}'s Resume`,
       description: `${personal_info.name}'s Professional Resume`,
+      styles: {
+        default: {
+            title: {
+                run: {
+                  font: 'Calibri',
+                  size: 40,
+                    // size: 28,
+                    bold: true,
+                    // italics: true,
+                    color: "#0652DD",
+                },
+                paragraph: {
+                    spacing: {
+                        before: 0,
+                        after: 40,
+                    },
+                },  
+            },
+            heading2: {
+                run: {
+                  font: 'Gill Sans',
+                  size: 22,
+                  // size: 28,
+                  bold: true,
+                  // italics: true,
+                  color: "#0652DD",
+                },
+                paragraph: {
+                    spacing: {
+                        before: 120,
+                        after: 40,
+                    },
+                },
+            },
+          },
+        },
       sections: [
         {
           children: [  
             new Paragraph({
-              text: personal_info.name,
+              text: (personal_info.name).toUpperCase(),
               heading: HeadingLevel.TITLE,
               alignment: AlignmentType.LEFT, 
-              // font: 'Calibri',
-              spacing: {
-                // after: 80, // SPACING 
+                // alignment: AlignmentType.CENTER,   
+                spacing: {
+                 before: 0,
+                after: 40, // SPACING 
               },
             }),
-
-
-
 
 
             /*
@@ -165,7 +199,8 @@ export class DocumentCreator {
                       position.startDate,
                       position.endDate,
                       position.isCurrent
-                    )
+                    ),
+                    true // uppercase
                   )
                 );
                 arr.push(this.createRoleText(position.title));
@@ -199,11 +234,12 @@ export class DocumentCreator {
                 arr.push(
                   this.createInstitutionHeader(
                     education.schoolName,
-                    ` ${education.startDate.year} - ${education.endDate.year}`
+                    ` ${education.startDate.year} - ${education.endDate.year}`,
+                    false,
                   )
                 );
                 arr.push(
-                  this.createRoleText(
+                  this.createSchoolTitleText(
                     `${education.fieldOfStudy} - ${education.degree}`
                   )
                 );
@@ -233,7 +269,7 @@ export class DocumentCreator {
 
             this.createHeading("Achievements and Recognition"),
             // this.createSubHeading("Achievements"),
-            ...this.createAchivementsList(achievements),
+            ...this.createAchievementsList(achievements),
 
 
 
@@ -250,9 +286,15 @@ export class DocumentCreator {
               .map((reference: any) => {
                 const arr: Paragraph[] = [];
                 arr.push(
-                  new Paragraph(
-                    reference.info
-                  ),
+                  new Paragraph({
+                    children: [
+                      new TextRun({
+                        text: reference.info,
+                        size: 22,
+                        font: 'Calibri',
+                      }),
+                    ]
+                  })
                 );
                 return arr;
               })
@@ -377,7 +419,7 @@ export class DocumentCreator {
           ((phoneNumber.length || emailLink.length || linkedinLink.length) ? ' • ': '')
         ),
         personalWebsiteLink,
-      ]
+      ],
     });
   }
 
@@ -385,12 +427,13 @@ export class DocumentCreator {
     return new Paragraph({
       text: text,
       heading: HeadingLevel.HEADING_2,
+
       // alignment: AlignmentType.CENTER,
       // alignment: AlignmentType.CENTER,  
       thematicBreak: true,
        spacing: {
         before: 60,
-        after: 60, // SPACING 
+        after: 0, // SPACING 
       },
     });
   }
@@ -404,12 +447,13 @@ export class DocumentCreator {
 
   public createInstitutionHeader(
     institutionName: string,
-    dateText: string
+    dateText: string,
+    isUppercase: boolean,
   ): Paragraph {
     return new Paragraph({
       children: [
         new TextRun({
-          text: institutionName,
+          text: isUppercase ? institutionName.toUpperCase() : institutionName,
           bold: true,
           size: 22,
           font: 'Calibri',
@@ -427,6 +471,7 @@ export class DocumentCreator {
           font: 'Calibri',
         })
       ],
+      // thematicBreak: true,
       tabStops: [
         {
           type: TabStopType.RIGHT,
@@ -444,6 +489,20 @@ export class DocumentCreator {
             italics: true,
             size: 22,
             font: 'Calibri',
+            bold: true,
+          })
+      ]
+    });
+  }
+
+    public createSchoolTitleText(roleText: string): Paragraph {
+    return new Paragraph({
+      children: [
+        new TextRun({
+            text: roleText,
+            italics: true,
+            size: 22,
+            font: 'Calibri',
           })
       ]
     });
@@ -451,7 +510,13 @@ export class DocumentCreator {
 
   public createBullet(text: string): Paragraph {
     return new Paragraph({
-      text: text,
+      children: [
+        new TextRun({
+          text: text,
+          size: 22,
+          font: 'Calibri',
+        })
+      ],
       bullet: {
         level: 0
       }
@@ -472,8 +537,9 @@ export class DocumentCreator {
   }
 
   // tslint:disable-next-line:no-any
-  public createAchivementsList(achivements: any[]): Paragraph[] {
-    return achivements.map(
+  public createAchievementsList(achievements: any[]): Paragraph[] {
+
+    return achievements.map(
       achievement =>
 
 
@@ -485,6 +551,9 @@ export class DocumentCreator {
             size: 22,
             font: 'Calibri',
           }),
+          new TextRun(
+            ((achievement.issuer).length ? ' - ': '')
+          ),
           new TextRun({
             text: achievement.name,
             size: 22,
