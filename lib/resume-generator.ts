@@ -91,7 +91,7 @@ export class DocumentCreator {
         {
           children: [  
             new Paragraph({
-              text: (personal_info.name).toUpperCase(),
+              text: (personal_info.name), // .toUpperCase(),
               heading: HeadingLevel.TITLE,
               alignment: AlignmentType.LEFT, 
                 // alignment: AlignmentType.CENTER,   
