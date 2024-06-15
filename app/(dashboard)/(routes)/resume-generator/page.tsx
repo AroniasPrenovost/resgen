@@ -990,7 +990,7 @@ ${stringifiedMappedFormValues}
         }
 
 
-      }, 500);
+      }, 250);
 
       // Cleanup function to clear the timeout if the component unmounts
       return () => clearTimeout(timeoutId);
