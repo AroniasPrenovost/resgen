@@ -209,9 +209,11 @@ export class DocumentCreator {
                   position.summary
                 );
 
-                bulletPoints.forEach(bulletPoint => {
-                  arr.push(this.createBullet(bulletPoint));
-                });
+                if (position.summary.length) {
+                  bulletPoints.forEach(bulletPoint => {
+                    arr.push(this.createBullet(bulletPoint));
+                  });
+                }
 
                 return arr;
               })
