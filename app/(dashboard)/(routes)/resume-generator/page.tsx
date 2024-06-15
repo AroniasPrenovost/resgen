@@ -88,6 +88,7 @@ const ResumeGeneratorPage = () => {
 
     let clearCache1 = payment_received && (differenceInMinutes > 360000); // 100 hours
     let clearCache2 = payment_received && (number_of_downloads > (max_downloads - 1));
+    
     if (clearCache1 || clearCache2) {
       // console.log(' ')
       // console.log('cleared cache');
