@@ -77,6 +77,8 @@ npm run dev
 npx prisma studio # runs at http://localhost:5555/
 ```
 
+### docx.js 
+templating + styling: https://docx.js.org/#/usage/styling-with-js?id=examples
 
 ### Stripe 
 ## setup - https://www.youtube.com/watch?v=uQAf6huBIks
