@@ -80,15 +80,15 @@ const ResumeGeneratorPage = () => {
     const differenceInMilliseconds = timestamp1 - timestamp2;
     const differenceInMinutes = differenceInMilliseconds / (1000 * 60);
 
-    console.log('diff in minutes: ', differenceInMinutes);
-    console.log('# of downloads: ', number_of_downloads);
-    console.log('payment_received: ', payment_received);
+    // console.log('diff in minutes: ', differenceInMinutes);
+    // console.log('# of downloads: ', number_of_downloads);
+    // console.log('payment_received: ', payment_received);
 
     let clearCache1 = payment_received && (differenceInMinutes > 3600); // 1 hour
     let clearCache2 = payment_received && (number_of_downloads > 2);
     if (clearCache1 || clearCache2) {
-      console.log(' ')
-      console.log('cleared cache');
+      // console.log(' ')
+      // console.log('cleared cache');
       localStorage.removeItem('payment_received');
       localStorage.setItem('last_payment_received', '');
       localStorage.setItem('number_of_downloads', '0');
@@ -543,7 +543,7 @@ const ResumeGeneratorPage = () => {
 
 
   if (storedFormValues) {
-    console.log(' there are stored values', storedFormValues);
+    // console.log(' there are stored values', storedFormValues);
     // RAW DATA
     /* 
 
@@ -746,7 +746,7 @@ ${stringifiedMappedFormValues}
 
       Packer.toBlob(doc).then(blob => {
         saveAs(blob, fileName);
-        console.log("Successfully created resume.");
+        console.log(`Successfully created resume - ${outputObject.personal_info.name}`);
       });
 
        // increment on # of downloads
@@ -780,7 +780,7 @@ ${stringifiedMappedFormValues}
         ]);
         Packer.toBlob(doc).then(blob => {
           saveAs(blob, fileName);
-          console.log("Successfully created resume.");
+          console.log(`Successfully created resume (without AI) - ${mappedFormValues.personal_info.name}`);
         });
 
         toast.error("Something went wrong with the AI connection, but your resume was still generated.\n\nThis did not count against your remaining downloads: ${number_of_downloads}/3");
