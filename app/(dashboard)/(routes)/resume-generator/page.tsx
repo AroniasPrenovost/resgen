@@ -668,27 +668,25 @@ const ResumeGeneratorPage = () => {
     //   duration: 20000,
     // });
 
-    const fileNameTest = 'test-name';
-    // Generate word doc 
-    //
-    //
-    const documentCreator = new DocumentCreator();
-    const doc = documentCreator.create([
-      mappedFormValues.personal_info,
-      mappedFormValues.experiences,
-      mappedFormValues.education,
-      mappedFormValues.skills,
-      mappedFormValues.achievements,
-      mappedFormValues.references,
-    ]);
+    // const fileNameTest = 'test-name';
+ 
+    // const documentCreator = new DocumentCreator();
+    // const doc = documentCreator.create([
+    //   mappedFormValues.personal_info,
+    //   mappedFormValues.experiences,
+    //   mappedFormValues.education,
+    //   mappedFormValues.skills,
+    //   mappedFormValues.achievements,
+    //   mappedFormValues.references,
+    // ]);
 
-    Packer.toBlob(doc).then(blob => {
-      saveAs(blob, fileNameTest);
-      console.log("Successfully created resume.");
-    });
+    // Packer.toBlob(doc).then(blob => {
+    //   saveAs(blob, fileNameTest);
+    //   console.log("Successfully created resume.");
+    // });
 
     
-    return;
+    // return;
 
     /* 
 
@@ -785,7 +783,7 @@ ${stringifiedMappedFormValues}
           console.log("Successfully created resume.");
         });
 
-        toast.error("Something went wrong with the AI connection, but your resume was still generated with improved formatting.\n\nThis did not count against your remaining downloads: ${number_of_downloads}/3");
+        toast.error("Something went wrong with the AI connection, but your resume was still generated.\n\nThis did not count against your remaining downloads: ${number_of_downloads}/3");
       }
     } finally {
       router.refresh();
