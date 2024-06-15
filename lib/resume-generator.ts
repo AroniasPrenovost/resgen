@@ -65,7 +65,7 @@ export class DocumentCreator {
                 },
                 paragraph: {
                     spacing: {
-                        before: -80,
+                        before: 0,
                         after: 0,
                     },
                 },  
@@ -97,7 +97,7 @@ export class DocumentCreator {
               alignment: AlignmentType.LEFT, 
               // alignment: AlignmentType.CENTER,   
               spacing: {
-                 before: -80,
+                 before: 0,
                 after: 40, // SPACING 
               },
             }),
