@@ -1002,7 +1002,7 @@ ${stringifiedMappedFormValues}
           setMessage(`Download Now (${number_of_downloads}/${max_download_count})`); // 'number_of_downloads'
         }
 
-      }, 250);
+      }, 250);  
 
       // Cleanup function to clear the timeout if the component unmounts
       return () => clearTimeout(timeoutId);
@@ -2552,6 +2552,9 @@ ${stringifiedMappedFormValues}
                   />
                 </> : ''}
 
+              {/*
+                Download Button
+              */}
               <Button
                 // style={{ whiteSpace: 'nowrap' }}
                 className="col-span-12 lg:col-span-12 w-full"
@@ -2561,40 +2564,8 @@ ${stringifiedMappedFormValues}
                 size="icon"
                 >
                 {message}
-                {/*{"Download Available"}*/}
               </Button>
 
-
-   {/*            <Button
-                onClick={generateCoverLetter}
-                className="col-span-12 lg:col-span-2 w-full"
-                // type="submit" 
-                disabled={isLoading}
-                        style={{ float: 'left', backgroundColor: 'orange' }}
-                size="icon"
-              >
-                Generate Cover Letter
-              </Button>   */}
-
-              {/* <Button
-                onClick={generateDocx}
-                className="col-span-12 lg:col-span-2 w-full"
-                // type="submit" 
-                disabled={isLoading}
-                size="icon"
-              >
-                Generate resume doc
-              </Button> */}
-
-              {/* <Button
-                onClick={generatePDF}
-                className="col-span-12 lg:col-span-2 w-full"
-                // type="submit" 
-                disabled={isLoading}
-                size="icon"
-              >
-                Generate PDF
-              </Button> */}
             </form>
           </Form>
         </div>
