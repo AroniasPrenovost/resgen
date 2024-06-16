@@ -2016,7 +2016,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="college_field_of_study_1"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-300">
+                      <FormItem className="col-span-12 lg:col-span-12 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2568,7 +2568,7 @@ ${stringifiedMappedFormValues}
                   className="col-span-6 lg:col-span-6"
                   style={{ 
                     color: '#576574', 
-                    // textAlign: 'center',
+                    textAlign: 'center',
                     padding: '4px',
                   }}     
               >
