@@ -706,11 +706,11 @@ const ResumeGeneratorPage = () => {
 
 
     // add AI-generated content for empty form fields
-    const fill_in_the_blank = false;
-    let fill_in_the_blank_phrase = fill_in_the_blank 
+    let fill_in_the_blank_phrase = fillInTheBlank // the form input
       ? 'Add realistic content to sections that are blank.' 
       : 'Leave blank if a section does not exist.'
     ;
+
 
     const promptString = `Persona: you are a expert resume writer with with years of experience improving resumes. 
 Improve the verbiage, tone, and professionalism of the inputted content so it can be used in a resume.
