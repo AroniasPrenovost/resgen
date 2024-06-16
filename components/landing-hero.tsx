@@ -32,9 +32,9 @@ export const LandingHero = () => {
       </div>
       <div>
         {/* <Link href={isSignedIn ? "/dashboard" : "/sign-up"}> */}
-        <Link href="/resume-generator">
+        <Link href="/resume-generator" prefetch={true}>
           <Button variant="premium" className="md:text-lg p-4 md:p-6 rounded-full font-semibold">
-            Generate your last resume
+            Generate Your Last Resume
           </Button>
         </Link>
       </div>
