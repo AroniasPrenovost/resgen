@@ -25,6 +25,9 @@ import { useProModal } from "@/hooks/use-pro-modal";
 
 import { formSchema } from "./constants";
 
+import { Tooltip } from '@nextui-org/react';
+
+
 // import { checkSubscription } from "@/lib/subscription";
 
 // .docx generation
@@ -56,7 +59,7 @@ const ResumeGeneratorPage = () => {
   let last_payment_received: any = false;
 
   let number_of_downloads: any = 0;
-  const max_download_count = 5;
+  const max_download_count = 3;
 
   // let message = 'Instant Access to 3 Downloads';
   // const [message, setMessage] = useState('Get Instant Access to 3 Downloads');
@@ -70,7 +73,7 @@ const ResumeGeneratorPage = () => {
     payment_received = localStorage.getItem('pr_0012') === 'true'; // 'payment_received'
     last_payment_received = localStorage.getItem('last_payment_received');
 
-    let sfv = localStorage.getItem('stored_form_values') ?? '';
+    let sfv = localStorage.getItem('stored_form_values') ?? ''; // 'stored_form_values'
     if (sfv && sfv.length) {
       storedFormValues = JSON.parse(sfv);
     }
@@ -849,13 +852,17 @@ ${stringifiedMappedFormValues}
   const [references1Visibility, setReferences1Visibility] = useState<boolean>(false);
 
 
-      // job_1_employer: storedFormValues.job_1_employer ?? '',
-      // job_1_title: storedFormValues.job_1_title ?? '',
-      // job_1_start_month: storedFormValues.job_1_start_month ?? '',
-      // job_1_start_year: storedFormValues.job_1_start_year ?? '',
-      // job_1_end_month: storedFormValues.job_1_end_month ?? '',
-      // job_1_end_year: storedFormValues.job_1_end_year ?? '',
-      // job_1_summary: storedFormValues.job_1_summary ?? '',
+  //
+  //
+
+  // 'Fill in the blank' checkbox
+  const [fillInTheBlank, setFillInTheBlank] = useState<boolean>(false);
+
+
+  //
+  //
+
+  // preselect checkboxes if they have content 
 
     useEffect(() => {
       // Use setTimeout to update the message after 2000 milliseconds (2 seconds)
@@ -1930,7 +1937,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_6_summary"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-300">
+                      <FormItem className="col-span-12 lg:col-span-12 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2057,7 +2064,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="college_notes_1"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-300">
+                      <FormItem className="col-span-12 lg:col-span-12 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2076,7 +2083,7 @@ ${stringifiedMappedFormValues}
 
 
               {/*EDUCATION - 2 */}
-              <FormItem className="col-span-12 lg:col-span-10">
+              <FormItem className="col-span-12 lg:col-span-12">
                 <FormControl className="m-0 p-2">
                   <label style={{ color: '#576574' }} className="text-sm">
                     <input
@@ -2317,7 +2324,7 @@ ${stringifiedMappedFormValues}
               </FormItem>
 
               {/* CIVIC 1 DROPDOWN */}
-              <FormItem className="col-span-12 lg:col-span-10">
+              <FormItem className="col-span-12 lg:col-span-12">
                 <FormControl className="m-0 p-2">
                   <label style={{ color: '#576574' }} className="text-sm">
                     <input
@@ -2333,7 +2340,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="achievement_1_issuer"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-300">
+                      <FormItem className="col-span-12 lg:col-span-12 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2350,7 +2357,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="achievement_1_name"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-300">
+                      <FormItem className="col-span-12 lg:col-span-12 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2367,7 +2374,7 @@ ${stringifiedMappedFormValues}
 
               {/* CIVIC 2 DROPDOWN */}
 
-              <FormItem className="col-span-12 lg:col-span-10">
+              <FormItem className="col-span-12 lg:col-span-12">
                 <FormControl className="m-0 p-2">
                   <label style={{ color: '#576574' }} className="text-sm">
                     <input
@@ -2383,7 +2390,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="achievement_2_issuer"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-300">
+                      <FormItem className="col-span-12 lg:col-span-12 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2399,7 +2406,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="achievement_2_name"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-300">
+                      <FormItem className="col-span-12 lg:col-span-12 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2416,7 +2423,7 @@ ${stringifiedMappedFormValues}
 
               {/* CIVIC 3 DROPDOWN */}
 
-              <FormItem className="col-span-12 lg:col-span-10">
+              <FormItem className="col-span-12 lg:col-span-12">
                 <FormControl className="m-0 p-2">
                   <label style={{ color: '#576574' }} className="text-sm">
                     <input
@@ -2432,7 +2439,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="achievement_3_issuer"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-300">
+                      <FormItem className="col-span-12 lg:col-span-12 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2448,7 +2455,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="achievement_3_name"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-300">
+                      <FormItem className="col-span-12 lg:col-span-12 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2466,7 +2473,7 @@ ${stringifiedMappedFormValues}
               {/* REFERENCES DROPDOWN */}
 
 
-              <FormItem className="col-span-12 lg:col-span-10">
+              <FormItem className="col-span-12 lg:col-span-12">
                 <FormControl className="m-0 p-2">
                   <label style={{ fontWeight: 'bold' }}>
                     Professional References
@@ -2474,7 +2481,7 @@ ${stringifiedMappedFormValues}
                 </FormControl>
               </FormItem>
 
-              <FormItem className="col-span-12 lg:col-span-10">
+              <FormItem className="col-span-12 lg:col-span-12">
                 <FormControl className="m-0 p-2">
                   <label style={{ color: '#576574' }} className="text-sm">
                     <input
@@ -2490,7 +2497,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="reference_1_info"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-300">
+                      <FormItem className="col-span-12 lg:col-span-12 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2506,7 +2513,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="reference_2_info"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-300">
+                      <FormItem className="col-span-12 lg:col-span-12 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2522,7 +2529,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="reference_3_info"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-300">
+                      <FormItem className="col-span-12 lg:col-span-12 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2538,7 +2545,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="reference_4_info"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-300">
+                      <FormItem className="col-span-12 lg:col-span-12 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2552,12 +2559,51 @@ ${stringifiedMappedFormValues}
                   />
                 </> : ''}
 
+
+
+              {/*
+                'Fil in the blank' button
+              */}
+              <FormItem 
+                  className="col-span-6 lg:col-span-6"
+                  style={{ 
+                    color: '#576574', 
+                    // textAlign: 'center',
+                    padding: '4px',
+                  }}     
+              >
+              {/*<FormItem className="col-span-12 lg:col-span-10">*/}
+                <FormControl className="m-0 p-2">
+                  <Tooltip 
+                    color="primary"
+                    content={"This setting will help complete your resume for you, filling in sections that are left blank."}
+                  >
+                    <label 
+                      style={{ 
+                        color: '#576574', 
+                        verticalAlign: '-webkit-baseline-middle'
+                      }} 
+                      className="text-sm"
+                    >
+                      <input
+                        name="checked" type="checkbox" checked={fillInTheBlank}
+                        onChange={e => setFillInTheBlank(!fillInTheBlank)} />
+                      &nbsp; Fill in The Blank 🔥   
+                    </label>
+                  </Tooltip>
+                </FormControl>
+              </FormItem>
+
+
+
+
+
               {/*
                 Download Button
               */}
               <Button
-                // style={{ whiteSpace: 'nowrap' }}
-                className="col-span-12 lg:col-span-12 w-full"
+                className="col-span-6 lg:col-span-6 w-full"
+                // className="col-span-12 lg:col-span-12 w-full"
                 type="submit"
                 disabled={isLoading}
                 style={{ float: 'left' }}
@@ -2565,6 +2611,7 @@ ${stringifiedMappedFormValues}
                 >
                 {message}
               </Button>
+
 
             </form>
           </Form>
