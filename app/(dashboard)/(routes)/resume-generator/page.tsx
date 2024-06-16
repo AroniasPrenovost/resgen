@@ -999,7 +999,7 @@ ${stringifiedMappedFormValues}
         }
 
         if (payment_received) {
-          setMessage(`Download Now (${localStorage.getItem('x8u_000_vb_nod')}/3)`); // 'number_of_downloads'
+          setMessage(`Download Now (${number_of_downloads}/${max_download_count})`); // 'number_of_downloads'
         }
 
       }, 250);
