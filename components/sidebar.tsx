@@ -80,13 +80,21 @@ export const Sidebar = ({
                 <li><b>4.</b> <em>Optional:</em> If you do not own Microsoft Word, upload your downloaded files to <Link className={cn(
                   "hover:text-white transition",
                    "text-zinc-400",
-                )} target="_blank" href="https://drive.google.com/drive/home">Google Drive</Link> 
+                )} target="_blank" rel="noopener noreferrer" href="https://drive.google.com/drive/home">Google Drive</Link> 
                 {/*to access and modify formatting*/}
-                .
 
-                 <div className="relative h-60 w-40 ml-8 mt-5">
+
+                <div className="relative ml-8 mt-5">
+                  Live <Link className={cn(
+                  "hover:text-white transition",
+                  "text-zinc-400",
+                  )} target="_blank" href="/John-Shanahan-Resume.pdf">example</Link> 
+                </div>
+
+
+                 <div className="relative h-60 w-40 ml-8 mt-2">
                    <Image fill alt="Example Resume" src="/example_resume.png" />
-                  </div>
+                 </div>
 
 
                 </li>
