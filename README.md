@@ -1,4 +1,5 @@
-	# Resume Generator SaaS built w/ Next.js 13, React, Tailwind, Prisma, Stripe 
+# ResumAI - Enhanced Resume Generation
+## Resume Generator SaaS built w/ Next.js 13, React, Tailwind, Prisma, Stripe 
 
 This is a repository based on [this tutorial video](https://www.youtube.com/watch?v=ffJ38dBzrlY&t=16662s).
 
