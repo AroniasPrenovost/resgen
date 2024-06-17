@@ -83,6 +83,12 @@ export const Sidebar = ({
                 )} target="_blank" href="https://drive.google.com/drive/home">Google Drive</Link> 
                 {/*to access and modify formatting*/}
                 .
+
+                 <div className="relative h-60 w-40 ml-8 mt-5">
+                   <Image fill alt="Example Resume" src="/example_resume.png" />
+                  </div>
+
+
                 </li>
               </ol>
           </div>
