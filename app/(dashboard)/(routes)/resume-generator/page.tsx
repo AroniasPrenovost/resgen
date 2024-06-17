@@ -670,9 +670,10 @@ const ResumeGeneratorPage = () => {
     // let remaining_downloads = (3 - new_download_count); // 3, 2, 1
 
     // toast.dismiss();
-    // toast.success(`Successfully generated resume. Please check your downloads folder.\n\nDownloads remaining: ${remaining_downloads}`, {
+    // toast.success(`Successfully generated resume, please check your downloads folder.\n\nDownloads remaining: `, {
     //   duration: 20000,
     // });
+
 
     // const fileNameTest = 'test-name';
  
@@ -707,8 +708,8 @@ const ResumeGeneratorPage = () => {
 
     // add AI-generated content for empty form fields
     let fill_in_the_blank_phrase = fillInTheBlank // the form input
-      ? 'Add realistic content to sections that are blank.' 
-      : 'Leave blank if a section does not exist.'
+      ? 'Add realistic content to sections that are blank (within reason).' 
+      : 'If a secion does not exist, leave it blank.'
     ;
 
 
@@ -716,11 +717,11 @@ const ResumeGeneratorPage = () => {
 Improve the verbiage, tone, and professionalism of the inputted content so it can be used in a resume.
 Rules: 
 1. The output should maintain the exact same object structure of the original 'resume_object', meaning only the key properties' values should be modified.
-2. Fix any typos, sentence structure issues, and grammar when necessary. 
-3. Capitalize proper nouns, expand acronyms when necessary.
+2. When necessary, fix any typos, sentence structure issues, and grammar problems. 
+3. Capitalize proper nouns, and expand acronyms when necessary.
 4. ${fill_in_the_blank_phrase}
-5. For 'resume_object.experiences' data, elaborate when necessary so most of the experience summary instances are at least least 2 sentances.
-6. For 'resume_object.education' section, ensure school names are proper and clear. 
+5. For 'resume_object.experiences' data, elaborate so most of the experience summary instances are at least 2 sentances.
+6. For 'resume_object.education' section, ensure school names are proper nonand clear. 
 7. For 'resume_object.achievements' section, elaborate when necessary to explain context of achievement. 
 8. For 'resume_object.references' section, elaborate when necessary to explain context of relationship.
 9. Incorporate words such as 'managed', 'solved', 'planned', 'executed', 'demonstrated', 'succeeded', 'collaborated', 'implemented', 'strategized', 'lead', etc.  
@@ -769,7 +770,7 @@ ${stringifiedMappedFormValues}
       let remaining_downloads = (max_download_count - new_download_count); // 3, 2, 1
 
       toast.dismiss();
-      toast.success(`Successfully generated resume. Please check your downloads folder.\n\nDownloads remaining: ${remaining_downloads}`, {
+      toast.success(`Successfully generated resume, please check your downloads folder.\n\nDownloads remaining: ${remaining_downloads}`, {
         duration: 12000,
       });
 
@@ -2575,8 +2576,8 @@ ${stringifiedMappedFormValues}
               {/*<FormItem className="col-span-12 lg:col-span-10">*/}
                 <FormControl className="m-0 p-2">
                   <Tooltip 
-                    color="primary"
-                    content={"This setting will help complete your resume for you, filling in sections that are left blank."}
+                    color="secondary"
+                    content={"Generate content for empty sections."}
                   >
                     <label 
                       style={{ 
@@ -2588,7 +2589,7 @@ ${stringifiedMappedFormValues}
                       <input
                         name="checked" type="checkbox" checked={fillInTheBlank}
                         onChange={e => setFillInTheBlank(!fillInTheBlank)} />
-                      &nbsp; Fill in The Blank 🔥   
+                      &nbsp; Fill in the blank 🔥   
                     </label>
                   </Tooltip>
                 </FormControl>
