@@ -12,7 +12,7 @@ const font = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'ResumAI - AI-Enhanced Resume Generation',
-  description: 'AI Platform',
+  description: 'Customized, AI-assisted resume generation that lets your experience do the talking. Download multiple versions of an ATS-friendly resume today!',
 }
 
 export default async function RootLayout({
