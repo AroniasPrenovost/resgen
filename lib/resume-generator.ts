@@ -57,7 +57,7 @@ export class DocumentCreator {
                 run: {
                   // font: 'Calibri',
                   font: 'Gill Sans',
-                  size: 46  ,
+                  size: 44,
                     // size: 28,
                     bold: true,
                     // italics: true,
