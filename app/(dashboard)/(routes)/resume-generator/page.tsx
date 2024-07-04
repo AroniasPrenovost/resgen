@@ -55,22 +55,19 @@ const ResumeGeneratorPage = () => {
   //
   //
 
-  const current_time: any = new Date();
-
-  let payment_received: any = false;
-  let last_payment_received: any = false;
 
   let number_of_downloads: any = 0;
   const max_download_count = 3;
 
   // pulled from query string parameter on successful payment redirect from stripe 
+  let payment_received: any = false;
   let paidQueryString: string = ''; 
   let hasPaid = false;
   const searchParams = useSearchParams()
 
   // let message = 'Instant Access to 3 Downloads';
   // const [message, setMessage] = useState('Get Instant Access to 3 Downloads');
-  const [message, setMessage] = useState('Get Instant Access');
+  const [buyButtonContent, setBuyButtonContent] = useState('Get Instant Access');
 
 
   let storedFormValues: any = {};
@@ -79,38 +76,25 @@ const ResumeGeneratorPage = () => {
     hasPaid = (paidQueryString === 'xj3z01');
     // console.log('paid string: ', paidQueryString);
     // console.log('has paid: ', hasPaid);
-
-
     number_of_downloads = Number(localStorage.getItem('x8u_000_vb_nod')); // 'number_of_downloads'
-
-    // payment_received = localStorage.getItem('pr_0012') === 'true'; // 'payment_received'
     payment_received = hasPaid;
-    last_payment_received = localStorage.getItem('last_payment_received');
 
     let sfv = localStorage.getItem('stored_form_values') ?? ''; // 'stored_form_values'
     if (sfv && sfv.length) {
       storedFormValues = JSON.parse(sfv);
     }
     
-    // Timestamps
-    const timestamp1: any = new Date(current_time);
-    const timestamp2: any = new Date(last_payment_received);
-
-    const differenceInMilliseconds = timestamp1 - timestamp2;
-    const differenceInMinutes = differenceInMilliseconds / (1000 * 60);
-
-    // console.log('diff in minutes: ', differenceInMinutes);
     // console.log('# of downloads: ', number_of_downloads);
     // console.log('payment_received: ', payment_received);
 
-    let clearCache1 = payment_received && (differenceInMinutes > 360000); // 100 hours
-    let clearCache2 = payment_received && (number_of_downloads > (max_download_count - 1));
+    let clearCache = hasPaid && (number_of_downloads > (max_download_count - 1));
 
-    if (clearCache1 || clearCache2) {
+    if (clearCache) {
+      router.push('https://resumai.services/resume-generator?p=false');
       // console.log(' ')
       // console.log('cleared cache');
-      localStorage.removeItem('pr_0012'); // 'payment_received'
-      localStorage.setItem('last_payment_received', '');
+      // localStorage.removeItem('pr_0012'); // 'payment_received's
+      // localStorage.setItem('last_payment_received', '');s
       localStorage.setItem('x8u_000_vb_nod', '0'); // 'number_of_downloads'
     } 
   }  
@@ -666,9 +650,9 @@ const ResumeGeneratorPage = () => {
     localStorage.setItem('stored_form_values', JSON.stringify(values));
 
     if (!hasPaid) {
-      localStorage.setItem('pr_0012', 'true'); // 'payment_received'
-      var date = new Date();
-      localStorage.setItem('last_payment_received', String(date));
+      // localStorage.setItem('pr_0012', 'true'); // 'payment_received'
+      // var date = new Date();
+      // localStorage.setItem('last_payment_received', String(date));
       window.location.assign(STRIPE_PAYMENT_LINK);
       return;
     } 
@@ -683,7 +667,7 @@ const ResumeGeneratorPage = () => {
     // localStorage.setItem('x8u_000_vb_nod', new_download_count); // 'number_of_downloads'
     // let remaining_downloads = (3 - new_download_count); // 3, 2, 1
 
-    // toast.dismiss();
+    // toast.dismiss();  
     // toast.success(`Successfully generated resume, please check your downloads folder.\n\nDownloads remaining: `, {
     //   duration: 20000,
     // });
@@ -812,7 +796,7 @@ ${stringifiedMappedFormValues}
           console.log(`Successfully created resume (without AI) - ${mappedFormValues.personal_info.name}`);
         });
 
-        toast.error("Something went wrong with the AI connection, but your resume was still generated.\n\nThis did not count against your remaining downloads: ${number_of_downloads}/3");
+        toast.error("Something went wrong with the AI connection, but your resume was still generated.\n\nThis did not count against your remaining downloads: " +  number_of_downloads + "/" + max_download_count);
       }
     } finally {
       router.refresh();
@@ -1021,7 +1005,7 @@ ${stringifiedMappedFormValues}
         }
 
         if (payment_received) {
-          setMessage(`Download Now (${number_of_downloads}/${max_download_count})`); // 'number_of_downloads'
+          setBuyButtonContent(`Download Now (${number_of_downloads}/${max_download_count})`); // 'number_of_downloads'
         }
 
       }, 250);  
@@ -2614,7 +2598,9 @@ ${stringifiedMappedFormValues}
 
 
               {/*
+              
                 Download Button
+              
               */}
               <Button
                 className="col-span-6 lg:col-span-6 w-full"
@@ -2624,7 +2610,7 @@ ${stringifiedMappedFormValues}
                 style={{ float: 'left' }}
                 size="icon"
                 >
-                {message}
+                {buyButtonContent}
               </Button>
 
 

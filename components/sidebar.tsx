@@ -73,11 +73,11 @@ export const Sidebar = ({
               <ol>
                 <li><b>1. </b>Enter your experience.</li>
                 <br/>
-                <li><b>2.</b> AI assistant tailors your resume.</li>
+                <li><b>2. </b>The AI assistant tailors your resume.</li>
                 <br/>
-                <li><b>3.</b> Instantly download multiple variations.</li>
+                <li><b>3. </b>Instantly download multiple variations.</li>
                 <br/>
-                <li><b>4.</b> <em>Optional:</em> If you do not own Microsoft Word, upload your downloaded files to <Link className={cn(
+                <li><b>4. </b><em>Optional:</em> If you do not own Microsoft Word, upload your downloaded files to <Link className={cn(
                   "hover:text-white transition",
                    "text-zinc-400",
                 )} target="_blank" rel="noopener noreferrer" href="https://drive.google.com/drive/home">Google Drive</Link> 
@@ -85,14 +85,15 @@ export const Sidebar = ({
 
 
                 <div className="relative ml-0 mt-5">
-                  Live <Link className={cn(
+                  Example:
+{/*                  Live<Link className={cn(
                   "hover:text-white transition",
                   "text-zinc-400",
-                  )} target="_blank" href="/John-Shanahan-Resume.pdf">example</Link> 
+                  )} target="_blank" href="/John-Shanahan-Resume.pdf">example</Link> */}
                 </div>
 
 
-                 <div className="relative h-60 w-40 ml-0 mt-2">
+                 <div className="relative h-60 w-60 ml-0 mt-2">
                    <Image fill alt="Example Resume" src="/example_resume.png" />
                  </div>
 
