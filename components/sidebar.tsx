@@ -88,9 +88,7 @@ export const Sidebar = ({
                   Live <Link className={cn(
                   "hover:text-white transition",
                   "text-zinc-400",
-                  )} target="_blank" href="/files/John-Shanahan-Resume.pdf">example</Link> 
-
-                  <a  title='' target="_blank" href="/files/John-Shanahan-Resume.pdf">example</a>
+                  )} target="_blank" href="/files/example_resume.pdf">example</Link> 
                 </div>
 
 
