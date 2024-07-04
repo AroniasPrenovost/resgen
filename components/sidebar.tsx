@@ -84,7 +84,7 @@ export const Sidebar = ({
                 {/*to access and modify formatting*/}
 
 
-                <div className="relative ml-5 mt-5">
+                <div className="relative ml-0 mt-5">
                   Live <Link className={cn(
                   "hover:text-white transition",
                   "text-zinc-400",
@@ -92,7 +92,7 @@ export const Sidebar = ({
                 </div>
 
 
-                 <div className="relative h-60 w-40 ml-8 mt-2">
+                 <div className="relative h-60 w-40 ml-0 mt-2">
                    <Image fill alt="Example Resume" src="/example_resume.png" />
                  </div>
 
