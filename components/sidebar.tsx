@@ -85,10 +85,12 @@ export const Sidebar = ({
 
 
                 <div className="relative ml-0 mt-5">
-                  Live<Link className={cn(
+                  Live <Link className={cn(
                   "hover:text-white transition",
                   "text-zinc-400",
                   )} target="_blank" href="/files/John-Shanahan-Resume.pdf">example</Link> 
+
+                  <a  title='' target="_blank" href="/files/John-Shanahan-Resume.pdf">example</a>
                 </div>
 
 
