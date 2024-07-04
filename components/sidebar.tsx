@@ -94,12 +94,7 @@ export const Sidebar = ({
 
 
                  <div className="relative h-60 w-60 ml-0 mt-2">
-                  <Link className={cn(
-                    "hover:text-white transition",
-                    "text-zinc-400",
-                    )} title="Example Resume" target="_blank" href="/example_resume.png">
                      <Image fill alt="Example Resume" src="/example_resume.png" />
-                   </Link> 
                  </div>
 
 
