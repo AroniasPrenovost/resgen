@@ -75,7 +75,7 @@ export const Sidebar = ({
                 <br/>
                 <li><b>2. </b>The AI assistant tailors your resume.</li>
                 <br/>
-                <li><b>3. </b>Instantly download multiple variations.</li>
+                <li><b>3. </b>Generate multiple variations until you're satisfied.</li>
                 <br/>
                 <li><b>4. </b><em>Optional:</em> If you do not own Microsoft Word, upload your downloaded files to <Link className={cn(
                   "hover:text-white transition",
@@ -85,10 +85,11 @@ export const Sidebar = ({
 
 
                 <div className="relative ml-0 mt-5">
-                  Live <Link className={cn(
+                  {/*View sampl*/}
+                  <Link className={cn(
                   "hover:text-white transition",
                   "text-zinc-400",
-                  )} title="Example Resume" target="_blank" href="/example_resume.png">example</Link> 
+                  )} title="Example Resume" target="_blank" href="/example_resume.png">View Sample Resume</Link> 
                 </div>
 
 
