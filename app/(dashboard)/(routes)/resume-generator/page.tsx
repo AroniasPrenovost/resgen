@@ -27,6 +27,8 @@ import { formSchema } from "./constants";
 
 import { Tooltip } from '@nextui-org/react';
 
+import { useSearchParams } from 'next/navigation'
+
 
 // import { checkSubscription } from "@/lib/subscription";
 
@@ -61,16 +63,28 @@ const ResumeGeneratorPage = () => {
   let number_of_downloads: any = 0;
   const max_download_count = 3;
 
+  // pulled from query string parameter on successful payment redirect from stripe 
+  let paidQueryString: string = ''; 
+  let hasPaid = false;
+  const searchParams = useSearchParams()
+
   // let message = 'Instant Access to 3 Downloads';
   // const [message, setMessage] = useState('Get Instant Access to 3 Downloads');
   const [message, setMessage] = useState('Get Instant Access');
 
+
   let storedFormValues: any = {};
   if (global?.window !== undefined) { // now it's safe to access window and localStorage
+    paidQueryString = searchParams.get('p') ?? '';
+    hasPaid = (paidQueryString === 'xj3z01');
+    // console.log('paid string: ', paidQueryString);
+    // console.log('has paid: ', hasPaid);
+
 
     number_of_downloads = Number(localStorage.getItem('x8u_000_vb_nod')); // 'number_of_downloads'
 
-    payment_received = localStorage.getItem('pr_0012') === 'true'; // 'payment_received'
+    // payment_received = localStorage.getItem('pr_0012') === 'true'; // 'payment_received'
+    payment_received = hasPaid;
     last_payment_received = localStorage.getItem('last_payment_received');
 
     let sfv = localStorage.getItem('stored_form_values') ?? ''; // 'stored_form_values'
@@ -651,7 +665,7 @@ const ResumeGeneratorPage = () => {
     // persist form values
     localStorage.setItem('stored_form_values', JSON.stringify(values));
 
-    if (!(payment_received)) {
+    if (!hasPaid) {
       localStorage.setItem('pr_0012', 'true'); // 'payment_received'
       var date = new Date();
       localStorage.setItem('last_payment_received', String(date));
