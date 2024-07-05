@@ -71,9 +71,9 @@ export const Sidebar = ({
            <div className="space-y-1" style={{paddingTop: '24px', padding: '8px', fontSize: '14px'}}>
               <b style={{fontSize: '18px', marginBottom: '10px !important'}}>How It Works:</b><br/>
               <ol>
-                <li><b>1. </b>Enter your experience.</li>
+                <li><b>1. </b>Enter your work experience and other important info.</li>
                 <br/>
-                <li><b>2. </b>The AI assistant tailors your resume.</li>
+                <li><b>2. </b>AI assistant tailors your resume.</li>
                 <br/>
                 <li><b>3. </b>Generate multiple variations.</li>
                 <br/>
