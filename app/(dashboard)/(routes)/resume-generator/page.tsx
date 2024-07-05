@@ -91,10 +91,6 @@ const ResumeGeneratorPage = () => {
 
     if (clearCache) {
       router.push('https://resumai.services/resume-generator?p=false');
-      // console.log(' ')
-      // console.log('cleared cache');
-      // localStorage.removeItem('pr_0012'); // 'payment_received's
-      // localStorage.setItem('last_payment_received', '');s
       localStorage.setItem('x8u_000_vb_nod', '0'); // 'number_of_downloads'
     } 
   }  
@@ -801,7 +797,7 @@ ${stringifiedMappedFormValues}
     } finally {
       router.refresh();
     }
-  }
+  }      
  
   //
   //
@@ -1010,6 +1006,20 @@ ${stringifiedMappedFormValues}
 
       }, 250);  
 
+      // Cleanup function to clear the timeout if the component unmounts
+      return () => clearTimeout(timeoutId);
+    }, []); // Empty dependency array ensures the effect runs only once
+
+
+
+
+    useEffect(() => {
+      const timeoutId = setTimeout(() => {
+          const element = document.getElementById("buyButton");
+          if (hasPaid) {
+            element?.scrollIntoView({ behavior: "smooth",  block: "end"});
+          }
+      }, 650);  
       // Cleanup function to clear the timeout if the component unmounts
       return () => clearTimeout(timeoutId);
     }, []); // Empty dependency array ensures the effect runs only once
@@ -2617,7 +2627,7 @@ ${stringifiedMappedFormValues}
             </form>
           </Form>
         </div>
-        <div className="space-y-4 mt-4">
+        <div className="space-y-4 mt-4" id="buyButton">
           {isLoading && (
             <div className="p-8 rounded-lg w-full flex items-center justify-center bg-muted">
               <Loader />
