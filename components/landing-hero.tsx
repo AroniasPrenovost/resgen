@@ -44,7 +44,7 @@ export const LandingHero = () => {
         </Link>
       </div>
       <div className="text-zinc-400 text-xs md:text-sm font-normal p-4">
-        AI-enhanced resume generation that lets your experience do the talking. <br/>Download <b>multiple</b> versions of an ATS-friendly resume today!
+        AI-enhanced resume generation that lets your experience do the talking. <br/>Generate <b>multiple</b>, professional resumes that are optimized for applicant tracking software in a simple 1-step process.
       </div>
     </div>
   );
