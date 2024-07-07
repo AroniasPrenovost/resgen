@@ -43,7 +43,7 @@ export const LandingHero = () => {
           </Button>
         </Link>
       </div>
-      <div className="text-zinc-400 text-xs md:text-sm font-normal">
+      <div className="text-zinc-400 text-xs md:text-sm font-normal p-4">
         AI-enhanced resume generation that lets your experience do the talking. <br/>Download <b>multiple</b> versions of an ATS-friendly resume today!
       </div>
     </div>
