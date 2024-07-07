@@ -2,6 +2,11 @@
 
 import TypewriterComponent from "typewriter-effect";
 import Link from "next/link";
+
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import Image from "next/image";
+
+
 // import { useAuth } from "@clerk/nextjs";
 
 import { Button } from "@/components/ui/button";
@@ -40,8 +45,30 @@ export const LandingHero = () => {
       </div>
       <div className="text-zinc-400 text-xs md:text-sm font-normal">
         AI-enhanced resume generation that lets your experience do the talking. <br/>Download <b>multiple</b> versions of an ATS-friendly resume today!
+      
       </div>
-    </div >
+        <ul style={{paddingTop: "0px", margin: "0", backgroundColor: "white"}}>
+            <li style={{display: "inline-block"}}>   
+             
+                  <Image
+                    alt="Logo"
+                    src="/logos/entrepreneur.png"
+                    fill
+                  />
+               
+             </li>
+             <li style={{display: "inline-block"}}>   
+                <div >
+                  <Image
+                    alt="Logo"
+                    src="/logos/entrepreneur.png"
+                    height="20px"
+                    fill
+                  />
+                </div>
+             </li>
+        </ul>
+      </div>
   );
 };
 
