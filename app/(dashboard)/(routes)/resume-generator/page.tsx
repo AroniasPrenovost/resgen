@@ -67,7 +67,7 @@ const ResumeGeneratorPage = () => {
 
   // let message = 'Instant Access to 3 Downloads';
   // const [message, setMessage] = useState('Get Instant Access to 3 Downloads');
-  const [buyButtonContent, setBuyButtonContent] = useState('Get Instant Access');
+  const [buyButtonContent, setBuyButtonContent] = useState('Get Instant Access to 6 Downloads');
 
 
   let storedFormValues: any = {};
