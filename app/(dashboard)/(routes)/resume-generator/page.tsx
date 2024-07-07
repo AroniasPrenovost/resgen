@@ -57,7 +57,7 @@ const ResumeGeneratorPage = () => {
 
 
   let number_of_downloads: any = 0;
-  const max_download_count = 3;
+  const max_download_count = 6;
 
   // pulled from query string parameter on successful payment redirect from stripe 
   let payment_received: any = false;
