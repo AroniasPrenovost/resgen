@@ -1071,7 +1071,7 @@ ${stringifiedMappedFormValues}
                 size="icon"
                 onClick={onClick} 
                 >
-                  Instant Access to 6 Downloads
+                 Get Instant Access to 6 Downloads
               </Button>
 
 
