@@ -65,8 +65,6 @@ const ResumeGeneratorPage = () => {
   let hasPaid = false;
   const searchParams = useSearchParams()
 
-  // let message = 'Instant Access to 3 Downloads';
-  // const [message, setMessage] = useState('Get Instant Access to 3 Downloads');
   const [buyButtonContent, setBuyButtonContent] = useState('Get Instant Access to 6 Downloads');
 
 
