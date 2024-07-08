@@ -799,6 +799,17 @@ ${stringifiedMappedFormValues}
       router.refresh();
     }
   }      
+
+
+  //
+  //
+  //
+
+    const onClick = () => {
+      // router.push(href);
+      // console.log('test');
+      window.location.assign(STRIPE_PAYMENT_LINK);
+    }
  
   //
   //
@@ -1030,11 +1041,39 @@ ${stringifiedMappedFormValues}
     <div>
       <Heading
         title="AI-Assisted Resume Generator"
-        description="Generate professional, ATS-compliant resumes that get you in front of the hiring manager."
+        description="Generate multiple ATS-compliant resumes optimized to get you in front of the hiring manager."
         icon={MessageSquare}
         iconColor="text-violet-500"
         bgColor="bg-violet-500/10"
       />
+
+
+               
+             <Button
+              style={{
+                  position: 'absolute', 
+                  maxWidth: '264px',  
+
+                  backgroundColor: 'rgba(111, 90, 246, 0.97)',
+                  right: '0', 
+                  // bottom: '0',
+                  // marginBottom: '28px',
+                  // marginRight: '118px',
+                  top: '0',
+                  marginRight: '32px',  
+                  marginTop: '32px',
+                  visibility: hasPaid ? 'hidden' : 'visible',
+                }}  
+                className="col-span-6 w-full"
+                // className="col-span-12 lg:col-span-12 w-full"
+                type="submit"
+                // disabled={isLoading}
+                size="icon"
+                onClick={onClick} 
+                >
+                  Instant Access to 6 Downloads
+              </Button>
+
 
       <div className="px-4 lg:px-8">
         <div>
