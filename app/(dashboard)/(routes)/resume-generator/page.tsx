@@ -816,9 +816,11 @@ ${stringifiedMappedFormValues}
   //
 
     const onClick = () => {
-      // router.push(href);
-      // console.log('test');
-      window.location.assign(STRIPE_PAYMENT_LINK);
+      const x = document && document.getElementById('submit');
+      if (x) {
+        x.click();
+      }
+      // window.location.assign(STRIPE_PAYMENT_LINK);
     }
  
   //
@@ -1070,8 +1072,8 @@ ${stringifiedMappedFormValues}
                   // marginBottom: '28px',
                   // marginRight: '118px',
                   top: '0',
-                  marginRight: '32px',  
-                  marginTop: '32px',
+                  marginRight: '22px',  
+                  marginTop: '22px',
                   visibility: hasPaid ? 'hidden' : 'visible',
                 }}  
                 className="col-span-6 w-full"
@@ -1081,7 +1083,7 @@ ${stringifiedMappedFormValues}
                 size="icon"
                 onClick={onClick} 
                 >
-                 Get Access
+                 Generate multiple downloads
               </Button>
 
 
@@ -2669,6 +2671,7 @@ ${stringifiedMappedFormValues}
                 disabled={isLoading}
                 style={{ float: 'left' }}
                 size="icon"
+                id='submit'
                 >
                 {buyButtonContent}
               </Button>
