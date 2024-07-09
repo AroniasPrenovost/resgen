@@ -63,15 +63,24 @@ const ResumeGeneratorPage = () => {
   let payment_received: any = false;
   let paidQueryString: string = ''; 
   let hasPaid = false;
-  const searchParams = useSearchParams()
+  let hasPaidLeftAndReturnedToSite = false;
+
+  const searchParams = useSearchParams();
 
   const [buyButtonContent, setBuyButtonContent] = useState('Get Instant Access to 6 Downloads');
 
 
   let storedFormValues: any = {};
   if (global?.window !== undefined) { // now it's safe to access window and localStorage
+    
+    // this should work so users can return to site
     paidQueryString = searchParams.get('p') ?? '';
-    hasPaid = (paidQueryString === 'xj3z01');
+    hasPaidLeftAndReturnedToSite = localStorage.getItem('has_paid_and_returned') === 'true';
+    hasPaid = (paidQueryString === 'xj3z01') || hasPaidLeftAndReturnedToSite;
+    if (hasPaid) {
+      localStorage.setItem('has_paid_and_returned', 'true');
+    }
+
     // console.log('paid string: ', paidQueryString);
     // console.log('has paid: ', hasPaid);
     number_of_downloads = Number(localStorage.getItem('x8u_000_vb_nod')); // 'number_of_downloads'
@@ -85,11 +94,14 @@ const ResumeGeneratorPage = () => {
     // console.log('# of downloads: ', number_of_downloads);
     // console.log('payment_received: ', payment_received);
 
-    let clearCache = hasPaid && (number_of_downloads > (max_download_count - 1));
+    let clearCache = 
+    // hasPaid && 
+    (number_of_downloads > (max_download_count - 1));
 
     if (clearCache) {
-      router.push('https://resumai.services/resume-generator?p=false');
+      localStorage.setItem('has_paid_and_returned', 'false');
       localStorage.setItem('x8u_000_vb_nod', '0'); // 'number_of_downloads'
+      router.push('https://resumai.services/resume-generator'); 
     } 
   }  
 
