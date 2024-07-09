@@ -25,7 +25,6 @@ export const LandingHero = () => {
                 "Resume generation.",
                 "Getting that first interview.",
                 "Getting hired.",
-                "Overcoming writer\'s block."
               ],
               autoStart: true,
               loop: true,
