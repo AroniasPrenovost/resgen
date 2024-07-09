@@ -1053,7 +1053,9 @@ ${stringifiedMappedFormValues}
     <div>
       <Heading
         title="AI-Assisted Resume Generator"
-        description="Generate multiple ATS-compliant resumes optimized to get you in front of the hiring manager."
+        description="Generate professional resumes with the assistance of our fine-tuned AI prompts."
+
+
         icon={MessageSquare}
         iconColor="text-violet-500"
         bgColor="bg-violet-500/10"
@@ -1072,8 +1074,8 @@ ${stringifiedMappedFormValues}
                   // marginBottom: '28px',
                   // marginRight: '118px',
                   top: '0',
-                  marginRight: '22px',  
-                  marginTop: '22px',
+                  marginRight: '32px',  
+                  marginTop: '32px',
                   visibility: hasPaid ? 'hidden' : 'visible',
                 }}  
                 className="col-span-6 w-full"
@@ -1083,7 +1085,7 @@ ${stringifiedMappedFormValues}
                 size="icon"
                 onClick={onClick} 
                 >
-                 Generate Instant Access
+                 Get Instant Access
               </Button>
 
 
