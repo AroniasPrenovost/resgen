@@ -1083,7 +1083,7 @@ ${stringifiedMappedFormValues}
                 size="icon"
                 onClick={onClick} 
                 >
-                 Get Instant Access
+                 Get Access to AI Resume Assistant
               </Button>
 
 
