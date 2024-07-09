@@ -1081,7 +1081,7 @@ ${stringifiedMappedFormValues}
                 size="icon"
                 onClick={onClick} 
                 >
-                 Get Access Now
+                 Get Access
               </Button>
 
 
