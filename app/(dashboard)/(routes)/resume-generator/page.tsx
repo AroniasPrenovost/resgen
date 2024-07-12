@@ -1066,8 +1066,8 @@ ${stringifiedMappedFormValues}
                   position: 'absolute', 
                   maxWidth: '264px',  
 
-                  // backgroundColor: 'rgba(111, 90, 246, 0.97)',
-                  backgroundColor: 'orange',
+                  backgroundColor: 'rgba(111, 90, 246, 0.97)',
+                  // backgroundColor: 'orange',
                   right: '0', 
                   // bottom: '0',
                   // marginBottom: '28px',
