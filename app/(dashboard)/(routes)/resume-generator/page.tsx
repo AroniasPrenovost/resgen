@@ -1356,7 +1356,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_1_summary"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-300">
+                      <FormItem className="col-span-12 lg:col-span-12 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1371,7 +1371,7 @@ ${stringifiedMappedFormValues}
                 </> : ''}
 
               {/* EXPERIENCE 2 */}
-              <FormItem className="col-span-12 lg:col-span-10">
+              <FormItem className="col-span-12 lg:col-span-12">
                 <FormControl className="m-0 p-2">
                   <label style={{ color: '#576574' }} className="text-sm">
                     <input
@@ -1484,7 +1484,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_2_summary"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-300">
+                      <FormItem className="col-span-12 lg:col-span-12 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1500,7 +1500,7 @@ ${stringifiedMappedFormValues}
 
 
               {/* EXPERIENCE 3 */}
-              <FormItem className="col-span-12 lg:col-span-10">
+              <FormItem className="col-span-12 lg:col-span-12">
                 <FormControl className="m-0 p-2">
                   <label style={{ color: '#576574' }} className="text-sm">
                     <input
@@ -1613,7 +1613,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_3_summary"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-300">
+                      <FormItem className="col-span-12 lg:col-span-12 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1631,7 +1631,7 @@ ${stringifiedMappedFormValues}
 
 
               {/* EXPERIENCE 4 */}
-              <FormItem className="col-span-12 lg:col-span-10">
+              <FormItem className="col-span-12 lg:col-span-12">
                 <FormControl className="m-0 p-2">
                   <label style={{ color: '#576574' }} className="text-sm">
                     <input
@@ -1744,7 +1744,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_4_summary"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-300">
+                      <FormItem className="col-span-12 lg:col-span-12 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1759,7 +1759,7 @@ ${stringifiedMappedFormValues}
                 </> : ''}
 
               {/* EXPERIENCE 5 */}
-              <FormItem className="col-span-12 lg:col-span-10">
+              <FormItem className="col-span-12 lg:col-span-12">
                 <FormControl className="m-0 p-2">
                   <label style={{ color: '#576574' }} className="text-sm">
                     <input
@@ -1871,7 +1871,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_5_summary"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-10 border-2 rounded-lg border-gray-300">
+                      <FormItem className="col-span-12 lg:col-span-12 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -1887,7 +1887,7 @@ ${stringifiedMappedFormValues}
 
 
               {/* EXPERIENCE 6 */}
-              <FormItem className="col-span-12 lg:col-span-10">
+              <FormItem className="col-span-12 lg:col-span-12">
                 <FormControl className="m-0 p-2">
                   <label style={{ color: '#576574' }} className="text-sm">
                     <input
