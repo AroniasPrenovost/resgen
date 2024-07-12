@@ -1052,7 +1052,7 @@ ${stringifiedMappedFormValues}
   return (
     <div>
       <Heading
-        title="AI-Assisted Resume Generator"
+        title="AI-Powered Resume Generator"
         description="Generate professional resumes with the assistance of artificial intelligence."
         icon={MessageSquare}
         iconColor="text-violet-500"
