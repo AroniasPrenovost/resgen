@@ -1084,7 +1084,7 @@ ${stringifiedMappedFormValues}
                 size="icon"
                 onClick={onClick} 
                 >
-                 Get Your New Resume
+                 Generate Your New Resume
               </Button>
 
 
