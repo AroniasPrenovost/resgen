@@ -67,7 +67,7 @@ const ResumeGeneratorPage = () => {
 
   const searchParams = useSearchParams();
 
-  const [buyButtonContent, setBuyButtonContent] = useState('Instantly Generate Resume');
+  const [buyButtonContent, setBuyButtonContent] = useState('Generate Your New Resume');
 
 
   let storedFormValues: any = {};
