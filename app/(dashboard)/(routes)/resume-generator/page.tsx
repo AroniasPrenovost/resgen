@@ -1084,7 +1084,7 @@ ${stringifiedMappedFormValues}
                 size="icon"
                 onClick={onClick} 
                 >
-                 Get Access to AI Resume Assistant
+                 Get Your New Resume
               </Button>
 
 
