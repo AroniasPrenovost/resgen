@@ -6,10 +6,8 @@ import { MessageSquare } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname, redirect, useSearchParams } from "next/navigation";
 import { ChatCompletionRequestMessage } from "openai";
-
-import { redirect } from 'next/navigation'
 
 import { BotAvatar } from "@/components/bot-avatar";
 import { Heading } from "@/components/heading";
@@ -21,13 +19,13 @@ import { cn } from "@/lib/utils";
 import { Loader } from "@/components/loader";
 import { UserAvatar } from "@/components/user-avatar";
 import { Empty } from "@/components/ui/empty";
-import { useProModal } from "@/hooks/use-pro-modal";
+// import { useProModal } from "@/hooks/use-pro-modal";
 
 import { formSchema } from "./constants";
 
 import { Tooltip } from '@nextui-org/react';
 
-import { useSearchParams } from 'next/navigation'
+ 
 
 
 // import { checkSubscription } from "@/lib/subscription";
@@ -46,7 +44,10 @@ const STRIPE_PAYMENT_LINK: string = process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK 
 
 const ResumeGeneratorPage = () => {
   const router = useRouter();
-  const proModal = useProModal();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  // const proModal = useProModal();
   const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
 
   //
@@ -55,53 +56,72 @@ const ResumeGeneratorPage = () => {
   //
   //
 
+  const [buyButtonContent, setBuyButtonContent] = useState('Generate Your New Resume');
+
+
+  const current_time: any = new Date();
+  let payment_date: any = false;
+
+  const paidQueryStringValue = 'xj3z01';
+  let paidQueryString: string = ''; // pulled from query string parameter on successful payment redirect from stripe 
+  let payment_received: any = false;
+  let hasPaid = false;
 
   let number_of_downloads: any = 0;
   const max_download_count = 6;
 
-  // pulled from query string parameter on successful payment redirect from stripe 
-  let payment_received: any = false;
-  let paidQueryString: string = ''; 
-  let hasPaid = false;
-  let hasPaidLeftAndReturnedToSite = false;
-
-  const searchParams = useSearchParams();
-
-  const [buyButtonContent, setBuyButtonContent] = useState('Generate Your New Resume');
-
-
   let storedFormValues: any = {};
   if (global?.window !== undefined) { // now it's safe to access window and localStorage
-    
-    // this should work so users can return to site
-    paidQueryString = searchParams.get('p') ?? '';
-    hasPaidLeftAndReturnedToSite = localStorage.getItem('has_paid_and_returned') === 'true';
-    hasPaid = (paidQueryString === 'xj3z01') || hasPaidLeftAndReturnedToSite;
-    if (hasPaid) {
-      localStorage.setItem('has_paid_and_returned', 'true');
-    }
 
-    // console.log('paid string: ', paidQueryString);
-    // console.log('has paid: ', hasPaid);
-    number_of_downloads = Number(localStorage.getItem('x8u_000_vb_nod')); // 'number_of_downloads'
-    payment_received = hasPaid;
-
-    let sfv = localStorage.getItem('stored_form_values') ?? ''; // 'stored_form_values'
+    //
+    // manage form persistence
+    let sfv = localStorage.getItem('stored_form_values') ?? '';
     if (sfv && sfv.length) {
       storedFormValues = JSON.parse(sfv);
     }
-    
-    // console.log('# of downloads: ', number_of_downloads);
-    // console.log('payment_received: ', payment_received);
 
-    let clearCache = 
-    // hasPaid && 
-    (number_of_downloads > (max_download_count - 1));
+    //
+    // Manage payment + download history so users can return to site
 
-    if (clearCache) {
-      localStorage.setItem('has_paid_and_returned', 'false');
+    payment_received = localStorage.getItem('pr_0012') === 'true';
+    hasPaid = payment_received;
+
+    paidQueryString = searchParams.get('p') ?? '';
+    if (paidQueryString === paidQueryStringValue) {
+      if (!payment_received) {
+        localStorage.setItem('pr_0012', 'true');
+        localStorage.setItem('payment_date', String(current_time));
+      }        
+      // clear query string param from URL
+      const nextSearchParams = new URLSearchParams(searchParams.toString());
+      nextSearchParams.delete('p');
+      router.replace(`${pathname}?${nextSearchParams}`);
+    }
+
+    payment_date = localStorage.getItem('payment_date');
+
+    // Timestamps
+    const timestamp1: any = new Date(current_time);
+    const timestamp2: any = new Date(payment_date);
+
+
+    const differenceInMilliseconds = timestamp1 - timestamp2;
+    const differenceInMinutes = differenceInMilliseconds / (1000 * 60);
+
+    // console.log({hasPaid, timestamp1, timestamp2, payment_date, differenceInMinutes, number_of_downloads})
+
+    number_of_downloads = Number(localStorage.getItem('x8u_000_vb_nod')); // 'number_of_downloads'
+
+    let clearCache1 = hasPaid && (differenceInMinutes > 43200); // (30 days) // 360000); // 100 hours
+    let clearCache2 = number_of_downloads > (max_download_count - 1);
+
+    // console.log({clearCache1,clearCache2});
+
+    if (clearCache1 || clearCache2) {
+      console.log('cache cleared');
+      localStorage.removeItem('pr_0012'); // 'payment_received'
+      localStorage.setItem('payment_date', '');
       localStorage.setItem('x8u_000_vb_nod', '0'); // 'number_of_downloads'
-      router.push('https://resumai.services/resume-generator'); 
     } 
   }  
 
@@ -657,12 +677,13 @@ const ResumeGeneratorPage = () => {
     localStorage.setItem('stored_form_values', JSON.stringify(values));
 
     if (!hasPaid) {
-      // localStorage.setItem('pr_0012', 'true'); // 'payment_received'
-      // var date = new Date();
-      // localStorage.setItem('last_payment_received', String(date));
       window.location.assign(STRIPE_PAYMENT_LINK);
       return;
     } 
+
+
+    console.log('user has paid');
+    return
 
     /* 
 
@@ -783,7 +804,8 @@ ${stringifiedMappedFormValues}
     } catch (error: any) {
       if (error?.response?.status === 999/* 403 */) {
         // don't want this to ever happen, 999 doesn't exist
-        proModal.onOpen();
+        // proModal.onOpen();
+        console.log('something bad happened');
       } else {
 
         // Generate word doc without AI-assisted content
