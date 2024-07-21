@@ -17,7 +17,7 @@ export const LandingHero = () => {
   return (
     <div className="text-white font-bold py-28 text-center space-y-5">
       <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl space-y-5 font-extrabold">
-        <h1>The Best AI Tool for</h1>
+        <h1>The Best Tool For</h1>
         <div className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
           <TypewriterComponent
             options={{
@@ -33,7 +33,7 @@ export const LandingHero = () => {
         </div>
       </div>
       <div className="text-sm md:text-xl font-light text-zinc-400">
-        Create your resume 10x faster using AI.
+        Create your resume 10x faster
       </div>
       <div>
         {/* <Link href={isSignedIn ? "/dashboard" : "/sign-up"}> */}
@@ -44,7 +44,7 @@ export const LandingHero = () => {
         </Link>
       </div>
       <div className="text-zinc-400 text-xs md:text-sm font-normal p-4">
-        <b>Instantly</b> generate resumes optimized for ATS systems (applicant tracking software) with the assistance of artificial intelligence. <br/><br/>You provide as much (or as little) info as you want, and our AI systems generate multiple copies until you are satisfied with the results. 
+        Use the power of AI to <b>instantly</b> generate an professional resume optimized for ATS systems (applicant tracking software).<br/><br/>It's simple - you provide as much (or as little) info as you want, and we'll fill in the blanks. 
       </div>
     </div>
   );
