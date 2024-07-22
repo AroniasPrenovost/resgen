@@ -62,7 +62,6 @@ const ResumeGeneratorPage = () => {
 
   const [buyButtonContent, setBuyButtonContent] = useState('Get Access');
 
-
   const current_time: any = new Date();
   let payment_date: any = false;
   let differenceInMinutes = 0;
@@ -1082,7 +1081,7 @@ ${stringifiedMappedFormValues}
     <div>
       <Heading
         title="AI-Powered Resume Generator"
-        description={subheadline}
+        description={subheadline + `<s style={{color:"orange"}}>$9.99</s>`}
         icon={MessageSquare}
         iconColor="text-violet-500"
         bgColor="bg-violet-500/10"
