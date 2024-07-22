@@ -13,7 +13,7 @@ import './globals.css'
 const font = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'ResumAI - AI-Enhanced Resume Generation',
+  title: 'ResumAI - AI-Powered Resume Generation',
   description: 'Customized, AI-assisted resume generation that lets your experience do the talking. Download multiple versions of an ATS-friendly resume today!',
 }
 
