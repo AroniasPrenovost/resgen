@@ -56,7 +56,7 @@ const ResumeGeneratorPage = () => {
   //
   //
 
-  const [subheadline, setSubheadline] = useState('Sign up now and get 30 days of access for');
+  const [subheadline, setSubheadline] = useState('Sign up now and get 30 days of unlimited access for');
   // const defaultPrice = '$9.99';
   // const salePrice = '$4.99';
 
@@ -74,7 +74,7 @@ const ResumeGeneratorPage = () => {
   let hasPaid = false;
 
   let number_of_downloads: any = 0;
-  const max_download_count = 6;
+  const max_download_count = 8;
 
   let storedFormValues: any = {};
   if (global?.window !== undefined) { // now it's safe to access window and localStorage
