@@ -60,6 +60,7 @@ const ResumeGeneratorPage = () => {
   // const defaultPrice = '$9.99';
   // const salePrice = '$4.99';
 
+  const [topCtaButton, setTopCtaButton] = useState('Get Access Now');
   const [buyButtonContent, setBuyButtonContent] = useState('Generate Your Resume');
 
   const current_time: any = new Date();
@@ -1112,7 +1113,7 @@ ${stringifiedMappedFormValues}
                 size="icon"
                 onClick={onClick} 
                 >
-                 Generate Your Resume
+                 {topCtaButton}
               </Button>
 
 
