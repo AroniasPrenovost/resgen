@@ -56,8 +56,8 @@ const ResumeGeneratorPage = () => {
   //
   //
 
-  const [subheadline, setSubheadline] = useState('Get 30 days of access now!');
-  const [buyButtonContent, setBuyButtonContent] = useState('Generate Your New Resume');
+  const [subheadline, setSubheadline] = useState('Get 30 days of access and update your career today.');
+  const [buyButtonContent, setBuyButtonContent] = useState('Generate Your Resume');
 
 
   const current_time: any = new Date();
@@ -1076,7 +1076,7 @@ ${stringifiedMappedFormValues}
     <div>
       <Heading
         title="AI-Powered Resume Generator"
-        description="Create a professional resume with the power of AI."
+        description={subheadline}
         icon={MessageSquare}
         iconColor="text-violet-500"
         bgColor="bg-violet-500/10"
@@ -1107,7 +1107,7 @@ ${stringifiedMappedFormValues}
                 size="icon"
                 onClick={onClick} 
                 >
-                 Generate Your New Resume
+                 Generate Your Resume
               </Button>
 
 
