@@ -73,11 +73,11 @@ export const Sidebar = ({
               <ol>
                 <li><b>1. </b>Enter your work experience and other relevant information.</li>
                 <br/>
-                <li><b>2. </b>A single payment of <s>$9.99</s> <b style={{color:"orange"}}>$4.99</b> gets you 30 days of unlimited access.</li>
+                <li><b>2. </b>Single payment of <s>$9.99</s> <b style={{color:"orange"}}>$4.99</b> gets you 30 days of unlimited access.</li>
                 <br/>
-                <li><b>3. </b>Our AI assistant will generate your new resume.</li>
+                <li><b>3. </b>Use our AI assistant to write your new resume.</li>
                 <br/>
-                <li><b>4. </b>Generate multiple variations until you are satisfied.</li>
+                <li><b>4. </b>You get access to download multiple variations until you are satisfied.</li>
                 <br/>
                 <li><b>5. </b><em>Optional:</em> If you do not own Microsoft Word, upload the downloaded files to <Link className={cn(
                   "hover:text-white transition",
