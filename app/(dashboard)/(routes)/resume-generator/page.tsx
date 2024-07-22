@@ -56,7 +56,7 @@ const ResumeGeneratorPage = () => {
   //
   //
 
-  const [subheadline, setSubheadline] = useState('Start today and get 30 days of access for a one-time cost of $4.99');
+  const [subheadline, setSubheadline] = useState('Start today and get 30 days of access for a one-time cost of');
   // const defaultPrice = '$9.99';
   // const salePrice = '$4.99';
 
@@ -1082,7 +1082,7 @@ ${stringifiedMappedFormValues}
     <div>
       <Heading
         title="AI-Powered Resume Generator"
-        description={subheadline + `<s style={{color:"orange"}}>$9.99</s>`}
+        description={subheadline}
         icon={MessageSquare}
         iconColor="text-violet-500"
         bgColor="bg-violet-500/10"

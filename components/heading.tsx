@@ -26,7 +26,8 @@ export const Heading = ({
         <div>
           <h2 className="text-3xl font-bold">{title}</h2>
           <p className="text-sm text-muted-foreground">
-            {description}
+            {description} <s>$9.99</s> <span style={{color:"rgba(111, 90, 246, 0.97)"}}>$4.99</span>
+
           </p>
         </div>
       </div>
