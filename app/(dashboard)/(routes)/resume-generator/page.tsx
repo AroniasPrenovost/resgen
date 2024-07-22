@@ -56,7 +56,7 @@ const ResumeGeneratorPage = () => {
   //
   //
 
-  const [subheadline, setSubheadline] = useState('Get 30 days of access and update your career today.');
+  const [subheadline, setSubheadline] = useState('Start today and get 30 days of access for $4.99.');
   const [buyButtonContent, setBuyButtonContent] = useState('Generate Your Resume');
 
 
