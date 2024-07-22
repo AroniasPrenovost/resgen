@@ -71,13 +71,15 @@ export const Sidebar = ({
            <div className="space-y-1" style={{paddingTop: '24px', padding: '8px', fontSize: '14px'}}>
               <b style={{fontSize: '18px', marginBottom: '14px !important'}}>How It Works:</b><br/>
               <ol>
-                <li><b>1. </b>Enter your work experience and other relevant information.</li>
+                <li><b>1. </b>One-time $4.99 fee gets you 30 days of access.</li>
                 <br/>
-                <li><b>2. </b>The AI assistant generates your resume.</li>
+                <li><b>2. </b>Enter your work experience and other relevant information.</li>
                 <br/>
-                <li><b>3. </b>Generate multiple variations until you are satisfied.</li>
+                <li><b>3. </b>Our AI assistant generates your new resume.</li>
                 <br/>
-                <li><b>4. </b><em>Optional:</em> If you do not own Microsoft Word, upload your downloaded files to <Link className={cn(
+                <li><b>4. </b>Generate multiple variations until you are satisfied.</li>
+                <br/>
+                <li><b>5. </b><em>Optional:</em> If you do not own Microsoft Word, upload your downloaded files to <Link className={cn(
                   "hover:text-white transition",
                    "text-zinc-400",
                 )} target="_blank" rel="noopener noreferrer" href="https://drive.google.com/drive/home">Google Drive</Link>. 
