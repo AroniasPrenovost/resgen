@@ -60,7 +60,7 @@ const ResumeGeneratorPage = () => {
   // const defaultPrice = '$9.99';
   // const salePrice = '$4.99';
 
-  const [buyButtonContent, setBuyButtonContent] = useState('Generate Your Resume');
+  const [buyButtonContent, setBuyButtonContent] = useState('Get Access');
 
 
   const current_time: any = new Date();
