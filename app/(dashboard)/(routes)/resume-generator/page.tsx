@@ -56,7 +56,7 @@ const ResumeGeneratorPage = () => {
   //
   //
 
-  const [subheadline, setSubheadline] = useState('Start today and get 30 days of access for a one-time cost of');
+  const [subheadline, setSubheadline] = useState('Start today and get 30 days of access for');
   // const defaultPrice = '$9.99';
   // const salePrice = '$4.99';
 
