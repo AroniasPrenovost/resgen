@@ -56,7 +56,7 @@ const ResumeGeneratorPage = () => {
   //
   //
 
-  const [subheadline, setSubheadline] = useState('Start today and get 30 days of access for a one-time cost of $4.99');
+  const [subheadline, setSubheadline] = useState('Start today and get 30 days of access for a one-time cost of $4.99.');
   // const defaultPrice = '$9.99';
   // const salePrice = '$4.99';
 
@@ -65,6 +65,8 @@ const ResumeGeneratorPage = () => {
 
   const current_time: any = new Date();
   let payment_date: any = false;
+  let differenceInMinutes = '';
+  let differenceInMilliseconds = '';
 
   const paidQueryStringValue = 'xj3z01';
   let paidQueryString: string = ''; // pulled from query string parameter on successful payment redirect from stripe 
@@ -109,8 +111,8 @@ const ResumeGeneratorPage = () => {
     const timestamp2: any = new Date(payment_date);
 
 
-    const differenceInMilliseconds = timestamp1 - timestamp2;
-    const differenceInMinutes = differenceInMilliseconds / (1000 * 60);
+    differenceInMilliseconds = timestamp1 - timestamp2;
+    differenceInMinutes = differenceInMilliseconds / (1000 * 60);
 
     // console.log({hasPaid, timestamp1, timestamp2, payment_date, differenceInMinutes, number_of_downloads})
 
@@ -1052,6 +1054,7 @@ ${stringifiedMappedFormValues}
 
         if (payment_received) {
           setBuyButtonContent(`Download Now (${number_of_downloads}/${max_download_count})`); // 'number_of_downloads'
+          setSubheadline(`Thank you for your purchase. You have ${differenceInMinutes/1440} days remaining.`);
         }
 
       }, 250);  
