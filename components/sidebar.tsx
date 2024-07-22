@@ -71,7 +71,7 @@ export const Sidebar = ({
            <div className="space-y-1" style={{paddingTop: '24px', padding: '8px', fontSize: '14px'}}>
               <b style={{fontSize: '18px', marginBottom: '20px !important', marginTop: '20px'}}>How It Works:</b><br/>
               <ol>
-                <li><b>1. </b>A one-time payment of <s>$9.99</s> <b style={{color:"orange"}}>$4.99</b> gets you 30 days of access.</li>
+                <li><b>1. </b>A one-time payment of <s>$9.99</s> <strong style={{color:"orange"}}>$4.99</strong> gets you 30 days of access.</li>
                 <br/>
                 <li><b>2. </b>Enter your work experience and other relevant information.</li>
                 <br/>
