@@ -68,7 +68,7 @@ const ResumeGeneratorPage = () => {
   let differenceInMinutes = 0;
   let differenceInMilliseconds = 0;
 
-  const paidQueryStringValue = 'xj3z01';
+  const paidQueryStringValue = 'xj3z01__022';
   let paidQueryString: string = ''; // pulled from query string parameter on successful payment redirect from stripe 
   let payment_received: any = false;
   let hasPaid = false;
@@ -101,6 +101,7 @@ const ResumeGeneratorPage = () => {
       // clear query string param from URL
       const nextSearchParams = new URLSearchParams(searchParams.toString());
       nextSearchParams.delete('p');
+      nextSearchParams.delete('user'); // subterfuge
       router.replace(`${pathname}?${nextSearchParams}`);
     }
 
