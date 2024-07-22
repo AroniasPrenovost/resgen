@@ -69,7 +69,7 @@ export const Sidebar = ({
           ))}
 
            <div className="space-y-1" style={{paddingTop: '24px', padding: '8px', fontSize: '14px'}}>
-              <b style={{fontSize: '18px', marginBottom: '14px !important'}}>How It Works:</b><br/>
+              <b style={{fontSize: '18px', marginBottom: '20px !important', marginTop: '20px'}}>How It Works:</b><br/>
               <ol>
                 <li><b>1. </b>One-time $4.99 fee gets you 30 days of access.</li>
                 <br/>
