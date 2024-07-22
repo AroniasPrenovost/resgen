@@ -65,8 +65,8 @@ const ResumeGeneratorPage = () => {
 
   const current_time: any = new Date();
   let payment_date: any = false;
-  let differenceInMinutes = '';
-  let differenceInMilliseconds = '';
+  let differenceInMinutes = 0;
+  let differenceInMilliseconds = 0;
 
   const paidQueryStringValue = 'xj3z01';
   let paidQueryString: string = ''; // pulled from query string parameter on successful payment redirect from stripe 
@@ -109,7 +109,6 @@ const ResumeGeneratorPage = () => {
     // Timestamps
     const timestamp1: any = new Date(current_time);
     const timestamp2: any = new Date(payment_date);
-
 
     differenceInMilliseconds = timestamp1 - timestamp2;
     differenceInMinutes = differenceInMilliseconds / (1000 * 60);
@@ -1054,7 +1053,7 @@ ${stringifiedMappedFormValues}
 
         if (payment_received) {
           setBuyButtonContent(`Download Now (${number_of_downloads}/${max_download_count})`); // 'number_of_downloads'
-          setSubheadline(`Thank you for your purchase. You have ${differenceInMinutes/1440} days remaining.`);
+          setSubheadline(`Thank you for your purchase. You have ${((43200-differenceInMinutes)/1440).toFixed(0)} days of access remaining.`);
         }
 
       }, 250);  
