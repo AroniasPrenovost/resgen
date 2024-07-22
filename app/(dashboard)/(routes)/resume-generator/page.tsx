@@ -684,7 +684,7 @@ const ResumeGeneratorPage = () => {
 
 
     console.log('user has paid');
-    return
+    // return
 
     /* 
 
