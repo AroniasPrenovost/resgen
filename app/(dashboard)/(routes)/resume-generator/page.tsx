@@ -56,6 +56,7 @@ const ResumeGeneratorPage = () => {
   //
   //
 
+  const [subheadline, setSubheadline] = useState('Get 30 days of access now!');
   const [buyButtonContent, setBuyButtonContent] = useState('Generate Your New Resume');
 
 
@@ -1075,7 +1076,7 @@ ${stringifiedMappedFormValues}
     <div>
       <Heading
         title="AI-Powered Resume Generator"
-        description="Create a professional resume with the power of artificial intelligence."
+        description="Create a professional resume with the power of AI."
         icon={MessageSquare}
         iconColor="text-violet-500"
         bgColor="bg-violet-500/10"
