@@ -2695,7 +2695,6 @@ ${stringifiedMappedFormValues}
                 disabled={isLoading}
                 style={{ 
                   float: 'left',
-                  // backgroundColor: 'orange',
                   backgroundColor: 'rgba(111, 90, 246, 0.97)',
                  }}
                 size="icon"
