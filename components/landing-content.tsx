@@ -11,15 +11,15 @@ const testimonials = [
     location: 'Seattle, WA',
   },
   {
-    name: "Mary P.",
+    name: "Mary",
     avatar: "M",
     title: "Student",
     description: "As someone who struggles writing resumes and overcoming writer's block, this tool was a game-changer to help me quit overthinking things and starting putting words on the page.",
-    location: 'New York, NY',
+    location: 'Grand Rapids, MI',
   },
   {
     name: "Paul W.",
-    avatar: "M",
+    avatar: "P",
     title: "Customer Success Manager",
     description: "The investment was worth it, and I've since gotten interviews (and an offer) using the template.",
     location: 'Phoenix, AZ',
@@ -29,7 +29,7 @@ const testimonials = [
     avatar: "J",
     title: "Software Engineer",
     description: "The resume I got was simple and effective. Thanks again.",
-    location: 'Seattle, WA',
+    location: 'Texas',
   },
 ];
 
@@ -45,12 +45,12 @@ export const LandingContent = () => {
                 <div>
                   <p className="text-lg">{item.name}</p>
                   <p className="text-zinc-400 text-sm">{item.title}</p>
+                    <p className="text-zinc-400 text-xs"><i>{item.location}</i></p>
                 </div>
               </CardTitle>
               <CardContent className="pt-4 px-0">
                 {item.description}
               </CardContent>
-              {/*{item.location}*/}
             </CardHeader>
           </Card>
         ))}
