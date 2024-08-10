@@ -13,7 +13,7 @@ const testimonials = [
   {
     name: "Mary P.",
     avatar: "M",
-    title: "HR Lead",
+    title: "Student",
     description: "As someone who struggles writing resumes and overcoming writer's block, this tool was a game-changer to help me quit overthinking things and starting putting words on the page.",
     location: 'New York, NY',
   },
@@ -22,7 +22,7 @@ const testimonials = [
     avatar: "M",
     title: "Customer Success Manager",
     description: "The investment was worth it, and I've since gotten interviews (and an offer) using the template.",
-    location: 'Seattle, WA',
+    location: 'Phoenix, AZ',
   },
   {
     name: "Joyce K.",
