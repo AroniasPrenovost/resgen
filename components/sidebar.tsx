@@ -73,7 +73,7 @@ export const Sidebar = ({
               <ol>
                 <li><b>1. </b>Enter your work experience and other relevant information.</li>
                 <br/>
-                <li><b>2. </b>A single payment of <b style={{color:"orange"}}>$4.99</b> gets you 30 days of unlimited access.</li>
+                <li><b>2. </b>A single payment of <b style={{color:"orange"}}>$4.99</b> gets you 30 days of access.</li>
                 {/*<s><b>$9.99</b></s> */}
             
                 <br/>
