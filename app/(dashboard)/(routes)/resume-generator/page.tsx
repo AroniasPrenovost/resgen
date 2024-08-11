@@ -56,11 +56,11 @@ const ResumeGeneratorPage = () => {
   //
   //
 
-  const [subheadline, setSubheadline] = useState('Get 30 days of access to fine-tune your results for a 1-time cost of');
+  const [subheadline, setSubheadline] = useState('Get 30 days of access to fine-tune your results for ');
   // const defaultPrice = '$9.99';
   // const salePrice = '$4.99';
 
-  const [topCtaButton, setTopCtaButton] = useState('Get Access Now');
+  const [topCtaButton, setTopCtaButton] = useState('Get Access');
   const [buyButtonContent, setBuyButtonContent] = useState('Generate Resume');
 
   const current_time: any = new Date();
@@ -1094,8 +1094,8 @@ ${stringifiedMappedFormValues}
               style={{
                   position: 'absolute', 
                   maxWidth: '264px',  
-                  // backgroundColor: 'rgba(111, 90, 246, 0.97)',
-                  backgroundColor: 'orange',
+                  backgroundColor: 'rgba(111, 90, 246, 0.97)',
+                  // backgroundColor: 'orange',
                   right: '0', 
                   // bottom: '0',
                   // marginBottom: '28px',

@@ -28,7 +28,7 @@ export const LandingNavbar = () => {
         {/*<Link href={isSignedIn ? "/resume-generator" : "/sign-up"}>*/}
         <Link href="/resume-generator" prefetch={true}>
           <Button variant="outline" className="rounded-full">
-            Get Access 
+            Generate Today
           </Button>
         </Link>
       </div>
