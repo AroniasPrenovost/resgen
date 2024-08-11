@@ -61,7 +61,7 @@ const ResumeGeneratorPage = () => {
   // const salePrice = '$4.99';
 
   const [topCtaButton, setTopCtaButton] = useState('Get Access Now');
-  const [buyButtonContent, setBuyButtonContent] = useState('Generate Your Resume');
+  const [buyButtonContent, setBuyButtonContent] = useState('Generate Resume');
 
   const current_time: any = new Date();
   let payment_date: any = false;
