@@ -2658,8 +2658,8 @@ ${stringifiedMappedFormValues}
                   className="col-span-6 lg:col-span-6"
                   style={{ 
                     color: '#576574', 
-                    textAlign: 'center',
-                    padding: '4px',
+                    // textAlign: 'center',
+                    // padding: '4px',
                   }}     
               >
               {/*<FormItem className="col-span-12 lg:col-span-10">*/}
