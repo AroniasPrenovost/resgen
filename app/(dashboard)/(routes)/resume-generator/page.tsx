@@ -2717,6 +2717,7 @@ ${stringifiedMappedFormValues}
                 style={{ 
                   float: 'left',
                   backgroundColor: 'rgba(111, 90, 246, 0.97)',
+                  marginTop: '4px',
                  }}
                 size="icon"
                 id='submit'
