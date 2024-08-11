@@ -1137,6 +1137,60 @@ ${stringifiedMappedFormValues}
 
               {/* PERSONAL INFO  */}
 
+{/*              <FormField
+                name="fill_in_the_blank_phrase"
+                render={({ field }) => (
+                  <FormItem className="col-span-12 lg:col-span-4 border-2 rounded-lg border-gray-300">
+                    <FormControl className="m-0 p-2" >
+                      <Input
+
+                        className="border-0 outline-none  "
+                        disabled={isLoading}
+                        placeholder="Full name"
+                        {...field}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />*/}
+
+
+              {/* FILL IN THE BLANK   */}
+
+
+              <FormItem 
+                  className="col-span-6 lg:col-span-6"
+                  style={{ 
+                    color: '#576574', 
+                    textAlign: 'left',
+                    // padding: '-2px 12px',
+                  }}     
+              >
+              {/*<FormItem className="col-span-12 lg:col-span-10">*/}
+                <FormControl className="m-0 p-2">
+                  <Tooltip 
+                    color="primary"
+                    content={"Our AI assistant well help generate content for empty sections."}
+                  >
+                    <label 
+                      style={{ 
+                        color: '#576574', 
+                        verticalAlign: '-webkit-baseline-middle'
+                      }} 
+                      className="text-sm"
+                    >
+                      <input
+                        name="checked" type="checkbox" checked={fillInTheBlank}
+                        onChange={e => setFillInTheBlank(!fillInTheBlank)} />
+                      &nbsp; Fill in the blank 🔥   
+                    </label>
+                  </Tooltip>
+                </FormControl>
+              </FormItem>
+
+
+             {/* PERSONAL INFO  */}
+
               <FormItem className="col-span-12 lg:col-span-10">
                 <FormControl className="m-0 p-2">
                   <label style={{ fontWeight: 'bold' }}>
@@ -2648,44 +2702,6 @@ ${stringifiedMappedFormValues}
                     )}
                   />
                 </> : ''}
-
-
-
-              {/*
-                'Fil in the blank' button
-              */}
-              <FormItem 
-                  className="col-span-6 lg:col-span-6"
-                  style={{ 
-                    color: '#576574', 
-                    // textAlign: 'center',
-                    padding: '4px',
-                  }}     
-              >
-              {/*<FormItem className="col-span-12 lg:col-span-10">*/}
-                <FormControl className="m-0 p-2">
-                  <Tooltip 
-                    color="secondary"
-                    content={"Generate content for empty sections."}
-                  >
-                    <label 
-                      style={{ 
-                        color: '#576574', 
-                        verticalAlign: '-webkit-baseline-middle'
-                      }} 
-                      className="text-sm"
-                    >
-                      <input
-                        name="checked" type="checkbox" checked={fillInTheBlank}
-                        onChange={e => setFillInTheBlank(!fillInTheBlank)} />
-                      &nbsp; Fill in the blank 🔥   
-                    </label>
-                  </Tooltip>
-                </FormControl>
-              </FormItem>
-
-
-
 
 
               {/*
