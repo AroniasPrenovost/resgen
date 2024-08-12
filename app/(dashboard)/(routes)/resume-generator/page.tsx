@@ -58,7 +58,7 @@ const ResumeGeneratorPage = () => {
 
   const [subheadline, setSubheadline] = useState('Get 30 days of access to fine-tune your results for ');
   // const defaultPrice = '$9.99';
-  // const salePrice = '$4.99';
+  // const salePrice = '$3.99';
 
   const [topCtaButton, setTopCtaButton] = useState('Get Access');
   const [buyButtonContent, setBuyButtonContent] = useState('Generate Resume');
