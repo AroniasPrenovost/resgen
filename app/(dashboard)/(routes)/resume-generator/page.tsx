@@ -1170,7 +1170,7 @@ ${stringifiedMappedFormValues}
                 <FormControl className="m-0 p-2">
                   <Tooltip 
                     color="primary"
-                    content={"Checking this box will tells our AI to generate content for sections left blank. For optimal results, it is strongly suggested to provide at least the employer and job title."}
+                    content={"Checking this box will tells our AI to generate content for sections left blank. For optimal results, it is suggested to provide at least the employer and job title."}
                   >
                     <label 
                       style={{ 
@@ -2709,6 +2709,10 @@ ${stringifiedMappedFormValues}
                 Download Button
               
               */}
+           <Tooltip 
+              color="secondary"
+              content={"Your form information will be saved"}
+            >
               <Button
                 className="col-span-6 lg:col-span-6 w-full"
                 // className="col-span-12 lg:col-span-12 w-full"
@@ -2724,6 +2728,7 @@ ${stringifiedMappedFormValues}
                 >
                 {buyButtonContent}
               </Button>
+                 </Tooltip>
 
 
             </form>
