@@ -81,7 +81,7 @@ export const Sidebar = ({
                 <br/>
                 <li><b>3. </b>The AI assistant generates your new resume.</li>
                 <br/>
-                <li><b>4. </b>You can generate multiple variations until you are satisfied.</li>
+                <li><b>4. </b>Generate multiple variations until you are satisfied.</li>
                 <br/>
                 <li><b>5. </b><em>Optional:</em> If you do not own Microsoft Word, upload the downloaded files to <Link className={cn(
                   "hover:text-white transition",
