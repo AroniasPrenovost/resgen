@@ -56,7 +56,7 @@ const ResumeGeneratorPage = () => {
   //
   //
 
-  const [subheadline, setSubheadline] = useState('Simplify the resume process. Get 30 days of access for ');
+  const [subheadline, setSubheadline] = useState('Instant professional resume creation process. Get 30 days of access for ');
   // const defaultPrice = '$9.99';
   // const salePrice = '$3.99';
 
