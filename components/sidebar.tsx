@@ -79,7 +79,7 @@ export const Sidebar = ({
                 {/*<s><b>$9.99</b></s> */}
             
                 <br/>
-                <li><b>3. </b>Our AI assistant generates your new resume.</li>
+                <li><b>3. </b>The AI assistant generates your new resume.</li>
                 <br/>
                 <li><b>4. </b>You can generate multiple variations until you are satisfied.</li>
                 <br/>
