@@ -2711,7 +2711,7 @@ ${stringifiedMappedFormValues}
               */}
            <Tooltip 
               color="secondary"
-              content={"Your inputted resume info will still be here when you get back"}
+              content={"Don't worry, your inputs will still be here when you get back"}
             >
               <Button
                 className="col-span-6 lg:col-span-6 w-full"
