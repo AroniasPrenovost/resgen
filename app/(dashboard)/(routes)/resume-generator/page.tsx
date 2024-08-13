@@ -1170,7 +1170,7 @@ ${stringifiedMappedFormValues}
                 <FormControl className="m-0 p-2">
                   <Tooltip 
                     color="primary"
-                    content={"Checking this box will tell our AI assistant to help generate content for empty sections. For optimial results, it is strongly suggested to at least input the job title and place of employment."}
+                    content={"Checking this box will tell our AI assistant to help generate content for empty sections. For optimal results, it is strongly suggested to at least input the job title and place of employment."}
                   >
                     <label 
                       style={{ 
