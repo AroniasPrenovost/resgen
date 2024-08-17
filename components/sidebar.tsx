@@ -81,9 +81,7 @@ export const Sidebar = ({
                 <br/>
                 <li><b>3. </b>Our AI assistant writes your new resume.</li>
                 <br/>
-                <li><b>4. </b>Generate multiple variations until you are satisfied.</li>
-                <br/>
-                <li><b>5. </b><em>Optional:</em> If you do not own Microsoft Word, upload the downloaded files to <Link className={cn(
+                <li><b>4. </b><em>Optional:</em> If you do not own Microsoft Word, upload the downloaded files to <Link className={cn(
                   "hover:text-white transition",
                    "text-zinc-400",
                 )} target="_blank" rel="noopener noreferrer" href="https://drive.google.com/drive/home">Google Drive</Link>. 
