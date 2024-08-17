@@ -71,7 +71,7 @@ export const Sidebar = ({
            <div className="space-y-1" style={{paddingTop: '24px', padding: '8px', fontSize: '14px'}}>
               <b style={{fontSize: '18px', marginBottom: '20px !important', marginTop: '20px'}}>How It Works:</b><br/>
               <ol>
-                <li><b>1. </b><b style={{color:"orange"}}>$3.99</b> gets access for 30 days.</li>
+                <li><b>1. </b><b style={{color:"orange"}}>$3.99</b> gets you access for 30 days.</li>
                   <br/>
                 <li><b>2. </b>Enter your work experience and other relevant information.</li>
               
@@ -79,7 +79,7 @@ export const Sidebar = ({
                 {/*<s><b>$9.99</b></s> */}
             
                 <br/>
-                <li><b>3. </b>The AI assistant generates your new resume.</li>
+                <li><b>3. </b>Our AI assistant writes your new resume.</li>
                 <br/>
                 <li><b>4. </b>Generate multiple variations until you are satisfied.</li>
                 <br/>
