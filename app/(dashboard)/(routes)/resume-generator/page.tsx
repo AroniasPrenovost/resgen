@@ -124,7 +124,7 @@ const ResumeGeneratorPage = () => {
     // console.log({clearCache1,clearCache2});
 
     if (clearCache1 || clearCache2) {
-      console.log('cache cleared');
+      // console.log('cache cleared');
       localStorage.removeItem('pr_0012'); // 'payment_received'
       localStorage.setItem('payment_date', '');
       localStorage.setItem('x8u_000_vb_nod', '0'); // 'number_of_downloads'
