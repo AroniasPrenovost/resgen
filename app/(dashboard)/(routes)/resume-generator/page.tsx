@@ -139,7 +139,7 @@ const ResumeGeneratorPage = () => {
 
   const form = useForm<z.infer<typeof formSchema>>({
     // resolver: zodResolver(formSchema), // disable form validation 
-    // since I want people to go to Stripe pre-filling out the form, if they wish 
+    // since I want people to go to Stripe prior to filling out the form, if they wish 
     defaultValues: {
       full_name: storedFormValues.full_name ?? '',
       email_address: storedFormValues.email_address ?? '',
