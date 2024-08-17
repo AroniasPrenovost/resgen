@@ -1180,7 +1180,8 @@ ${stringifiedMappedFormValues}
                     <label 
                       style={{ 
                         color: '#576574', 
-                        verticalAlign: '-webkit-baseline-middle'
+                        verticalAlign: '-webkit-baseline-middle',
+                        marginLeft: '6px',
                       }} 
                       className="text-sm"
                     >
