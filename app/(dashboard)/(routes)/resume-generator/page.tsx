@@ -1109,7 +1109,7 @@ ${stringifiedMappedFormValues}
                     marginTop: '32px',
                     visibility: hasPaid ? 'hidden' : 'visible',
                   }}  
-                  className="col-span-6 w-full"
+                  className="col-span-6 w-full xs: hidden sm:hidden md:hidden lg:block"
                   // className="col-span-12 lg:col-span-12 w-full"
                   type="submit"
                   // disabled={isLoading}
