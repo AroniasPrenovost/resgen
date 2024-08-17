@@ -73,7 +73,7 @@ export const Sidebar = ({
               <ol>
                 <li><b>1. </b><b style={{color:"orange"}}>$3.99</b> gets you access for 30 days.</li>
                   <br/>
-                <li><b>2. </b>Enter your work experience and other relevant information.</li>
+                <li><b>2. </b>Enter work experience and other relevant information.</li>
               
               
                 {/*<s><b>$9.99</b></s> */}
