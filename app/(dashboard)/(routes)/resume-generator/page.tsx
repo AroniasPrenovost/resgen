@@ -1090,10 +1090,10 @@ ${stringifiedMappedFormValues}
 
 
                
-            <Tooltip 
+     {/*       <Tooltip 
               color="secondary"
               content={"Don't worry, your inputs will still be here when you get back"}
-            >
+            >*/}
                <Button
                 style={{
                     position: 'absolute', 
@@ -1118,7 +1118,7 @@ ${stringifiedMappedFormValues}
                   >
                    {topCtaButton}
                 </Button>
-              </Tooltip>
+              {/*</Tooltip>*/}
 
 
       <div className="px-4 lg:px-8">
@@ -2714,10 +2714,10 @@ ${stringifiedMappedFormValues}
                 Download Button
               
               */}
-           <Tooltip 
+       {/*    <Tooltip 
               color="secondary"
               content={"Don't worry, your inputs will still be here when you get back"}
-            >
+            >*/}
               <Button
                 className="col-span-6 lg:col-span-6 w-full"
                 // className="col-span-12 lg:col-span-12 w-full"
@@ -2733,7 +2733,7 @@ ${stringifiedMappedFormValues}
                 >
                 {buyButtonContent}
               </Button>
-                 </Tooltip>
+                 {/*</Tooltip>*/}
 
 
             </form>
