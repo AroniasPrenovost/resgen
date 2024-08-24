@@ -3,7 +3,7 @@ import { Heading } from "@/components/heading";
 
 const BlogPage = async () => {
   const blogPosts = [
-    { href: "/blog/1", title: "How to Write an Attention-Grabbing Resume Summary", date: "2023-01-10" },
+    { href: "/blog/how-to-write-an-attention-grabbing-resume-summary", title: "How to Write an Attention-Grabbing Resume Summary", date: "2023-01-10" },
     { href: "/blog/2", title: "Top Resume Formats to Get You Noticed", date: "2023-01-15" },
     { href: "/blog/3", title: "Quantifying Achievements: The Key to Standout Resumes", date: "2023-01-20" },
     { href: "/blog/4", title: "Crafting the Perfect Cover Letter to Complement Your Resume", date: "2023-01-25" },
