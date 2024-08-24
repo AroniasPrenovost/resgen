@@ -56,7 +56,7 @@ const ResumeGeneratorPage = () => {
   //
   //
 
-  const [subheadline, setSubheadline] = useState('Instant professional resume generation.');
+  const [subheadline, setSubheadline] = useState('Instant professional resume generation at your fingertips.');
   // const defaultPrice = '$9.99';
   // const salePrice = '$3.99';
 
