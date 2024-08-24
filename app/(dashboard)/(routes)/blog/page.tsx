@@ -29,16 +29,16 @@ const BlogPage = async () => {
           Writing the right resume at the right time is all it takes to strike gold.
         </div>
         
-        <ol className="space-y-4 list-decimal list-inside">
+        <ul className="space-y-4 list-decimal list-inside" style={{listStyleType: 'none'}}>
           {blogPosts.map((post, index) => (
             <li key={index} className="space-y-1 text-blue-600 hover:underline">
               <a href={post.href} title={post.title}>
-                <span className="block font-semibold">{post.title}</span>
                 <span className="block text-xs text-muted-foreground">{post.date}</span>
+                <span className="block font-semibold">{post.title}</span>
               </a>
             </li>
           ))}
-        </ol>
+        </ul>
       </div>
     </div>
   );
