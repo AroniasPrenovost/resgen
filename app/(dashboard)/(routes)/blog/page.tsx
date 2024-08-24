@@ -23,33 +23,43 @@ const BlogPage = async () => {
           <a href="/blog/1" className="text-blue-600 hover:underline">
             How to Write an Attention-Grabbing Resume Summary
           </a>
+          <br/>
           <a href="/blog/2" className="text-blue-600 hover:underline">
             Top Resume Formats to Get You Noticed
           </a>
+          <br/>
           <a href="/blog/3" className="text-blue-600 hover:underline">
             Quantifying Achievements: The Key to Standout Resumes
           </a>
+          <br/>
           <a href="/blog/4" className="text-blue-600 hover:underline">
             Crafting the Perfect Cover Letter to Complement Your Resume
           </a>
+          <br/>
           <a href="/blog/5" className="text-blue-600 hover:underline">
             Common Resume Mistakes and How to Avoid Them
           </a>
+          <br/>
           <a href="/blog/6" className="text-blue-600 hover:underline">
             Leveraging Keywords to Pass Resume Screening Software
           </a>
+          <br/>
           <a href="/blog/7" className="text-blue-600 hover:underline">
             The Importance of Tailoring Your Resume for Each Job Application
           </a>
+          <br/>
           <a href="/blog/8" className="text-blue-600 hover:underline">
             How to Showcase Soft Skills in Your Resume
           </a>
+          <br/>
           <a href="/blog/9" className="text-blue-600 hover:underline">
             Professional Resume Templates that Employers Love
           </a>
+          <br/>
           <a href="/blog/10" className="text-blue-600 hover:underline">
             How to Write a Resume with Little to No Experience
           </a>
+          <br/>
         </div>
 
         {/*<SubscriptionButton />*/}
