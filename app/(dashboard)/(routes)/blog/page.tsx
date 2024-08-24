@@ -1,7 +1,5 @@
 import { MessageSquare } from "lucide-react";
 import { Heading } from "@/components/heading";
-import { SubscriptionButton } from "@/components/subscription-button";
-// import { checkSubscription } from "@/lib/subscription";
 
 const BlogPage = async () => {
 
@@ -16,7 +14,7 @@ const BlogPage = async () => {
       />
       <div className="px-4 lg:px-4 py-8 space-y-8">
         <div className="text-muted-foreground text-sm">
-          "To <b>write</b> the right resume at the <i>right</i> time is all it takes to strike gold."
+          'To <b>write</b> the right resume at the <i>right</i> time is all it takes to strike gold.'
         </div>
 
         <div className="space-y-8">
