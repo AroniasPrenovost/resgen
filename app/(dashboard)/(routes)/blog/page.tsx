@@ -4,12 +4,12 @@ import { Heading } from "@/components/heading";
 const BlogPage = async () => {
 
   return (
-    <div className="min-h-screen bg-purple-50">
+    <div className="min-h-screen bg-black-50">
       <Heading
         title="Resume Writing Blog"
         description="Master the art of resume writing with our expert tips and tricks."
         icon={MessageSquare}
-        iconColor="text-gray-700"
+        iconColor="text-purple-700"
         bgColor="bg-gray-700/10"
       />
       <div className="px-8 lg:px-8 py-0 space-y-2">
