@@ -5,7 +5,7 @@ import { SubscriptionButton } from "@/components/subscription-button";
 import { checkSubscription } from "@/lib/subscription";
 
 const SettingsPage = async () => {
-  const isPro = await checkSubscription();
+  const isPro = false; // await checkSubscription();
 
   return (
     <div>
@@ -20,7 +20,7 @@ const SettingsPage = async () => {
         <div className="text-muted-foreground text-sm">
           {isPro ? "You are currently on a Pro plan." : "You must be on a Pro plan to access ResumAI tool."}
         </div>
-        <SubscriptionButton isPro={isPro} />
+        {/*<SubscriptionButton isPro={isPro} />*/}
       </div>
     </div>
   );
