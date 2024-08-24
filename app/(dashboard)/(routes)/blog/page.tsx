@@ -12,7 +12,7 @@ const BlogPage = async () => {
         iconColor="text-gray-700"
         bgColor="bg-gray-700/10"
       />
-      <div className="px-8 lg:px-8 py-2 space-y-2">
+      <div className="px-8 lg:px-8 py-0 space-y-2">
         <div className="text-muted-foreground text-sm">
           "Writing the right resume at the right time is all it takes to strike gold."
         </div>
