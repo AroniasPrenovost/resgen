@@ -18,15 +18,15 @@ const BlogPage = async () => {
   return (
     <div className="min-h-screen bg-black-50">
       <Heading
-        title="Resume Writing Blog"
-        description="_____ Master the art of resume writing with tips and tricks from our experts."
+        title="How to Write an Attention Grabbing Resume Summary"
+        description="Some description."
         icon={MessageSquare}
         iconColor="text-purple-700"
         bgColor="bg-gray-700/10"
       />
       <div className="px-8 lg:px-8 py-0 space-y-2">
 {/*        <div className="text-muted-foreground text-sm">
-          Writing the right resume at the right time is all it takes to strike gold.
+          Writing the right resume at the right time is all sit takes to strike gold.
         </div>
         */}
         <ul className="space-y-4 list-decimal list-inside" style={{listStyleType: 'none'}}>  
