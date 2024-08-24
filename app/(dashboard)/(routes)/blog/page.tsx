@@ -18,9 +18,10 @@ const SettingsPage = async () => {
       />
       <div className="px-4 lg:px-8 space-y-4">
         <div className="text-muted-foreground text-sm">
-          {isPro ? "You are currently on a Pro plan." : "You must be on a Pro plan to access ResumAI tool."}
+          {"You must be on a Pro plan to access ResumAI tool."}
         </div>
         {/*<SubscriptionButton isPro={isPro} />*/}
+        <a href="#">Hello</a>
       </div>
     </div>
   );
