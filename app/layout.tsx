@@ -12,10 +12,11 @@ import './globals.css'
 
 const font = Inter({ subsets: ['latin'] });
 
-export const metadata: Metadata = {
-  title: 'ResumAI - AI-Powered Resume Generation',
-  description: 'Customized, AI-assisted resume generation that lets your experience do the talking. Download multiple versions of an ATS-friendly resume today!',
-}
+// export const metadata: Metadata = {
+//   title: 'ResumAI - AI-Powered Resume Generation',
+//   description: 'Customized, AI-assisted resume generation that lets your experience do the talking. Download multiple versions of an ATS-friendly resume today!',
+//   ogTitle: '',
+// }
 
 export default async function RootLayout({
   children,
@@ -27,9 +28,10 @@ export default async function RootLayout({
       <html lang="en" suppressHydrationWarning>
         <CrispProvider />
         <head>
-           <meta name="description" content="A short description of your page's content"/>
+           <title>ResumAI - AI-Powered Resume Generation</title>
+           <meta name="description" content="Customized, AI-assisted resume generation that lets your experience do the talking. Download multiple versions of an ATS-friendly resume today!"/>
           <meta property="og:title" content="Your Page Title" />
-          <meta property="og:description" content="A detailed description of your page's content" />
+          <meta property="og:description" content="Customized, AI-assisted resume generation that lets your experience do the talking. Download multiple versions of an ATS-friendly resume today!"/>
           <meta property="og:image" content="https://example.com/thumbnail.jpg" />
           <meta name="twitter:card" content="summary_large_image" />
         </head>
