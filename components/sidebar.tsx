@@ -63,8 +63,7 @@ export const Sidebar = ({
                 ? 
                 "text-white bg-white/10" 
                 :
-                // "text-zinc-400",
-                "text-white bg-white/10" 
+                "text-zinc-400",
               )}
             >
               <div className="flex items-center flex-1">
