@@ -16,7 +16,7 @@ const BlogPage = async () => {
       />
       <div className="px-2 lg:px-2 py-8 space-y-8">
         <div className="text-muted-foreground text-sm">
-          "To <b>write</b> the right resume at the <i>right</i> time is all it takes to strike gold."
+          {"To <b>write</b> the right resume at the <i>right</i> time is all it takes to strike gold."}
         </div>
 
         <div className="space-y-4">
