@@ -39,6 +39,7 @@ export const Sidebar = ({
   isPro: boolean;
 }) => {
   const pathname = usePathname();
+  const isshown = pathname === '/resume-generator';
 
   return (
     <div className="space-y-4 py-4 flex flex-col h-full bg-[#111827] text-white">
@@ -107,7 +108,11 @@ export const Sidebar = ({
 
                 <br/>
                 <br/>
-                 <Link style={{textAlign: "center"}} className={cn("text-blue-600 hover:underline",
+
+                 <Link style={{
+                   textAlign: "center",
+                   display: isshown ? 'none' : 'block',
+                 }} className={cn("text-blue-600 hover:underline",
                 )} href="/resume-generator">Get Started!</Link>
  
 
