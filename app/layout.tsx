@@ -26,6 +26,13 @@ export default async function RootLayout({
     // <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
         <CrispProvider />
+        <head>
+           <meta name="description" content="A short description of your page's content"/>
+          <meta property="og:title" content="Your Page Title" />
+          <meta property="og:description" content="A detailed description of your page's content" />
+          <meta property="og:image" content="https://example.com/thumbnail.jpg" />
+          <meta name="twitter:card" content="summary_large_image" />
+        </head>
         <body className={font.className}>
           <ToasterProvider />
           <ModalProvider />
