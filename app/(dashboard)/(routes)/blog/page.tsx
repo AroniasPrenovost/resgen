@@ -14,12 +14,12 @@ const BlogPage = async () => {
         iconColor="text-gray-700"
         bgColor="bg-gray-700/10"
       />
-      <div className="px-2 lg:px-2 py-8 space-y-8">
+      <div className="px-4 lg:px-4 py-8 space-y-8">
         <div className="text-muted-foreground text-sm">
           {"To <b>write</b> the right resume at the <i>right</i> time is all it takes to strike gold."}
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-8">
           <a href="/blog/1" className="text-blue-600 hover:underline">
             How to Write an Attention-Grabbing Resume Summary
           </a>
