@@ -6,7 +6,7 @@ import { SubscriptionButton } from "@/components/subscription-button";
 const BlogPage = async () => {
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-purple-50">
       <Heading
         title="Resume Writing Blog"
         description="Master the art of resume writing with our expert tips and tricks."
