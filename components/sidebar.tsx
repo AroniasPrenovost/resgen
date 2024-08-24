@@ -112,7 +112,7 @@ export const Sidebar = ({
                   <b>
                     <Link style={{
                        display: isshown ? 'none' : 'block',
-                       }} className={cn("text-orange-800 hover:underline",
+                       }} className={cn("text-orange-400 hover:underline",
                       )} href="/resume-generator">Get Started Today!
                    </Link>
                  </b>
