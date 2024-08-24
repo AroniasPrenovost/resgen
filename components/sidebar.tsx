@@ -106,9 +106,7 @@ export const Sidebar = ({
                  </div>*/}
 
 
-                 <Link style={{textAlign: "center"}} className={cn(
-                  "hover:text-white transition",
-                   "text-zinc-400",
+                 <Link style={{textAlign: "center"}} className={cn("text-blue-600 hover:underline",
                 )} href="/resume-generator">Get Started!</Link>
  
 
