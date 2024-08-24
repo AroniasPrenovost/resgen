@@ -2,10 +2,9 @@ import { MessageSquare } from "lucide-react";
 
 import { Heading } from "@/components/heading";
 import { SubscriptionButton } from "@/components/subscription-button";
-import { checkSubscription } from "@/lib/subscription";
+// import { checkSubscription } from "@/lib/subscription";
 
-const SettingsPage = async () => {
-  const isPro = false; // await checkSubscription();
+const BlogPage = async () => {
 
   return (
     <div>
@@ -20,13 +19,12 @@ const SettingsPage = async () => {
         <div className="text-muted-foreground text-sm">
           {"You must be on a Pro plan to access ResumAI tool."}
         </div>
-        {/*<SubscriptionButton isPro={isPro} />*/}
         <a href="#">Hello</a>
       </div>
     </div>
   );
 }
 
-export default SettingsPage;
+export default BlogPage;
 
 
