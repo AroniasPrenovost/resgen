@@ -14,9 +14,9 @@ const BlogPage = async () => {
         iconColor="text-gray-700"
         bgColor="bg-gray-700/10"
       />
-      <div className="px-4 lg:px-8 py-8 space-y-8">
+      <div className="px-2 lg:px-2 py-8 space-y-8">
         <div className="text-muted-foreground text-sm">
-          {"The write resume at the write time is all it takes to strike gold."}
+          "To <b>write</b> the right resume at the <i>right</i> time is all it takes to strike gold."
         </div>
 
         <div className="space-y-4">
