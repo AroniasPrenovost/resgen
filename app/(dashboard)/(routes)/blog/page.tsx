@@ -14,7 +14,7 @@ const BlogPage = async () => {
       />
       <div className="px-4 lg:px-4 py-8 space-y-8">
         <div className="text-muted-foreground text-sm">
-          'To <b>write</b> the right resume at the <i>right</i> time is all it takes to strike gold.'
+          We believe that writing the right resume at the right time is all it takes to strike gold.
         </div>
 
         <div className="space-y-8">
