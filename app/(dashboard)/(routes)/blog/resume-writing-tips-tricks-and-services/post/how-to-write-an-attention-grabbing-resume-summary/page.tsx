@@ -1,6 +1,7 @@
 
 import { MessageSquare } from "lucide-react";
 import { Heading } from "@/components/heading";
+import Image from "next/image";
 
 const BlogDetailPage = async () => {
   return (
@@ -64,6 +65,13 @@ const BlogDetailPage = async () => {
             alt="Author"
             className="w-16 h-16 rounded-full"
           />
+          <div className="relative h-8 w-8 mr-4">
+            <Image fill 
+            sizes="(max-width: 768px) 100vw, 33vw" 
+            alt="Article author icon" 
+            src="/chat.png" 
+            />
+          </div>
     
           <div>
             <p className="text-lg font-medium text-gray-800">John Doe</p>
