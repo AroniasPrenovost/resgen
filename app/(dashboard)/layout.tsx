@@ -21,7 +21,7 @@ const DashboardLayout = async ({
       <main className="md:pl-72 pb-10">
         <Navbar /> 
         {children}
-        <Footer />
+        <Footer title='' />
       </main>
     </div>
    );

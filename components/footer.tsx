@@ -4,11 +4,11 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 interface FooterProps {
-  title: string;
-  description: string;
-  icon: Icon;
-  iconColor?: string;
-  bgColor?: string;
+  title: any;
+  // description: string;
+  // icon: Icon;
+  // iconColor?: string;
+  // bgColor?: string;
 }
 
 export const Footer = ({
