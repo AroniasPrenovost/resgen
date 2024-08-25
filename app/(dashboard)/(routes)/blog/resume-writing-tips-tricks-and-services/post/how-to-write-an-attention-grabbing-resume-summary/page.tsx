@@ -1,44 +1,78 @@
+
 import { MessageSquare } from "lucide-react";
 import { Heading } from "@/components/heading";
 
-const BlogPage = async () => {
-  const blogPosts = [
-    { href: "/blog/how-to-write-an-attention-grabbing-resume-summary", title: "How to Write an Attention-Grabbing Resume Summary", date: "2023-01-10" },
-    { href: "/blog/2", title: "Top Resume Formats to Get You Noticed", date: "2023-01-15" },
-    { href: "/blog/3", title: "Quantifying Achievements: The Key to Standout Resumes", date: "2023-01-20" },
-    { href: "/blog/4", title: "Crafting the Perfect Cover Letter to Complement Your Resume", date: "2023-01-25" },
-    { href: "/blog/5", title: "Common Resume Mistakes and How to Avoid Them", date: "2023-02-10" },
-    { href: "/blog/6", title: "Leveraging Keywords to Pass Resume Screening Software", date: "2023-02-15" },
-    { href: "/blog/7", title: "The Importance of Tailoring Your Resume for Each Job Application", date: "2023-02-20" },
-    { href: "/blog/8", title: "How to Showcase Soft Skills in Your Resume", date: "2023-03-01" },
-    { href: "/blog/9", title: "Professional Resume Templates that Employers Love", date: "2023-03-05" },
-    { href: "/blog/10", title: "How to Write a Resume with Little to No Experience", date: "2023-03-10" },
-  ];
-  
+const BlogDetailPage = async () => {
   return (
-    <div className="min-h-screen bg-black-50">
+    <div className="min-h-screen bg-gray-50">
       <Heading
         title="How to Write an Attention Grabbing Resume Summary"
-        description="Some description."
+        description="A guide to crafting a compelling resume summary that captures the attention of hiring managers."
         icon={MessageSquare}
         iconColor="text-purple-700"
         bgColor="bg-gray-700/10"
       />
-      <div className="px-8 lg:px-8 py-0 space-y-2">
-
-        <ul className="space-y-4 list-decimal list-inside" style={{listStyleType: 'none'}}>  
-          {blogPosts.map((post, index) => (
-            <li key={index} className="space-y-1 text-blue-600 hover:underline">
-              <a href={post.href} title={post.title}>
-                <span className="block text-xs text-muted-foreground">{post.date}</span>
-                <span className="block font-semibold">{post.title}</span>
-              </a>
-            </li>
-          ))}
+      <div className="px-8 lg:px-16 py-8 space-y-6">
+        <h2 className="text-2xl font-bold text-gray-800">Introduction</h2>
+        <p className="text-gray-700">
+          Your resume summary is one of the first things a potential employer
+          sees, so it's crucial to make it stand out. In this post, we'll cover
+          some tips and strategies to help you write a resume summary that not
+          only grabs attention but also effectively showcases your skills and
+          experiences.
+        </p>
+        
+        <h2 className="text-2xl font-bold text-gray-800">What is a Resume Summary?</h2>
+        <p className="text-gray-700">
+          A resume summary is a short statement at the top of your resume that
+          highlights your professional qualifications. It provides a snapshot of
+          your skills, achievements, and career goals, making it easier for hiring
+          managers to quickly assess your suitability for a role.
+        </p>
+        
+        <h2 className="text-2xl font-bold text-gray-800">Tips for Writing a Resume Summary</h2>
+        <ul className="list-disc pl-5 space-y-2 text-gray-700">
+          <li><strong>Be Concise:</strong> Aim for 3-5 impactful sentences that summarize your professional background.</li>
+          <li><strong>Highlight Achievements:</strong> Focus on your key accomplishments and skills relevant to the job you’re applying for.</li>
+          <li><strong>Use Keywords:</strong> Incorporate terms and phrases from the job description to increase your chances with applicant tracking systems (ATS).</li>
+          <li><strong>Showcase Your Value:</strong> Emphasize how you can benefit the employer and contribute to their success.</li>
         </ul>
+        
+        <h2 className="text-2xl font-bold text-gray-800">Examples of Effective Resume Summaries</h2>
+        <p className="text-gray-700">
+          Here are some examples of resume summaries that effectively communicate
+          the candidate's value and qualifications:
+        </p>
+        
+        <div className="border-l-4 border-purple-700 pl-4 text-gray-700 space-y-2">
+          <p><strong>Example 1:</strong> "Experienced marketing professional with a proven track record in managing successful campaigns and increasing brand awareness. Skilled in digital marketing, content creation, and data analysis."</p>
+          <p><strong>Example 2:</strong> "Detail-oriented software engineer with 5+ years of experience in full-stack development. Expertise in JavaScript, React, and Node.js. Passionate about building scalable web applications and enhancing user experience."</p>
+        </div>
+
+        <h2 className="text-2xl font-bold text-gray-800">Conclusion</h2>
+        <p className="text-gray-700">
+          Writing an attention-grabbing resume summary is an essential part of crafting
+          a compelling resume. By following these tips and showcasing your unique value,
+          you can make a strong impression on potential employers and increase your chances
+          of landing your desired job.
+        </p>
+      </div>
+      <div className="bg-gray-100 p-6 mt-8">
+        <div className="flex items-center space-x-4">
+          <img
+            src="/path-to-author-photo.jpg"
+            alt="Author"
+            className="w-16 h-16 rounded-full"
+          />
+          <div>
+            <p className="text-lg font-medium text-gray-800">John Doe</p>
+            <p className="text-gray-600">Senior Software Engineer</p>
+            <p className="text-gray-600">John is a seasoned developer with over 10 years of experience in the tech industry. He specializes in web development, particularly in using NextJS and React to build high-performing, user-friendly applications.</p>
+          </div>
+        </div>
       </div>
     </div>
   );
 }
 
-export default BlogPage;
+export default BlogDetailPage;
