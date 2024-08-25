@@ -20,7 +20,7 @@ const BlogPage = async () => {
       <Heading
         title="Resume Writing Blog"
         description="Master the art of resume writing with tips and tricks from our experts."
-        icon={RssIcon}
+        icon={}
         iconColor="text-purple-700"
         bgColor="bg-gray-700/10"
       />
