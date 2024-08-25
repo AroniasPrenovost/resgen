@@ -21,7 +21,7 @@ const BlogPage = async () => {
         title="Resume Writing Blog"
         description="Master the art of resume writing with tips and tricks from our experts."
         icon={}
-        iconColor="text-purple-700"
+        iconColor="text-grey-700"
         bgColor="bg-gray-700/10"
       />
       <div className="px-8 lg:px-8 py-0 space-y-2">
