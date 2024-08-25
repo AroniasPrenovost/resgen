@@ -29,7 +29,7 @@ export default async function RootLayout({
         <CrispProvider />
         <head>
            <title>ResumAI - AI-Powered Resume Generation</title>
-           <meta name="description" content="Customized, AI-POWERED resume generation that lets your experience do the talking. Download multiple versions of an ATS-friendly resume today!"/>
+           <meta name="description" content="Customized, AI-powered resume generation that lets your experience do the talking. Download multiple versions of an ATS-friendly resume today!"/>
           <meta property="og:title" content="ResumAI - AI-Powered Resume Generation" />
           <meta property="og:description" content="Customized, AI-assisted resume generation that lets your experience do the talking. Download multiple versions of an ATS-friendly resume today!"/>
           <meta property="og:image" content="/transcript.png" />
