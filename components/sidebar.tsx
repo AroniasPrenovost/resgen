@@ -93,7 +93,7 @@ export const Sidebar = ({
                 {/*to access and modify formatting*/}
 
                <div style={{
-                 display: isResumeGeneratorPage ? 'none' : 'block',
+                 display: !isResumeGeneratorPage ? 'none' : 'block',
                }}>
                 <div className="relative ml-0 mt-5">
                   <Link className={cn(
