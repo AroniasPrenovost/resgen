@@ -4,16 +4,56 @@ import { promises as fs } from 'fs';
 
 const BlogPage = async () => {
   const blogPosts = [
-    { href: "/blog/1", title: "How to Write an Attention-Grabbing Resume Summary", date: "2023-01-10" },
-    { href: "/blog/2", title: "Top Resume Formats to Get You Noticed", date: "2023-01-15" },
-    { href: "/blog/3", title: "Quantifying Achievements: The Key to Standout Resumes", date: "2023-01-20" },
-    { href: "/blog/4", title: "Crafting the Perfect Cover Letter to Complement Your Resume", date: "2023-01-25" },
-    { href: "/blog/5", title: "Common Resume Mistakes and How to Avoid Them", date: "2023-02-10" },
-    { href: "/blog/6", title: "Leveraging Keywords to Pass Resume Screening Software", date: "2023-02-15" },
-    { href: "/blog/7", title: "The Importance of Tailoring Your Resume for Each Job Application", date: "2023-02-20" },
-    { href: "/blog/8", title: "How to Showcase Soft Skills in Your Resume", date: "2023-03-01" },
-    { href: "/blog/9", title: "Professional Resume Templates that Employers Love", date: "2023-03-05" },
-    { href: "/blog/10", title: "How to Write a Resume with Little to No Experience", date: "2023-03-10" },
+    { 
+      href: "/blog/resume-writing-tips-tricks-and-services/post/how-to-write-an-attention-grabbing-resume-summary",
+      title: "How to Write an Attention-Grabbing Resume Summary",
+      date: "2023-01-10"
+    },
+    { 
+      href: "/blog/2",
+      title: "Top Resume Formats to Get You Noticed",
+      date: "2023-01-15"
+    },
+    { 
+      href: "/blog/3",
+      title: "Quantifying Achievements: The Key to Standout Resumes",
+      date: "2023-01-20"
+    },
+    { 
+      href: "/blog/4",
+      title: "Crafting the Perfect Cover Letter to Complement Your Resume",
+      date: "2023-01-25"
+    },
+    { 
+      href: "/blog/5",
+      title: "Common Resume Mistakes and How to Avoid Them",
+      date: "2023-02-10"
+    },
+    { 
+      href: "/blog/6",
+      title: "Leveraging Keywords to Pass Resume Screening Software",
+      date: "2023-02-15"
+    },
+    { 
+      href: "/blog/7",
+      title: "The Importance of Tailoring Your Resume for Each Job Application",
+      date: "2023-02-20"
+    },
+    { 
+      href: "/blog/8",
+      title: "How to Showcase Soft Skills in Your Resume",
+      date: "2023-03-01"
+    },
+    { 
+      href: "/blog/9",
+      title: "Professional Resume Templates that Employers Love",
+      date: "2023-03-05"
+    },
+    { 
+      href: "/blog/10",
+      title: "How to Write a Resume with Little to No Experience",
+      date: "2023-03-10"
+    },
   ];
 
      try {
