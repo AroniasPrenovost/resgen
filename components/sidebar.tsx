@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+  
 import Image from "next/image";
 import { Montserrat } from 'next/font/google'
 import { Code, ImageIcon, LayoutDashboard, MessageSquare, Music, Settings, VideoIcon, PenLine, RssIcon } from "lucide-react";
@@ -51,7 +51,7 @@ export const Sidebar = ({
       <div className="px-3 py-2 flex-1">
         <Link href="/" className="flex items-center pl-3 mb-6">
           <div className="relative h-8 w-8 mr-4">
-            <Image fill alt="Logo" src="/transcript.png" />
+            <Image fill sizes="(max-width: 768px) 100vw, 33vw" alt="Logo" src="/transcript.png" />
           </div>
           <h1 className={cn("text-2xl font-bold", poppins.className)}>
             ResumAI

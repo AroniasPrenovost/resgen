@@ -1,5 +1,6 @@
 import { RssIcon } from "lucide-react";
 import { Heading } from "@/components/heading";
+import { promises as fs } from 'fs';
 
 const BlogPage = async () => {
   const blogPosts = [
@@ -14,6 +15,14 @@ const BlogPage = async () => {
     { href: "/blog/9", title: "Professional Resume Templates that Employers Love", date: "2023-03-05" },
     { href: "/blog/10", title: "How to Write a Resume with Little to No Experience", date: "2023-03-10" },
   ];
+
+     try {
+    const data = await fs.readFile(process.cwd() + '/app/' + name, 'utf8');
+    console.log({ ok: true, results: data });
+  } catch (error) {
+    console.log(error)
+    // return Response.json({ ok: false, results: { title: "Failed reading JSON", message: error.message } });
+  }
   
   return (
     <div className="min-h-screen bg-black-50">
