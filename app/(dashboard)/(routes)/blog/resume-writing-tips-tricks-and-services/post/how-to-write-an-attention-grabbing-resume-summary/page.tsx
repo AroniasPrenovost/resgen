@@ -1,5 +1,5 @@
 
-import { MessageSquare } from "lucide-react";
+  import { MessageSquare, User } from "lucide-react";
 import { Heading } from "@/components/heading";
 
 const BlogDetailPage = async () => {
@@ -58,19 +58,13 @@ const BlogDetailPage = async () => {
         </p>
       </div>
       <div className="bg-gray-100 p-6 mt-8">
-        <div className="flex items-center space-x-4">
-          <img
-            src="/profile"
-            alt="Author"
-            className="w-16 h-16 rounded-full"
-          />
+        <div className="flex items-center space-x-4">    
           <div className="relative h-8 w-8 mr-4">
-    
-          <div>
-            <p className="text-lg font-medium text-gray-800">John Doe</p>
-            <p className="text-gray-600">Senior Software Engineer</p>
-            <p className="text-gray-600">John is a seasoned developer with over 10 years of experience in the tech industry. He specializes in web development, particularly in using NextJS and React to build high-performing, user-friendly applications.</p>
+            <User className="w-8 h-8 text-gray-800" />
           </div>
+          <p className="text-lg font-medium text-gray-800">John Doe</p>
+          <p className="text-gray-600">Senior Software Engineer</p>
+          <p className="text-gray-600">John is a seasoned developer with over 10 years of experience in the tech industry. He specializes in web development, particularly in using NextJS and React to build high-performing, user-friendly applications.</p>
         </div>
       </div>
     </div>
