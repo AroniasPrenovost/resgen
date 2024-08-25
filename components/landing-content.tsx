@@ -1,5 +1,9 @@
 "use client";
 
+import Link from "next/link";
+import { cn } from "@/lib/utils";
+
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const testimonials = [
@@ -55,6 +59,46 @@ export const LandingContent = () => {
           </Card>
         ))}
       </div>
+
+
+           <p className="text-sm text-muted-foreground">
+            {/*{description} <b style={{color:"rgba(111, 90, 246, 0.97)"}}></b>*/}
+          
+                <span>
+
+
+
+
+                      <b>
+                        <Link style={{
+                           display: 'block',
+                           }} className={cn("text-blue-400 hover:underline",
+                          )} href="/">Home
+                       </Link>
+                     </b>
+
+                     <b>
+                        <Link style={{
+                           display: 'block',
+                           }} className={cn("text-blue-400 hover:underline",
+                          )} href="/resume-generator">Resume Generator
+                       </Link>
+                     </b>
+
+                                       <b>
+                        <Link style={{
+                           display: 'block',
+                           }} className={cn("text-blue-400 hover:underline",
+                          )} href="/blog">Blog
+                       </Link>
+                     </b>
+
+               </span>
+   
+          </p>
+
+
+
     </div>
   )
 }
