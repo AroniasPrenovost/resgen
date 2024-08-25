@@ -13,10 +13,10 @@ interface FooterProps {
 
 export const Footer = ({
   title,
-  description,
-  icon: Icon,
-  iconColor,
-  bgColor,
+  // description,
+  // icon: Icon,
+  // iconColor,
+  // bgColor,
 }: FooterProps) => {
   return (
     <>
