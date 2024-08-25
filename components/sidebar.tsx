@@ -39,7 +39,7 @@ export const Sidebar = ({
   isPro: boolean;
 }) => {
   const pathname = usePathname();
-  const isshown = pathname === '/resume-generator';
+  const isResumeGeneratorPage = pathname === '/resume-generator';
 
   return (
     <div className="space-y-4 py-4 flex flex-col h-full bg-[#111827] text-white">
@@ -92,8 +92,10 @@ export const Sidebar = ({
                 )} target="_blank" rel="noopener noreferrer" href="https://drive.google.com/drive/home">Google Drive</Link>. 
                 {/*to access and modify formatting*/}
 
-
-{/*                <div className="relative ml-0 mt-5">
+               <div style={{
+                 display: isResumeGeneratorPage ? 'none' : 'block',
+               }}>
+                <div className="relative ml-0 mt-5">
                   <Link className={cn(
                   "hover:text-white transition",
                   "text-zinc-400",
@@ -108,14 +110,15 @@ export const Sidebar = ({
                     )} title="Example Resume" target="_blank" href="/example_resume.png">
                      <Image fill alt="Sample Resume" src="/example_resume.png" />
                    </Link> 
-                 </div>*/}
+                 </div>
+                </div>
 
                 <br/>
                 <br/>
         
                   <b>
                     <Link style={{
-                       display: isshown ? 'none' : 'block',
+                       display: isResumeGeneratorPage ? 'none' : 'block',
                        }} className={cn("text-orange-400 hover:underline",
                       )} href="/resume-generator">Get Started Today!
                    </Link>
