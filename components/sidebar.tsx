@@ -12,12 +12,12 @@ import { FreeCounter } from "@/components/free-counter";
 const poppins = Montserrat({ weight: '600', subsets: ['latin'] });
 
 const routes = [
-  // {
-  //   label: 'Dashboard',
-  //   icon: LayoutDashboard,
-  //   href: '/dashboard',
-  //   color: "text-sky-500"
-  // },
+  {
+    label: 'Home',
+    icon: LayoutDashboard,
+    href: '/dashboard',
+    color: "text-sky-500"
+  },
   {
     label: 'Resume Generator',
     icon: MessageSquare,
