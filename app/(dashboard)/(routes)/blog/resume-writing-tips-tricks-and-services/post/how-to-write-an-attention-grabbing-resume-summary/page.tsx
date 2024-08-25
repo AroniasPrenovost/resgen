@@ -6,13 +6,13 @@ const BlogDetailPage = async () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <Heading
-        title="How to Write an Attention Grabbing Resume Summary"
+        title="Write an Attention Grabbing Resume Summary"
         description="A guide to crafting a compelling resume summary that captures the attention of hiring managers."
         icon={MessageSquare}
         iconColor="text-purple-700"
         bgColor="bg-gray-700/10"
       />
-      <div className="px-8 lg:px-16 py-8 space-y-6">
+      <div className="px-8 lg:px-16 py-0 space-y-6">
         <h2 className="text-2xl font-bold text-gray-800">Introduction</h2>
         <p className="text-gray-700">
           Your resume summary is one of the first things a potential employer
@@ -60,10 +60,11 @@ const BlogDetailPage = async () => {
       <div className="bg-gray-100 p-6 mt-8">
         <div className="flex items-center space-x-4">
           <img
-            src="/path-to-author-photo.jpg"
+            src="/profile"
             alt="Author"
             className="w-16 h-16 rounded-full"
           />
+    
           <div>
             <p className="text-lg font-medium text-gray-800">John Doe</p>
             <p className="text-gray-600">Senior Software Engineer</p>
