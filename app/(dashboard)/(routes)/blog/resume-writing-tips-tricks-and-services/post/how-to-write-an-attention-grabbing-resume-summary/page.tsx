@@ -25,10 +25,7 @@ const BlogPage = async () => {
         bgColor="bg-gray-700/10"
       />
       <div className="px-8 lg:px-8 py-0 space-y-2">
-{/*        <div className="text-muted-foreground text-sm">
-          Writing the right resume at the right time is all sit takes to strike gold.
-        </div>
-        */}
+
         <ul className="space-y-4 list-decimal list-inside" style={{listStyleType: 'none'}}>  
           {blogPosts.map((post, index) => (
             <li key={index} className="space-y-1 text-blue-600 hover:underline">
