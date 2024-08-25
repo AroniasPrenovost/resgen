@@ -1,4 +1,4 @@
-import { MessageSquare } from "lucide-react";
+import { RssIcon } from "lucide-react";
 import { Heading } from "@/components/heading";
 
 const BlogPage = async () => {
@@ -20,7 +20,7 @@ const BlogPage = async () => {
       <Heading
         title="Resume Writing Blog"
         description="Master the art of resume writing with tips and tricks from our experts."
-        icon={MessageSquare}
+        icon={RssIcon}
         iconColor="text-purple-700"
         bgColor="bg-gray-700/10"
       />
