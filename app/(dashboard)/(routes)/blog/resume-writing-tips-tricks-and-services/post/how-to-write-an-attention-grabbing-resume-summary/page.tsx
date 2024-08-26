@@ -16,7 +16,7 @@ const BlogDetailPage = async () => {
         <h2 className="text-2xl font-bold text-gray-800">Introduction</h2>
         <p className="text-gray-700">
           Your resume summary is one of the first things a potential employer
-          sees, so it's crucial to make it stand out. In this post, we'll cover
+          sees, so it is crucial to make it stand out. In this post, we will cover
           some tips and strategies to help you write a resume summary that not
           only grabs attention but also effectively showcases your skills and
           experiences.
@@ -41,7 +41,7 @@ const BlogDetailPage = async () => {
         <h2 className="text-2xl font-bold text-gray-800">Examples of Effective Resume Summaries</h2>
         <p className="text-gray-700">
           Here are some examples of resume summaries that effectively communicate
-          the candidate's value and qualifications:
+          values and qualifications of the candidate:
         </p>
         
         <div className="border-l-4 border-purple-700 pl-4 text-gray-700 space-y-2">
