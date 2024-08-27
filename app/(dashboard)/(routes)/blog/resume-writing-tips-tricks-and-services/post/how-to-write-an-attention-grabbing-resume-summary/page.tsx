@@ -45,8 +45,8 @@ const BlogDetailPage = async () => {
         </p>
         
         <div className="border-l-4 border-purple-700 pl-4 text-gray-700 space-y-2">
-          <p><strong>Example 1:</strong> "Experienced marketing professional with a proven track record in managing successful campaigns and increasing brand awareness. Skilled in digital marketing, content creation, and data analysis."</p>
-          <p><strong>Example 2:</strong> "Detail-oriented software engineer with 5+ years of experience in full-stack development. Expertise in JavaScript, React, and Node.js. Passionate about building scalable web applications and enhancing user experience."</p>
+          <p><strong>Example 1:</strong> Experienced marketing professional with a proven track record in managing successful campaigns and increasing brand awareness. Skilled in digital marketing, content creation, and data analysis.</p>
+          <p><strong>Example 2:</strong> Detail-oriented software engineer with 5+ years of experience in full-stack development. Expertise in JavaScript, React, and Node.js. Passionate about building scalable web applications and enhancing user experience.</p>
         </div>
 
         <h2 className="text-2xl font-bold text-gray-800">Conclusion</h2>
