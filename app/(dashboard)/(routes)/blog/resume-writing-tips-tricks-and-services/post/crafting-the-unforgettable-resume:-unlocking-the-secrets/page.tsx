@@ -5,60 +5,82 @@ const BlogDetailPage = async () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <Heading
-        title="Crafting the Unforgettable Resume: Unlocking the Secrets"
-        description="An expert-led guide on making your resume truly unforgettable by applying unique and effective strategies."
+        title="Crafting The Unforgettable Resume: Unlocking The Secrets"
+        description="Discover the secrets to creating a memorable resume that stands out from the rest."
         icon={MessageSquare}
-        iconColor="text-purple-700"
-        bgColor="bg-blue-700/10"
+        iconColor="text-pink-700"
+        bgColor="bg-gray-700/10"
       />
       <div className="px-8 lg:px-16 py-0 space-y-6">
         <h2 className="text-2xl font-bold text-gray-800">Introduction</h2>
         <p className="text-gray-700">
-          In a sea of job applications, an unforgettable resume is your lifeboat. It requires masterful techniques and a dash of je ne sais quoi. Today, we are diving deep into how you can make your resume stand out and resonate with hiring managers.
+          Creating a memorable resume is not just about listing your qualifications,
+          it is about telling a story that resonates with hiring managers. In this
+          post, we shall delve into the artistry involved in crafting a resume that
+          leaves an indelible mark.
         </p>
         
-        <h2 className="text-2xl font-bold text-gray-800">What Makes a Resume Unforgettable?</h2>
+        <h2 className="text-2xl font-bold text-gray-800">The Anatomy of an Unforgettable Resume</h2>
         <p className="text-gray-700">
-          An unforgettable resume is not just a list of job titles and dates. It is a well-crafted narrative that captures your professional journey, emphasizes your unique contributions, and aligns with the needs of potential employers. A successful resume does more than inform; it captivates and convinces.
+          What makes a resume unforgettable, you may ask? It is a combination of
+          structure, content, and presentation that together create a compelling
+          narrative. Here are the key components:
         </p>
         
-        <h2 className="text-2xl font-bold text-gray-800">Techniques to Elevate Your Resume</h2>
+        <h2 className="text-2xl font-bold text-gray-800">Striking a Balance: Formatting and Design</h2>
         <ul className="list-disc pl-5 space-y-2 text-gray-700">
-          <li><strong>Tailor for Each Job:</strong> Customize your resume for each application to address the specific requirements of the job description.</li>
-          <li><strong>Show, Do Not Tell:</strong> Use quantifiable achievements to demonstrate your impact, instead of vague statements.</li>
-          <li><strong>Include Powerful Keywords:</strong> Integrate industry-specific keywords to ensure compatibility with Applicant Tracking Systems (ATS) and draw attention to your key competencies.</li>
-          <li><strong>Prioritize Readability:</strong> Opt for a clean format with consistent headers, bullet points, and ample white space to enhance readability.</li>
+          <li><strong>Simplicity with Sophistication:</strong> Use a clean layout with subtle design elements. A dash of color, a hint of creative fonts, but keep it professional.</li>
+          <li><strong>Consistent and Logical:</strong> Ensure each section flows logically. Use bullet points for readability and maintain consistent formatting throughout.</li>
+          <li><strong>White Space is Your Friend:</strong> Avoid clutter. Strategically placed white space enhances readability and makes the overall design more attractive.</li>
         </ul>
         
-        <h2 className="text-2xl font-bold text-gray-800">Examples of Unforgettable Resume Elements</h2>
+        <h2 className="text-2xl font-bold text-gray-800">The Content: What To Include</h2>
         <p className="text-gray-700">
-          Incorporating these elements can transform a mundane document into an unforgettable presentation of your career:
+          Now that the canvas is ready, let us fill it with substance. Here is what your resume must cover:
         </p>
         
-        <div className="border-l-4 border-blue-700 pl-4 text-gray-700 space-y-2">
-          <p><strong>Impact Statements:</strong> "Increased annual sales by 30% through strategic market analysis and targeted outreach."</p>
-          <p><strong>Personal Touch:</strong> "Created user-centric designs resulting in a 40% increase in user engagement and customer satisfaction scores."</p>
-        </div>
-
+        <ul className="list-disc pl-5 space-y-2 text-gray-700">
+          <li><strong>Career Summary:</strong> A brief, impactful summary that highlights your strengths. Think of it as your elevator pitch.</li>
+          <li><strong>Achievements:</strong> Quantifiable achievements that showcase your contributions. Numbers speak volumes.</li>
+          <li><strong>Skills:</strong> Showcase both technical and soft skills. Tailor this section to the job you are targeting.</li>
+          <li><strong>Professional Experience:</strong> Highlight your most relevant roles. Focus on responsibilities and achievements that align with the job description.</li>
+          <li><strong>Education and Certifications:</strong> Include relevant qualifications and ongoing certifications to demonstrate your commitment to professional development.</li>
+        </ul>
+        
+        <h2 className="text-2xl font-bold text-gray-800">Artful Language: Choosing Your Words Wisely</h2>
+        <p className="text-gray-700">
+          Your choice of words should paint a picture of your professional journey. Here are some tips on polishing your prose:
+        </p>
+        
+        <ul className="list-disc pl-5 space-y-2 text-gray-700">
+          <li><strong>Active Voice:</strong> Use active verbs to convey action and accomplishment. “Led,” “Developed,” and “Increased” are your friends.</li>
+          <li><strong>Keywords:</strong> Incorporate industry buzzwords and jargon relevant to the job. This also helps with applicant tracking systems (ATS).</li>
+          <li><strong>Conciseness:</strong> Be brief but impactful. Each word should add value to your story.</li>
+        </ul>
+        
         <h2 className="text-2xl font-bold text-gray-800">Conclusion</h2>
         <p className="text-gray-700">
-          Crafting an unforgettable resume is both an art and a science. By personalizing your resume, highlighting measurable achievements, using impactful keywords, and prioritizing readability, you can create a document that not only grabs attention but also leaves a lasting impression. This approach will significantly increase your chances of securing your dream job.
+          Crafting an unforgettable resume is an art form that combines design,
+          content, and language. By paying attention to these details, you can tell
+          a compelling story that showcases your unique qualifications and leaves
+          a lasting impression on hiring managers. It is not just a document; it is
+          your professional masterpiece.
         </p>
       </div>
       <div className="bg-gray-100 p-6 mt-8">
-        <div className="flex items-center space-x-2">   
+        <div className="flex items-center space-x-2">    
           <div className="relative h-8 w-8 mr-4">
             <User className="w-8 h-8 text-gray-800" />
           </div>
           <div>
-            <p className="text-lg font-medium text-gray-800">Olivia Wellingdon</p>
-            <p className="text-sm text-gray-600 font-small">Lead Resume Strategist</p>
-            <p className="text-gray-600 pt-2">Olivia is a veteran resume strategist with over 15 years of experience in career consulting. She specializes in creating bespoke resumes that elevate her clients' profiles and unlock new career opportunities.</p>
+            <p className="text-lg font-medium text-gray-800">Alexis Bonhomme</p>
+            <p className="text-sm text-gray-600 font-small">Senior Resume Writer</p>
+            <p className="text-gray-600 pt-2">Alexis is a seasoned resume writer with over 12 years of experience. Specializing in transforming mundane resumes into compelling narratives, Alexis helps professionals in various industries land their dream jobs.</p>
           </div>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default BlogDetailPage;
