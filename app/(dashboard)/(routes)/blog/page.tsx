@@ -5,14 +5,23 @@ import path from "path";
 
 const BlogPage = async () => {
 
+  console.log('____debugging 1')
+
   // Path to the JSON file
   const filePath = path.resolve("./public/blog_posts.json");
+
+    console.log('____debugging 2')
+
 
   // Read the JSON file asynchronously
   const jsonData = await fs.promises.readFile(filePath, "utf-8");
 
+    console.log('____debugging 3')
+
   // Parse the JSON data
   const blogPosts = JSON.parse(jsonData);
+
+    console.log('____debugging 4')
  
   return (
     <div className="min-h-screen bg-black-50">
