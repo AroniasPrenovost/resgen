@@ -1,7 +1,7 @@
 import { RssIcon } from "lucide-react";
 import { Heading } from "@/components/heading";
-import fs from 'fs';
-import path from 'path';
+import fs from "fs";
+import path from "path";
 
 const BlogPage = async () => {
 
