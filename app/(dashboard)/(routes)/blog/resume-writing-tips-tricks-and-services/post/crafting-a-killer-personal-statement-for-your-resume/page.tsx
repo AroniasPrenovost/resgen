@@ -49,11 +49,11 @@ const BlogDetailPage = async () => {
         <div className="flex items-center space-x-2">
           <div className="relative h-8 w-8 mr-4">
             <Edit3 className="w-8 h-8 text-gray-800" />
-          </div>
+          </div>  
           <div>
             <p className="text-lg font-medium text-gray-800">Harper Davies</p>
             <p className="text-sm text-gray-600 font-small">Senior Resume Writer</p>
-            <p className="text-gray-600 pt-2">Harper Davies is a seasoned resume writer with a flair for crafting compelling narratives and showcasing candidates' unique strengths. With a background in HR and communications, Harper understands what recruiters are looking for and helps job seekers create resumes that stand out.</p>
+            <p className="text-gray-600 pt-2">Harper Davies is a seasoned resume writer with a flair for crafting compelling narratives and showcasing candidates unique strengths. With a background in HR and communications, Harper understands what recruiters are looking for and helps job seekers create resumes that stand out.</p>
           </div>
         </div>
       </div>
