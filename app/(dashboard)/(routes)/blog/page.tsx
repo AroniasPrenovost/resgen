@@ -6,10 +6,10 @@ import path from 'path';
 const BlogPage = async () => {
 
   // Path to the JSON file
-  const filePath = path.resolve('./public/blog_posts.json');
+  const filePath = path.resolve("./public/blog_posts.json");
 
   // Read the JSON file asynchronously
-  const jsonData = await fs.promises.readFile(filePath, 'utf-8');
+  const jsonData = await fs.promises.readFile(filePath, "utf-8");
 
   // Parse the JSON data
   const blogPosts = JSON.parse(jsonData);
