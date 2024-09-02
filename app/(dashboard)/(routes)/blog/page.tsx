@@ -31,14 +31,12 @@ const BlogPage = async () => {
         <ul className="space-y-4 list-decimal list-inside" style={{listStyleType: 'none'}}>  
           {blogPosts.map((post:any , index: number) => (
             <li key={index} className="space-y-1 text-blue-600 hover:underline">
-
-              {post.title && 
+              {post.title && post.date && 
                 <a href={`/blog/resume-writing-tips-tricks-and-services/post/${post.file}`} title={post.title}>
                   <span className="block text-xs text-muted-foreground">{post.date}</span>
                   <span className="block font-semibold">{post.title}</span>
                 </a>
               }
-
             </li>
           ))}
         </ul>
