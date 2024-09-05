@@ -1,4 +1,4 @@
-import { ClipboardList, Edit3 } from "luide-react";
+import { ClipboardList, Edit3 } from "lucide-react";
 import { Heading } from "@/components/heading";
 
 const BlogDetailPage = async () => {
