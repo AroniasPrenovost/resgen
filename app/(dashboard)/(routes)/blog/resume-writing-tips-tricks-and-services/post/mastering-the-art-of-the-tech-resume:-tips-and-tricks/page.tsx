@@ -36,7 +36,7 @@ const BlogDetailPage = async () => {
         </p>
 
         <div className="border-l-4 border-blue-700 pl-4 text-gray-700 space-y-2">
-          <p><strong>Tip 1:</strong> Tailor your resume for each job application. Use keywords from the job description to align your resume with the employer"s requirements.</p>
+          <p><strong>Tip 1:</strong> Tailor your resume for each job application. Use keywords from the job description to align your resume with the employers requirements.</p>
           <p><strong>Tip 2:</strong> Keep it concise. Aim for a one-page resume if you have less than 10 years of experience. Focus on the most relevant information.</p>
           <p><strong>Tip 3:</strong> Use a clean, professional format. Avoid flashy designs and stick to a simple, easy-to-read layout.</p>
           <p><strong>Tip 4:</strong> Highlight your achievements. Use bullet points to list your accomplishments and quantify your results whenever possible.</p>
