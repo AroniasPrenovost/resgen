@@ -22,7 +22,7 @@ const BlogDetailPage = async () => {
           A tech resume is more than a list of your job history. It is a strategic document that highlights your technical skills, projects, and achievements. It should reflect your ability to solve problems, work in teams, and adapt to new technologies. Let us explore how to make your tech resume a powerful tool in your job search arsenal.
         </p>
 
-        <h2 className="text-2xl font-bold text-gray-800">Key Elements of a Tech Resume</h2>
+        <h2 className="text-2xl font-bold text-gray-800 custom_html">Key Elements of a Tech Resume</h2>
         <ul className="list-disc pl-5 space-y-2 text-gray-700">
           <li><strong>Technical Skills:</strong> List your technical skills prominently. Include programming languages, tools, and technologies you are proficient in.</li>
           <li><strong>Projects:</strong> Highlight significant projects you have worked on. Describe your role, the technologies used, and the impact of the project.</li>
@@ -35,7 +35,7 @@ const BlogDetailPage = async () => {
           Creating a standout tech resume requires attention to detail and a strategic approach. Here are some tips to help you craft a resume that stands out:
         </p>
 
-        <div className="border-l-4 border-blue-700 pl-4 text-gray-700 space-y-2">
+        <div className="border-l-4 border-blue-700 pl-4 text-gray-700 space-y-2 custom_html">
           <p><strong>Tip 1:</strong> Tailor your resume for each job application. Use keywords from the job description to align your resume with the employers requirements.</p>
           <p><strong>Tip 2:</strong> Keep it concise. Aim for a one-page resume if you have less than 10 years of experience. Focus on the most relevant information.</p>
           <p><strong>Tip 3:</strong> Use a clean, professional format. Avoid flashy designs and stick to a simple, easy-to-read layout.</p>
@@ -47,7 +47,7 @@ const BlogDetailPage = async () => {
           Here are some examples of tech resumes that effectively showcase the candidate"s skills and experience:
         </p>
 
-        <div className="border-l-4 border-blue-700 pl-4 text-gray-700 space-y-2">
+        <div className="border-l-4 border-blue-700 pl-4 text-gray-700 space-y-2 custom_html">
           <p><strong>Example 1:</strong> Software engineer with 5 years of experience in full-stack development. Proficient in JavaScript, Python, and React. Led a team to develop a web application that increased user engagement by 30%.</p>
           <p><strong>Example 2:</strong> Data scientist with a strong background in machine learning and data analysis. Experienced in Python, R, and SQL. Developed predictive models that improved sales forecasting accuracy by 25%.</p>
         </div>

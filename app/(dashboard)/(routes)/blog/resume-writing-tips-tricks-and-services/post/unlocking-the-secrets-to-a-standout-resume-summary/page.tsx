@@ -22,7 +22,7 @@ const BlogDetailPage = async () => {
           A resume summary serves as a quick overview of your qualifications and career highlights. It is your opportunity to make a strong case for why you are the best fit for the job. A well-crafted summary can set the tone for the rest of your resume and entice recruiters to read further.
         </p>
 
-        <h2 className="text-2xl font-bold text-gray-800">Crafting an Effective Resume Summary</h2>
+        <h2 className="text-2xl font-bold text-gray-800 custom_html">Crafting an Effective Resume Summary</h2>
         <ul className="list-disc pl-5 space-y-2 text-gray-700">
           <li><strong>Be Specific:</strong> Highlight your most relevant skills and achievements. Avoid vague statements and focus on concrete examples.</li>
           <li><strong>Keep it Brief:</strong> Aim for 3-4 concise sentences that pack a punch. Every word should add value.</li>
@@ -35,7 +35,7 @@ const BlogDetailPage = async () => {
           Here are some examples of resume summaries that effectively highlight the strengths of the candidate and their potential contributions:
         </p>
 
-        <div className="border-l-4 border-blue-700 pl-4 text-gray-700 space-y-2">
+        <div className="border-l-4 border-blue-700 pl-4 text-gray-700 space-y-2 custom_html">
           <p><strong>Example 1:</strong> Experienced software developer with a strong background in full-stack development. Proven ability to design and implement scalable web applications, resulting in a 20% increase in user engagement.</p>
           <p><strong>Example 2:</strong> Accomplished sales manager with over 8 years of experience in driving revenue growth and building high-performing teams. Adept at developing strategic sales plans and exceeding targets.</p>
         </div>

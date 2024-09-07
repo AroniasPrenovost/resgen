@@ -13,7 +13,7 @@ const BlogDetailPage = async () => {
       />
       <div className="px-8 lg:px-16 py-0 space-y-6">
         <h2 className="text-2xl font-bold text-gray-800">Introduction</h2>
-        <p className="text-gray-700">
+        <p className="text-gray-700 custom_html">
           Your personal statement is the golden nugget nestled at the top of your resume that offers a quick glimpse into who you are and what you bring to the professional table. In this post, we delve into tips and strategies for writing a personal statement that commands attention and leaves a lasting impression.
         </p>
 
@@ -22,7 +22,7 @@ const BlogDetailPage = async () => {
           Think of your personal statement as your elevator pitch—it is your chance to quickly showcase your qualifications, highlight your career trajectory, and make a persuasive case for why you are the ideal candidate for the job. A well-crafted personal statement can set the tone for the rest of your resume and capture the interest of hiring managers right from the start.
         </p>
 
-        <h2 className="text-2xl font-bold text-gray-800">Tips for Writing a Compelling Personal Statement</h2>
+        <h2 className="text-2xl font-bold text-gray-800 custom_html">Tips for Writing a Compelling Personal Statement</h2>
         <ul className="list-disc pl-5 space-y-2 text-gray-700">
           <li><strong>Be Authentic:</strong> Reflect your true self and unique value propositions. Avoid clichés and generic statements.</li>
           <li><strong>Keep it Concise:</strong> Limit your personal statement to 2-3 impactful sentences. Make every word count.</li>
@@ -35,7 +35,7 @@ const BlogDetailPage = async () => {
           Here are some examples of personal statements that effortlessly blend personality, professionalism, and purpose:
         </p>
 
-        <div className="border-l-4 border-blue-700 pl-4 text-gray-700 space-y-2">
+        <div className="border-l-4 border-blue-700 pl-4 text-gray-700 space-y-2 custom_html">
           <p><strong>Example 1:</strong> Dynamic marketing strategist with over 10 years of experience in digital and content marketing. Adept at analyzing data to craft innovative, audience-focused campaigns that drive engagement and growth.</p>
           <p><strong>Example 2:</strong> Results-oriented project manager with a knack for streamlining operations and enhancing productivity. Proven track record in leading cross-functional teams to deliver projects on time and within budget.</p>
         </div>
