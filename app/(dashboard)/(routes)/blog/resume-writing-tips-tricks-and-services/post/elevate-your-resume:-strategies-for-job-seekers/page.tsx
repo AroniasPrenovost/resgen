@@ -14,7 +14,7 @@ const BlogDetailPage = async () => {
       <div className="px-8 lg:px-16 py-0 space-y-6">
         <h2 className="text-2xl font-bold text-gray-800">Introduction</h2>
         <p className="text-gray-700">
-          In today's competitive job market, your resume is more than just a list of your work history. It is a dynamic document that showcases your skills, achievements, and potential. This post will guide you through innovative strategies to elevate your resume and make it a powerful tool in your job search journey.
+          In the competitive job market of today, your resume is more than just a list of your work history. It is a dynamic document that showcases your skills, achievements, and potential. This post will guide you through innovative strategies to elevate your resume and make it a powerful tool in your job search journey.
         </p>
 
         <h2 className="text-2xl font-bold text-gray-800">Understanding the Modern Resume</h2>
@@ -37,7 +37,7 @@ const BlogDetailPage = async () => {
         </p>
 
         <div className="border-l-4 border-blue-700 pl-4 text-gray-700 space-y-2 custom_html">
-          <p><strong>Tip 1:</strong> Tailor your resume for each job application. Use keywords from the job description to align your resume with the employer's requirements.</p>
+          <p><strong>Tip 1:</strong> Tailor your resume for each job application. Use keywords from the job description to align your resume with the requirements of the employer.</p>
           <p><strong>Tip 2:</strong> Keep it concise. Aim for a one-page resume if you have less than 10 years of experience. Focus on the most relevant information.</p>
           <p><strong>Tip 3:</strong> Use a clean, professional format. Avoid flashy designs and stick to a simple, easy-to-read layout.</p>
           <p><strong>Tip 4:</strong> Highlight your achievements. Use bullet points to list your accomplishments and quantify your results whenever possible.</p>
