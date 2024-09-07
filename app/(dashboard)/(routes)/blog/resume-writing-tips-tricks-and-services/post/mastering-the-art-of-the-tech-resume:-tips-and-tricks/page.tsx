@@ -23,7 +23,7 @@ const BlogDetailPage = async () => {
         </p>
 
         <h2 className="text-2xl font-bold text-gray-800 custom_html">Key Elements of a Tech Resume</h2>
-        <ul className="list-disc pl-5 space-y-2 text-gray-700">
+        <ul className="list-disc pl-5 space-y-2 text-gray-700 custom_html">
           <li><strong>Technical Skills:</strong> List your technical skills prominently. Include programming languages, tools, and technologies you are proficient in.</li>
           <li><strong>Projects:</strong> Highlight significant projects you have worked on. Describe your role, the technologies used, and the impact of the project.</li>
           <li><strong>Experience:</strong> Detail your work experience, focusing on your achievements and contributions. Use quantifiable results to demonstrate your impact.</li>
@@ -53,7 +53,7 @@ const BlogDetailPage = async () => {
         </div>
 
         <h2 className="text-2xl font-bold text-gray-800">Conclusion</h2>
-        <p className="text-gray-700">
+        <p className="text-gray-700 custom_html">
           A well-crafted tech resume is essential for standing out in a competitive job market. By focusing on your technical skills, projects, and achievements, and tailoring your resume for each application, you can create a resume that highlights your strengths and positions you as the ideal candidate. Now, it is time to put these tips into action and craft a tech resume that shines!
         </p>
       </div>

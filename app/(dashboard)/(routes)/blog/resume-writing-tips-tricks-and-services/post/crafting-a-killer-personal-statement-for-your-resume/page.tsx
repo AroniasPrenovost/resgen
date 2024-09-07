@@ -31,7 +31,7 @@ const BlogDetailPage = async () => {
         </ul>
 
         <h2 className="text-2xl font-bold text-gray-800">Examples of Personal Statements That Shine</h2>
-        <p className="text-gray-700">
+        <p className="text-gray-700 custom_html">
           Here are some examples of personal statements that effortlessly blend personality, professionalism, and purpose:
         </p>
 

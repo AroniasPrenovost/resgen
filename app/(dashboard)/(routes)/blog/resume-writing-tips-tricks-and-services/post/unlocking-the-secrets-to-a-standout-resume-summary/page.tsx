@@ -31,7 +31,7 @@ const BlogDetailPage = async () => {
         </ul>
 
         <h2 className="text-2xl font-bold text-gray-800">Examples of Impactful Resume Summaries</h2>
-        <p className="text-gray-700">
+        <p className="text-gray-700 custom_html">
           Here are some examples of resume summaries that effectively highlight the strengths of the candidate and their potential contributions:
         </p>
 
@@ -41,7 +41,7 @@ const BlogDetailPage = async () => {
         </div>
 
         <h2 className="text-2xl font-bold text-gray-800">Conclusion</h2>
-        <p className="text-gray-700">
+        <p className="text-gray-700 custom_html">
           A compelling resume summary is your ticket to making a memorable first impression. By being specific, concise, and showcasing your value, you can create a summary that stands out and positions you as the ideal candidate. Now, it is time to put these tips into action and craft a resume summary that shines!
         </p>
       </div>
