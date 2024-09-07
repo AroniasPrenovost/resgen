@@ -45,7 +45,7 @@ const BlogDetailPage = async () => {
 
         <h2 className="text-2xl font-bold text-gray-800">Examples of Effective Resumes</h2>
         <p className="text-gray-700">
-          Here are some examples of resumes that effectively showcase the candidate"s skills and experience:
+          Here are some examples of resumes that effectively showcase your skills and experience:
         </p>
 
         <div className="border-l-4 border-blue-700 pl-4 text-gray-700 space-y-2 custom_html">
