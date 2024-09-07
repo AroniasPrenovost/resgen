@@ -32,7 +32,7 @@ const BlogDetailPage = async () => {
 
         <h2 className="text-2xl font-bold text-gray-800">Examples of Impactful Resume Summaries</h2>
         <p className="text-gray-700">
-          Here are some examples of resume summaries that effectively highlight the candidate"s strengths and potential contributions:
+          Here are some examples of resume summaries that effectively highlight the strengths of the candidate and their potential contributions:
         </p>
 
         <div className="border-l-4 border-blue-700 pl-4 text-gray-700 space-y-2">
