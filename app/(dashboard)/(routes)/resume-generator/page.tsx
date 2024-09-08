@@ -25,7 +25,7 @@ import { formSchema } from "./constants";
 
 import { Tooltip } from '@nextui-org/react';
 
- 
+
 
 
 // import { checkSubscription } from "@/lib/subscription";
@@ -52,7 +52,7 @@ const ResumeGeneratorPage = () => {
 
   //
   //
-  // MANAGING PAYMENT HISTORY/CACHE 
+  // MANAGING PAYMENT HISTORY/CACHE
   //
   //
 
@@ -60,7 +60,7 @@ const ResumeGeneratorPage = () => {
   // const defaultPrice = '$9.99';
   // const salePrice = '$3.99';
 
-  const [topCtaButton, setTopCtaButton] = useState('Get Access');
+  const [topCtaButton, setTopCtaButton] = useState('Start Generating');
   const [buyButtonContent, setBuyButtonContent] = useState('Generate Resume');
 
   const current_time: any = new Date();
@@ -69,7 +69,7 @@ const ResumeGeneratorPage = () => {
   let differenceInMilliseconds = 0;
 
   const paidQueryStringValue = 'xj3z01__022';
-  let paidQueryString: string = ''; // pulled from query string parameter on successful payment redirect from stripe 
+  let paidQueryString: string = ''; // pulled from query string parameter on successful payment redirect from stripe
   let payment_received: any = false;
   let hasPaid = false;
 
@@ -97,7 +97,7 @@ const ResumeGeneratorPage = () => {
       if (!payment_received) {
         localStorage.setItem('pr_0012', 'true');
         localStorage.setItem('payment_date', String(current_time));
-      }        
+      }
       // clear query string param from URL
       const nextSearchParams = new URLSearchParams(searchParams.toString());
       nextSearchParams.delete('p');
@@ -128,18 +128,18 @@ const ResumeGeneratorPage = () => {
       localStorage.removeItem('pr_0012'); // 'payment_received'
       localStorage.setItem('payment_date', '');
       localStorage.setItem('x8u_000_vb_nod', '0'); // 'number_of_downloads'
-    } 
-  }  
+    }
+  }
 
   //
   //
-  // MANAGING FORM FIELDS 
+  // MANAGING FORM FIELDS
   //
   //
 
   const form = useForm<z.infer<typeof formSchema>>({
-    // resolver: zodResolver(formSchema), // disable form validation 
-    // since I want people to go to Stripe prior to filling out the form, if they wish 
+    // resolver: zodResolver(formSchema), // disable form validation
+    // since I want people to go to Stripe prior to filling out the form, if they wish
     defaultValues: {
       full_name: storedFormValues.full_name ?? '',
       email_address: storedFormValues.email_address ?? '',
@@ -224,7 +224,7 @@ const ResumeGeneratorPage = () => {
       college_start_year_3: storedFormValues.college_start_year_3 ?? '',
       college_end_year_3: storedFormValues.college_end_year_3 ?? '',
       //
-      // civic service/extra 
+      // civic service/extra
       //
       achievement_1_issuer: storedFormValues.achievement_1_issuer ?? '',
       achievement_1_name: storedFormValues.achievement_1_name ?? '',
@@ -270,7 +270,7 @@ const ResumeGeneratorPage = () => {
 
     //
     //
-    // PERSONAL INFO 
+    // PERSONAL INFO
     //
     //
 
@@ -311,7 +311,7 @@ const ResumeGeneratorPage = () => {
     //
     //
     // JOBS - experience_obj
-    // 
+    //
     //
 
     if (formValues.job_1_employer || formValues.job_1_title) {
@@ -436,11 +436,11 @@ const ResumeGeneratorPage = () => {
 
     //
     //
-    // education - education_obj 
+    // education - education_obj
     //
     //
 
-    /* 
+    /*
 
       let education_obj: any = {
         schoolName: '',
@@ -511,8 +511,8 @@ const ResumeGeneratorPage = () => {
     //
     //
 
-    /* 
- 
+    /*
+
       let achievement_obj: any = {
         issuer: '',
         name: '',
@@ -582,7 +582,7 @@ const ResumeGeneratorPage = () => {
   if (storedFormValues) {
     // console.log(' there are stored values', storedFormValues);
     // RAW DATA
-    /* 
+    /*
 
         {
             "full_name": "sadas",
@@ -663,12 +663,12 @@ const ResumeGeneratorPage = () => {
             "reference_3_info": "",
             "reference_4_info": ""
         }
-    */ 
+    */
   }
 
 
   //
-  //      
+  //
   // onSubmit
   //
   //
@@ -685,30 +685,30 @@ const ResumeGeneratorPage = () => {
     if (!hasPaid) {
       window.location.assign(STRIPE_PAYMENT_LINK);
       return;
-    } 
+    }
 
 
     console.log('user has paid');
     // return
 
-    /* 
+    /*
 
          __ FOR TESTING __
 
-    */ 
+    */
     // increment on # of downloads
     // let new_download_count = number_of_downloads + 1;
     // localStorage.setItem('x8u_000_vb_nod', new_download_count); // 'number_of_downloads'
     // let remaining_downloads = (3 - new_download_count); // 3, 2, 1
 
-    // toast.dismiss();  
+    // toast.dismiss();
     // toast.success(`Successfully generated resume, please check your downloads folder.\n\nDownloads remaining: `, {
     //   duration: 20000,
     // });
 
 
     // const fileNameTest = 'test-name';
- 
+
     // const documentCreator = new DocumentCreator();
     // const doc = documentCreator.create([
     //   mappedFormValues.personal_info,
@@ -724,14 +724,14 @@ const ResumeGeneratorPage = () => {
     //   console.log("Successfully created resume.");
     // });
 
-    
+
     // return;
 
-    /* 
+    /*
 
          __ FOR TESTING __
 
-    */ 
+    */
 
 
 
@@ -740,32 +740,32 @@ const ResumeGeneratorPage = () => {
 
     // add AI-generated content for empty form fields
     let fill_in_the_blank_phrase = fillInTheBlank // the form input
-      ? 'Add realistic content to sections that are blank (within reason).' 
+      ? 'Add realistic content to sections that are blank (within reason).'
       : 'If a secion does not exist, leave it blank.'
     ;
 
 
-    const promptString = `Persona: you are a expert resume writer with with years of experience improving resumes. 
+    const promptString = `Persona: you are a expert resume writer with with years of experience improving resumes.
 Improve the verbiage, tone, and professionalism of the inputted content so it can be used in a resume.
-Rules: 
+Rules:
 1. The output should maintain the exact same object structure of the original 'resume_object', meaning only the key properties' values should be modified.
-2. When necessary, fix any typos, sentence structure issues, and grammar problems. 
+2. When necessary, fix any typos, sentence structure issues, and grammar problems.
 3. Capitalize proper nouns, and expand acronyms when necessary.
 4. ${fill_in_the_blank_phrase}
 5. For 'resume_object.experiences' data, elaborate so most of the experience summary instances are at least 2 sentances.
-6. For 'resume_object.education' section, ensure school names are proper nonand clear. 
-7. For 'resume_object.achievements' section, elaborate when necessary to explain context of achievement. 
+6. For 'resume_object.education' section, ensure school names are proper nonand clear.
+7. For 'resume_object.achievements' section, elaborate when necessary to explain context of achievement.
 8. For 'resume_object.references' section, elaborate when necessary to explain context of relationship.
-9. Incorporate words such as 'managed', 'solved', 'planned', 'executed', 'demonstrated', 'succeeded', 'collaborated', 'implemented', 'strategized', 'lead', etc.  
+9. Incorporate words such as 'managed', 'solved', 'planned', 'executed', 'demonstrated', 'succeeded', 'collaborated', 'implemented', 'strategized', 'lead', etc.
 10. The outputted content should be a markedly improved version of the input.
 11. The outputted result should only be a string-ified version of the 'resume_object'.
-resume_object: 
+resume_object:
 ${stringifiedMappedFormValues}
     `;
 
     const fileName = `${(mappedFormValues.personal_info.name).replace(' ', '')}-Resume.docx`;
 
-    // make API call 
+    // make API call
     try {
       const userMessage: ChatCompletionRequestMessage = { role: "user", content: promptString };
       const newMessages = [...messages, userMessage];
@@ -778,7 +778,7 @@ ${stringifiedMappedFormValues}
       const outputObject = JSON.parse(response.data.content);
       // console.log({ outputObject });
 
-      // Generate word doc 
+      // Generate word doc
       //
       //
       const documentCreator = new DocumentCreator();
@@ -836,7 +836,7 @@ ${stringifiedMappedFormValues}
     } finally {
       router.refresh();
     }
-  }      
+  }
 
 
   //
@@ -850,7 +850,7 @@ ${stringifiedMappedFormValues}
       }
       // window.location.assign(STRIPE_PAYMENT_LINK);
     }
- 
+
   //
   //
   // TOGGLE FORM FIELD VISIBILITY
@@ -909,7 +909,7 @@ ${stringifiedMappedFormValues}
   //
   //
 
-  // preselect checkboxes if they have content 
+  // preselect checkboxes if they have content
 
     useEffect(() => {
       // Use setTimeout to update the message after 2000 milliseconds (2 seconds)
@@ -986,7 +986,7 @@ ${stringifiedMappedFormValues}
           setJob6Visibility(true);
         }
 
-        // education 
+        // education
         if (
           storedFormValues.college_name_1 ||
           storedFormValues.college_degree_1 ||
@@ -1023,14 +1023,14 @@ ${stringifiedMappedFormValues}
         // civic
         if (
           storedFormValues.achievement_1_issuer ||
-          storedFormValues.achievement_1_name 
+          storedFormValues.achievement_1_name
         ) {
           setCivic1Visibility(true);
         }
 
         if (
           storedFormValues.achievement_2_issuer ||
-          storedFormValues.achievement_2_name 
+          storedFormValues.achievement_2_name
         ) {
           setCivic2Visibility(true);
         }
@@ -1042,12 +1042,12 @@ ${stringifiedMappedFormValues}
           setCivic3Visibility(true);
         }
 
-        // references 
+        // references
         if (
           storedFormValues.reference_1_info ||
           storedFormValues.reference_2_info ||
           storedFormValues.reference_3_info ||
-          storedFormValues.reference_4_info 
+          storedFormValues.reference_4_info
         ) {
           setReferences1Visibility(true);
         }
@@ -1057,7 +1057,7 @@ ${stringifiedMappedFormValues}
           setSubheadline(`Thank you for your purchase. You have ${((43200-differenceInMinutes)/1440).toFixed(0)} days of access remaining.`);
         }
 
-      }, 250);  
+      }, 250);
 
       // Cleanup function to clear the timeout if the component unmounts
       return () => clearTimeout(timeoutId);
@@ -1072,7 +1072,7 @@ ${stringifiedMappedFormValues}
           if (hasPaid) {
             element?.scrollIntoView({ behavior: "smooth",  block: "end"});
           }
-      }, 650);  
+      }, 650);
       // Cleanup function to clear the timeout if the component unmounts
       return () => clearTimeout(timeoutId);
     }, []); // Empty dependency array ensures the effect runs only once
@@ -1089,32 +1089,32 @@ ${stringifiedMappedFormValues}
       />
 
 
-               
-     {/*       <Tooltip 
+
+     {/*       <Tooltip
               color="secondary"
               content={"Don't worry, your inputs will still be here when you get back"}
             >*/}
                <Button
                 style={{
-                    position: 'absolute', 
-                    maxWidth: '264px',  
+                    position: 'absolute',
+                    maxWidth: '264px',
                     backgroundColor: 'rgba(111, 90, 246, 0.97)',
                     // backgroundColor: 'orange',
-                    right: '0', 
+                    right: '0',
                     // bottom: '0',
                     // marginBottom: '28px',
                     // marginRight: '118px',
                     top: '0',
-                    marginRight: '32px',  
+                    marginRight: '32px',
                     marginTop: '32px',
                     visibility: hasPaid ? 'hidden' : 'visible',
-                  }}  
+                  }}
                   className="col-span-6 w-full xs: hidden sm:hidden md:hidden lg:block"
                   // className="col-span-12 lg:col-span-12 w-full"
                   type="submit"
                   // disabled={isLoading}
                   size="icon"
-                  onClick={onClick} 
+                  onClick={onClick}
                   >
                    {topCtaButton}
                 </Button>
@@ -1127,12 +1127,12 @@ ${stringifiedMappedFormValues}
             <form
               onSubmit={form.handleSubmit(onSubmit)}
               className="
-                rounded-lg 
-                border 
-                w-full 
-                p-4 
-                px-3 
-                md:px-6 
+                rounded-lg
+                border
+                w-full
+                p-4
+                px-3
+                md:px-6
                 focus-within:shadow-sm
                 grid
                 grid-cols-12
@@ -1163,32 +1163,32 @@ ${stringifiedMappedFormValues}
               {/* FILL IN THE BLANK   */}
 
 
-              <FormItem 
+              <FormItem
                   className="col-span-6 lg:col-span-6"
-                  style={{ 
-                    color: '#576574', 
+                  style={{
+                    color: '#576574',
                     textAlign: 'left',
                     // padding: '-2px 12px',
-                  }}     
+                  }}
               >
               {/*<FormItem className="col-span-12 lg:col-span-10">*/}
                 <FormControl className="m-0 p-2">
-                  <Tooltip 
+                  <Tooltip
                     color="primary"
                     content={"Checking this box tells our AI to generate content for sections left blank. For optimal results, it is suggested to provide at least the employer and job title."}
                   >
-                    <label 
-                      style={{ 
-                        color: '#576574', 
+                    <label
+                      style={{
+                        color: '#576574',
                         verticalAlign: '-webkit-baseline-middle',
                         marginLeft: '6px',
-                      }} 
+                      }}
                       className="text-sm"
                     >
                       <input
                         name="checked" type="checkbox" checked={fillInTheBlank}
                         onChange={e => setFillInTheBlank(!fillInTheBlank)} />
-                      &nbsp; Fill in the blank 🔥   
+                      &nbsp; Fill in the blank 🔥
                     </label>
                   </Tooltip>
                 </FormControl>
@@ -2711,11 +2711,11 @@ ${stringifiedMappedFormValues}
 
 
               {/*
-              
+
                 Download Button
-              
+
               */}
-       {/*    <Tooltip 
+       {/*    <Tooltip
               color="secondary"
               content={"Don't worry, your inputs will still be here when you get back"}
             >*/}
@@ -2724,7 +2724,7 @@ ${stringifiedMappedFormValues}
                 // className="col-span-12 lg:col-span-12 w-full"
                 type="submit"
                 disabled={isLoading}
-                style={{ 
+                style={{
                   float: 'left',
                   backgroundColor: 'rgba(111, 90, 246, 0.97)',
                   marginTop: '4px',
@@ -2773,5 +2773,3 @@ ${stringifiedMappedFormValues}
 }
 
 export default ResumeGeneratorPage;
-
-
