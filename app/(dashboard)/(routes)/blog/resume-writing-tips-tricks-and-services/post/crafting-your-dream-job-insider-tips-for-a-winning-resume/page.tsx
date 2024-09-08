@@ -7,7 +7,7 @@ const BlogDetailPage = async () => {
       <header>
         <Heading
           title="Crafting Your Dream Job: Insider Tips for a Winning Resume"
-          description="Unlock the secrets to creating a resume that stands out in today's competitive job market."
+          description="Unlock the secrets to creating a resume that stands out in this competitive job market."
           icon={ClipboardList}
           iconColor="text-blue-700"
           bgColor="bg-gray-700/10"
