@@ -5,7 +5,7 @@ const BlogDetailPage = async () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <Heading
-        title="Elevate Your Resume: Strategies for Job Seekers"
+        title="Strategies for Job Seekers to Elevate Thier Resume"
         description="Discover innovative strategies to enhance your resume, making it a powerful tool in your job search journey."
         icon={ClipboardList}
         iconColor="text-blue-700"
