@@ -17,7 +17,7 @@ const BlogPage = async () => {
   const blogPosts = JSON.parse(jsonData);
     // console.log('____debugging 4')
 
-  function returnDate(date) {
+  function returnDate(date:any) {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     const formattedDate = new Intl.DateTimeFormat('en-US', options).format(date);
     return formattedDate; // prints "March 24, 2021"
