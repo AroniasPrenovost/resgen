@@ -17,11 +17,27 @@ const BlogPage = async () => {
   const blogPosts = JSON.parse(jsonData);
     // console.log('____debugging 4')
 
-  function returnDate(date:any) {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    const formattedDate = new Intl.DateTimeFormat('en-US', options).format(date);
-    return formattedDate; // prints "March 24, 2021"
+  //
+  function convertDateString(input) {
+      // Parse the input date string to a Date object
+      const date = new Date(input);
+
+      // Define an array of month names to map month indexes to their names
+      const monthNames = [
+          "January", "February", "March", "April", "May", "June",
+          "July", "August", "September", "October", "November", "December"
+      ];
+
+      // Extract the needed values from the Date object
+      const year = date.getFullYear();
+      const month = monthNames[date.getMonth()]; // getMonth() returns a zero-based index
+      const day = date.getDate();
+
+      // Format the date string as "Month Day, Year"
+      return `${month} ${day}, ${year}`;
   }
+  //
+
 
   return (
     <div className="min-h-screen bg-black-50">
@@ -42,7 +58,7 @@ const BlogPage = async () => {
             <li key={index} className="space-y-1 text-blue-600 hover:underline">
               {post.title && post.date &&
                 <a href={`/blog/resume-writing-tips-tricks-and-services/post/${post.file}`} title={post.title}>
-                  <span className="block text-xs text-muted-foreground">{returnDate(post.date)}</span>
+                  <span className="block text-xs text-muted-foreground">{convertDateString(post.date)}</span>
                   <span className="block font-semibold">{post.title}</span>
                 </a>
               }
