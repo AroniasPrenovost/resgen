@@ -18,7 +18,7 @@ const BlogPage = async () => {
     // console.log('____debugging 4')
 
   //
-  function convertDateString(input) {
+  function convertDateString(input:any) {
       // Parse the input date string to a Date object
       const date = new Date(input);
 
