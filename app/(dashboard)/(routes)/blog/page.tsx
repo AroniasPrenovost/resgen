@@ -22,7 +22,15 @@ const BlogPage = async () => {
   const blogPosts = JSON.parse(jsonData);
 
     console.log('____debugging 4')
- 
+
+    function returnDate(date) {
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      const formattedDate = new Intl.DateTimeFormat('en-US', options).format(date);
+      return formattedDate; // prints "March 24, 2021"
+    }
+
+
+
   return (
     <div className="min-h-screen bg-black-50">
       <Heading
@@ -37,12 +45,12 @@ const BlogPage = async () => {
           Writing the right resume at the right time is all it takes to strike gold.
         </div>
         */}
-        <ul className="space-y-4 list-decimal list-inside" style={{listStyleType: 'none'}}>  
+        <ul className="space-y-4 list-decimal list-inside" style={{listStyleType: 'none'}}>
           {blogPosts.map((post:any , index: number) => (
             <li key={index} className="space-y-1 text-blue-600 hover:underline">
-              {post.title && post.date && 
+              {post.title && post.date &&
                 <a href={`/blog/resume-writing-tips-tricks-and-services/post/${post.file}`} title={post.title}>
-                  <span className="block text-xs text-muted-foreground">{post.date}</span>
+                  <span className="block text-xs text-muted-foreground">{returnDate(post.date)}</span>
                   <span className="block font-semibold">{post.title}</span>
                 </a>
               }
