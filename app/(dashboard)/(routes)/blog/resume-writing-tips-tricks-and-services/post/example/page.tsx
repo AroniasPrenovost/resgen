@@ -27,11 +27,11 @@ const BlogDetailPage = async () => {
 
        <h2 className="text-2xl font-bold text-gray-800">...</h2>
        <ul className="list-disc pl-5 space-y-2 text-gray-700">
-         <li class="custom_html"><strong>...</strong> ...</li>
-         <li class="custom_html"><strong>...</strong> ...</li>
-         <li class="custom_html"><strong>...</strong> ...</li>
-         <li class="custom_html"><strong>...</strong> ...</li>
-         <li class="custom_html"><strong>...</strong> ...</li>
+         <li className="custom_html"><strong>...</strong> ...</li>
+         <li className="custom_html"><strong>...</strong> ...</li>
+         <li className="custom_html"><strong>...</strong> ...</li>
+         <li className="custom_html"><strong>...</strong> ...</li>
+         <li className="custom_html"><strong>...</strong> ...</li>
        </ul>
 
        <h2 className="text-2xl font-bold text-gray-800">...</h2>
@@ -52,8 +52,8 @@ const BlogDetailPage = async () => {
        </p>
 
        <div className="border-l-4 border-blue-700 pl-4 text-gray-700 space-y-2">
-         <p class="custom_html"><strong>...</strong> ...</p>
-         <p class="custom_html"><strong>...</strong> ...</p>
+         <p className="custom_html"><strong>...</strong> ...</p>
+         <p className="custom_html"><strong>...</strong> ...</p>
        </div>
 
        <h2 className="text-2xl font-bold text-gray-800">...</h2>
