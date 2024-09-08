@@ -1,4 +1,4 @@
-import { ClipboardList, Edit3 } from "lucide-react";
+import { ClipboardList, UserPen } from "lucide-react";
 import { Heading } from "@/components/heading";
 
 const BlogDetailPage = async () => {
@@ -48,8 +48,8 @@ const BlogDetailPage = async () => {
       <div className="bg-gray-100 p-6 mt-8">
         <div className="flex items-center space-x-2">
           <div className="relative h-8 w-8 mr-4">
-            <Edit3 className="w-8 h-8 text-gray-800" />
-          </div>  
+            <UserPen className="w-8 h-8 text-gray-800" />
+          </div>
           <div>
             <p className="text-lg font-medium text-gray-800">Sarah Cole</p>
             <p className="text-sm text-gray-600 font-small">SEO Strategist & Author</p>
