@@ -26,8 +26,8 @@ const BlogDetailPage = async () => {
 
         <h2 className="text-2xl font-bold text-gray-800">Highlight Your Achievements</h2>
         <ul className="list-disc pl-5 space-y-2 text-gray-700">
-          <li className="custom_html"><strong>Quantify Your Successes:</strong> Use numbers to highlight your achievements. For example, "Increased sales by 20% in six months" is more impactful than "Responsible for increasing sales."</li>
-          <li className="custom_html"><strong>Use Action Verbs:</strong> Start your bullet points with strong action verbs like "Led," "Developed," "Implemented," and "Achieved."</li>
+          <li className="custom_html"><strong>Quantify Your Successes:</strong> Use numbers to highlight your achievements. For example, &apos;Increased sales by 20% in six months&apos; is more impactful than &apos;Responsible for increasing sales.&apos;</li>
+          <li className="custom_html"><strong>Use Action Verbs:</strong> Start your bullet points with strong action verbs like &apos;Led,&apos; &apos;Developed,&apos; &apos;Implemented,&apos; and &apos;Achieved.&apos;</li>
           <li className="custom_html"><strong>Be Specific:</strong> Provide specific examples of your accomplishments. This gives potential employers a clear picture of what you can bring to the table.</li>
           <li className="custom_html"><strong>Showcase Relevant Skills:</strong> Highlight skills that are relevant to the job you are applying for. This can include technical skills, soft skills, and industry-specific skills.</li>
           <li className="custom_html"><strong>Keep It Concise:</strong> Your resume should be no longer than two pages. Be concise and focus on the most important information.</li>
