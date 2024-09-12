@@ -7,7 +7,7 @@ const BlogDetailPage = async () => {
     <article className="min-h-screen bg-gray-50">
       <header>
         <Heading
-          title="Mastering the Modern Job Hunt: Expert Resume Tips for 2023"
+          title="Mastering the Modern Job Hunt: Expert Resume Tips for 2024"
           description="Unlock the secrets to crafting a standout resume and navigating the job market with confidence."
           icon={ClipboardList}
           iconColor="text-blue-700"
@@ -17,7 +17,7 @@ const BlogDetailPage = async () => {
       <section className="px-8 lg:px-16 py-0 space-y-6">
         <h2 className="text-2xl font-bold text-gray-800">Introduction</h2>
         <p className="text-gray-700 custom_html">
-          Welcome to the modern job hunt, where the rules have changed, and the competition is fiercer than ever. Whether you are a new grad, a seasoned professional, or someone looking to make a career pivot, your resume is your ticket to getting noticed. In this blog post, we will dive into expert resume tips for 2023 that will help you stand out in the crowded job market.
+          Welcome to the modern job hunt, where the rules have changed, and the competition is fiercer than ever. Whether you are a new grad, a seasoned professional, or someone looking to make a career pivot, your resume is your ticket to getting noticed. In this blog post, we will dive into expert resume tips for 2024 that will help you stand out in the crowded job market.
         </p>
 
         <h2 className="text-2xl font-bold text-gray-800">Understanding the Modern Resume</h2>
