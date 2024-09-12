@@ -17,7 +17,7 @@ const BlogDetailPage = async () => {
      <section className="px-8 lg:px-16 py-0 space-y-6">
        <h2 className="text-2xl font-bold text-gray-800">Crafting a Winning Resume</h2>
        <p className="text-gray-700 custom_html">
-         Your resume is your ticket to the job of your dreams. To stand out in the digital crowd, sprinkle relevant keywords throughout your resume like fairy dust. Tailor each resume to the job description, showcasing your skills and experience in a way that screams, "I&apos;m the one you&apos;re looking for!"
+         Your resume is your ticket to the job of your dreams. To stand out in the digital crowd, sprinkle relevant keywords throughout your resume like fairy dust. Tailor each resume to the job description, showcasing your skills and experience in a way that screams, &ldquo;I&apos;m the one you&apos;re looking for!&rdquo;.
        </p>
 
        <h2 className="text-2xl font-bold text-gray-800">Optimizing Your Online Presence</h2>
