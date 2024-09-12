@@ -41,7 +41,7 @@ const BlogDetailPage = async () => {
 
         <div className="border-l-4 border-blue-700 pl-4 text-gray-700 space-y-2">
           <p><strong>Use Action Verbs:</strong> Start each bullet point with a strong action verb to convey your accomplishments effectively.</p>
-          <p><strong>Quantify Achievements:</strong> Whenever possible, use numbers to quantify your achievements (e.g., "Increased sales by 20%").</p>
+          <p><strong>Quantify Achievements:</strong> Whenever possible, use numbers to quantify your achievements (e.g., &apos;Increased sales by 20%&apos;).</p>
           <p><strong>Tailor Your Resume:</strong> Customize your resume for each job application by highlighting relevant experience and skills.</p>
           <p><strong>Include Keywords:</strong> Incorporate keywords from the job description to pass through Applicant Tracking Systems (ATS).</p>
         </div>
