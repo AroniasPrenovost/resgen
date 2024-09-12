@@ -41,7 +41,8 @@ const BlogDetailPage = async () => {
         <div className="border-l-4 border-blue-700 pl-4 text-gray-700 space-y-2">
           <p><strong>Research the Company:</strong> Understand the company culture, values, and the specific role you are applying for.</p>
           <p><strong>Use Keywords:</strong> Incorporate keywords from the job description into your resume. This helps with Applicant Tracking Systems (ATS).</p>
-          <p><strong>Highlight Relevant Experience:</strong> Emphasize experience and skills that are most relevant to the job you are applying for.</          <p><strong>Customize Your Professional Summary:</strong> Tailor your summary to align with the job requirements and the company’s mission.</p>
+          <p><strong>Highlight Relevant Experience:</strong> Emphasize experience and skills that are most relevant to the job you are applying for.</p>
+          <p><strong>Customize Your Professional Summary:</strong> Tailor your summary to align with the job requirements and the company’s mission.</p>
         </div>
 
         <h2 className="text-2xl font-bold text-gray-800">Common Resume Mistakes to Avoid</h2>
