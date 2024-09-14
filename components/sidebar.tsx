@@ -89,14 +89,14 @@ export const Sidebar = ({
          {/*       <li><b>1. </b><b style={{color:"orange"}}>$3.99</b> gets you access for 30 days.</li>
                   <br/>*/}
                 <li><b>1. </b>Enter work experience and other relevant information.</li>
-
+                <li><b>2. </b>Get unlimited access for $3.99.</li>
 
                 {/*<s><b>$9.99</b></s> */}
 
                 <br/>
-                <li><b>2. </b>Our AI assistant writes your new resume.</li>
+                <li><b>3. </b>Our AI assistant writes your new resume.</li>
                 <br/>
-                <li><b>3. </b><em>Optional:</em> If you do not own Microsoft Word, upload the downloaded files to <Link className={cn(
+                <li><b>4. </b><em>Optional:</em> If you do not own Microsoft Word, upload the downloaded files to <Link className={cn(
                   "hover:text-white transition",
                    "text-zinc-400",
                 )} target="_blank" rel="noopener noreferrer" href="https://drive.google.com/drive/home">Google Drive</Link>.
@@ -109,7 +109,7 @@ export const Sidebar = ({
                   <Link className={cn(
                   "hover:text-white transition",
                   "text-zinc-400",
-                )} title="Sample Resume" target="_blank" href="/example_resume.png">View a sample resume</Link> 
+                )} title="Sample Resume" target="_blank" href="/example_resume.png">View a sample resume</Link>
                 </div>
 
 
