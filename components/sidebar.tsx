@@ -1,6 +1,6 @@
 "use client";
 
-  
+
 import Link from "next/link";
 import Image from "next/image";
 import { Montserrat } from 'next/font/google'
@@ -52,10 +52,10 @@ export const Sidebar = ({
       <div className="px-3 py-2 flex-1">
         <Link href="/" className="flex items-center pl-3 mb-6">
           <div className="relative h-8 w-8 mr-4">
-            <Image fill 
-            sizes="(max-width: 768px) 100vw, 33vw" 
-            alt="ResumAI Logo" 
-            src="/transcript.png" 
+            <Image fill
+            sizes="(max-width: 768px) 100vw, 33vw"
+            alt="ResumAI Logo"
+            src="/transcript.png"
             />
           </div>
           <h1 className={cn("text-2xl font-bold", poppins.className)}>
@@ -69,9 +69,9 @@ export const Sidebar = ({
               href={route.href}
               className={cn(
                 "text-sm group flex p-3 w-full justify-start font-medium cursor-pointer hover:text-white hover:bg-white/10 rounded-lg transition",
-                pathname === route.href 
-                ? 
-                "text-white bg-white/10" 
+                pathname === route.href
+                ?
+                "text-white bg-white/10"
                 :
                 "text-zinc-400",
               )}
@@ -89,17 +89,17 @@ export const Sidebar = ({
          {/*       <li><b>1. </b><b style={{color:"orange"}}>$3.99</b> gets you access for 30 days.</li>
                   <br/>*/}
                 <li><b>1. </b>Enter work experience and other relevant information.</li>
-              
-              
+
+
                 {/*<s><b>$9.99</b></s> */}
-            
+
                 <br/>
                 <li><b>2. </b>Our AI assistant writes your new resume.</li>
                 <br/>
                 <li><b>3. </b><em>Optional:</em> If you do not own Microsoft Word, upload the downloaded files to <Link className={cn(
                   "hover:text-white transition",
                    "text-zinc-400",
-                )} target="_blank" rel="noopener noreferrer" href="https://drive.google.com/drive/home">Google Drive</Link>. 
+                )} target="_blank" rel="noopener noreferrer" href="https://drive.google.com/drive/home">Google Drive</Link>.
                 {/*to access and modify formatting*/}
 
                <div style={{
@@ -109,7 +109,7 @@ export const Sidebar = ({
                   <Link className={cn(
                   "hover:text-white transition",
                   "text-zinc-400",
-                  )} title="Sample Resume" target="_blank" href="/example_resume.png">View Sample Resume</Link> 
+                )} title="Sample Resume" target="_blank" href="/example_resume.png">View a sample resume</Link> 
                 </div>
 
 
@@ -119,13 +119,13 @@ export const Sidebar = ({
                     "text-zinc-400",
                     )} title="Example Resume" target="_blank" href="/example_resume.png">
                      <Image fill alt="Sample Resume" src="/example_resume.png" />
-                   </Link> 
+                   </Link>
                  </div>
                 </div>
 
                 <br/>
                 <br/>
-        
+
                   <b>
                     <Link style={{
                        display: isResumeGeneratorPage ? 'none' : 'block',
