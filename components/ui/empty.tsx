@@ -22,9 +22,11 @@ export const Empty = ({
             <Image fill alt="Logo" src="/transcript.png" />
           </div>*/}
       <p className="text-muted-foreground text-sm text-center">
-      {hasLabel && (
+      {hasLabel &&
         {label}
-      )} else {
+      }
+
+      {!hasLabel 
         <strong>NOTICE:</strong> We do not store any of your personal or financial data.<br/>
         All information is saved in your local browser session only.
       }
