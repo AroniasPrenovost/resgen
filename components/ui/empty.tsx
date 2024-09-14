@@ -19,7 +19,7 @@ export const Empty = ({ label }: EmptyProps) => {
           label
         ) : (
           <>
-            <b>NOTICE:</b> We do not store any of your personal or financial data.
+            <b>NOTICE:</b> We do not store any of your personal data.
             <br />
             All information is saved in your local browser session only.
           </>
