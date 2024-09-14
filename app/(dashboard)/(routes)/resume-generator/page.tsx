@@ -2748,10 +2748,7 @@ ${stringifiedMappedFormValues}
           )}
           {messages.length === 0 && !isLoading && (
             // <Empty label="AI-powered resume generation. Start your career journey today!" />
-            <>
             <Empty label="NOTICE: We do not store any of your personal or financial data." />
-            <Empty label="All information is saved in your local browser session only." />
-            </>
           )}
           <div className="flex flex-col-reverse gap-y-4">
             {(messages.reverse()).map((message) => (

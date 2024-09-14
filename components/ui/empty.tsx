@@ -19,7 +19,8 @@ export const Empty = ({
             <Image fill alt="Logo" src="/transcript.png" />
           </div>*/}
       <p className="text-muted-foreground text-sm text-center">
-        {label}
+        {label}<br/>
+        All information is saved in your local browser session only.
       </p>
     </div>
   );
