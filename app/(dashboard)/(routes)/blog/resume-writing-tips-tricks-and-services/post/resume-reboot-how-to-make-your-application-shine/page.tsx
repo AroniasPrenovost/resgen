@@ -8,7 +8,7 @@ const BlogDetailPage = async () => {
      <header>
        <Heading
          title="Resume Reboot: How to Make Your Application Shine in 2024"
-         description="Discover the latest tips and tricks to make your resume stand out in the competitive job market of 2024."
+         description="Discover the latest tips and tricks to make your resume stand out"
          icon={ClipboardList}
          iconColor="text-blue-700"
          bgColor="bg-gray-700/10"
@@ -17,7 +17,7 @@ const BlogDetailPage = async () => {
      <section className="px-8 lg:px-16 py-0 space-y-6">
        <h2 className="text-2xl font-bold text-gray-800">Introduction</h2>
        <p className="text-gray-700 custom_html">
-         Welcome to 2024, where the job market is more competitive than ever. Whether you are a new grad, a seasoned professional, or someone looking to make a career change, your resume is your ticket to landing that dream job. But how do you make your application shine? Let us dive into some fresh strategies to give your resume a reboot.
+         Welcome to 2024, where the job market is a literal hellscape. Whether you are a new grad, a seasoned professional, or someone looking to make a career change, your resume is your ticket to landing that dream job. But how do you make your application shine? Let us dive into some fresh strategies to give your resume a reboot.
        </p>
 
        <h2 className="text-2xl font-bold text-gray-800">Tailor Your Resume for Each Job</h2>
@@ -27,8 +27,8 @@ const BlogDetailPage = async () => {
 
        <h2 className="text-2xl font-bold text-gray-800">Showcase Your Achievements</h2>
        <ul className="list-disc pl-5 space-y-2 text-gray-700">
-         <li className="custom_html"><strong>Quantify Your Successes:</strong> Use numbers to highlight your achievements. For example, "Increased sales by 20% in six months."</li>
-         <li className="custom_html"><strong>Use Action Verbs:</strong> Start your bullet points with strong action verbs like "led," "developed," or "implemented."</li>
+         <li className="custom_html"><strong>Quantify Your Successes:</strong> Use numbers to highlight your achievements. For example, &ldquo;Increased sales by 20% in six months&rdquo;.</li>
+         <li className="custom_html"><strong>Use Action Verbs:</strong> Start your bullet points with strong action verbs like &ldquo;led&rdquo;, &ldquo;developed&rdquo;, or &ldquo;implemented&rdquo;.</li>
          <li className="custom_html"><strong>Include Relevant Projects:</strong> Showcase projects that are relevant to the job you are applying for. This can include coursework, internships, or volunteer work.</li>
          <li className="custom_html"><strong>Highlight Soft Skills:</strong> Do not forget to mention soft skills like communication, teamwork, and problem-solving. These are highly valued by employers.</li>
          <li className="custom_html"><strong>Keep It Concise:</strong> Aim for a one-page resume if you are a new grad or have less than ten years of experience. For more experienced professionals, two pages are acceptable.</li>
@@ -36,11 +36,11 @@ const BlogDetailPage = async () => {
 
        <h2 className="text-2xl font-bold text-gray-800">Optimize for Applicant Tracking Systems (ATS)</h2>
        <p className="text-gray-700 custom_html">
-         Many companies use Applicant Tracking Systems (ATS) to screen resumes before they reach a human recruiter. To ensure your resume gets past the ATS, use keywords from the job description, avoid using images or graphics, and stick to a clean, simple format. This increases the chances of your resume being seen by a hiring manager.
+         Many companies use Applicant Tracking Systems (ATS) to screen resumes before they reach a human recruiter. To ensure your resume gets past the ATS, use keywords from the job description, avoid using images or graphics, and stick to a clean, simple format. This increases the chances of your resume being seen by a hiring manager. Our AI system has been fine-tuned to generate a resume that is tailored to these systems.
        </p>
 
        <div className="border-l-4 border-blue-700 pl-4 text-gray-700 space-y-2">
-         <p><strong>Use Standard Headings:</strong> Stick to common headings like "Experience," "Education," and "Skills."</p>
+         <p><strong>Use Standard Headings:</strong> Stick to common headings like &ldquo;Experience&rdquo;, &ldquo;Education&rdquo;, and &ldquo;Skills&rdquo;.</p>
          <p><strong>Avoid Fancy Fonts:</strong> Use standard fonts like Arial, Times New Roman, or Calibri.</p>
          <p><strong>Save as a PDF:</strong> Save your resume as a PDF to ensure the formatting stays intact.</p>
          <p><strong>Include Contact Information:</strong> Make sure your phone number, email address, and LinkedIn profile are easy to find.</p>
@@ -58,7 +58,10 @@ const BlogDetailPage = async () => {
 
        <h2 className="text-2xl font-bold text-gray-800">Conclusion</h2>
        <p className="text-gray-700 custom_html">
-         In 2024, making your resume shine requires a combination of customization, showcasing achievements, optimizing for ATS, and leveraging your network. By following these tips, you will be well on your way to landing your dream job. Ready to give your resume a reboot? Check out our <a href="https://www.resumai.services/resume-generator" className="text-blue-700 hover:underline" title="ResumAI - Resume Generator">Resume Generator</a> to create a standout resume today.
+         In 2024, making your resume shine requires a combination of customization, showcasing achievements, optimizing for ATS, and leveraging your network. By following these tips, you will be well on your way to landing your dream job.
+       </p>
+       <p>
+        Ready to give your resume a reboot? Check out our <a href="https://www.resumai.services/resume-generator" className="text-blue-700 hover:underline" title="ResumAI - Resume Generator">Resume Generator</a> today!
        </p>
      </section>
      <footer className="bg-gray-100 p-6 mt-8">
