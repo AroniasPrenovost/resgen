@@ -43,7 +43,7 @@ const BlogDetailPage = async () => {
 
        <h2 className="text-2xl font-bold text-gray-800">Conclusion</h2>
        <p className="text-gray-700 custom_html">
-         Face it - crafting a stellar resume is an art form. If you're ready to take it to the next level, get started now w/ our <a href="https://www.resumai.services/resume-generator" className="text-blue-700 hover:underline" title="ResumAI - Resume Generator">Resume Generator</a>!
+         Face it - crafting a stellar resume is an art form. If youapos;re ready to take it to the next level, get started now with our <a href="https://www.resumai.services/resume-generator" className="text-blue-700 hover:underline" title="ResumAI - Resume Generator">Resume Generator</a>!
        </p>
      </section>
      <footer className="bg-gray-100 p-6 mt-8">
