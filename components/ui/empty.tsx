@@ -21,7 +21,7 @@ export const Empty = ({ label }: EmptyProps) => {
           <>
             <b>NOTICE:</b> We never store your personal data.
             <br/>
-            Please contact our support for any additional information.
+            Please reach out to our support for any additional questions.
           </>
         )}
       </p>
