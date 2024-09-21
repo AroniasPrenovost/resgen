@@ -86,57 +86,57 @@ export const Sidebar = ({
            <div className="space-y-1" style={{paddingTop: '24px', padding: '8px', fontSize: '14px'}}>
               <b style={{fontSize: '18px', marginBottom: '20px !important', marginTop: '20px'}}>How It Works:</b><br/>
               <ol>
+                {/*       <li><b>1. </b><b style={{color:"orange"}}>$3.99</b> gets you access for 30 days.</li>
+                          <br/>
+                */}
                 <li><b>1. </b>Enter work experience and other relevant information.</li>
                 <br/>
                 <li><b>2. </b>Our AI assistant writes your new resume.</li>
-              </ol>
-
-
-                <div>
-                A <b>one-time</b> payment of <b style={{ color: "orange"}}>$9.99</b> gets you access to the generator for <b>30</b> days, <em>in addition to</em> real human chat support.</li>
-                <br/>
-
+                // <br/>
+                </ol>
+                // <li>
+                A <b>one-time</b> payment of <b style={{ color: "orange"}}>$9.99</b> gets you access to the generator for <b>30</b> days, <em>in addition to</em> real human chat support.
                 <br/>
                 // <li>
+                // <b>4. </b>
                 <em>Pro tip:</em> If you do not own Microsoft Word, upload the downloaded file to <Link className={cn(
-                  "hover:text-white transition",
-                   "text-zinc-400",
-                )} target="_blank" rel="noopener noreferrer" href="https://drive.google.com/drive/home">Google Drive</Link>.
-                {/*to access and modify formatting*/}
-
-               <div style={{
-                 display: !isResumeGeneratorPage ? 'none' : 'block',
-               }}>
-                <div className="relative ml-0 mt-5">
-                  <Link className={cn(
-                  "hover:text-white transition",
-                  "text-zinc-400",
-                )} title="Sample Resume" target="_blank" href="/example_resume.png">View a sample resume</Link>
-                </div>
-
-
-                 <div className="relative h-60 w-60 ml-0 mt-2">
-                  <Link className={cn(
                     "hover:text-white transition",
-                    "text-zinc-400",
-                    )} title="Example Resume" target="_blank" href="/example_resume.png">
-                     <Image fill alt="Sample Resume" src="/example_resume.png" />
-                   </Link>
-                 </div>
-                </div>
+                     "text-zinc-400",
+                  )} target="_blank" rel="noopener noreferrer" href="https://drive.google.com/drive/home">Google Drive</Link>.
 
-                <br/>
-                <br/>
+                 <div style={{
+                   display: !isResumeGeneratorPage ? 'none' : 'block',
+                 }}>
+                  <div className="relative ml-0 mt-5">
+                      <Link className={cn(
+                      "hover:text-white transition",
+                      "text-zinc-400",
+                    )} title="Sample Resume" target="_blank" href="/example_resume.png">View a sample resume</Link>
+                  </div>
+
+
+                   <div className="relative h-60 w-60 ml-0 mt-2">
+                    <Link className={cn(
+                      "hover:text-white transition",
+                      "text-zinc-400",
+                      )} title="Example Resume" target="_blank" href="/example_resume.png">
+                       <Image fill alt="Sample Resume" src="/example_resume.png" />
+                     </Link>
+                   </div>
+                  </div>
+
+                  <br/>
+                  <br/>
 
                   <b>
-                    <Link style={{
+                      <Link style={{
                        display: isResumeGeneratorPage ? 'none' : 'block',
                        }} className={cn("text-orange-400 hover:underline",
                       )} href="/resume-generator">Get Started!
-                   </Link>
-                 </b>
-                 </div>
-                 </div>
+                      </Link>
+                   </b>
+                // </li>
+              // </ol>
           </div>
         </div>
       </div>

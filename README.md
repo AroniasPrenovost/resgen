@@ -1,5 +1,5 @@
 # ResumAI - Enhanced Resume Generation
-## Resume Generator SaaS built w/ Next.js 13, React, Tailwind, Prisma, Stripe 
+## Resume Generator SaaS built w/ Next.js 13, React, Tailwind, Prisma, Stripe
 
 This is a repository based on [this tutorial video](https://www.youtube.com/watch?v=ffJ38dBzrlY&t=16662s).
 
@@ -47,13 +47,13 @@ cp .env-sample .env
 
 ### Setup Prisma
 
-Add Prisma 
+Add Prisma
 
 ```shell
 npm i -D prisma
 ```
 
-Add MySQL Database 
+Add MySQL Database
 --> via PlanetScale DB: https://app.planetscale.com/your_github_account
 
 ```shell
@@ -64,7 +64,7 @@ npx prisma db push
 if things are busted and prisma studio isn't working..
 
 ```shell
-npx prisma migrate reset && npx prisma generate && npx prisma db push 
+npx prisma migrate reset && npx prisma generate && npx prisma db push
 ```
 
 ### Start the app
@@ -78,30 +78,30 @@ npm run dev
 npx prisma studio # runs at http://localhost:5555/
 ```
 
-### docx.js 
+### docx.js
 templating + styling: https://docx.js.org/#/usage/styling-with-js?id=examples
 
-### Stripe 
+### Stripe
 ## setup - https://www.youtube.com/watch?v=uQAf6huBIks
 
 (Test environment)
 
-1. create Stripe account 
+1. create Stripe account
 2. toggle on 'Test Mode'
-2. Dashboard --> Create payment --> Payment link 
+2. Dashboard --> Create payment --> Payment link
 	used to redirect users to payment link when they try to download
 3. add STRIPE_API_KEY and STRIPE_SECRET_KEY to .env
 https://docs.stripe.com/stripe-cli
 1. get webhook secret for Stripe CLI ('whsec_...'))
 
 ```shell
-$ stripe login # then follow the link it generates 
+$ stripe login # then follow the link it generates
 
 $ stripe listen --forward-to localhost:3000/api/webhook # generates WEBHOOK_SECRET
 
 ```
- 
-4:25:30 discussing webhooks setup for dev and prod (one-time setup (I think))
+
+4:25:30 discussing webhooks setup for dev and prod
 
 https://dashboard.stripe.com/test/webhooks/create?endpoint_location=local
 
