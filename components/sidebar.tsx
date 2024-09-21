@@ -90,7 +90,7 @@ export const Sidebar = ({
                   <br/>*/}
                 <li><b>1. </b>Enter work experience and other relevant information.</li>
                 <br/>
-                <li><b>2. </b>A <b>one-time</b> payment of <b style={{ color: "orange"}}>$2.99</b> gets you access for <b>30</b> days.</li>
+                <li><b>2. </b>A <b>one-time</b> payment of <b style={{ color: "orange"}}>$9.99</b> gets you access for <b>30</b> days.</li>
                 <br/>
                 <li><b>3. </b>Our AI assistant writes your new resume.</li>
                 <br/>

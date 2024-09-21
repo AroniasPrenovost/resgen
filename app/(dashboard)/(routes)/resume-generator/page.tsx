@@ -58,7 +58,7 @@ const ResumeGeneratorPage = () => {
 
   const [subheadline, setSubheadline] = useState('Instant professional resume generation at your fingertips.');
 
-  const [topCtaButton, setTopCtaButton] = useState('Get instant access for $2.99');
+  const [topCtaButton, setTopCtaButton] = useState('Get instant access for $9.99');
   const [buyButtonContent, setBuyButtonContent] = useState('Generate Resume');
 
   const current_time: any = new Date();
