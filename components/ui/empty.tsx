@@ -19,7 +19,7 @@ export const Empty = ({ label }: EmptyProps) => {
           label
         ) : (
           <>
-            <b>NOTICE:</b> We do not store your personal data.
+            <b>NOTICE:</b> We use Stripe to process payments and do not collect your personal data.
             <br/>
             Please use our chat support for any questions.
           </>
