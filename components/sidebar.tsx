@@ -86,14 +86,11 @@ export const Sidebar = ({
            <div className="space-y-1" style={{paddingTop: '24px', padding: '8px', fontSize: '14px'}}>
               <b style={{fontSize: '18px', marginBottom: '20px !important', marginTop: '20px'}}>How It Works:</b><br/>
               <ol>
-         {/*       <li><b>1. </b><b style={{color:"orange"}}>$3.99</b> gets you access for 30 days.</li>
-                  <br/>*/}
                 <li><b>1. </b>Enter work experience and other relevant information.</li>
                 <br/>
                 <li><b>2. </b>Our AI assistant writes your new resume.</li>
-                </ol>
+              </ol>
                 <div>
-                // <li>
                 A <b>one-time</b> payment of <b style={{ color: "orange"}}>$9.99</b> gets you access to the generator for <b>30</b> days, <em>in addition to</em> real human chat support.</li>
                 <br/>
 
@@ -136,12 +133,7 @@ export const Sidebar = ({
                       )} href="/resume-generator">Get Started!
                    </Link>
                  </b>
-
-                 
                  </div>
-
-                // </li>
-              // </ol>
           </div>
         </div>
       </div>
