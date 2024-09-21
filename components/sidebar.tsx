@@ -90,11 +90,16 @@ export const Sidebar = ({
                   <br/>*/}
                 <li><b>1. </b>Enter work experience and other relevant information.</li>
                 <br/>
-                <li><b>2. </b>A <b>one-time</b> payment of <b style={{ color: "orange"}}>$9.99</b> gets you access to the generator for <b>30</b> days, <em>in addition to</em> real human chat support.</li>
+                <li><b>2. </b>Our AI assistant writes your new resume.</li>
+                </ol>
+                <div>
+                // <li>
+                A <b>one-time</b> payment of <b style={{ color: "orange"}}>$9.99</b> gets you access to the generator for <b>30</b> days, <em>in addition to</em> real human chat support.</li>
                 <br/>
-                <li><b>3. </b>Our AI assistant writes your new resume.</li>
+
                 <br/>
-                <li><b>4. </b><em>Pro tip:</em> If you do not own Microsoft Word, upload the downloaded file to <Link className={cn(
+                // <li>
+                <em>Pro tip:</em> If you do not own Microsoft Word, upload the downloaded file to <Link className={cn(
                   "hover:text-white transition",
                    "text-zinc-400",
                 )} target="_blank" rel="noopener noreferrer" href="https://drive.google.com/drive/home">Google Drive</Link>.
@@ -132,8 +137,11 @@ export const Sidebar = ({
                    </Link>
                  </b>
 
-                </li>
-              </ol>
+                 
+                 </div>
+
+                // </li>
+              // </ol>
           </div>
         </div>
       </div>
