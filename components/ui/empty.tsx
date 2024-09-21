@@ -21,7 +21,7 @@ export const Empty = ({ label }: EmptyProps) => {
           <>
             <b>NOTICE:</b> We use Stripe to process payments and do not collect your personal data.
             <br/>
-            Please use our chat support for any questions.
+            Please use our chat support for any other questions.
           </>
         )}
       </p>
