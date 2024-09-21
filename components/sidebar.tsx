@@ -90,6 +90,8 @@ export const Sidebar = ({
                 <br/>
                 <li><b>2. </b>Our AI assistant writes your new resume.</li>
               </ol>
+
+
                 <div>
                 A <b>one-time</b> payment of <b style={{ color: "orange"}}>$9.99</b> gets you access to the generator for <b>30</b> days, <em>in addition to</em> real human chat support.</li>
                 <br/>
@@ -133,6 +135,7 @@ export const Sidebar = ({
                       )} href="/resume-generator">Get Started!
                    </Link>
                  </b>
+                 </div>
                  </div>
           </div>
         </div>
