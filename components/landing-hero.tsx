@@ -44,9 +44,9 @@ export const LandingHero = () => {
         </Link>
       </div>
       <div className="text-zinc-400 text-xs md:text-sm font-normal p-4">
-        Use AI to <b>instantly</b> generate an professional resume optimized for ATS systems (applicant tracking software).<br/><b>How does it work?</b> You provide as much (or as little) info as you want, and our AI assistant does the rest. 
+        <b>How does it work?</b> You provide as much (or as little) info as you want, and our AI assistant
+        <b>instantly</b> generates a professional resume that is tailored to your skillset <em>and</em> optimized for ATS systems (applicant tracking software).
       </div>
     </div>
   );
 };
-
