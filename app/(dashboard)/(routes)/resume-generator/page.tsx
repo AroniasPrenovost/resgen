@@ -34,7 +34,7 @@ import { Tooltip } from '@nextui-org/react';
 import { saveAs } from "file-saver";
 import { Packer } from "docx";
 import { DocumentCreator } from "@/lib/resume-generator";
-import { CoverLetterDocumentCreator } from "@/lib/cover-letter-generator";
+// import { CoverLetterDocumentCreator } from "@/lib/cover-letter-generator";
 import { experiences, education, skills, achievements } from "@/lib/cv-data"; // dummy data
 
 
@@ -57,10 +57,8 @@ const ResumeGeneratorPage = () => {
   //
 
   const [subheadline, setSubheadline] = useState('Instant professional resume generation at your fingertips.');
-  // const defaultPrice = '$9.99';
-  // const salePrice = '$3.99';
 
-  const [topCtaButton, setTopCtaButton] = useState('Get instant access for $3.99');
+  const [topCtaButton, setTopCtaButton] = useState('Get instant access for $2.99');
   const [buyButtonContent, setBuyButtonContent] = useState('Generate Resume');
 
   const current_time: any = new Date();
@@ -74,7 +72,7 @@ const ResumeGeneratorPage = () => {
   let hasPaid = false;
 
   let number_of_downloads: any = 0;
-  const max_download_count = 8;
+  const max_download_count = 10;
 
   let storedFormValues: any = {};
   if (global?.window !== undefined) { // now it's safe to access window and localStorage
