@@ -44,7 +44,7 @@ export const LandingHero = () => {
         </Link>
       </div>
       <div className="text-zinc-400 text-xs md:text-sm font-normal p-4">
-        <b>How does it work?</b> You provide as much (or as little) info as you want, and our AI assistant
+        <b>How does it work?</b> You provide as much (or as little) info as you want, and our AI assistant<br/>
         <b>instantly</b> generates a professional resume that is tailored to your skillset <em>and</em> optimized for ATS systems (applicant tracking software).
       </div>
     </div>
