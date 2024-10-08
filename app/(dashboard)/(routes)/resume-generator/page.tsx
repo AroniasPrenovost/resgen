@@ -9,6 +9,7 @@ import { toast } from "react-hot-toast";
 import { useRouter, usePathname, redirect, useSearchParams } from "next/navigation";
 import { ChatCompletionRequestMessage } from "openai";
 
+import { Tooltip } from '@nextui-org/react';
 import { BotAvatar } from "@/components/bot-avatar";
 import { Heading } from "@/components/heading";
 import { Button } from "@/components/ui/button";
@@ -19,28 +20,27 @@ import { cn } from "@/lib/utils";
 import { Loader } from "@/components/loader";
 import { UserAvatar } from "@/components/user-avatar";
 import { Empty } from "@/components/ui/empty";
+
 // import { useProModal } from "@/hooks/use-pro-modal";
+// import { checkSubscription } from "@/lib/subscription";
+
+const STRIPE_PAYMENT_LINK: string = process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK ?? 'https://stripe.com';
+
+import { headers } from 'next/headers'
 
 import { formSchema } from "./constants";
 
-import { Tooltip } from '@nextui-org/react';
 
+// file upload
+import mammoth from "mammoth"; // supports .docx
+import { PDFDocument } from 'pdf-lib'; // supports .pdf
 
-
-
-// import { checkSubscription } from "@/lib/subscription";
-
-// .docx generation
+// saving (downloading) generated resume as .docx
 import { saveAs } from "file-saver";
 import { Packer } from "docx";
 import { DocumentCreator } from "@/lib/resume-generator";
 // import { CoverLetterDocumentCreator } from "@/lib/cover-letter-generator";
 import { experiences, education, skills, achievements } from "@/lib/cv-data"; // dummy data
-
-
-import { headers } from 'next/headers'
-
-const STRIPE_PAYMENT_LINK: string = process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK ?? 'https://stripe.com';
 
 const ResumeGeneratorPage = () => {
   const router = useRouter();
@@ -49,6 +49,83 @@ const ResumeGeneratorPage = () => {
 
   // const proModal = useProModal();
   const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
+
+  //
+  //
+  // file upload
+  //
+  //
+
+  const ACCEPTED_FILE_TYPES = ".docx,.txt"; // .pdf not currently supported
+  const [uploadedFileContents, setUploadedFileContents] = useState<string | null>(null);
+  const [uploadedFileName, setUploadedFileName] = useState<string | null>(null);
+
+    // pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
+
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const fileType = file.type;
+      setUploadedFileName(file.name);
+
+      try {
+        if (fileType === "application/pdf") {
+          //
+          // .pdf
+          //
+          // (curently not supported, am seeing a lot of resources saying I need to set up a webworker)
+
+          const arrayBuffer = await file.arrayBuffer();
+          const pdfDoc = await PDFDocument.load(arrayBuffer);
+          let text = "";
+
+          // Extracting text is not directly supported, however, assuming some JSON structure for text location might not help.
+          // Text extraction would require parsing text run attributes, which is complex and often unsuccessful without workers or back-end support.
+
+          // Sample code for iterating pages (text output would need a precise method):
+          console.log(pdfDoc)
+          for (let i = 0; i < pdfDoc.getPageCount(); i++) {
+            const page = pdfDoc.getPage(i);
+            console.log('page: ', page);
+            // const content = page.getTextContent();
+            // console.log('content: ', content);
+            const { width, height } = page.getSize();
+            text += `Page ${i + 1} (Size: ${width} x ${height})\n`; // Dummy text, actual text extraction is complex
+          }
+
+          setUploadedFileContents(text);
+
+        } else if (
+          fileType === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
+          fileType === "application/msword"
+        ) {
+          //
+          // .docx
+          //
+          const arrayBuffer = await file.arrayBuffer();
+          const result = await mammoth.extractRawText({ arrayBuffer });
+          setUploadedFileContents(result.value);
+
+        } else if (fileType === "text/plain") {
+          //
+          // .txt
+          //
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const text = e.target?.result;
+            setUploadedFileContents(text as string);
+          };
+          reader.readAsText(file);
+
+        } else {
+          alert("Unsupported file format! Please upload a PDF, Word document, or TXT file.");
+        }
+      } catch (error) {
+        console.error("Error processing file:", error);
+        alert("Something went wrong while processing the file.");
+      }
+    }
+  };
 
   //
   //
@@ -686,7 +763,7 @@ const ResumeGeneratorPage = () => {
     }
 
 
-    console.log('user has paid');
+    // console.log('user has paid');
     // return
 
     /*
@@ -912,76 +989,88 @@ ${stringifiedMappedFormValues}
     useEffect(() => {
       // Use setTimeout to update the message after 2000 milliseconds (2 seconds)
       const timeoutId = setTimeout(() => {
-        if (
-          storedFormValues.job_1_employer.length ||
-          storedFormValues.job_1_title.length ||
-          storedFormValues.job_1_start_month.length ||
-          storedFormValues.job_1_start_year.length ||
-          storedFormValues.job_1_end_month.length  ||
-          storedFormValues.job_1_end_year.length ||
-          storedFormValues.job_1_summary.length
-        ) {
-          setJob1Visibility(true);
+        if (storedFormValues.job_1_employer) {
+          if (
+            storedFormValues.job_1_employer.length ||
+            storedFormValues.job_1_title.length ||
+            storedFormValues.job_1_start_month.length ||
+            storedFormValues.job_1_start_year.length ||
+            storedFormValues.job_1_end_month.length  ||
+            storedFormValues.job_1_end_year.length ||
+            storedFormValues.job_1_summary.length
+          ) {
+            setJob1Visibility(true);
+          }
         }
 
-        if (
-          storedFormValues.job_2_employer.length ||
-          storedFormValues.job_2_title.length ||
-          storedFormValues.job_2_start_month.length ||
-          storedFormValues.job_2_start_year.length ||
-          storedFormValues.job_2_end_month.length  ||
-          storedFormValues.job_2_end_year.length ||
-          storedFormValues.job_2_summary.length
-        ) {
-          setJob2Visibility(true);
+        if (storedFormValues.job_2_employer) {
+          if (
+            storedFormValues.job_2_employer.length ||
+            storedFormValues.job_2_title.length ||
+            storedFormValues.job_2_start_month.length ||
+            storedFormValues.job_2_start_year.length ||
+            storedFormValues.job_2_end_month.length  ||
+            storedFormValues.job_2_end_year.length ||
+            storedFormValues.job_2_summary.length
+          ) {
+            setJob2Visibility(true);
+          }
         }
 
-        if (
-          storedFormValues.job_3_employer.length ||
-          storedFormValues.job_3_title.length ||
-          storedFormValues.job_3_start_month.length ||
-          storedFormValues.job_3_start_year.length ||
-          storedFormValues.job_3_end_month.length  ||
-          storedFormValues.job_3_end_year.length ||
-          storedFormValues.job_3_summary.length
-        ) {
-          setJob3Visibility(true);
+        if (storedFormValues.job_3_employer) {
+          if (
+            storedFormValues.job_3_employer.length ||
+            storedFormValues.job_3_title.length ||
+            storedFormValues.job_3_start_month.length ||
+            storedFormValues.job_3_start_year.length ||
+            storedFormValues.job_3_end_month.length  ||
+            storedFormValues.job_3_end_year.length ||
+            storedFormValues.job_3_summary.length
+          ) {
+            setJob3Visibility(true);
+          }
         }
 
-        if (
-          storedFormValues.job_4_employer.length ||
-          storedFormValues.job_4_title.length ||
-          storedFormValues.job_4_start_month.length ||
-          storedFormValues.job_4_start_year.length ||
-          storedFormValues.job_4_end_month.length  ||
-          storedFormValues.job_4_end_year.length ||
-          storedFormValues.job_4_summary.length
-        ) {
-          setJob4Visibility(true);
+        if (storedFormValues.job_4_employer) {
+          if (
+            storedFormValues.job_4_employer.length ||
+            storedFormValues.job_4_title.length ||
+            storedFormValues.job_4_start_month.length ||
+            storedFormValues.job_4_start_year.length ||
+            storedFormValues.job_4_end_month.length  ||
+            storedFormValues.job_4_end_year.length ||
+            storedFormValues.job_4_summary.length
+          ) {
+            setJob4Visibility(true);
+          }
         }
 
-        if (
-          storedFormValues.job_5_employer.length ||
-          storedFormValues.job_5_title.length ||
-          storedFormValues.job_5_start_month.length ||
-          storedFormValues.job_5_start_year.length ||
-          storedFormValues.job_5_end_month.length  ||
-          storedFormValues.job_5_end_year.length ||
-          storedFormValues.job_5_summary.length
-        ) {
-          setJob5Visibility(true);
+        if (storedFormValues.job_5_employer) {
+          if (
+            storedFormValues.job_5_employer.length ||
+            storedFormValues.job_5_title.length ||
+            storedFormValues.job_5_start_month.length ||
+            storedFormValues.job_5_start_year.length ||
+            storedFormValues.job_5_end_month.length  ||
+            storedFormValues.job_5_end_year.length ||
+            storedFormValues.job_5_summary.length
+          ) {
+            setJob5Visibility(true);
+          }
         }
 
-        if (
-          storedFormValues.job_6_employer.length ||
-          storedFormValues.job_6_title.length ||
-          storedFormValues.job_6_start_month.length ||
-          storedFormValues.job_6_start_year.length ||
-          storedFormValues.job_6_end_month.length  ||
-          storedFormValues.job_6_end_year.length ||
-          storedFormValues.job_6_summary.length
-        ) {
-          setJob6Visibility(true);
+        if (storedFormValues.job_6_employer) {
+          if (
+            storedFormValues.job_6_employer.length ||
+            storedFormValues.job_6_title.length ||
+            storedFormValues.job_6_start_month.length ||
+            storedFormValues.job_6_start_year.length ||
+            storedFormValues.job_6_end_month.length  ||
+            storedFormValues.job_6_end_year.length ||
+            storedFormValues.job_6_summary.length
+          ) {
+            setJob6Visibility(true);
+          }
         }
 
         // education
@@ -1162,7 +1251,7 @@ ${stringifiedMappedFormValues}
 
 
               <FormItem
-                  className="col-span-6 lg:col-span-6"
+                  className="col-span-12 lg:col-span-6"
                   style={{
                     color: '#576574',
                     textAlign: 'left',
@@ -1172,9 +1261,49 @@ ${stringifiedMappedFormValues}
               {/*<FormItem className="col-span-12 lg:col-span-10">*/}
                 <FormControl className="m-0 p-2">
                   <Tooltip
-                    color="primary"
-                    content={"Checking this box tells our AI to generate content for sections left blank. For optimal results, it is suggested to provide at least the employer and job title."}
+                    style={{
+                      borderRadius: "8px",
+                    }}
+                    color="secondary"
+                    content={"Upload your current resume and automatically generate new content. Accepts .txt and .docx file types."}
                   >
+
+                  <label style={{ fontWeight: "bold" }}>
+                    <input
+                      type="file"
+                      accept={ACCEPTED_FILE_TYPES}
+                      onChange={handleFileChange}
+                      style={{ display: "none" }}
+                      id="file-upload-input"
+                    />
+                    <label
+                      htmlFor="file-upload-input"
+                      style={{
+                        padding: "8px 16px",
+
+                        // border: "1px solid #ccc",
+                        borderRadius: "8px",
+                        color: "#ffffff",
+                        fontSize: "14px",
+                        display: "inline-block",
+                        cursor: "pointer",
+                        // backgroundColor: "#f0f0f0",
+                        backgroundColor: 'orange',
+
+                      }}
+                    >
+                      Upload Your Resume 🔥
+                    </label>
+                      {uploadedFileName &&
+                        <p style={{
+                          color: "black",
+                          fontSize: "12px",
+                          fontWeight: "normal",
+                        }}>{uploadedFileName}</p>
+                      }
+                  </label>
+
+                  {/*}
                     <label
                       style={{
                         color: '#576574',
@@ -1188,12 +1317,43 @@ ${stringifiedMappedFormValues}
                         onChange={e => setFillInTheBlank(!fillInTheBlank)} />
                       &nbsp; Fill in the blank 🔥
                     </label>
+
+                    */}
                   </Tooltip>
                 </FormControl>
               </FormItem>
 
+              {/* FILE UPLOAD */}
+{/*
+              <FormItem className="col-span-12 lg:col-span-10">
+                 <FormControl className="m-0 p-2">
+                   <label style={{ fontWeight: "bold" }}>
+                     <input
+                       type="file"
+                       accept={ACCEPTED_FILE_TYPES}
+                       onChange={handleFileChange}
+                       style={{ display: "none" }}
+                       id="file-upload-input"
+                     />
+                     <label
+                       htmlFor="file-upload-input"
+                       style={{
+                         padding: "8px 16px",
+                         border: "1px solid #ccc",
+                         display: "inline-block",
+                         cursor: "pointer",
+                         backgroundColor: "#f0f0f0",
+                       }}
+                     >
+                       Upload Your Current Resume
+                     </label>
+                      {uploadedFileName && <pre>{uploadedFileName}</pre>}
+                   </label>
+                 </FormControl>
+               </FormItem>
+ */}
 
-             {/* PERSONAL INFO  */}
+               {/* PERSONAL INFO  */}
 
               <FormItem className="col-span-12 lg:col-span-10">
                 <FormControl className="m-0 p-2">
