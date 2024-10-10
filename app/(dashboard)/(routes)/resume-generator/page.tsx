@@ -265,6 +265,8 @@ const ResumeGeneratorPage = () => {
         // prepopulate form fields with response
         // todo...
         // storedFormValues. = responseObject. ;
+        // or even:
+        // storedFormValues = responseObject;
 
         // set flag to track that we've processed the resume
         localStorage.setItem('file_has_been_uploaded_and_parsed', 'true');
