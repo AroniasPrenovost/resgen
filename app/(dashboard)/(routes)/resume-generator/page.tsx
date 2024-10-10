@@ -239,13 +239,15 @@ const ResumeGeneratorPage = () => {
 
   // file upload
   let hasFileBeenSelectedByUser = false;
-  let fileHasBeenUploadedAndParsed = localStorage.getItem('file_has_been_uploaded_and_parsed') === 'true';
   const [isGettingAiResponseForFileUploadProcess, setIsGettingAiResponseForFileUploadProcess] = useState(false);
 
   if (global?.window !== undefined) { // now it's safe to access window and localStorage
 
     //
     // manage file upload form prefilling
+
+    let fileHasBeenUploadedAndParsed = localStorage.getItem('file_has_been_uploaded_and_parsed') === 'true';
+
     const convertUploadedFileToFormInputsUsingAiProcess = async () => {
       console.log('convertUploadedFileToFormInputsUsingAiProcess()')
       try {
@@ -1368,7 +1370,7 @@ ${stringifiedMappedFormValues}
                           borderRadius: "8px",
                           color: "#ffffff",
                           fontSize: "14px",
-                          // fontWeight: "500",
+                          fontWeight: "400",
                           display: "inline-block",
                           cursor: "pointer",
                           backgroundColor: fileUploadButtonIsHovered ? 'rgba(90, 84, 236, 0.97)' : 'rgba(111, 90, 246, 0.97)',
