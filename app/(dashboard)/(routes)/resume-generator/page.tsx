@@ -239,6 +239,7 @@ const ResumeGeneratorPage = () => {
 
   // file upload
   let hasFileBeenSelectedByUser = false;
+  let fileHasBeenUploadedAndParsed = false;
   const [isGettingAiResponseForFileUploadProcess, setIsGettingAiResponseForFileUploadProcess] = useState(false);
 
   if (global?.window !== undefined) { // now it's safe to access window and localStorage
@@ -253,7 +254,7 @@ const ResumeGeneratorPage = () => {
     //
     // manage file upload form prefilling
 
-    let fileHasBeenUploadedAndParsed = localStorage.getItem('file_has_been_uploaded_and_parsed') === 'true';
+    fileHasBeenUploadedAndParsed = localStorage.getItem('file_has_been_uploaded_and_parsed') === 'true';
 
     const convertUploadedFileToFormInputsUsingAiProcess = async () => {
       console.log('convertUploadedFileToFormInputsUsingAiProcess()')
@@ -262,6 +263,7 @@ const ResumeGeneratorPage = () => {
         const responseObject = JSON.parse(prefilledUserResData.data.content);
 
         // prepopulate form fields with response
+        localStorage.setItem('stored_form_values', JSON.stringify(responseObject)); // does not seem to work
         console.log({responseObject});
         console.log({storedFormValues})
         // storedFormValues. = responseObject. ;
@@ -277,7 +279,10 @@ const ResumeGeneratorPage = () => {
       }
     };
 
-    hasFileBeenSelectedByUser = uploadedFileContents && uploadedFileContents.length > 0;
+    hasFileBeenSelectedByUser = uploadedFileContents && uploadedFileContents.length > 0 ? true : false;
+
+    console.log({isGettingAiResponseForFileUploadProcess, hasFileBeenSelectedByUser, fileHasBeenUploadedAndParsed})
+
     if (
       !isGettingAiResponseForFileUploadProcess && hasFileBeenSelectedByUser && !fileHasBeenUploadedAndParsed) {
       setIsGettingAiResponseForFileUploadProcess(true);
