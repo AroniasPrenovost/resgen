@@ -259,14 +259,13 @@ const ResumeGeneratorPage = () => {
       console.log('convertUploadedFileToFormInputsUsingAiProcess()')
       try {
         const prefilledUserResData = await convertUploadedFileToFormInputsUsingAi(uploadedFileContents);
-        const responseObject = prefilledUserResData.data.content;
-        console.log({responseObject});
+        const responseObject = JSON.parse(prefilledUserResData.data.content);
 
         // prepopulate form fields with response
-        // todo...
+        console.log({responseObject});
+        console.log({storedFormValues})
         // storedFormValues. = responseObject. ;
-        // or even:
-        // storedFormValues = responseObject;
+
 
         // set flag to track that we've processed the resume
         localStorage.setItem('file_has_been_uploaded_and_parsed', 'true');
