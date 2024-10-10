@@ -88,13 +88,13 @@ export const Sidebar = ({
               <ol>
          {/*       <li><b>1. </b><b style={{color:"orange"}}>$3.99</b> gets you access for 30 days.</li>
                   <br/>*/}
-                <li><b>1. </b>Enter work experience and other relevant information.</li>
+                <li><b>1. </b>Upload your current resume and watch as the AI assistant begins to make improvements.</li>
                 <br/>
-                <li><b>2. </b>Our AI assistant writes your new resume.</li>
+                <li><b>2. </b>Submitting the form generates a finalized copy of your new resume and downloads the file to your computer.</li>
                 <br/>
-                <li>A <b>one-time</b> payment of <b style={{ color: "orange"}}>$9.99</b> gets you access for <b>30</b> days, <em>in addition to</em> real human chat support and resume review.</li>
+                <li>A <b>single</b> payment of <b style={{ color: "orange"}}>$9.99</b> gets you access for <b>30</b> days, which includes <em>real</em> human chat support and resume review.</li>
                 <br/>
-                <li><em>Pro tip:</em> If you do not own Microsoft Word, you can upload the resume to <Link className={cn(
+                <li><em>Pro tip:</em> If you do not own Microsoft Word, you can upload your resume file to <Link className={cn(
                   "hover:text-white transition",
                    "text-zinc-400",
                 )} target="_blank" rel="noopener noreferrer" href="https://drive.google.com/drive/home">Google Drive</Link>.

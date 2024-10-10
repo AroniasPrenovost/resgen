@@ -18,6 +18,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
 import { Loader } from "@/components/loader";
+import { SimplerLoader } from "@/components/simpler-loader";
 import { UserAvatar } from "@/components/user-avatar";
 import { Empty } from "@/components/ui/empty";
 
@@ -48,19 +49,99 @@ const ResumeGeneratorPage = () => {
   const searchParams = useSearchParams();
 
   // const proModal = useProModal();
-  const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
 
   //
   //
-  // file upload
+  // AI response output state
   //
   //
+
+  const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
+
+
+
+
+  //
+  //
+  // CTA button hover states
+  //
+
+  const [topCTAButtonIsHovered, setTopCTAButtonIsHovered] = useState(false);
+  const [fileUploadButtonIsHovered, setFileUploadButtonIsHovered] = useState(false);
+  const [formSubmitButtonIsHovered, setFormSubmitButtonIsHovered] = useState(false);
+
+  //
+  //
+  // file upload ai call
+  //
+  //
+
+  const convertUploadedFileToFormInputsUsingAi = async(fileContents: string) => {
+    console.log('convertUploadedFileToFormInputsUsingAi()');
+    // make API call
+    // const promptString = "Generate me the fibonacci sequence in js";
+    const promptString = `Persona: you are a expert resume writer with with years of experience improving resumes.
+    Improve the verbiage, tone, and professionalism of the inputted content (${fileContents}) and map it to our desired data structure.
+    Rules:
+    1. The output should maintain the exact same object structure of the original 'resume_object', meaning only the key properties' values should be modified.
+    2. When necessary, fix any typos, sentence structure issues, and grammar problems.
+    3. Capitalize proper nouns, and expand acronyms when necessary.
+    4. Add realistic content to sections that are blank (within reason).
+    5. For 'resume_object.experiences' data, elaborate so most of the experience summary instances are at least 2 sentances.
+    6. For 'resume_object.education' section, ensure school names are proper nonand clear.
+    7. For 'resume_object.achievements' section, elaborate when necessary to explain context of achievement.
+    8. For 'resume_object.references' section, elaborate when necessary to explain context of relationship.
+    9. Incorporate words such as 'managed', 'solved', 'planned', 'executed', 'demonstrated', 'succeeded', 'collaborated', 'implemented', 'strategized', 'lead', etc.
+    10. The outputted content should be a markedly improved version of the input.
+    11. The outputted result should only be a string-ified version of the 'resume_object'.
+    resume_object:
+    ${JSON.stringify(storedFormValues)}
+        `;
+
+        // console.log('prompt string');
+        // console.log(promptString);
+    try {
+      const userMessage: ChatCompletionRequestMessage = { role: "user", content: promptString };
+      const newMessages = [...messages, userMessage];
+
+      const response = await axios.post('/api/resume-generator', { messages: newMessages });
+      // setMessages((current) => [...current, userMessage, response.data]);
+      // console.log('try/catch data: ', response.data.content);
+
+      // NOTE: hopefully these instructions work consistently
+      // console.log({response});
+      const outputObject = JSON.parse(response.data.content);
+      // console.log({response, outputObject});
+
+      toast.dismiss();
+      toast.success('Successfully read and improved your resume', {
+        duration: 12000,
+      });
+
+      return response;
+      // console.log({ outputObject });
+
+      // form.reset(); // we want to persist form data if they want to submit again
+    } catch (error: any) {
+      if (error?.response?.status === 999/* 403 */) {
+        // don't want this to ever happen, 999 doesn't exist
+        // proModal.onOpen();
+        console.log('something bad happened when trying to read your resume');
+      } else {
+
+        toast.error("Something went wrong with the AI connection, we were not able to read the resume you uploaded. please try again");
+      }
+    } finally {
+      router.refresh();
+    }
+  };
+
+  //
+  // file upload file input-related
 
   const ACCEPTED_FILE_TYPES = ".docx,.txt"; // .pdf not currently supported
   const [uploadedFileContents, setUploadedFileContents] = useState<string | null>(null);
   const [uploadedFileName, setUploadedFileName] = useState<string | null>(null);
-
-    // pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
 
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -135,7 +216,7 @@ const ResumeGeneratorPage = () => {
 
   const [subheadline, setSubheadline] = useState('Instant professional resume generation at your fingertips.');
 
-  const [topCtaButton, setTopCtaButton] = useState('Get instant access for $9.99');
+  const [topCtaButton, setTopCtaButton] = useState('Get Instant Access');
   const [buyButtonContent, setBuyButtonContent] = useState('Generate Resume');
 
   const current_time: any = new Date();
@@ -143,16 +224,57 @@ const ResumeGeneratorPage = () => {
   let differenceInMinutes = 0;
   let differenceInMilliseconds = 0;
 
+  // tracking if user has paid or not
   const paidQueryStringValue = 'xj3z01__022';
   let paidQueryString: string = ''; // pulled from query string parameter on successful payment redirect from stripe
   let payment_received: any = false;
   let hasPaid = false;
 
+  // resume generator download management
   let number_of_downloads: any = 0;
   const max_download_count = 10;
 
+  // form persistence
   let storedFormValues: any = {};
+
+  // file upload
+  let hasFileBeenSelectedByUser = false;
+  let fileHasBeenUploadedAndParsed = localStorage.getItem('file_has_been_uploaded_and_parsed') === 'true';
+  const [isGettingAiResponseForFileUploadProcess, setIsGettingAiResponseForFileUploadProcess] = useState(false);
+
   if (global?.window !== undefined) { // now it's safe to access window and localStorage
+
+    //
+    // manage file upload form prefilling
+    const convertUploadedFileToFormInputsUsingAiProcess = async () => {
+      console.log('convertUploadedFileToFormInputsUsingAiProcess()')
+      try {
+        const prefilledUserResData = await convertUploadedFileToFormInputsUsingAi(uploadedFileContents);
+        const responseObject = prefilledUserResData.data.content;
+        console.log({responseObject});
+
+        // prepopulate form fields with response
+        // todo...
+
+        // set flag to track that we've processed the resume
+        localStorage.setItem('file_has_been_uploaded_and_parsed', 'true');
+        setIsGettingAiResponseForFileUploadProcess(false);
+        console.log('form populated with rewritten resume and tracked');
+      } catch (error) {
+        console.log('Error processing resume: ', error);
+        setIsGettingAiResponseForFileUploadProcess(false);
+      }
+    };
+
+    hasFileBeenSelectedByUser = uploadedFileContents && uploadedFileContents.length > 0;
+    if (
+      !isGettingAiResponseForFileUploadProcess && hasFileBeenSelectedByUser && !fileHasBeenUploadedAndParsed) {
+      setIsGettingAiResponseForFileUploadProcess(true);
+      convertUploadedFileToFormInputsUsingAiProcess(); // fires
+    } else {
+      // console.log('skipping uploaded resume rewrite - file has already been processed or hasnt been uploaded yet');
+    }
+
 
     //
     // manage form persistence
@@ -163,7 +285,6 @@ const ResumeGeneratorPage = () => {
 
     //
     // Manage payment + download history so users can return to site
-
     payment_received = localStorage.getItem('pr_0012') === 'true';
     hasPaid = payment_received;
 
@@ -182,20 +303,19 @@ const ResumeGeneratorPage = () => {
 
     payment_date = localStorage.getItem('payment_date');
 
+    //
     // Timestamps
     const timestamp1: any = new Date(current_time);
     const timestamp2: any = new Date(payment_date);
 
     differenceInMilliseconds = timestamp1 - timestamp2;
     differenceInMinutes = differenceInMilliseconds / (1000 * 60);
-
     // console.log({hasPaid, timestamp1, timestamp2, payment_date, differenceInMinutes, number_of_downloads})
 
     number_of_downloads = Number(localStorage.getItem('x8u_000_vb_nod')); // 'number_of_downloads'
 
     let clearCache1 = hasPaid && (differenceInMinutes > 43200); // (30 days) // 360000); // 100 hours
     let clearCache2 = number_of_downloads > (max_download_count - 1);
-
     // console.log({clearCache1,clearCache2});
 
     if (clearCache1 || clearCache2) {
@@ -812,21 +932,13 @@ const ResumeGeneratorPage = () => {
 
     const stringifiedMappedFormValues = JSON.stringify(mappedFormValues);
 
-
-    // add AI-generated content for empty form fields
-    let fill_in_the_blank_phrase = fillInTheBlank // the form input
-      ? 'Add realistic content to sections that are blank (within reason).'
-      : 'If a secion does not exist, leave it blank.'
-    ;
-
-
     const promptString = `Persona: you are a expert resume writer with with years of experience improving resumes.
 Improve the verbiage, tone, and professionalism of the inputted content so it can be used in a resume.
 Rules:
 1. The output should maintain the exact same object structure of the original 'resume_object', meaning only the key properties' values should be modified.
 2. When necessary, fix any typos, sentence structure issues, and grammar problems.
 3. Capitalize proper nouns, and expand acronyms when necessary.
-4. ${fill_in_the_blank_phrase}
+4. If a section does not have content, you will usually leave it blank unless it makes sense to add detail.
 5. For 'resume_object.experiences' data, elaborate so most of the experience summary instances are at least 2 sentances.
 6. For 'resume_object.education' section, ensure school names are proper nonand clear.
 7. For 'resume_object.achievements' section, elaborate when necessary to explain context of achievement.
@@ -976,9 +1088,6 @@ ${stringifiedMappedFormValues}
 
   //
   //
-
-  // 'Fill in the blank' checkbox
-  const [fillInTheBlank, setFillInTheBlank] = useState<boolean>(false);
 
 
   //
@@ -1177,35 +1286,28 @@ ${stringifiedMappedFormValues}
 
 
 
-     {/*       <Tooltip
-              color="secondary"
-              content={"Don't worry, your inputs will still be here when you get back"}
-            >*/}
-               <Button
-                style={{
-                    position: 'absolute',
-                    maxWidth: '264px',
-                    backgroundColor: 'rgba(111, 90, 246, 0.97)',
-                    // backgroundColor: 'orange',
-                    right: '0',
-                    // bottom: '0',
-                    // marginBottom: '28px',
-                    // marginRight: '118px',
-                    top: '0',
-                    marginRight: '32px',
-                    marginTop: '32px',
-                    visibility: hasPaid ? 'hidden' : 'visible',
-                  }}
-                  className="col-span-6 w-full xs: hidden sm:hidden md:hidden lg:block"
-                  // className="col-span-12 lg:col-span-12 w-full"
-                  type="submit"
-                  // disabled={isLoading}
-                  size="icon"
-                  onClick={onClick}
-                  >
-                   {topCtaButton}
-                </Button>
-              {/*</Tooltip>*/}
+
+     <Button
+      style={{
+          position: 'absolute',
+          maxWidth: '232px',
+          backgroundColor: topCTAButtonIsHovered ? 'rgba(255, 159, 64, 0.97)' : 'rgba(255, 140, 0, 0.97)',
+          right: '0',
+          top: '0',
+          marginRight: '32px',
+          marginTop: '32px',
+          visibility: hasPaid ? 'hidden' : 'visible',
+        }}
+        className="col-span-6 w-full xs:hidden sm:hidden md:hidden lg:block"
+        type="submit"
+        size="icon"
+        onClick={onClick}
+        onMouseEnter={() => setTopCTAButtonIsHovered(true)}
+        onMouseLeave={() => setTopCTAButtonIsHovered(false)}
+      >
+         {topCtaButton}
+      </Button>
+
 
 
       <div className="px-4 lg:px-8">
@@ -1227,31 +1329,14 @@ ${stringifiedMappedFormValues}
               "
             >
 
-              {/* PERSONAL INFO  */}
-
-{/*              <FormField
-                name="fill_in_the_blank_phrase"
-                render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-4 border-2 rounded-lg border-gray-300">
-                    <FormControl className="m-0 p-2" >
-                      <Input
-
-                        className="border-0 outline-none  "
-                        disabled={isLoading}
-                        placeholder="Full name"
-                        {...field}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />*/}
 
 
-              {/* FILL IN THE BLANK   */}
+
+              {/* FILE UPLOAD   */}
 
 
               <FormItem
-                  className="col-span-12 lg:col-span-6"
+                  className="col-span-12 lg:col-span-4"
                   style={{
                     color: '#576574',
                     textAlign: 'left',
@@ -1265,95 +1350,57 @@ ${stringifiedMappedFormValues}
                       borderRadius: "8px",
                     }}
                     color="secondary"
-                    content={"Upload your current resume and automatically generate new content. Accepts .txt and .docx file types."}
+                    content={"Our AI assistant ingests your resume and begins to make improvements you can instantly see. Accepts .txt and .docx files."}
                   >
 
-                  <label style={{ fontWeight: "bold" }}>
-                    <input
-                      type="file"
-                      accept={ACCEPTED_FILE_TYPES}
-                      onChange={handleFileChange}
-                      style={{ display: "none" }}
-                      id="file-upload-input"
-                    />
-                    <label
-                      htmlFor="file-upload-input"
-                      style={{
-                        padding: "8px 16px",
-
-                        // border: "1px solid #ccc",
-                        borderRadius: "8px",
-                        color: "#ffffff",
-                        fontSize: "14px",
-                        display: "inline-block",
-                        cursor: "pointer",
-                        // backgroundColor: "#f0f0f0",
-                        backgroundColor: 'orange',
-
-                      }}
-                    >
-                      Upload Your Resume 🔥
-                    </label>
-                      {uploadedFileName &&
-                        <p style={{
-                          color: "black",
-                          fontSize: "12px",
-                          fontWeight: "normal",
-                        }}>{uploadedFileName}</p>
-                      }
-                  </label>
-
-                  {/*}
-                    <label
-                      style={{
-                        color: '#576574',
-                        verticalAlign: '-webkit-baseline-middle',
-                        marginLeft: '6px',
-                      }}
-                      className="text-sm"
-                    >
+                    <label style={{ fontWeight: "bold" }}>
                       <input
-                        name="checked" type="checkbox" checked={fillInTheBlank}
-                        onChange={e => setFillInTheBlank(!fillInTheBlank)} />
-                      &nbsp; Fill in the blank 🔥
+                        type="file"
+                        accept={ACCEPTED_FILE_TYPES}
+                        onChange={handleFileChange}
+                        style={{ display: "none" }}
+                        id="file-upload-input"
+                      />
+                      <label
+                        htmlFor="file-upload-input"
+                        style={{
+                          padding: "8px 16px",
+                          borderRadius: "8px",
+                          color: "#ffffff",
+                          fontSize: "14px",
+                          // fontWeight: "500",
+                          display: "inline-block",
+                          cursor: "pointer",
+                          backgroundColor: fileUploadButtonIsHovered ? 'rgba(90, 84, 236, 0.97)' : 'rgba(111, 90, 246, 0.97)',
+                        }}
+                        onMouseEnter={() => setFileUploadButtonIsHovered(true)}
+                        onMouseLeave={() => setFileUploadButtonIsHovered(false)}
+                      >
+                        Upload Your Resume 🔥
+                      </label>
+                        {uploadedFileName &&
+                          <p style={{
+                            color: "black !important",
+                            fontSize: "12px",
+                            fontWeight: "normal",
+                            paddingLeft: "8px",
+                          }}>{uploadedFileName}</p>
+                        }
                     </label>
-
-                    */}
                   </Tooltip>
                 </FormControl>
               </FormItem>
+              {isGettingAiResponseForFileUploadProcess && (
+                <div className="col-span-6 p-0 rounded-lg w-full flex items-left justify-center">
+                  <SimplerLoader />
+                </div>
+              )}
 
-              {/* FILE UPLOAD */}
-{/*
-              <FormItem className="col-span-12 lg:col-span-10">
-                 <FormControl className="m-0 p-2">
-                   <label style={{ fontWeight: "bold" }}>
-                     <input
-                       type="file"
-                       accept={ACCEPTED_FILE_TYPES}
-                       onChange={handleFileChange}
-                       style={{ display: "none" }}
-                       id="file-upload-input"
-                     />
-                     <label
-                       htmlFor="file-upload-input"
-                       style={{
-                         padding: "8px 16px",
-                         border: "1px solid #ccc",
-                         display: "inline-block",
-                         cursor: "pointer",
-                         backgroundColor: "#f0f0f0",
-                       }}
-                     >
-                       Upload Your Current Resume
-                     </label>
-                      {uploadedFileName && <pre>{uploadedFileName}</pre>}
-                   </label>
-                 </FormControl>
-               </FormItem>
- */}
 
-               {/* PERSONAL INFO  */}
+
+
+
+             {/* PERSONAL INFO  */}
 
               <FormItem className="col-span-12 lg:col-span-10">
                 <FormControl className="m-0 p-2">
@@ -2884,11 +2931,14 @@ ${stringifiedMappedFormValues}
                 disabled={isLoading}
                 style={{
                   float: 'left',
-                  backgroundColor: 'rgba(111, 90, 246, 0.97)',
+                  // backgroundColor: 'rgba(111, 90, 246, 0.97)',
+                  backgroundColor: formSubmitButtonIsHovered ? 'rgba(90, 84, 236, 0.97)' : 'rgba(111, 90, 246, 0.97)',
                   marginTop: '4px',
                  }}
                 size="icon"
                 id='submit'
+                onMouseEnter={() => setFormSubmitButtonIsHovered(true)}
+                onMouseLeave={() => setFormSubmitButtonIsHovered(false)}
                 >
                 {buyButtonContent}
               </Button>
