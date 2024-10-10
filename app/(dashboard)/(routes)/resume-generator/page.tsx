@@ -244,6 +244,13 @@ const ResumeGeneratorPage = () => {
   if (global?.window !== undefined) { // now it's safe to access window and localStorage
 
     //
+    // manage form persistence
+    let sfv = localStorage.getItem('stored_form_values') ?? '';
+    if (sfv && sfv.length) {
+      storedFormValues = JSON.parse(sfv);
+    }
+
+    //
     // manage file upload form prefilling
 
     let fileHasBeenUploadedAndParsed = localStorage.getItem('file_has_been_uploaded_and_parsed') === 'true';
@@ -257,6 +264,7 @@ const ResumeGeneratorPage = () => {
 
         // prepopulate form fields with response
         // todo...
+        // storedFormValues. = responseObject. ;
 
         // set flag to track that we've processed the resume
         localStorage.setItem('file_has_been_uploaded_and_parsed', 'true');
@@ -275,14 +283,6 @@ const ResumeGeneratorPage = () => {
       convertUploadedFileToFormInputsUsingAiProcess(); // fires
     } else {
       // console.log('skipping uploaded resume rewrite - file has already been processed or hasnt been uploaded yet');
-    }
-
-
-    //
-    // manage form persistence
-    let sfv = localStorage.getItem('stored_form_values') ?? '';
-    if (sfv && sfv.length) {
-      storedFormValues = JSON.parse(sfv);
     }
 
     //
