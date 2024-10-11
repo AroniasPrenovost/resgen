@@ -263,10 +263,11 @@ const ResumeGeneratorPage = () => {
         const responseObject = JSON.parse(prefilledUserResData.data.content);
 
         // prepopulate form fields with response
-        localStorage.setItem('stored_form_values', JSON.stringify(responseObject)); // does not seem to work
+        localStorage.setItem('stored_form_values', prefilledUserResData.data.content); // JSON.stringify(responseObject)); // does not seem to work
+        storedFormValues = responseObject;
         console.log({responseObject});
         console.log({storedFormValues})
-        // storedFormValues. = responseObject. ;
+        // storedFormValues.full_name = responseObject.full_name;
 
 
         // set flag to track that we've processed the resume
