@@ -340,14 +340,18 @@ const ResumeGeneratorPage = () => {
       console.log('convertUploadedFileToFormInputsUsingAiProcess()')
       try {
         const prefilledUserResData = await convertUploadedFileToFormInputsUsingAi(uploadedFileContents);
-        const responseObject = JSON.parse(prefilledUserResData.data.content);
-        // prepopulate form fields with response
-        localStorage.setItem('stored_form_values', JSON.stringify(responseObject));
-        storedFormValues = responseObject;
-        // set flag to track that we've processed the resume
-        localStorage.setItem('file_has_been_uploaded_and_parsed', 'true');
-        setIsGettingAiResponseForFileUploadProcess(false);
-        console.log('form populated with rewritten resume and tracked');
+        if (prefilledUserResData && prefilledUserResData.data && prefilledUserResData.data.content) {
+          const responseObject = JSON.parse(prefilledUserResData.data.content);
+          // prepopulate form fields with response
+          localStorage.setItem('stored_form_values', JSON.stringify(responseObject));
+          storedFormValues = responseObject;
+          // set flag to track that we've processed the resume
+          localStorage.setItem('file_has_been_uploaded_and_parsed', 'true');
+          setIsGettingAiResponseForFileUploadProcess(false);
+          console.log('form populated with rewritten resume and tracked');
+        } else {
+          setIsGettingAiResponseForFileUploadProcess(false);
+        }
       } catch (error) {
         console.log('Error processing resume: ', error);
         setIsGettingAiResponseForFileUploadProcess(false);
