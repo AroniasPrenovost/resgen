@@ -46,7 +46,7 @@ export async function POST(
       messages
     });
 
-    console.log('success');
+    // console.log('success');
     // console.log(response.data.choices[0].message);
 
     // if (!isPro) {
@@ -59,5 +59,3 @@ export async function POST(
     return new NextResponse("Internal Error", { status: 500 });
   }
 };
-
-
