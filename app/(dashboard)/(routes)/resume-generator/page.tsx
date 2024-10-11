@@ -220,7 +220,7 @@ const ResumeGeneratorPage = () => {
   // file upload file input-related
 
   const ACCEPTED_FILE_TYPES = ".docx,.txt"; // .pdf not currently supported
-  const [uploadedFileContents, setUploadedFileContents] = useState<string | null>(null);
+  const [uploadedFileContents, setUploadedFileContents] = useState<string>('');
   const [uploadedFileName, setUploadedFileName] = useState<string | null>(null);
 
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
