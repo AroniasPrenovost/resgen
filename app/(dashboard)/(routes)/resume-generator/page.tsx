@@ -288,13 +288,15 @@ const ResumeGeneratorPage = () => {
     }
   };
 
+
+
   //
   //
   // MANAGING PAYMENT HISTORY/CACHE
   //
   //
 
-  const [subheadline, setSubheadline] = useState('Instant professional resume generation at your fingertips.');
+  const [subheadline, setSubheadline] = useState('Professional resume writing at your fingertips. Upload your resume to get started.');
 
   const [topCtaButton, setTopCtaButton] = useState('Get Instant Access');
   const [buyButtonContent, setBuyButtonContent] = useState('Generate Resume');
@@ -320,6 +322,7 @@ const ResumeGeneratorPage = () => {
   // file upload
   let hasFileBeenSelectedByUser = false;
   let fileHasBeenUploadedAndParsed = false;
+  const [uploadedResumeDataConvertedToForm, setUploadedResumeDataConvertedToForm] = useState({});
   const [isGettingAiResponseForFileUploadProcess, setIsGettingAiResponseForFileUploadProcess] = useState(false);
 
   if (global?.window !== undefined) { // now it's safe to access window and localStorage
@@ -334,6 +337,7 @@ const ResumeGeneratorPage = () => {
     //
     // manage file upload form and prefilling inputs with response
 
+
     fileHasBeenUploadedAndParsed = localStorage.getItem('file_has_been_uploaded_and_parsed') === 'true';
 
     const convertUploadedFileToFormInputsUsingAiProcess = async () => {
@@ -345,6 +349,7 @@ const ResumeGeneratorPage = () => {
           // prepopulate form fields with response
           localStorage.setItem('stored_form_values', JSON.stringify(responseObject));
           storedFormValues = responseObject;
+          setUploadedResumeDataConvertedToForm(responseObject); // jump to '!! update form values once file is uploaded !!'
           // set flag to track that we've processed the resume
           localStorage.setItem('file_has_been_uploaded_and_parsed', 'true');
           setIsGettingAiResponseForFileUploadProcess(false);
@@ -359,13 +364,12 @@ const ResumeGeneratorPage = () => {
     };
 
     hasFileBeenSelectedByUser = uploadedFileContents && uploadedFileContents.length > 0 ? true : false;
-
     // console.log({isGettingAiResponseForFileUploadProcess, hasFileBeenSelectedByUser, fileHasBeenUploadedAndParsed})
 
     if (
       !isGettingAiResponseForFileUploadProcess && hasFileBeenSelectedByUser && !fileHasBeenUploadedAndParsed) {
       setIsGettingAiResponseForFileUploadProcess(true);
-      convertUploadedFileToFormInputsUsingAiProcess(); // fires
+      convertUploadedFileToFormInputsUsingAiProcess();
     } else {
       // console.log('skipping uploaded resume rewrite - file has already been processed or hasnt been uploaded yet');
     }
@@ -412,6 +416,7 @@ const ResumeGeneratorPage = () => {
       localStorage.setItem('x8u_000_vb_nod', '0'); // 'number_of_downloads'
     }
   }
+
 
   //
   //
@@ -527,9 +532,192 @@ const ResumeGeneratorPage = () => {
   const isLoading = form.formState.isSubmitting;
 
 
+
+  //
+  // file upload form writing
+  const typeText = (text: string, callback: (typedText: string) => void) => {
+    let index = 0;
+    const interval = setInterval(() => {
+      if (index < text.length) {
+        callback(text.slice(0, index + 1));
+        index++;
+      } else {
+        clearInterval(interval);
+      }
+    }, 90); // Adjust typing speed here
+  };
+
+  // !! update form values once file is uploaded !!
+  useEffect(() => {
+    // form.reset(uploadedResumeDataConvertedToForm);
+
+    // trigger iterate through form fields animation
+    const fields = Object.keys(uploadedResumeDataConvertedToForm);
+    fields.forEach((field, index) => {
+      if (uploadedResumeDataConvertedToForm[field]) {
+        setTimeout(function(){
+          typeText(uploadedResumeDataConvertedToForm[field], (typedText) => {
+            form.setValue(field as keyof z.infer<typeof formSchema>, typedText);
+          });
+        }, 850 * (index + 1));
+      }
+    });
+
+    if (storedFormValues.job_1_employer) {
+      if (
+        storedFormValues.job_1_employer.length ||
+        storedFormValues.job_1_title.length ||
+        storedFormValues.job_1_start_month.length ||
+        storedFormValues.job_1_start_year.length ||
+        storedFormValues.job_1_end_month.length  ||
+        storedFormValues.job_1_end_year.length ||
+        storedFormValues.job_1_summary.length
+      ) {
+        setJob1Visibility(true);
+      }
+    }
+
+    if (storedFormValues.job_2_employer) {
+      if (
+        storedFormValues.job_2_employer.length ||
+        storedFormValues.job_2_title.length ||
+        storedFormValues.job_2_start_month.length ||
+        storedFormValues.job_2_start_year.length ||
+        storedFormValues.job_2_end_month.length  ||
+        storedFormValues.job_2_end_year.length ||
+        storedFormValues.job_2_summary.length
+      ) {
+        setJob2Visibility(true);
+      }
+    }
+
+    if (storedFormValues.job_3_employer) {
+      if (
+        storedFormValues.job_3_employer.length ||
+        storedFormValues.job_3_title.length ||
+        storedFormValues.job_3_start_month.length ||
+        storedFormValues.job_3_start_year.length ||
+        storedFormValues.job_3_end_month.length  ||
+        storedFormValues.job_3_end_year.length ||
+        storedFormValues.job_3_summary.length
+      ) {
+        setJob3Visibility(true);
+      }
+    }
+
+    if (storedFormValues.job_4_employer) {
+      if (
+        storedFormValues.job_4_employer.length ||
+        storedFormValues.job_4_title.length ||
+        storedFormValues.job_4_start_month.length ||
+        storedFormValues.job_4_start_year.length ||
+        storedFormValues.job_4_end_month.length  ||
+        storedFormValues.job_4_end_year.length ||
+        storedFormValues.job_4_summary.length
+      ) {
+        setJob4Visibility(true);
+      }
+    }
+
+    if (storedFormValues.job_5_employer) {
+      if (
+        storedFormValues.job_5_employer.length ||
+        storedFormValues.job_5_title.length ||
+        storedFormValues.job_5_start_month.length ||
+        storedFormValues.job_5_start_year.length ||
+        storedFormValues.job_5_end_month.length  ||
+        storedFormValues.job_5_end_year.length ||
+        storedFormValues.job_5_summary.length
+      ) {
+        setJob5Visibility(true);
+      }
+    }
+
+    if (storedFormValues.job_6_employer) {
+      if (
+        storedFormValues.job_6_employer.length ||
+        storedFormValues.job_6_title.length ||
+        storedFormValues.job_6_start_month.length ||
+        storedFormValues.job_6_start_year.length ||
+        storedFormValues.job_6_end_month.length  ||
+        storedFormValues.job_6_end_year.length ||
+        storedFormValues.job_6_summary.length
+      ) {
+        setJob6Visibility(true);
+      }
+    }
+
+    // education
+    if (
+      storedFormValues.college_name_1 ||
+      storedFormValues.college_degree_1 ||
+      storedFormValues.college_field_of_study_1 ||
+      storedFormValues.college_notes_1 ||
+      storedFormValues.college_start_year_1 ||
+      storedFormValues.college_end_year_1
+    ) {
+      setEducation1Visibility(true);
+    }
+
+    if (
+      storedFormValues.college_name_2 ||
+      storedFormValues.college_degree_2 ||
+      storedFormValues.college_field_of_study_2 ||
+      storedFormValues.college_notes_2 ||
+      storedFormValues.college_start_year_2 ||
+      storedFormValues.college_end_year_2
+    ) {
+      setEducation2Visibility(true);
+    }
+
+    if (
+      storedFormValues.college_name_3 ||
+      storedFormValues.college_degree_3 ||
+      storedFormValues.college_field_of_study_3 ||
+      storedFormValues.college_notes_3 ||
+      storedFormValues.college_start_year_3 ||
+      storedFormValues.college_end_year_3
+    ) {
+      setEducation3Visibility(true);
+    }
+
+    // civic
+    if (
+      storedFormValues.achievement_1_issuer ||
+      storedFormValues.achievement_1_name
+    ) {
+      setCivic1Visibility(true);
+    }
+
+    if (
+      storedFormValues.achievement_2_issuer ||
+      storedFormValues.achievement_2_name
+    ) {
+      setCivic2Visibility(true);
+    }
+
+    if (
+      storedFormValues.achievement_3_name ||
+      storedFormValues.achievement_3_issuer
+    ) {
+      setCivic3Visibility(true);
+    }
+
+    // references
+    if (
+      storedFormValues.reference_1_info ||
+      storedFormValues.reference_2_info ||
+      storedFormValues.reference_3_info ||
+      storedFormValues.reference_4_info
+    ) {
+      setReferences1Visibility(true);
+    }
+  }, [uploadedResumeDataConvertedToForm]);
+
+
   //
   //
-  // self-explanatory
+  // formatting form data to word doc data structure
   //
   //
 
@@ -1370,8 +1558,6 @@ ${stringifiedMappedFormValues}
         iconColor="text-violet-500"
         bgColor="bg-violet-500/10"
       />
-
-
 
 
      <Button
