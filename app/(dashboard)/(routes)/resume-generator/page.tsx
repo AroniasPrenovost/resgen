@@ -360,7 +360,7 @@ const ResumeGeneratorPage = () => {
 
     hasFileBeenSelectedByUser = uploadedFileContents && uploadedFileContents.length > 0 ? true : false;
 
-    console.log({isGettingAiResponseForFileUploadProcess, hasFileBeenSelectedByUser, fileHasBeenUploadedAndParsed})
+    // console.log({isGettingAiResponseForFileUploadProcess, hasFileBeenSelectedByUser, fileHasBeenUploadedAndParsed})
 
     if (
       !isGettingAiResponseForFileUploadProcess && hasFileBeenSelectedByUser && !fileHasBeenUploadedAndParsed) {
