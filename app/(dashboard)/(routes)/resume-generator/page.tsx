@@ -76,12 +76,14 @@ const ResumeGeneratorPage = () => {
   //
   //
 
+
+
   const convertUploadedFileToFormInputsUsingAi = async(fileContents: string) => {
     console.log('convertUploadedFileToFormInputsUsingAi()');
     // make API call
     // const promptString = "Generate me the fibonacci sequence in js";
     const promptString = `Persona: you are a expert resume writer with with years of experience improving resumes.
-    Improve the verbiage, tone, and professionalism of the inputted content (${fileContents}) and map it to our desired data structure.
+    Improve the verbiage, tone, and professionalism of the inputted content (${fileContents}) and map it to our desired 'resume_object' structure.
     Rules:
     1. The output should maintain the exact same object structure of the original 'resume_object', meaning only the key properties' values should be modified.
     2. When necessary, fix any typos, sentence structure issues, and grammar problems.
@@ -95,7 +97,85 @@ const ResumeGeneratorPage = () => {
     10. The outputted content should be a markedly improved version of the input.
     11. The outputted result should only be a string-ified version of the 'resume_object'.
     resume_object:
-    ${JSON.stringify(storedFormValues)}
+    {
+      "full_name": "",
+      "email_address": "",
+      "phone_number": "",
+      "personal_website": "",
+      "linkedin_profile": "",
+      "interests": "",
+      "skills": "",
+      "job_1_employer": "",
+      "job_1_title": "",
+      "job_1_start_month": "",
+      "job_1_start_year": "",
+      "job_1_end_month": "",
+      "job_1_end_year": "",
+      "job_1_summary": "",
+      "job_2_employer": "",
+      "job_2_title": "",
+      "job_2_start_month": "",
+      "job_2_start_year": "",
+      "job_2_end_month": "",
+      "job_2_end_year": "",
+      "job_2_summary": "",
+      "job_3_employer": "",
+      "job_3_title": "",
+      "job_3_start_month": "",
+      "job_3_start_year": "",
+      "job_3_end_month": "",
+      "job_3_end_year": "",
+      "job_3_summary": "",
+      "job_4_employer": "",
+      "job_4_title": "",
+      "job_4_start_month": "",
+      "job_4_start_year": "",
+      "job_4_end_month": "",
+      "job_4_end_year": "",
+      "job_4_summary": "",
+      "job_5_employer": "",
+      "job_5_title": "",
+      "job_5_start_month": "",
+      "job_5_start_year": "",
+      "job_5_end_month": "",
+      "job_5_end_year": "",
+      "job_5_summary": "",
+      "job_6_employer": "",
+      "job_6_title": "",
+      "job_6_start_month": "",
+      "job_6_start_year": "",
+      "job_6_end_month": "",
+      "job_6_end_year": "",
+      "job_6_summary": "",
+      "college_name_1": "",
+      "college_degree_1": "",
+      "college_field_of_study_1": "",
+      "college_notes_1": "",
+      "college_start_year_1": "",
+      "college_end_year_1": "",
+      "college_name_2": "",
+      "college_degree_2": "",
+      "college_field_of_study_2": "",
+      "college_notes_2": "",
+      "college_start_year_2": "",
+      "college_end_year_2": "",
+      "college_name_3": "",
+      "college_degree_3": "",
+      "college_field_of_study_3": "",
+      "college_notes_3": "",
+      "college_start_year_3": "",
+      "college_end_year_3": "",
+      "achievement_1_issuer": "",
+      "achievement_1_name": "",
+      "achievement_2_issuer": "",
+      "achievement_2_name": "",
+      "achievement_3_issuer": "",
+      "achievement_3_name": "",
+      "reference_1_info": "",
+      "reference_2_info": "",
+      "reference_3_info": "",
+      "reference_4_info": ""
+  }
         `;
 
         // console.log('prompt string');
@@ -252,7 +332,7 @@ const ResumeGeneratorPage = () => {
     }
 
     //
-    // manage file upload form prefilling
+    // manage file upload form and prefilling inputs with response
 
     fileHasBeenUploadedAndParsed = localStorage.getItem('file_has_been_uploaded_and_parsed') === 'true';
 
@@ -261,15 +341,9 @@ const ResumeGeneratorPage = () => {
       try {
         const prefilledUserResData = await convertUploadedFileToFormInputsUsingAi(uploadedFileContents);
         const responseObject = JSON.parse(prefilledUserResData.data.content);
-
         // prepopulate form fields with response
-        localStorage.setItem('stored_form_values', prefilledUserResData.data.content); // JSON.stringify(responseObject)); // does not seem to work
+        localStorage.setItem('stored_form_values', JSON.stringify(responseObject));
         storedFormValues = responseObject;
-        console.log({responseObject});
-        console.log({storedFormValues})
-        // storedFormValues.full_name = responseObject.full_name;
-
-
         // set flag to track that we've processed the resume
         localStorage.setItem('file_has_been_uploaded_and_parsed', 'true');
         setIsGettingAiResponseForFileUploadProcess(false);
