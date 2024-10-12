@@ -1622,8 +1622,8 @@ ${stringifiedMappedFormValues}
                     style={{
                       borderRadius: "8px",
                     }}
-                    color="secondary"
-                    content={"Our AI assistant ingests your resume and begins to make improvements you can instantly see. Accepts .txt and .docx files."}
+                    color="primary"
+                    content={fileHasBeenUploadedAndParsed ? "You have run out of free rewrites. Get unlimited access for $9.99." : "Our AI assistant ingests your resume and begins to make improvements you can instantly see. Accepts .txt and .docx files."}
                   >
 
                     <label style={{ fontWeight: "bold" }}>
@@ -1633,6 +1633,7 @@ ${stringifiedMappedFormValues}
                         onChange={handleFileChange}
                         style={{ display: "none" }}
                         id="file-upload-input"
+                        disabled={fileHasBeenUploadedAndParsed}
                       />
                       <label
                         htmlFor="file-upload-input"
@@ -1644,10 +1645,11 @@ ${stringifiedMappedFormValues}
                           fontWeight: "400",
                           display: "inline-block",
                           cursor: "pointer",
-                          backgroundColor: fileUploadButtonIsHovered ? 'rgba(90, 84, 236, 0.97)' : 'rgba(111, 90, 246, 0.97)',
+                          backgroundColor: fileHasBeenUploadedAndParsed ? 'grey' : fileUploadButtonIsHovered ? 'rgba(90, 84, 236, 0.97)' : 'rgba(111, 90, 246, 0.97)',
                         }}
                         onMouseEnter={() => setFileUploadButtonIsHovered(true)}
                         onMouseLeave={() => setFileUploadButtonIsHovered(false)}
+
                       >
                         Upload Your Resume 🔥
                       </label>
