@@ -43,9 +43,8 @@ export const LandingHero = () => {
           </Button>
         </Link>
       </div>
-      <div className="text-zinc-400 text-xs md:text-sm font-normal p-4">
-        <b>How does it work?</b> You provide as much (or as little) info as you want, and our AI assistant<br/>
-        <b>instantly</b> generates a professional resume that is tailored to your skillset <em>and</em> optimized for ATS systems (applicant tracking software).
+      <div className="text-zinc-400 text-xs md:text-sm font-normal p-4 m-23">
+        <b>How does it work?</b><br/><br />Upload your existing resume, and our AI assistant <b>instantly</b> starts adding improvements to highlight your skills while <em>optimizing</em> for ATS systems (applicant tracking software).
       </div>
     </div>
   );

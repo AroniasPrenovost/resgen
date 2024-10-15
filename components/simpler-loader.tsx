@@ -13,7 +13,7 @@ export const SimplerLoader = () => {
       index = (index + 1) % loadingStates.length;
       let text = prefix + loadingStates[index];
       setLoadingText(text);
-    }, 850);
+    }, 650);
 
     // Cleanup interval on component unmount
     return () => clearInterval(interval);

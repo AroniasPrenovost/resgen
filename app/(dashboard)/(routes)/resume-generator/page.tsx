@@ -3201,14 +3201,14 @@ ${stringifiedMappedFormValues}
               */}
 
               <Button
-                className="col-span-6 lg:col-span-6 w-full"
+                className="col-span-6 lg:col-span-2 w-full"
                 // className="col-span-12 lg:col-span-12 w-full"
                 type="submit"
                 disabled={isLoading}
                 style={{
                   float: 'left',
                   // backgroundColor: 'rgba(111, 90, 246, 0.97)',
-                  backgroundColor: formSubmitButtonIsHovered ? 'rgba(90, 84, 236, 0.97)' : 'rgba(111, 90, 246, 0.97)',
+                  backgroundColor: formSubmitButtonIsHovered ? 'rgba(255, 159, 64, 0.97)' : 'rgba(255, 140, 0, 0.97)',
                   marginTop: '4px',
                  }}
                 size="icon"
