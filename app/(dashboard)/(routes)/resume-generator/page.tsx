@@ -3216,8 +3216,8 @@ ${stringifiedMappedFormValues}
                 onMouseEnter={() => setFormSubmitButtonIsHovered(true)}
                 onMouseLeave={() => setFormSubmitButtonIsHovered(false)}
                 >
-                <span className="mr-2">Finish </span>
-                <Image width={20} height={20} alt="Stripe logo" src="/stripee.png" />
+                <span className="mr-2">Generate Resume</span>
+                <Image width={20} height={20} alt="Stripe logo" src="/stripe.png" />
               </Button>
 
 
