@@ -84,19 +84,20 @@ export const Sidebar = ({
           ))}
 
            <div className="space-y-1" style={{paddingTop: '24px', padding: '8px', fontSize: '14px'}}>
-              <b style={{fontSize: '18px', marginBottom: '20px !important', marginTop: '20px'}}>How It Works:</b><br/>
+              <b style={{fontSize: '18px', marginBottom: '20px !important', marginTop: '20px'}}>How Does It Work?</b><br/>
               <ol>
          {/*       <li><b>1. </b><b style={{color:"orange"}}>$3.99</b> gets you access for 30 days.</li>
                   <br/>*/}
-                <li><b>1. </b>Upload your current resume (or enter your experience manually).</li>
+                <li><b>1. </b>Upload your current resume (or enter it manually).</li>
                 <br/>
                 <li><b>2. </b>Watch the AI assistant analyze and improve your writing in real time.</li>
                 <br/>
-                <li><b>3. </b>Generate a finalized copy of your new resume.</li>
+                <li><b>3. </b>Our AI system does a final revision before generating your resume file.</li>
                 <br/>
-                <li> A <b>single</b> payment of <b style={{ color: "orange"}}>$9.99</b> gets you <b>30</b> days of access to the tool, which includes <em>real</em> human chat support and resume review.</li>
+                <li> A <b>single</b> payment of <b style={{ color: "orange"}}>$9.99</b> gets you <b>30</b> days of access to the tool and unlimited downloads.</li>
+
                 <br/>
-                <li><em>Pro tip:</em> If you do not own Microsoft Word, you can upload your resume file to <Link className={cn(
+                <li><em>Pro tip:</em> If you do not have Microsoft Word, you can upload your resume file to <Link className={cn(
                   "hover:text-white transition",
                    "text-zinc-400",
                 )} target="_blank" rel="noopener noreferrer" href="https://drive.google.com/drive/home">Google Drive</Link>.

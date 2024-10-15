@@ -9,6 +9,8 @@ import { toast } from "react-hot-toast";
 import { useRouter, usePathname, redirect, useSearchParams } from "next/navigation";
 import { ChatCompletionRequestMessage } from "openai";
 
+import Image from "next/image"
+
 import { Tooltip } from '@nextui-org/react';
 import { BotAvatar } from "@/components/bot-avatar";
 import { Heading } from "@/components/heading";
@@ -66,7 +68,7 @@ const ResumeGeneratorPage = () => {
   // CTA button hover states
   //
 
-  const [topCTAButtonIsHovered, setTopCTAButtonIsHovered] = useState(false);
+  // const [topCTAButtonIsHovered, setTopCTAButtonIsHovered] = useState(false);
   const [fileUploadButtonIsHovered, setFileUploadButtonIsHovered] = useState(false);
   const [formSubmitButtonIsHovered, setFormSubmitButtonIsHovered] = useState(false);
 
@@ -296,7 +298,7 @@ const ResumeGeneratorPage = () => {
   //
   //
 
-  const [subheadline, setSubheadline] = useState('Professional resume writing at your fingertips. Upload your resume to get started.');
+  const [subheadline, setSubheadline] = useState('Professional resume writing at your fingertips. Upload your resume and get started.');
 
   const [topCtaButton, setTopCtaButton] = useState('Get Instant Access');
   const [buyButtonContent, setBuyButtonContent] = useState('Generate Resume');
@@ -1560,6 +1562,8 @@ ${stringifiedMappedFormValues}
       />
 
 
+{/*
+
      <Button
       style={{
           position: 'absolute',
@@ -1581,7 +1585,7 @@ ${stringifiedMappedFormValues}
          {topCtaButton}
       </Button>
 
-
+*/}
 
       <div className="px-4 lg:px-8">
         <div>
@@ -3192,13 +3196,10 @@ ${stringifiedMappedFormValues}
 
               {/*
 
-                Download Button
+                Generate / 'purchase' button (variant #1)
 
               */}
-       {/*    <Tooltip
-              color="secondary"
-              content={"Don't worry, your inputs will still be here when you get back"}
-            >*/}
+
               <Button
                 className="col-span-6 lg:col-span-6 w-full"
                 // className="col-span-12 lg:col-span-12 w-full"
@@ -3215,9 +3216,16 @@ ${stringifiedMappedFormValues}
                 onMouseEnter={() => setFormSubmitButtonIsHovered(true)}
                 onMouseLeave={() => setFormSubmitButtonIsHovered(false)}
                 >
-                {buyButtonContent}
+                <span className="mr-2">Finish </span>
+                <Image width={20} height={20} alt="Stripe logo" src="/stripee.png" />
               </Button>
-                 {/*</Tooltip>*/}
+
+
+              {/*
+
+                Generate / 'purchase' button (variant #2)
+
+              */}
 
 
             </form>
