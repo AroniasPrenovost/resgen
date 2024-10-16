@@ -1646,7 +1646,7 @@ ${stringifiedMappedFormValues}
                           borderRadius: "8px",
                           color: "#ffffff",
                           fontSize: "14px",
-                          fontWeight: "400",
+                          fontWeight: "500",
                           display: "inline-block",
                           cursor: "pointer",
                           backgroundColor: fileHasBeenUploadedAndParsed ? 'grey' : fileUploadButtonIsHovered ? 'rgba(255, 159, 64, 0.97)' : 'rgba(255, 140, 0, 0.97)',
@@ -3217,7 +3217,7 @@ ${stringifiedMappedFormValues}
                   onMouseEnter={() => setFormSubmitButtonIsHovered(true)}
                   onMouseLeave={() => setFormSubmitButtonIsHovered(false)}
                   >
-                  <span className="mr-2">Generate Resume</span>
+                  <span className="mr-2">Generate New Resume</span>
                 {/*
 
                   <Image width={20} height={20} alt="Stripe logo" src="/stripe.png" />
@@ -3225,7 +3225,7 @@ ${stringifiedMappedFormValues}
                 */}
 
                 </Button>
-       
+
 
               {/*
 
