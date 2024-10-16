@@ -1627,7 +1627,7 @@ ${stringifiedMappedFormValues}
                       borderRadius: "8px",
                     }}
                     color="secondary"
-                    content={fileHasBeenUploadedAndParsed ? "You have run out of free rewrites. Get unlimited access for $9.99." : "Upload your resume and instantly see the AI assistant make improvements. Requires .txt or .docx file formats."}
+                    content={fileHasBeenUploadedAndParsed ? "You have run out of free rewrites. Get unlimited access for $9.99." : "Upload your resume and watch the AI assistant begin to make improvements. Requires .txt or .docx file formats."}
                   >
 
                     <label style={{ fontWeight: "bold" }}>
