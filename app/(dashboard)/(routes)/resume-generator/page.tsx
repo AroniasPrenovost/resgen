@@ -1626,8 +1626,8 @@ ${stringifiedMappedFormValues}
                     style={{
                       borderRadius: "8px",
                     }}
-                    color="primary"
-                    content={fileHasBeenUploadedAndParsed ? "You have run out of free rewrites. Get unlimited access for $9.99." : "Our AI assistant ingests your resume and begins to make improvements you can instantly see. Accepts .txt and .docx files."}
+                    color="secondary"
+                    content={fileHasBeenUploadedAndParsed ? "You have run out of free rewrites. Get unlimited access for $9.99." : "Upload your resume and watch the AI assistant begin to make improvements. Accepts .txt and .docx files."}
                   >
 
                     <label style={{ fontWeight: "bold" }}>
@@ -1649,13 +1649,13 @@ ${stringifiedMappedFormValues}
                           fontWeight: "400",
                           display: "inline-block",
                           cursor: "pointer",
-                          backgroundColor: fileHasBeenUploadedAndParsed ? 'grey' : fileUploadButtonIsHovered ? 'rgba(90, 84, 236, 0.97)' : 'rgba(111, 90, 246, 0.97)',
+                          backgroundColor: fileHasBeenUploadedAndParsed ? 'grey' : fileUploadButtonIsHovered ? 'rgba(255, 159, 64, 0.97)' : 'rgba(255, 140, 0, 0.97)',
                         }}
                         onMouseEnter={() => setFileUploadButtonIsHovered(true)}
                         onMouseLeave={() => setFileUploadButtonIsHovered(false)}
 
                       >
-                        Upload Your Resume 🔥
+                        Upload Your Resume
                       </label>
                         {uploadedFileName &&
                           <p style={{
@@ -3200,26 +3200,32 @@ ${stringifiedMappedFormValues}
 
               */}
 
-              <Button
-                className="col-span-6 lg:col-span-2 w-full"
-                // className="col-span-12 lg:col-span-12 w-full"
-                type="submit"
-                disabled={isLoading}
-                style={{
-                  float: 'left',
-                  // backgroundColor: 'rgba(111, 90, 246, 0.97)',
-                  backgroundColor: formSubmitButtonIsHovered ? 'rgba(255, 159, 64, 0.97)' : 'rgba(255, 140, 0, 0.97)',
-                  marginTop: '4px',
-                 }}
-                size="icon"
-                id='submit'
-                onMouseEnter={() => setFormSubmitButtonIsHovered(true)}
-                onMouseLeave={() => setFormSubmitButtonIsHovered(false)}
-                >
-                <span className="mr-2">Generate Resume</span>
-                <Image width={20} height={20} alt="Stripe logo" src="/stripe.png" />
-              </Button>
 
+                <Button
+                  className="col-span-5 lg:col-span-5 w-full"
+                  // className="col-span-12 lg:col-span-12 w-full"
+                  type="submit"
+                  disabled={isLoading}
+                  style={{
+                    float: 'left',
+                    // backgroundColor: 'rgba(111, 90, 246, 0.97)',
+                    backgroundColor: formSubmitButtonIsHovered ? 'rgba(90, 84, 236, 0.97)' : 'rgba(111, 90, 246, 0.97)',
+                    marginTop: '4px',
+                   }}
+                  size="icon"
+                  id='submit'
+                  onMouseEnter={() => setFormSubmitButtonIsHovered(true)}
+                  onMouseLeave={() => setFormSubmitButtonIsHovered(false)}
+                  >
+                  <span className="mr-2">Generate Resume</span>
+                {/*
+
+                  <Image width={20} height={20} alt="Stripe logo" src="/stripe.png" />
+
+                */}
+
+                </Button>
+       
 
               {/*
 

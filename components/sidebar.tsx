@@ -92,7 +92,7 @@ export const Sidebar = ({
                 <br/>
                 <li><b>2. </b>Watch the AI assistant analyze and improve your writing in real time.</li>
                 <br/>
-                <li><b>3. </b>Our AI system does a final revision before generating your resume file.</li>
+                <li><b>3. </b>The AI assistant performs one last round of revision before generating your resume file.</li>
                 <br/>
                 <li> A <b>single</b> payment of <b style={{ color: "orange"}}>$9.99</b> gets you <b>30</b> days of access to the tool and unlimited downloads.</li>
 
