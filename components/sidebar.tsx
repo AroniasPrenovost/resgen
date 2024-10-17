@@ -100,44 +100,47 @@ export const Sidebar = ({
                 <li><b>3. </b> A single payment of <b style={{ color: "orange"}}>$9.99</b> gets you <b>30</b> days of access to the tool and unlimited downloads.</li>
 
                 <br/>
-                <li><em>Pro tip:</em> If you do not have Microsoft Word, you can upload your resume file to <Link className={cn(
-                  "hover:text-white transition",
-                   "text-zinc-400",
-                )} target="_blank" rel="noopener noreferrer" href="https://drive.google.com/drive/home">Google Drive</Link>.
-                {/*to access and modify formatting*/}
-
-               <div style={{
-                 display: !isResumeGeneratorPage ? 'none' : 'block',
-               }}>
-                <div className="relative ml-0 mt-5">
-                  <Link className={cn(
-                  "hover:text-white transition",
-                  "text-zinc-400",
-                )} title="Sample Resume" target="_blank" href="/example_resume.png">View a sample resume</Link>
-                </div>
-
-
-                 <div className="relative h-60 w-60 ml-0 mt-2">
-                  <Link className={cn(
+                <li>
+                  <em>Pro tip:</em> If you do not have Microsoft Word, you can upload your resume file to <Link className={cn(
                     "hover:text-white transition",
-                    "text-zinc-400",
-                    )} title="Example Resume" target="_blank" href="/example_resume.png">
-                     <Image fill alt="Sample Resume" src="/example_resume.png" />
-                   </Link>
-                 </div>
-                </div>
+                     "text-zinc-400",
+                  )} target="_blank" rel="noopener noreferrer" href="https://drive.google.com/drive/home">Google Drive</Link>.
+                  {/*to access and modify formatting*/}
 
-                <br/>
-                <br/>
+        {/*
+                  <div style={{
+                     display: !isResumeGeneratorPage ? 'none' : 'block',
+                   }}>
+                    <div className="relative ml-0 mt-5">
+                      <Link className={cn(
+                      "hover:text-white transition",
+                      "text-zinc-400",
+                    )} title="Sample Resume" target="_blank" href="/example_resume.png">View a sample resume</Link>
+                    </div>
 
-                  <b>
-                    <Link style={{
-                       display: isResumeGeneratorPage ? 'none' : 'block',
-                       }} className={cn("text-orange-400 hover:underline",
-                      )} href="/resume-generator">Get Started!
-                   </Link>
-                 </b>
 
+                     <div className="relative h-60 w-60 ml-0 mt-2">
+                      <Link className={cn(
+                        "hover:text-white transition",
+                        "text-zinc-400",
+                        )} title="Example Resume" target="_blank" href="/example_resume.png">
+                         <Image fill alt="Sample Resume" src="/example_resume.png" />
+                       </Link>
+                     </div>
+                  </div>
+
+          */}
+
+                  <br/>
+                  <br/>
+
+                    <b>
+                      <Link style={{
+                         display: isResumeGeneratorPage ? 'none' : 'block',
+                         }} className={cn("text-orange-400 hover:underline",
+                        )} href="/resume-generator">Get Started!
+                     </Link>
+                   </b>
                 </li>
               </ol>
           </div>
