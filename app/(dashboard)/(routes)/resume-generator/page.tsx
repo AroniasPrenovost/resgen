@@ -556,12 +556,14 @@ const ResumeGeneratorPage = () => {
     // trigger iterate through form fields animation
     const fields = Object.keys(uploadedResumeDataConvertedToForm);
     fields.forEach((field, index) => {
-      if (uploadedResumeDataConvertedToForm[field]) {
-        setTimeout(function(){
-          typeText(uploadedResumeDataConvertedToForm[field], (typedText) => {
-            form.setValue(field as keyof z.infer<typeof formSchema>, typedText);
-          });
-        }, 850 * (index + 1));
+      if (field && index && uploadedResumeDataConvertedToForm) {
+        if (uploadedResumeDataConvertedToForm[field]) {
+          setTimeout(function(){
+            typeText(uploadedResumeDataConvertedToForm[field], (typedText) => {
+              form.setValue(field as keyof z.infer<typeof formSchema>, typedText);
+            });
+          }, 850 * (index + 1));
+        }  
       }
     });
 
