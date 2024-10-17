@@ -88,13 +88,16 @@ export const Sidebar = ({
               <ol>
          {/*       <li><b>1. </b><b style={{color:"orange"}}>$3.99</b> gets you access for 30 days.</li>
                   <br/>*/}
-                <li><b>1. </b>Upload your current resume (or enter it manually).</li>
+                <li><b>1. </b>Upload your current resume (or enter information manually).</li>
                 <br/>
-                <li><b>2. </b>Watch the AI assistant analyze and improve your writing in real time.</li>
+                <li><b>2. </b>ResumAI assistant analyzes and improves the document in real time.</li>
                 <br/>
-                <li><b>3. </b>The AI assistant performs one last round of revision before generating your resume file.</li>
-                <br/>
-                <li> A <b>single</b> payment of <b style={{ color: "orange"}}>$9.99</b> gets you <b>30</b> days of access to the tool and unlimited downloads.</li>
+                {/*
+                    <li><b>3. </b>The AI assistant performs one last round of revision before generating your resume file.</li>
+                          <br/>
+                */}
+
+                <li><b>3. </b> A single payment of <b style={{ color: "orange"}}>$9.99</b> gets you <b>30</b> days of access to the tool and unlimited downloads.</li>
 
                 <br/>
                 <li><em>Pro tip:</em> If you do not have Microsoft Word, you can upload your resume file to <Link className={cn(
