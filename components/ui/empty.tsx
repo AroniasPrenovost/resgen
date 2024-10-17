@@ -28,7 +28,7 @@ export const Empty = ({ label }: EmptyProps) => {
                 width={30}
                 height={30}
                 alt="Stripe logo"
-                src="/stripe.png"
+                src="/stripe-logo.png"
                 className="inline-block ml-1"
                 style={{
                   marginTop: "2px",
