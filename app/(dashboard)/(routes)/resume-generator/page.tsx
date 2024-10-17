@@ -3215,7 +3215,7 @@ ${stringifiedMappedFormValues}
                   onMouseEnter={() => setFormSubmitButtonIsHovered(true)}
                   onMouseLeave={() => setFormSubmitButtonIsHovered(false)}
                   >
-                  <span className="mr-2">Generate New Resume</span>
+                   Generate New Resume 
                 {/*
 
                   <Image width={20} height={20} alt="Stripe logo" src="/stripe.png" />
