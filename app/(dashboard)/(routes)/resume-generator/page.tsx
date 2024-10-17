@@ -550,11 +550,6 @@ const ResumeGeneratorPage = () => {
     }, 90); // Adjust typing speed here
   };
 
-  // Define the type for uploadedResumeDataConvertedToForm
-  type UploadedResumeData = {
-    [key: string]: any; // Replace 'any' with a more specific type if possible
-  };
-
   // !! update form values once file is uploaded !!
   useEffect(() => {
     // form.reset(uploadedResumeDataConvertedToForm);
