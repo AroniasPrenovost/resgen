@@ -3217,7 +3217,7 @@ ${stringifiedMappedFormValues}
                   onMouseEnter={() => setFormSubmitButtonIsHovered(true)}
                   onMouseLeave={() => setFormSubmitButtonIsHovered(false)}
                   >
-                   Generate and Download New Resume
+                   Generate New Resume
                 {/*
 
                   <Image width={20} height={20} alt="Stripe logo" src="/stripe.png" />
