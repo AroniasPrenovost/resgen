@@ -324,7 +324,8 @@ const ResumeGeneratorPage = () => {
   // file upload
   let hasFileBeenSelectedByUser = false;
   let fileHasBeenUploadedAndParsed = false;
-  const [uploadedResumeDataConvertedToForm, setUploadedResumeDataConvertedToForm] = useState({});
+  type ResumeData = { [key: string]: string; }; // Assuming all values are strings, adjust as necessary
+  const [uploadedResumeDataConvertedToForm, setUploadedResumeDataConvertedToForm] = useState<ResumeData>({});
   const [isGettingAiResponseForFileUploadProcess, setIsGettingAiResponseForFileUploadProcess] = useState(false);
 
   if (global?.window !== undefined) { // now it's safe to access window and localStorage
@@ -549,21 +550,24 @@ const ResumeGeneratorPage = () => {
     }, 90); // Adjust typing speed here
   };
 
+  // Define the type for uploadedResumeDataConvertedToForm
+  type UploadedResumeData = {
+    [key: string]: any; // Replace 'any' with a more specific type if possible
+  };
+
   // !! update form values once file is uploaded !!
   useEffect(() => {
     // form.reset(uploadedResumeDataConvertedToForm);
 
     // trigger iterate through form fields animation
     const fields = Object.keys(uploadedResumeDataConvertedToForm);
-    fields.forEach((field:any, index:any) => {
-      if (field && index && uploadedResumeDataConvertedToForm[field]) {
-        if (uploadedResumeDataConvertedToForm[field]) {
-          setTimeout(function(){
-            typeText(uploadedResumeDataConvertedToForm[field], (typedText) => {
-              form.setValue(field as keyof z.infer<typeof formSchema>, typedText);
-            });
-          }, 850 * (index + 1));
-        }
+    fields.forEach((field, index) => {
+      if (uploadedResumeDataConvertedToForm[field]) {
+        setTimeout(function() {
+          typeText(uploadedResumeDataConvertedToForm[field], (typedText) => {
+            form.setValue(field as keyof z.infer<typeof formSchema>, typedText);
+          });
+        }, 850 * (index + 1));
       }
     });
 
