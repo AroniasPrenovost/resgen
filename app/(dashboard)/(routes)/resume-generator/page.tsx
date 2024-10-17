@@ -1655,7 +1655,7 @@ ${stringifiedMappedFormValues}
                         onMouseLeave={() => setFileUploadButtonIsHovered(false)}
 
                       >
-                        Upload Your Resume
+                        Upload Current Resume
                       </label>
                         {uploadedFileName &&
                           <p style={{
@@ -3197,10 +3197,11 @@ ${stringifiedMappedFormValues}
                 Generate / 'purchase' button (variant #1)
 
               */}
-
+              <FormItem className="col-span-2 lg:col-span-2 rounded-lg ">
+                <FormControl className="m-0 p-0">
 
                 <Button
-                  className="col-span-5 lg:col-span-5 w-full"
+                  className="  w-full"
                   // className="col-span-12 lg:col-span-12 w-full"
                   type="submit"
                   disabled={isLoading}
@@ -3215,7 +3216,7 @@ ${stringifiedMappedFormValues}
                   onMouseEnter={() => setFormSubmitButtonIsHovered(true)}
                   onMouseLeave={() => setFormSubmitButtonIsHovered(false)}
                   >
-                   Generate New Resume 
+                   Generate New Resume
                 {/*
 
                   <Image width={20} height={20} alt="Stripe logo" src="/stripe.png" />
@@ -3223,6 +3224,9 @@ ${stringifiedMappedFormValues}
                 */}
 
                 </Button>
+
+                </FormControl>
+                </FormItem>
 
 
               {/*
