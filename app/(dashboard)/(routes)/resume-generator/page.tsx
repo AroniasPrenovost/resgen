@@ -324,8 +324,8 @@ const ResumeGeneratorPage = () => {
   // file upload
   let hasFileBeenSelectedByUser = false;
   let fileHasBeenUploadedAndParsed = false;
-  type ResumeData = { [key: string]: string; }; // Assuming all values are strings, adjust as necessary
-  const [uploadedResumeDataConvertedToForm, setUploadedResumeDataConvertedToForm] = useState<ResumeData>({});
+  type UploadedResumeDataType = { [key: string]: string; }; // Assuming all values are strings, adjust as necessary
+  const [uploadedResumeDataConvertedToForm, setUploadedResumeDataConvertedToForm] = useState<UploadedResumeDataType>({});
   const [isGettingAiResponseForFileUploadProcess, setIsGettingAiResponseForFileUploadProcess] = useState(false);
 
   if (global?.window !== undefined) { // now it's safe to access window and localStorage
