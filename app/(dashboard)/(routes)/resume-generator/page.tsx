@@ -29,8 +29,6 @@ import { Empty } from "@/components/ui/empty";
 
 const STRIPE_PAYMENT_LINK: string = process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK ?? 'https://stripe.com';
 
-import { headers } from 'next/headers'
-
 import { formSchema } from "./constants";
 
 
