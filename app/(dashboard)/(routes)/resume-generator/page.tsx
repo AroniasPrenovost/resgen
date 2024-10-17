@@ -555,7 +555,7 @@ const ResumeGeneratorPage = () => {
 
     // trigger iterate through form fields animation
     const fields = Object.keys(uploadedResumeDataConvertedToForm);
-    fields.forEach((field, index) => {
+    fields.forEach((field:any, index:any) => {
       if (field && index && uploadedResumeDataConvertedToForm[field]) {
         if (uploadedResumeDataConvertedToForm[field]) {
           setTimeout(function(){
