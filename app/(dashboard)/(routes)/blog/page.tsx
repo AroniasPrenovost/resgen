@@ -14,7 +14,7 @@ const BlogPage = async () => {
   // console.log('____debugging 3')
 
   // Parse the JSON data
-  const blogPosts = JSON.parse(jsonData);
+  const blogPosts = JSON.parse(jsonData).reverse();
     // console.log('____debugging 4')
 
   //
