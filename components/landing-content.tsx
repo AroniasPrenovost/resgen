@@ -37,6 +37,9 @@ const testimonials = [
   },
 ];
 
+
+const year = new Date().getFullYear();
+
 export const LandingContent = () => {
   return (
     <div className="px-10 pb-20" style={{marginTop: '-94px'}}>
