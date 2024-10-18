@@ -25,7 +25,7 @@ export const Empty = ({ label }: EmptyProps) => {
 
             <br />
             <span className="flex items-center justify-center" style={{marginTop: "-6px"}}>
-              Payments processed with
+              Payments are processed with
               <Image
                 width={34}
                 height={34}
