@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 
 export const SimplerLoader = () => {
 
-  const prefix = 'Updating resume content';
+  const prefix = 'Importing and updating resume content';
   const [loadingText, setLoadingText] = useState(prefix);
   const loadingStates = ['', '.', '..', '...'];
 
