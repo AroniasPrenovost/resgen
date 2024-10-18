@@ -196,7 +196,6 @@ const ResumeGeneratorPage = () => {
 
       return response;
       // console.log({ outputObject });
-
       // form.reset(); // we want to persist form data if they want to submit again
     } catch (error: any) {
       if (error?.response?.status === 999/* 403 */) {
