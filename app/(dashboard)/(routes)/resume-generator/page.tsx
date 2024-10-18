@@ -3196,7 +3196,7 @@ ${stringifiedMappedFormValues}
                 Generate / 'purchase' button (variant #1)
 
               */}
-              <FormItem className="col-span-2 lg:col-span-2 rounded-lg ">
+              <FormItem className="col-span-5 lg:col-span-5 rounded-lg ">
                 <FormControl className="m-0 p-0">
                   <Button
                     className="  w-full"
@@ -3207,6 +3207,7 @@ ${stringifiedMappedFormValues}
                       float: 'left',
                       backgroundColor: formSubmitButtonIsHovered ? 'rgba(90, 84, 236, 0.97)' : 'rgba(111, 90, 246, 0.97)',
                       marginTop: '4px',
+                      maxWidth: '192px',
                      }}
                     size="icon"
                     id='submit'
