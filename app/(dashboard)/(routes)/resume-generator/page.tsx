@@ -190,7 +190,7 @@ const ResumeGeneratorPage = () => {
       // console.log({response, outputObject});
 
       toast.dismiss();
-      toast.success('Successfully analyzed and updated your resume', {
+      toast.success('Successfully analyzed and updated your resume.', {
         duration: 22000,
       });
 
