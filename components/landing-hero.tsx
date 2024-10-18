@@ -45,7 +45,7 @@ export const LandingHero = () => {
       </div>
       <div className="text-zinc-400 text-xs md:text-sm font-normal p-4 m-23">
         <b>How does it work?</b> Upload your existing resume, and our AI assistant <b>instantly</b> starts adding improvements.<br/>
-        Once you are happy with the output, generate and download the new resume template.
+        Once you are happy with the output, generate and download your new resume template.
       </div>
     </div>
   );
