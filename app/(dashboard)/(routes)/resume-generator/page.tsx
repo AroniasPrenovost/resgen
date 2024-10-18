@@ -27,10 +27,9 @@ import { Empty } from "@/components/ui/empty";
 // import { useProModal } from "@/hooks/use-pro-modal";
 // import { checkSubscription } from "@/lib/subscription";
 
-const STRIPE_PAYMENT_LINK: string = process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK ?? 'https://stripe.com';
-
 import { formSchema } from "./constants";
 
+const STRIPE_PAYMENT_LINK: string = process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK ?? 'https://stripe.com';
 
 // file upload
 import mammoth from "mammoth"; // supports .docx
@@ -56,8 +55,6 @@ const ResumeGeneratorPage = () => {
   //
 
   const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
-
-
 
 
   //
@@ -288,18 +285,21 @@ const ResumeGeneratorPage = () => {
     }
   };
 
+  //
+  //
+  // ui stuff
+  //
+  //
 
+  const [subheadline, setSubheadline] = useState('Professional resume writing at your fingertips. Upload your resume and get started.');
+  // const [topCtaButton, setTopCtaButton] = useState('Get Instant Access');
+  const [buyButtonContent, setBuyButtonContent] = useState('Generate Resume');
 
   //
   //
   // MANAGING PAYMENT HISTORY/CACHE
   //
   //
-
-  const [subheadline, setSubheadline] = useState('Professional resume writing at your fingertips. Upload your resume and get started.');
-
-  const [topCtaButton, setTopCtaButton] = useState('Get Instant Access');
-  const [buyButtonContent, setBuyButtonContent] = useState('Generate Resume');
 
   const current_time: any = new Date();
   let payment_date: any = false;
@@ -337,7 +337,6 @@ const ResumeGeneratorPage = () => {
 
     //
     // manage file upload form and prefilling inputs with response
-
 
     fileHasBeenUploadedAndParsed = localStorage.getItem('file_has_been_uploaded_and_parsed') === 'true';
 
@@ -3240,7 +3239,6 @@ ${stringifiedMappedFormValues}
             </div>
           )}
           {messages.length === 0 && !isLoading && (
-            // <Empty label="AI-powered resume generation. Start your career journey today!" />
             <Empty />
           )}
           <div className="flex flex-col-reverse gap-y-4">
