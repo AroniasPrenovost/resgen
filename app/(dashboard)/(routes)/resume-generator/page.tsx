@@ -40,8 +40,7 @@ import { PDFDocument } from 'pdf-lib'; // supports .pdf
 import { saveAs } from "file-saver";
 import { Packer } from "docx";
 import { DocumentCreator } from "@/lib/resume-generator";
-// import { CoverLetterDocumentCreator } from "@/lib/cover-letter-generator";
-import { experiences, education, skills, achievements } from "@/lib/cv-data"; // dummy data
+// import { experiences, education, skills, achievements } from "@/lib/cv-data"; // dummy data
 
 const ResumeGeneratorPage = () => {
   const router = useRouter();
