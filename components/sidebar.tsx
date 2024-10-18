@@ -90,7 +90,7 @@ export const Sidebar = ({
                   <br/>*/}
                 <li><b>1. </b>Upload your current resume (or manually enter your info).</li>
                 <br/>
-                <li><b>2. </b>ResumAI assistant analyzes and improves the document in real time.</li>
+                <li><b>2. </b>ResumAI assistant analyzes and improves your writing in real time.</li>
                 <br/>
                 {/*
                     <li><b>3. </b>The AI assistant performs one last round of revision before generating your resume file.</li>
