@@ -266,6 +266,7 @@ const ResumeGeneratorPage = () => {
           const arrayBuffer = await file.arrayBuffer();
           const result = await mammoth.extractRawText({ arrayBuffer });
           setUploadedFileContents(result.value);
+          console.log('successfully processed .docx file')
 
         } else if (fileType === "text/plain") {
           //
@@ -283,7 +284,7 @@ const ResumeGeneratorPage = () => {
         }
       } catch (error) {
         console.error("Error processing file:", error);
-        alert("Something went wrong while processing the file.");
+        alert("Something went wrong while processing the .txt file.");
       }
     }
   };
