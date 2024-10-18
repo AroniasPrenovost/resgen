@@ -20,13 +20,15 @@ export const Empty = ({ label }: EmptyProps) => {
           <>
             <b>NOTICE</b>
             <br />
-            We do not collect your personal data.
+
+              We do not collect your personal data.
+
             <br />
-            <span className="flex items-center justify-center" style={{marginTop: "-4px"}}>
-              Payments processed securely with
+            <span className="flex items-center justify-center" style={{marginTop: "-6px"}}>
+              Payments processed with
               <Image
-                width={30}
-                height={30}
+                width={34}
+                height={34}
                 alt="Stripe logo"
                 src="/stripe-logo.png"
                 className="inline-block ml-1"
