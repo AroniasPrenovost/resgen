@@ -1624,7 +1624,7 @@ ${stringifiedMappedFormValues}
                     style={{
                       borderRadius: "8px",
                     }}
-                    color="secondary"
+                    color="primary"
                     content={fileHasBeenUploadedAndParsed ? "You have run out of free rewrites. Get unlimited access for $9.99." : "Upload your resume and watch ResumAI assistant make improvements. Requires .txt or .docx file formats."}
                   >
 
