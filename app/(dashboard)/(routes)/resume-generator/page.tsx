@@ -190,8 +190,8 @@ const ResumeGeneratorPage = () => {
       // console.log({response, outputObject});
 
       toast.dismiss();
-      toast.success('Successfully read and improved your resume', {
-        duration: 12000,
+      toast.success('Successfully analyzed and updated your resume', {
+        duration: 22000,
       });
 
       return response;
@@ -202,10 +202,9 @@ const ResumeGeneratorPage = () => {
       if (error?.response?.status === 999/* 403 */) {
         // don't want this to ever happen, 999 doesn't exist
         // proModal.onOpen();
-        console.log('something bad happened when trying to read your resume');
+        console.log('Something bad happened when trying to read your resume');
       } else {
-
-        toast.error("Something went wrong with the AI connection, we were not able to read the resume you uploaded. please try again");
+        toast.error("Something went wrong with the AI connection, we were not able to read the resume you uploaded. please try again.");
       }
     } finally {
       router.refresh();
