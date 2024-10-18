@@ -101,7 +101,7 @@ export const Sidebar = ({
 
                 <br/>
                 <li>
-                  <em>Pro tip:</em> If you do not have Microsoft Word, upload your resume files to <Link className={cn(
+                  <em>Pro tip:</em> If you do not have Microsoft Word, you can upload your resume files to <Link className={cn(
                     "hover:text-white transition",
                      "text-zinc-400",
                   )} target="_blank" rel="noopener noreferrer" href="https://drive.google.com/drive/home">Google Drive</Link>.
