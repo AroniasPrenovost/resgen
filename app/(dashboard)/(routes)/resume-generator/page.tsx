@@ -65,6 +65,7 @@ const ResumeGeneratorPage = () => {
   // const [topCTAButtonIsHovered, setTopCTAButtonIsHovered] = useState(false);
   const [fileUploadButtonIsHovered, setFileUploadButtonIsHovered] = useState(false);
   const [formSubmitButtonIsHovered, setFormSubmitButtonIsHovered] = useState(false);
+  const [isSubmitButtonTooltipOpen, setIsSubmitButtonTooltipOpen] = useState(false);
 
   // manage file upload tooltip display states
   const [isFileUploadTooltipOpen, setIsFileUploadTooltipOpen] = useState(false);
@@ -3230,31 +3231,58 @@ ${stringifiedMappedFormValues}
 
               */}
               <FormItem className="col-span-5 lg:col-span-5 rounded-lg ">
-                <FormControl className="m-0 p-0">
-                  <Button
-                    className="  w-full"
-                    // className="col-span-12 lg:col-span-12 w-full"
-                    type="submit"
-                    disabled={isLoading}
-                    style={{
-                      float: 'left',
-                      backgroundColor: formSubmitButtonIsHovered ? 'rgba(90, 84, 236, 0.97)' : 'rgba(111, 90, 246, 0.97)',
-                      marginTop: '4px',
-                      maxWidth: '192px',
-                     }}
-                    size="icon"
-                    id='submit'
-                    onMouseEnter={() => setFormSubmitButtonIsHovered(true)}
-                    onMouseLeave={() => setFormSubmitButtonIsHovered(false)}
+                <Tooltip
+                  showArrow={true}
+                  isOpen={isSubmitButtonTooltipOpen}
+                  onOpenChange={(open) => setIsSubmitButtonTooltipOpen(open)}
+                  delay={0}
+                  closeDelay={0}
+                  motionProps={{
+                    variants: {
+                      exit: {
+                        opacity: 0,
+                        transition: {
+                          duration: 0.1,
+                          ease: "easeIn",
+                        }
+                      },
+                      enter: {
+                        opacity: 1,
+                        transition: {
+                          duration: 0.15,
+                          ease: "easeOut",
+                        }
+                      },
+                    },
+                  }}
+                  color="primary"
+                  content={"Upload your resume and watch the ResumAI assistant make improvements."}
+                >
+                  <FormControl className="m-0 p-0">
+                    <Button
+                      className="  w-full"
+                      // className="col-span-12 lg:col-span-12 w-full"
+                      type="submit"
+                      disabled={isLoading}
+                      style={{
+                        float: 'left',
+                        backgroundColor: formSubmitButtonIsHovered ? 'rgba(90, 84, 236, 0.97)' : 'rgba(111, 90, 246, 0.97)',
+                        marginTop: '4px',
+                        maxWidth: '192px',
+                       }}
+                      size="icon"
+                      id='submit'
+                      onMouseEnter={() => setFormSubmitButtonIsHovered(true)}
+                      onMouseLeave={() => setFormSubmitButtonIsHovered(false)}
                     >
-                     Generate New Resume
-                  {/*
-                    <Image width={20} height={20} alt="Stripe logo" src="/stripe.png" />
-                  */}
-                  </Button>
-                </FormControl>
+                      Generate New Resume
+                    {/*
+                      <Image width={20} height={20} alt="Stripe logo" src="/stripe.png" />
+                    */}
+                    </Button>
+                  </FormControl>
+                </Tooltip>
               </FormItem>
-
 
               {/*
 
