@@ -76,8 +76,8 @@ const ResumeGeneratorPage = () => {
         setTimeout(() => {
           setIsFileUploadTooltipOpen(false);
           localStorage.setItem('fileUploadTooltipShown', 'true');
-        }, 10500); // Tooltip stays open for 3 seconds
-      }, 1450); // Initial delay of 5 seconds before showing the tooltip
+        }, 9500); // Tooltip stays open for X seconds
+      }, 1450); // Initial delay before showing tooltip
 
       return () => clearTimeout(showTooltipTimeout);
     }
