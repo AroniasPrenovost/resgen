@@ -66,7 +66,22 @@ const ResumeGeneratorPage = () => {
   const [fileUploadButtonIsHovered, setFileUploadButtonIsHovered] = useState(false);
   const [formSubmitButtonIsHovered, setFormSubmitButtonIsHovered] = useState(false);
 
+  // manage file upload tooltip display states
   const [isFileUploadTooltipOpen, setIsFileUploadTooltipOpen] = useState(false);
+  useEffect(() => {
+    const tooltipShown = localStorage.getItem('fileUploadTooltipShown');
+    if (!tooltipShown) {
+      const showTooltipTimeout = setTimeout(() => {
+        setIsFileUploadTooltipOpen(true);
+        setTimeout(() => {
+          setIsFileUploadTooltipOpen(false);
+          localStorage.setItem('fileUploadTooltipShown', 'true');
+        }, 10500); // Tooltip stays open for 3 seconds
+      }, 1450); // Initial delay of 5 seconds before showing the tooltip
+
+      return () => clearTimeout(showTooltipTimeout);
+    }
+  }, []);
 
   //
   //
