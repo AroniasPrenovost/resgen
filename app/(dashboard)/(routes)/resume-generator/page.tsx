@@ -1620,6 +1620,26 @@ ${stringifiedMappedFormValues}
                 <FormControl className="m-0 p-2">
                   <Tooltip
                     showArrow={true}
+                    delay={0}
+                    closeDelay={0}
+                    motionProps={{
+                      variants: {
+                        exit: {
+                          opacity: 0,
+                          transition: {
+                            duration: 0.1,
+                            ease: "easeIn",
+                          }
+                        },
+                        enter: {
+                          opacity: 1,
+                          transition: {
+                            duration: 0.15,
+                            ease: "easeOut",
+                          }
+                        },
+                      },
+                    }}
                     style={{
                       borderRadius: "8px",
                     }}
