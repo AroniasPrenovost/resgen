@@ -3260,7 +3260,7 @@ ${stringifiedMappedFormValues}
                     },
                   }}
                   color="primary"
-                  content={"The ResumAI assistant finalizes your resume and creates the new template."}
+                  content={"The ResumAI assistant finalizes your resume content and creates your new resume template."}
                 >
                   <FormControl className="m-0 p-0">
                     <Button
