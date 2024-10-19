@@ -564,7 +564,7 @@ const ResumeGeneratorPage = () => {
       } else {
         clearInterval(interval);
       }
-    }, 90); // Adjust typing speed here
+    }, 100); // Adjust typing speed here
   };
 
   // !! update form values once file is uploaded !!
