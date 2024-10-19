@@ -59,12 +59,14 @@ const ResumeGeneratorPage = () => {
 
   //
   //
-  // CTA button hover states
+  // button hover states
   //
 
   // const [topCTAButtonIsHovered, setTopCTAButtonIsHovered] = useState(false);
   const [fileUploadButtonIsHovered, setFileUploadButtonIsHovered] = useState(false);
   const [formSubmitButtonIsHovered, setFormSubmitButtonIsHovered] = useState(false);
+
+  const [isFileUploadTooltipOpen, setIsFileUploadTooltipOpen] = useState(false);
 
   //
   //
@@ -1620,6 +1622,8 @@ ${stringifiedMappedFormValues}
                 <FormControl className="m-0 p-2">
                   <Tooltip
                     showArrow={true}
+                    isOpen={isFileUploadTooltipOpen}
+                    onOpenChange={(open) => setIsFileUploadTooltipOpen(open)}
                     delay={0}
                     closeDelay={0}
                     motionProps={{
