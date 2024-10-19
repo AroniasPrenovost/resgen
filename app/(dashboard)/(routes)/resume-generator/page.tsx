@@ -1537,7 +1537,7 @@ ${stringifiedMappedFormValues}
 
     useEffect(() => {
       const timeoutId = setTimeout(() => {
-          const element = document.getElementById("buyButton");
+          const element = document.getElementById("bottomSectionOfPage");
           if (hasPaid) {
             element?.scrollIntoView({ behavior: "smooth",  block: "end"});
           }
@@ -3230,7 +3230,7 @@ ${stringifiedMappedFormValues}
             </form>
           </Form>
         </div>
-        <div className="space-y-4 mt-4" id="buyButton">
+        <div className="space-y-4" id="bottomSectionOfPage">
           {isLoading && (
             <div className="p-8 rounded-lg w-full flex items-center justify-center bg-muted">
               <Loader />
