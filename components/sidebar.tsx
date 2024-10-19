@@ -97,7 +97,7 @@ export const Sidebar = ({
                           <br/>
                 */}
 
-                <li><b>3. </b> A single payment of <b style={{ color: "orange"}}>$9.99</b> gets you <b>30</b> days of access to the tool and unlimited downloads.</li>
+                <li><b>3. </b> A single payment of <b style={{ color: "orange"}}>$9.99</b> gets you <b>30</b> days of access to the tool, support, and unlimited downloads.</li>
 
                 <br/>
                 <li>
