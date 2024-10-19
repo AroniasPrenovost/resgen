@@ -395,6 +395,10 @@ const ResumeGeneratorPage = () => {
     payment_received = localStorage.getItem('pr_0012') === 'true';
     hasPaid = payment_received;
 
+    if (hasPaid) {
+      setIsSubmitButtonTooltipOpen(false);
+    }
+
     paidQueryString = searchParams.get('p') ?? '';
     if (paidQueryString === paidQueryStringValue) {
       if (!payment_received) {
@@ -3256,11 +3260,11 @@ ${stringifiedMappedFormValues}
                     },
                   }}
                   color="primary"
-                  content={"Upload your resume and watch the ResumAI assistant make improvements."}
+                  content={"The ResumAI assistant finalizes your resume and creates the new template."}
                 >
                   <FormControl className="m-0 p-0">
                     <Button
-                      className="  w-full"
+                      className="w-full"
                       // className="col-span-12 lg:col-span-12 w-full"
                       type="submit"
                       disabled={isLoading}
