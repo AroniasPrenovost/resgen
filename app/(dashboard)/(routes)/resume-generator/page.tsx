@@ -65,7 +65,10 @@ const ResumeGeneratorPage = () => {
   // const [topCTAButtonIsHovered, setTopCTAButtonIsHovered] = useState(false);
   const [fileUploadButtonIsHovered, setFileUploadButtonIsHovered] = useState(false);
   const [formSubmitButtonIsHovered, setFormSubmitButtonIsHovered] = useState(false);
+
+  // manage form submit button tooltip display states
   const [isSubmitButtonTooltipOpen, setIsSubmitButtonTooltipOpen] = useState(false);
+
 
   // manage file upload tooltip display states
   const [isFileUploadTooltipOpen, setIsFileUploadTooltipOpen] = useState(false);
@@ -370,6 +373,18 @@ const ResumeGeneratorPage = () => {
           localStorage.setItem('file_has_been_uploaded_and_parsed', 'true');
           setIsGettingAiResponseForFileUploadProcess(false);
           console.log('form populated with rewritten resume and tracked');
+
+          // scroll to submit button and show tooltip
+          setTimeout(() => {
+            const element = document.getElementById("bottomSectionOfPage");
+            if (element) {
+              element?.scrollIntoView({ behavior: "smooth",  block: "end"});
+            }
+            setIsSubmitButtonTooltipOpen(true);
+            setTimeout(() => {
+              setIsSubmitButtonTooltipOpen(false);
+            }, 6500); // Tooltip stays open for X seconds
+          }, 1200);
         } else {
           setIsGettingAiResponseForFileUploadProcess(false);
         }
