@@ -1646,7 +1646,7 @@ ${stringifiedMappedFormValues}
 
 
               <FormItem
-                  className="col-span-12 lg:col-span-4"
+                  className="col-span-6 lg:col-span-4"
                   style={{
                     color: '#576574',
                     textAlign: 'left',
@@ -1722,7 +1722,7 @@ ${stringifiedMappedFormValues}
                 </FormControl>
               </FormItem>
               {isGettingAiResponseForFileUploadProcess && (
-                <div className="col-span-6 p-0 rounded-lg w-full flex items-left justify-center">
+                <div className="col-span-5 p-0 rounded-lg w-full flex items-left justify-center">
                   <SimplerLoader />
                 </div>
               )}
