@@ -1721,7 +1721,7 @@ ${stringifiedMappedFormValues}
                   </Tooltip>
                 </FormControl>
               </FormItem>
-              {isGettingAiResponseForFileUploadProcess|| true && (
+              {isGettingAiResponseForFileUploadProcess && (
                 <div className="col-span-5 p-0 rounded-lg w-full flex items-left justify-center">
                   <SimplerLoader />
                 </div>
