@@ -56,6 +56,7 @@ const ResumeGeneratorPage = () => {
 
   const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
 
+  const [formIsDisplayed, setFormIsDisplayed] = useState(false)
 
   //
   //
@@ -369,22 +370,24 @@ const ResumeGeneratorPage = () => {
           localStorage.setItem('stored_form_values', JSON.stringify(responseObject));
           storedFormValues = responseObject;
           setUploadedResumeDataConvertedToForm(responseObject); // jump to '!! update form values once file is uploaded !!'
+          // display form and inputs
+          setFormIsDisplayed(true);
           // set flag to track that we've processed the resume
           localStorage.setItem('file_has_been_uploaded_and_parsed', 'true');
           setIsGettingAiResponseForFileUploadProcess(false);
           console.log('form populated with rewritten resume and tracked');
 
           // scroll to submit button and show tooltip
-          setTimeout(() => {
-            const element = document.getElementById("bottomSectionOfPage");
-            if (element) {
-              element?.scrollIntoView({ behavior: "smooth",  block: "end"});
-            }
-            setIsSubmitButtonTooltipOpen(true);
-            setTimeout(() => {
-              setIsSubmitButtonTooltipOpen(false);
-            }, 6500); // Tooltip stays open for X seconds
-          }, 1200);
+          // setTimeout(() => {
+          //   const element = document.getElementById("bottomSectionOfPage");
+          //   if (element) {
+          //     element?.scrollIntoView({ behavior: "smooth",  block: "end"});
+          //   }
+          //   setIsSubmitButtonTooltipOpen(true);
+          //   setTimeout(() => {
+          //     setIsSubmitButtonTooltipOpen(false);
+          //   }, 6500); // Tooltip stays open for X seconds
+          // }, 1200);
         } else {
           setIsGettingAiResponseForFileUploadProcess(false);
         }
@@ -1728,6 +1731,12 @@ ${stringifiedMappedFormValues}
                   </>
                 </FormControl>
               </FormItem>
+
+            <div className="showhideContainer" style={{
+              display: formIsDisplayed ? "contents" : "none",
+              backgroundColor: "grey",
+              opacity: '.4'
+            }}>
 
 
              {/* PERSONAL INFO  */}
@@ -3276,7 +3285,7 @@ ${stringifiedMappedFormValues}
                     },
                   }}
                   color="primary"
-                  content={"ResumAI assistant finalizes your resume content and generates the new template."}
+                  content={"Finalize your resume content and download new template."}
                 >
                   <FormControl className="m-0 p-0">
                     <Button
@@ -3304,6 +3313,8 @@ ${stringifiedMappedFormValues}
                   </FormControl>
                 </Tooltip>
               </FormItem>
+
+              </div> {/* end showhideContainer */}
 
               {/*
 
