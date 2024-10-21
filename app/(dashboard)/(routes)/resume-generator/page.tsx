@@ -595,7 +595,7 @@ const ResumeGeneratorPage = () => {
           typeText(uploadedResumeDataConvertedToForm[field], (typedText) => {
             form.setValue(field as keyof z.infer<typeof formSchema>, typedText);
           });
-        }, 850 * (index + 1));
+        }, 750 * (index + 1));
       }
     });
 
