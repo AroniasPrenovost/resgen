@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 
 export const SimplerLoader = () => {
 
-  const prefix = 'Analyzing and improving resume content';
+  const prefix = 'Analyzing resume content';
   const [loadingText, setLoadingText] = useState(prefix);
   const loadingStates = ['', '.', '..', '...'];
   // let count = 0;
@@ -24,7 +24,7 @@ export const SimplerLoader = () => {
 
   return (
     <div className="h-full flex flex-row items-center w-full">
-    {/*
+
       <div className="w-10 h-10 relative animate-spin">
         <Image
           alt="Logo"
@@ -32,8 +32,8 @@ export const SimplerLoader = () => {
           fill
         />
       </div>
-      */}
-      <p className="text-sm text-muted-foreground pl-0" style={{
+
+      <p className="text-sm text-muted-foreground pl-2" style={{
         color: '#636e72',
         textWrap: 'nowrap',
       }}>
