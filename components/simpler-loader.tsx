@@ -3,17 +3,18 @@ import React, { useState, useEffect } from 'react';
 
 export const SimplerLoader = () => {
 
-  const prefix = 'Analyzing resume content';
+  const prefix = 'Analyzing and improving resume content';
   const [loadingText, setLoadingText] = useState(prefix);
   const loadingStates = ['', '.', '..', '...'];
-  let count = 0;
+  // let count = 0;
 
   useEffect(() => {
     let index = 0;
     const interval = setInterval(() => {
-      count = count + 1;
+      // count = count + 1;
       index = (index + 1) % loadingStates.length;
-      let text = (count < 9 ? prefix : 'Improving resume content') + loadingStates[index];
+      // let text = (count < 9 ? prefix : 'Improving resume content') + loadingStates[index];
+      let text = prefix + loadingStates[index];
       setLoadingText(text);
     }, 650);
 

@@ -1654,79 +1654,79 @@ ${stringifiedMappedFormValues}
               >
               {/*<FormItem className="col-span-12 lg:col-span-10">*/}
                 <FormControl className="m-0 p-2">
-                  <Tooltip
-                    showArrow={true}
-                    isOpen={isFileUploadTooltipOpen}
-                    onOpenChange={(open) => setIsFileUploadTooltipOpen(open)}
-                    delay={0}
-                    closeDelay={0}
-                    motionProps={{
-                      variants: {
-                        exit: {
-                          opacity: 0,
-                          transition: {
-                            duration: 0.1,
-                            ease: "easeIn",
-                          }
+                  <>
+                    <Tooltip
+                      showArrow={true}
+                      isOpen={isFileUploadTooltipOpen}
+                      onOpenChange={(open) => setIsFileUploadTooltipOpen(open)}
+                      delay={0}
+                      closeDelay={0}
+                      motionProps={{
+                        variants: {
+                          exit: {
+                            opacity: 0,
+                            transition: {
+                              duration: 0.1,
+                              ease: "easeIn",
+                            }
+                          },
+                          enter: {
+                            opacity: 1,
+                            transition: {
+                              duration: 0.15,
+                              ease: "easeOut",
+                            }
+                          },
                         },
-                        enter: {
-                          opacity: 1,
-                          transition: {
-                            duration: 0.15,
-                            ease: "easeOut",
+                      }}
+                      color="primary"
+                      content={fileHasBeenUploadedAndParsed ? "You have run out of free rewrites. Get unlimited access for $9.99." : "Upload your resume and watch the ResumAI assistant make improvements. Compatible with .txt or .docx files."}
+                    >
+                      <label style={{ fontWeight: "bold" }}>
+                        <input
+                          type="file"
+                          accept={ACCEPTED_FILE_TYPES}
+                          onChange={handleFileChange}
+                          style={{ display: "none" }}
+                          id="file-upload-input"
+                          disabled={fileHasBeenUploadedAndParsed}
+                        />
+                        <label
+                          htmlFor="file-upload-input"
+                          style={{
+                            padding: "8px 16px",
+                            borderRadius: "8px",
+                            color: "#ffffff",
+                            fontSize: "14px",
+                            fontWeight: "500",
+                            display: "inline-block",
+                            cursor: "pointer",
+                            backgroundColor: fileHasBeenUploadedAndParsed ? 'grey' : fileUploadButtonIsHovered ? 'rgba(255, 159, 64, 0.97)' : 'rgba(255, 140, 0, 0.97)',
+                          }}
+                          onMouseEnter={() => setFileUploadButtonIsHovered(true)}
+                          onMouseLeave={() => setFileUploadButtonIsHovered(false)}
+
+                        >
+                          Upload Current Resume
+                        </label>
+                          {uploadedFileName &&
+                            <p style={{
+                              color: "black !important",
+                              fontSize: "12px",
+                              fontWeight: "normal",
+                              paddingLeft: "8px",
+                            }}>{uploadedFileName}</p>
                           }
-                        },
-                      },
-                    }}
-                    color="primary"
-                    content={fileHasBeenUploadedAndParsed ? "You have run out of free rewrites. Get unlimited access for $9.99." : "Upload your resume and watch the ResumAI assistant make improvements. Compatible with .txt or .docx files."}
-                  >
-
-                    <label style={{ fontWeight: "bold" }}>
-                      <input
-                        type="file"
-                        accept={ACCEPTED_FILE_TYPES}
-                        onChange={handleFileChange}
-                        style={{ display: "none" }}
-                        id="file-upload-input"
-                        disabled={fileHasBeenUploadedAndParsed}
-                      />
-                      <label
-                        htmlFor="file-upload-input"
-                        style={{
-                          padding: "8px 16px",
-                          borderRadius: "8px",
-                          color: "#ffffff",
-                          fontSize: "14px",
-                          fontWeight: "500",
-                          display: "inline-block",
-                          cursor: "pointer",
-                          backgroundColor: fileHasBeenUploadedAndParsed ? 'grey' : fileUploadButtonIsHovered ? 'rgba(255, 159, 64, 0.97)' : 'rgba(255, 140, 0, 0.97)',
-                        }}
-                        onMouseEnter={() => setFileUploadButtonIsHovered(true)}
-                        onMouseLeave={() => setFileUploadButtonIsHovered(false)}
-
-                      >
-                        Upload Current Resume
                       </label>
-                        {uploadedFileName &&
-                          <p style={{
-                            color: "black !important",
-                            fontSize: "12px",
-                            fontWeight: "normal",
-                            paddingLeft: "8px",
-                          }}>{uploadedFileName}</p>
-                        }
-                    </label>
-                  </Tooltip>
+                    </Tooltip>
+                    {isGettingAiResponseForFileUploadProcess && (
+                      <div className="col-span-5 p-0 rounded-lg w-full flex items-left justify-center">
+                        <SimplerLoader />
+                      </div>
+                    )}
+                  </>
                 </FormControl>
               </FormItem>
-              {isGettingAiResponseForFileUploadProcess && (
-                <div className="col-span-5 p-0 rounded-lg w-full flex items-left justify-center">
-                  <SimplerLoader />
-                </div>
-              )}
-
 
 
              {/* PERSONAL INFO  */}
