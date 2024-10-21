@@ -1701,6 +1701,7 @@ ${stringifiedMappedFormValues}
                             fontWeight: "500",
                             display: "inline-block",
                             cursor: "pointer",
+                            textWrap: "nowrap",
                             backgroundColor: fileHasBeenUploadedAndParsed ? 'grey' : fileUploadButtonIsHovered ? 'rgba(255, 159, 64, 0.97)' : 'rgba(255, 140, 0, 0.97)',
                           }}
                           onMouseEnter={() => setFileUploadButtonIsHovered(true)}
@@ -1715,6 +1716,7 @@ ${stringifiedMappedFormValues}
                               fontSize: "12px",
                               fontWeight: "normal",
                               paddingLeft: "8px",
+                              textWrap: "nowrap",
                             }}>{uploadedFileName}</p>
                           }
                       </label>
