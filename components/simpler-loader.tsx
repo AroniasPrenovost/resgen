@@ -6,13 +6,16 @@ export const SimplerLoader = () => {
   const prefix = 'Analyzing resume content';
   const [loadingText, setLoadingText] = useState(prefix);
   const loadingStates = ['', '.', '..', '...'];
+  let count = 0;
 
   useEffect(() => {
     let index = 0;
     const interval = setInterval(() => {
+      count = count + 1;
       index = (index + 1) % loadingStates.length;
-      let text = prefix + loadingStates[index];
+      let text = (count < 9 ? prefix : 'Improving resume content') + loadingStates[index];
       setLoadingText(text);
+      console.log({x})
     }, 650);
 
     // Cleanup interval on component unmount
