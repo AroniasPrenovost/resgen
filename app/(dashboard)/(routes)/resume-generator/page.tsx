@@ -1740,7 +1740,7 @@ ${stringifiedMappedFormValues}
               <FormItem className="col-span-12 lg:col-span-10">
                 <FormControl className="m-0 p-2">
                   <label style={{ fontWeight: 'bold' }}>
-                    Resume Heading Information
+                    Resume Header Section
                   </label>
                 </FormControl>
               </FormItem>
