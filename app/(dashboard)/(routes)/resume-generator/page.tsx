@@ -1734,8 +1734,6 @@ ${stringifiedMappedFormValues}
 
             <div className="showhideContainer" style={{
               display: formIsDisplayed ? "contents" : "none",
-              backgroundColor: "grey",
-              opacity: '.4'
             }}>
 
 
