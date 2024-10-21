@@ -22,7 +22,7 @@ export const Empty = ({ label }: EmptyProps) => {
             <br />
               We do not collect your personal data.
             <br />
-            <span className="flex items-center justify-center" style={{marginTop: "-6px"}}>
+            <span className="flex items-center justify-center" style={{marginTop: "-7px"}}>
               Payments processed with
               <Image
                 width={34}
