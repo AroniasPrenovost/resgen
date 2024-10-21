@@ -56,8 +56,6 @@ const ResumeGeneratorPage = () => {
 
   const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
 
-  const [formIsDisplayed, setFormIsDisplayed] = useState(false)
-
   //
   //
   // button hover states
@@ -371,7 +369,7 @@ const ResumeGeneratorPage = () => {
           storedFormValues = responseObject;
           setUploadedResumeDataConvertedToForm(responseObject); // jump to '!! update form values once file is uploaded !!'
           // display form and inputs
-          setFormIsDisplayed(true);
+          // todo...
           // set flag to track that we've processed the resume
           localStorage.setItem('file_has_been_uploaded_and_parsed', 'true');
           setIsGettingAiResponseForFileUploadProcess(false);
@@ -582,7 +580,7 @@ const ResumeGeneratorPage = () => {
       } else {
         clearInterval(interval);
       }
-    }, 100); // Adjust typing speed here
+    }, 75); // Adjust typing speed here
   };
 
   // !! update form values once file is uploaded !!
@@ -1733,7 +1731,7 @@ ${stringifiedMappedFormValues}
               </FormItem>
 
             <div className="showhideContainer" style={{
-              display: formIsDisplayed ? "contents" : "none",
+              display: true ? "contents" : "none",
             }}>
 
 
