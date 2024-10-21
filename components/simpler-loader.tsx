@@ -15,7 +15,6 @@ export const SimplerLoader = () => {
       index = (index + 1) % loadingStates.length;
       let text = (count < 9 ? prefix : 'Improving resume content') + loadingStates[index];
       setLoadingText(text);
-      console.log({x})
     }, 650);
 
     // Cleanup interval on component unmount
