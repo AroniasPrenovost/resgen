@@ -3251,7 +3251,7 @@ ${stringifiedMappedFormValues}
                 Generate / 'purchase' button (variant #1)
 
               */}
-              <FormItem className="col-span-5 lg:col-span-5 rounded-lg ">
+              <FormItem className="col-span-6 lg:col-span-6 rounded-lg ">
                 <Tooltip
                   showArrow={true}
                   isOpen={isSubmitButtonTooltipOpen}
@@ -3290,6 +3290,7 @@ ${stringifiedMappedFormValues}
                         backgroundColor: formSubmitButtonIsHovered ? 'rgba(90, 84, 236, 0.97)' : 'rgba(111, 90, 246, 0.97)',
                         marginTop: '4px',
                         maxWidth: '192px',
+                        textWrap: 'nowrap',
                        }}
                       size="icon"
                       id='submit'
