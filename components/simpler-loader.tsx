@@ -35,7 +35,7 @@ export const SimplerLoader = () => {
 
       <p className="text-sm text-muted-foreground pl-2" style={{
         color: '#636e72',
-        textWrap: 'nowrap',
+        whiteSpace: 'nowrap',
       }}>
       {loadingText}
       </p>
