@@ -1693,6 +1693,7 @@ ${stringifiedMappedFormValues}
                         />
                         <label
                           htmlFor="file-upload-input"
+                          className="noWrap"
                           style={{
                             padding: "8px 16px",
                             borderRadius: "8px",
@@ -1701,7 +1702,7 @@ ${stringifiedMappedFormValues}
                             fontWeight: "500",
                             display: "inline-block",
                             cursor: "pointer",
-                            textWrap: "nowrap",
+                            whiteSpace: "nowrap",
                             backgroundColor: fileHasBeenUploadedAndParsed ? 'grey' : fileUploadButtonIsHovered ? 'rgba(255, 159, 64, 0.97)' : 'rgba(255, 140, 0, 0.97)',
                           }}
                           onMouseEnter={() => setFileUploadButtonIsHovered(true)}
@@ -1716,7 +1717,7 @@ ${stringifiedMappedFormValues}
                               fontSize: "12px",
                               fontWeight: "normal",
                               paddingLeft: "8px",
-                              textWrap: "nowrap",
+                              whiteSpace: "nowrap",
                             }}>{uploadedFileName}</p>
                           }
                       </label>
