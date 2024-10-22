@@ -3295,7 +3295,7 @@ ${stringifiedMappedFormValues}
                         backgroundColor: formSubmitButtonIsHovered ? 'rgba(90, 84, 236, 0.97)' : 'rgba(111, 90, 246, 0.97)',
                         marginTop: '4px',
                         maxWidth: '192px',
-                        textWrap: 'nowrap',
+                        whiteSpace: 'nowrap',
                        }}
                       size="icon"
                       id='submit'
