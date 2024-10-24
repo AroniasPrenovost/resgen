@@ -1723,7 +1723,7 @@ ${stringifiedMappedFormValues}
                               {fileHasBeenUploadedAndParsed ? "You have run out of free rewrites. Get unlimited access for $9.99." : "Upload your resume and watch as the AI assistant makes improvements."}
                             </div>
 
-                            <div className="text-tiny pt-1" style={{fontSize: "13px"}}>
+                            <div className="text-tiny pt-1">
                               Compatible with <em><b>.docx</b></em> and <em><b>.txt</b></em> files.
                             </div>
 
