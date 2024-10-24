@@ -12,6 +12,7 @@ import { ChatCompletionRequestMessage } from "openai";
 import Image from "next/image"
 
 import { Tooltip } from '@nextui-org/react';
+import {Popover, PopoverTrigger, PopoverContent} from "@nextui-org/popover";
 import { BotAvatar } from "@/components/bot-avatar";
 import { Heading } from "@/components/heading";
 import { Button } from "@/components/ui/button";
@@ -69,20 +70,20 @@ const ResumeGeneratorPage = () => {
   const [isSubmitButtonTooltipOpen, setIsSubmitButtonTooltipOpen] = useState(false);
 
 
-  // manage file upload tooltip display states
-  const [isFileUploadTooltipOpen, setIsFileUploadTooltipOpen] = useState(false);
+  // manage file upload POPOVER display states
+  const [isFileUploadPopoverOpen, setIsFileUploadPopoverOpen] = useState(false);
   useEffect(() => {
-    const tooltipShown = localStorage.getItem('fileUploadTooltipShown');
-    if (!tooltipShown) {
-      const showTooltipTimeout = setTimeout(() => {
-        setIsFileUploadTooltipOpen(true);
+    const popoverShown = localStorage.getItem('file_upload_popover_shown');
+    if (!popoverShown) {
+      const showPopoverTimeout = setTimeout(() => {
+        setIsFileUploadPopoverOpen(true);
         setTimeout(() => {
-          setIsFileUploadTooltipOpen(false);
-          localStorage.setItem('fileUploadTooltipShown', 'true');
+          setIsFileUploadPopoverOpen(false);
+          localStorage.setItem('file_upload_popover_shown', 'true');
         }, 9500); // Tooltip stays open for X seconds
       }, 1450); // Initial delay before showing tooltip
 
-      return () => clearTimeout(showTooltipTimeout);
+      return () => clearTimeout(showPopoverTimeout);
     }
   }, []);
 
@@ -1571,8 +1572,6 @@ ${stringifiedMappedFormValues}
     }, []); // Empty dependency array ensures the effect runs only once
 
 
-
-
     useEffect(() => {
       const timeoutId = setTimeout(() => {
           const element = document.getElementById("bottomSectionOfPage");
@@ -1645,73 +1644,55 @@ ${stringifiedMappedFormValues}
 
               {/* FILE UPLOAD   */}
 
-
               <FormItem
-                  className="col-span-6 lg:col-span-4"
-                  style={{
-                    color: '#576574',
-                    textAlign: 'left',
-                  }}
+                className="col-span-6 lg:col-span-4"
+                style={{
+                  color: '#576574',
+                  textAlign: 'left',
+                }}
               >
                 <FormControl className="m-0 p-2">
                   <>
-                    <Tooltip
-                      showArrow={true}
-                      isOpen={isFileUploadTooltipOpen}
-                      onOpenChange={(open) => setIsFileUploadTooltipOpen(open)}
-                      delay={0}
-                      closeDelay={0}
-                      motionProps={{
-                        variants: {
-                          exit: {
-                            opacity: 0,
-                            transition: {
-                              duration: 0.1,
-                              ease: "easeIn",
-                            }
-                          },
-                          enter: {
-                            opacity: 1,
-                            transition: {
-                              duration: 0.15,
-                              ease: "easeOut",
-                            }
-                          },
-                        },
-                      }}
+                    <Popover
                       color="primary"
-                      content={fileHasBeenUploadedAndParsed ? "You have run out of free rewrites. Get unlimited access for $9.99." : "Upload your resume and watch the ResumAI assistant make improvements. Compatible with .txt or .docx files."}
+                      showArrow={true}
+                      isOpen={isFileUploadPopoverOpen}
+                      onOpenChange={(open) => setIsFileUploadPopoverOpen(open)}
                     >
-                      <label style={{ fontWeight: "bold" }}>
-                        <input
-                          type="file"
-                          accept={ACCEPTED_FILE_TYPES}
-                          onChange={handleFileChange}
-                          style={{ display: "none" }}
-                          id="file-upload-input"
-                          disabled={fileHasBeenUploadedAndParsed}
-                        />
+                      <PopoverTrigger>
                         <label
-                          htmlFor="file-upload-input"
-                          className="noWrap"
-                          style={{
-                            padding: "8px 16px",
-                            borderRadius: "8px",
-                            color: "#ffffff",
-                            fontSize: "14px",
-                            fontWeight: "500",
-                            display: "inline-block",
-                            cursor: "pointer",
-                            whiteSpace: "nowrap",
-                            backgroundColor: fileHasBeenUploadedAndParsed ? 'grey' : fileUploadButtonIsHovered ? 'rgba(255, 159, 64, 0.97)' : 'rgba(255, 140, 0, 0.97)',
-                          }}
-                          onMouseEnter={() => setFileUploadButtonIsHovered(true)}
-                          onMouseLeave={() => setFileUploadButtonIsHovered(false)}
-
+                          style={{ fontWeight: "bold" }}
+                          onMouseEnter={() => setIsFileUploadPopoverOpen(true)}
+                          onMouseLeave={() => setIsFileUploadPopoverOpen(false)}
                         >
-                          Upload Current Resume
-                        </label>
-                          {uploadedFileName &&
+                          <input
+                            type="file"
+                            accept={ACCEPTED_FILE_TYPES}
+                            onChange={handleFileChange}
+                            style={{ display: "none" }}
+                            id="file-upload-input"
+                            disabled={fileHasBeenUploadedAndParsed}
+                          />
+                          <label
+                            htmlFor="file-upload-input"
+                            className="noWrap"
+                            style={{
+                              padding: "8px 16px",
+                              borderRadius: "8px",
+                              color: "#ffffff",
+                              fontSize: "14px",
+                              fontWeight: "500",
+                              display: "inline-block",
+                              cursor: "pointer",
+                              whiteSpace: "nowrap",
+                              backgroundColor: fileHasBeenUploadedAndParsed ? 'grey' : fileUploadButtonIsHovered ? 'rgba(255, 159, 64, 0.97)' : 'rgba(255, 140, 0, 0.97)',
+                            }}
+                            onMouseEnter={() => setFileUploadButtonIsHovered(true)}
+                            onMouseLeave={() => setFileUploadButtonIsHovered(false)}
+                          >
+                            Upload Current Resume
+                          </label>
+                          {uploadedFileName && (
                             <p style={{
                               color: "black !important",
                               fontSize: "12px",
@@ -1719,9 +1700,18 @@ ${stringifiedMappedFormValues}
                               paddingLeft: "8px",
                               whiteSpace: "nowrap",
                             }}>{uploadedFileName}</p>
-                          }
-                      </label>
-                    </Tooltip>
+                          )}
+                        </label>
+                      </PopoverTrigger>
+                      <PopoverContent>
+                        <div className="px-1 py-2" style={{maxWidth: "472px"}}>
+                          <div className="text-large font-bold">👋 Hey, welcome to ResumAI!</div>
+                          <div className="text-small">
+                            {fileHasBeenUploadedAndParsed ? "You have run out of free rewrites. Get unlimited access for $9.99." : "Upload your resume and watch the ResumAI assistant make improvements. Compatible with .txt or .docx files."}
+                          </div>
+                        </div>
+                      </PopoverContent>
+                    </Popover>
                     {isGettingAiResponseForFileUploadProcess && (
                       <div className="col-span-5 p-0 rounded-lg w-full flex items-left justify-center">
                         <SimplerLoader />

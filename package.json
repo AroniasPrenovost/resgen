@@ -12,6 +12,7 @@
   "dependencies": {
     "@clerk/nextjs": "^4.21.15",
     "@hookform/resolvers": "^3.1.1",
+    "@nextui-org/popover": "^2.1.29",
     "@nextui-org/react": "^2.4.2",
     "@prisma/client": "^5.2.0",
     "@radix-ui/react-avatar": "^1.0.3",
@@ -56,7 +57,7 @@
     "replicate": "^0.12.3",
     "stripe": "^12.13.0",
     "tailwind-merge": "^1.13.2",
-    "tailwindcss": "3.3.2",
+    "tailwindcss": "^3.4.14",
     "tailwindcss-animate": "^1.0.6",
     "typescript": "^5.1.6",
     "typewriter-effect": "^2.20.1",
