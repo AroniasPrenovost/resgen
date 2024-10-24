@@ -71,7 +71,7 @@ const ResumeGeneratorPage = () => {
 
 
   // manage file upload POPOVER display states
-  const [popoverHasBeenShownToUser, setPopoverHasBeenShownToUser] = useState(false);
+  let popoverHasBeenShownToUser = false;
   const [isFileUploadPopoverOpen, setIsFileUploadPopoverOpen] = useState(false);
   useEffect(() => {
     const popoverShown = localStorage.getItem('file_upload_popover_shown') === 'true'
@@ -81,7 +81,7 @@ const ResumeGeneratorPage = () => {
         setTimeout(() => {
           setIsFileUploadPopoverOpen(false);
           localStorage.setItem('file_upload_popover_shown', 'true');
-          setPopoverHasBeenShownToUser(true);
+          popoverHasBeenShownToUser = true;
         }, 9500); // Tooltip stays open for X seconds
       }, 1450); // Initial delay before showing tooltip
 
@@ -348,6 +348,10 @@ const ResumeGeneratorPage = () => {
   const [isGettingAiResponseForFileUploadProcess, setIsGettingAiResponseForFileUploadProcess] = useState(false);
 
   if (global?.window !== undefined) { // now it's safe to access window and localStorage
+
+    //
+    //
+    popoverHasBeenShownToUser = localStorage.getItem('file_upload_popover_shown') === 'true'
 
     //
     // manage form persistence
@@ -1708,10 +1712,16 @@ ${stringifiedMappedFormValues}
                       <PopoverContent>
                         <div className="px-1 py-2" style={{maxWidth: "472px"}}>
                           {!popoverHasBeenShownToUser &&
-                            <div className="text-large font-bold">👋 Hey, welcome to ResumAI!</div>
+                            <div className="text-xl font-bold">👋 Hey, welcome to ResumAI!</div>
+                          }
+                          {popoverHasBeenShownToUser &&
+                            <div className="text-xl font-bold">✨ Need some assistance?</div>
                           }
                           <div className="text-small">
-                            {fileHasBeenUploadedAndParsed ? "You have run out of free rewrites. Get unlimited access for $9.99." : "Upload your resume and watch the ResumAI assistant make improvements. Compatible with .txt or .docx files."}
+                            {fileHasBeenUploadedAndParsed ? "You have run out of free rewrites. Get unlimited access for $9.99." : "Simply upload your resume and watch me make improvements."}
+                          </div>
+                          <div className="text-small pt-1">
+                            Compatible with .txt or .docx files.
                           </div>
                         </div>
                       </PopoverContent>
