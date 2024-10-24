@@ -1710,19 +1710,23 @@ ${stringifiedMappedFormValues}
                         </label>
                       </PopoverTrigger>
                       <PopoverContent>
-                        <div className="px-1 py-2" style={{maxWidth: "472px"}}>
-                          {!popoverHasBeenShownToUser &&
-                            <div className="text-xl font-bold">👋 Hey, welcome to ResumAI!</div>
-                          }
-                          {popoverHasBeenShownToUser &&
-                            <div className="text-xl font-bold">✨ Need some assistance?</div>
-                          }
-                          <div className="text-small">
-                            {fileHasBeenUploadedAndParsed ? "You have run out of free rewrites. Get unlimited access for $9.99." : "Simply upload your resume and watch me make improvements."}
-                          </div>
-                          <div className="text-small pt-1">
-                            Compatible with .txt or .docx files.
-                          </div>
+                        <div className="px-1 py-2">
+                            <div className="text-xl font-bold">
+                              {popoverHasBeenShownToUser &&
+                                <span>✨ Need assistance?</span>
+                              }
+                              {!popoverHasBeenShownToUser &&
+                                <span>👋 Hey, welcome to ResumAI!</span>
+                              }
+                            </div>
+                            <div className="text-small">
+                              {fileHasBeenUploadedAndParsed ? "You have run out of free rewrites. Get unlimited access for $9.99." : "Upload your resume and watch as the ResumAI assistant makes improvements."}
+                            </div>
+
+                            <div className="text-tiny pt-2" style={{fontSize: "14px"}}>
+                              Compatible with <em><b>.docx</b></em> and <em><b>.txt</b></em> files.
+                            </div>
+
                         </div>
                       </PopoverContent>
                     </Popover>
