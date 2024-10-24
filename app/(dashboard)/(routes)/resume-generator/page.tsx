@@ -71,15 +71,17 @@ const ResumeGeneratorPage = () => {
 
 
   // manage file upload POPOVER display states
+  const [popoverHasBeenShownToUser, setPopoverHasBeenShownToUser] = useState(false);
   const [isFileUploadPopoverOpen, setIsFileUploadPopoverOpen] = useState(false);
   useEffect(() => {
-    const popoverShown = localStorage.getItem('file_upload_popover_shown');
+    const popoverShown = localStorage.getItem('file_upload_popover_shown') === 'true'
     if (!popoverShown) {
       const showPopoverTimeout = setTimeout(() => {
         setIsFileUploadPopoverOpen(true);
         setTimeout(() => {
           setIsFileUploadPopoverOpen(false);
           localStorage.setItem('file_upload_popover_shown', 'true');
+          setPopoverHasBeenShownToUser(true);
         }, 9500); // Tooltip stays open for X seconds
       }, 1450); // Initial delay before showing tooltip
 
@@ -1705,7 +1707,9 @@ ${stringifiedMappedFormValues}
                       </PopoverTrigger>
                       <PopoverContent>
                         <div className="px-1 py-2" style={{maxWidth: "472px"}}>
-                          <div className="text-large font-bold">👋 Hey, welcome to ResumAI!</div>
+                          {!popoverHasBeenShownToUser &&
+                            <div className="text-large font-bold">👋 Hey, welcome to ResumAI!</div>
+                          }
                           <div className="text-small">
                             {fileHasBeenUploadedAndParsed ? "You have run out of free rewrites. Get unlimited access for $9.99." : "Upload your resume and watch the ResumAI assistant make improvements. Compatible with .txt or .docx files."}
                           </div>
