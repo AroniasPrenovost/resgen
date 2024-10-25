@@ -389,8 +389,6 @@ const ResumeGeneratorPage = () => {
           localStorage.setItem('stored_form_values', JSON.stringify(responseObject));
           storedFormValues = responseObject;
           setUploadedResumeDataConvertedToForm(responseObject); // jump to '!! update form values once file is uploaded !!'
-          // display form and inputs
-          // todo...
           // set flag to track that we've processed the resume
           localStorage.setItem('file_has_been_uploaded_and_parsed', 'true');
           setIsGettingAiResponseForFileUploadProcess(false);
