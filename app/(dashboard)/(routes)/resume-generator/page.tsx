@@ -1720,7 +1720,7 @@ ${stringifiedMappedFormValues}
                               }
                             </div>
                             <div className="text-small">
-                              {fileHasBeenUploadedAndParsed ? "You have run out of free rewrites. Get unlimited access for $9.99." : "Upload your resume and watch as the AI assistant makes improvements."}
+                              {fileHasBeenUploadedAndParsed ? "You have run out of free rewrites. Submit the form to get unlimited access for $9.99." : "Upload your resume and watch as the AI assistant makes improvements."}
                             </div>
 
                             <div className="text-tiny pt-1" style={{fontSize: "13px"}}>
