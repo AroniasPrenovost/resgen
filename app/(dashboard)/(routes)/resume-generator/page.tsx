@@ -73,30 +73,38 @@ const ResumeGeneratorPage = () => {
   // manage file upload POPOVER display states
   const [typedTitle, setTypedTitle] = useState('');
   const [typedBody, setTypedBody] = useState('');
+  const [typedBody2, setTypedBody2] = useState('');
   const [isFileUploadPopoverOpen, setIsFileUploadPopoverOpen] = useState(false);
   let popoverHasBeenShownToUser = false;
 
   useEffect(() => {
     const popoverShown = localStorage.getItem('file_upload_popover_shown') === 'true'
     if (!popoverShown) {
-      setIsFileUploadPopoverOpen(true);
-
       const showPopoverTimeout = setTimeout(() => {
+        setIsFileUploadPopoverOpen(true);
 
         typeText('👋 Hey there, welcome to ResumAI!', setTypedTitle);
+
         setTimeout(() => {
           typeText(
-            'Upload your resume and watch as the AI assistant makes improvements.',
+            'Simply upload your resume and watch as the AI assistant makes improvements.',
             setTypedBody
           );
-        }, 2400);
+        }, 3400);
+
+        setTimeout(() => {
+          typeText(
+            '* Compatible with .docx and .txt files.',
+            setTypedBody2
+          );
+        }, 9300);
 
         setTimeout(() => {
           setIsFileUploadPopoverOpen(false);
           localStorage.setItem('file_upload_popover_shown', 'true');
           popoverHasBeenShownToUser = true;
-        }, 9500); // popover stays open for X seconds
-      }, 1250); // Initial delay before showing popover
+        }, 14900); // popover stays open for X seconds
+      }, 950); // Initial delay before showing popover
 
       return () => clearTimeout(showPopoverTimeout);
     }
@@ -1742,7 +1750,12 @@ ${stringifiedMappedFormValues}
                           </div>
 
                           <div className="text-tiny pt-1" style={{fontSize: "13px"}}>
-                            Compatible with <em><b>.docx</b></em> and <em><b>.txt</b></em> files.
+                            {popoverHasBeenShownToUser ? (
+                              <span>* Compatible with <em><b>.docx</b></em> and <em><b>.txt</b></em> files.</span>
+                            ) : (
+                              <span>{typedBody2}</span>
+                            )}
+
                           </div>
                         </div>
                       </PopoverContent>
