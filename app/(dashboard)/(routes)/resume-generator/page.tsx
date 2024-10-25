@@ -1735,7 +1735,7 @@ ${stringifiedMappedFormValues}
 
                           <div className="text-xl font-bold">
                             {popoverHasBeenShownToUser ? (
-                              <span>✨ Need assistance?</span>
+                              <span>📝 Need assistance?</span>
                             ) : (
                               <span>{typedTitle}</span>
                             )}
