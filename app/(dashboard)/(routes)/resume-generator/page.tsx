@@ -1673,6 +1673,7 @@ ${stringifiedMappedFormValues}
                   <>
                     <Popover
                       color="primary"
+                      offset={12}
                       showArrow={true}
                       isOpen={isFileUploadPopoverOpen}
                       onOpenChange={(open) => setIsFileUploadPopoverOpen(open)}
