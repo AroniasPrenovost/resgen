@@ -3304,6 +3304,7 @@ ${stringifiedMappedFormValues}
                   motionProps={{
                     variants: {
                       exit: {
+                        marginBottom: "-8px",
                         opacity: 0,
                         transition: {
                           duration: 0.1,
@@ -3311,6 +3312,7 @@ ${stringifiedMappedFormValues}
                         }
                       },
                       enter: {
+                        marginBottom: "-8px",
                         opacity: 1,
                         transition: {
                           duration: 0.15,
