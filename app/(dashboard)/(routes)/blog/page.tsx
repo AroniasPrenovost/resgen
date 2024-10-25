@@ -43,7 +43,7 @@ const BlogPage = async () => {
     <div className="min-h-screen bg-black-50">
       <Heading
         title="Resume Writing Blog"
-        description="Master the art of resume writing with tips and tricks from our experts."
+        description="Master the art of resume writing with insights from our experts."
         icon={RssIcon}
         iconColor="text-grey-700"
         bgColor="bg-gray-700/10"
