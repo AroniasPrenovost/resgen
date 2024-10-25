@@ -1740,7 +1740,7 @@ ${stringifiedMappedFormValues}
               </FormItem>
 
             <div className="showhideContainer" style={{
-              display: true ? "contents" : "none",
+              display: "contents",
             }}>
 
 
