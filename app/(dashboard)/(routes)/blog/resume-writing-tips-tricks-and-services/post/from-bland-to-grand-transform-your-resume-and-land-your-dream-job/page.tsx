@@ -61,7 +61,7 @@ const BlogDetailPage = async () => {
            <p className="text-lg font-medium text-gray-800">Ian Vensel</p>
            <p className="text-sm text-gray-600 font-small">Senior Business Development Manager</p>
            <p className="text-gray-600 pt-2">
-             Providing transformative career advice for over a decade. Get in touch with him at <a href="https://empirestrategists.com" className="text-blue-700 hover:underline" title="Empire Strategists">Empire Strategists</a> and Let&apos;s elevate your business together!
+             Ian has been providing transformative career advice for over a decade. Get in touch with him at <a href="https://empirestrategists.com" className="text-blue-700 hover:underline" title="Empire Strategists">Empire Strategists</a> and Let&apos;s elevate your business together!
            </p>
          </div>
        </div>
