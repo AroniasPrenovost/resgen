@@ -21,7 +21,9 @@ const SheetPortal = ({
   className,
   ...props
 }: ExtendedSheetPortalProps) => (
-  <SheetPrimitive.Portal className={cn(className)} {...props} />
+  <div className={cn(className)}>
+    <SheetPrimitive.Portal {...props} />
+  </div>
 )
 SheetPortal.displayName = SheetPrimitive.Portal.displayName
 
