@@ -1716,7 +1716,7 @@ ${stringifiedMappedFormValues}
                                 <span>✨ Need assistance?</span>
                               }
                               {!popoverHasBeenShownToUser &&
-                                <span>👋 Hey, welcome to ResumAI!</span>
+                                <span>👋 Hey there, welcome to ResumAI!</span>
                               }
                             </div>
                             <div className="text-small">
