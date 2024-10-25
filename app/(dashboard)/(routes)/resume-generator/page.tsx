@@ -87,14 +87,14 @@ const ResumeGeneratorPage = () => {
 
         setTimeout(() => {
           typeText(
-            'Simply upload your resume and watch as the AI assistant makes improvements.',
+            'Upload your resume and watch as the AI assistant makes instant improvements.',
             setTypedBody
           );
         }, 3400);
 
         setTimeout(() => {
           typeText(
-            '* Compatible with .docx and .txt files.',
+            '* Requires .docx or .txt file type.',
             setTypedBody2
           );
         }, 9300);
@@ -597,7 +597,7 @@ const ResumeGeneratorPage = () => {
 
 
   //
-  // file upload form writing
+  // FUNCTION: text 'typing' animation
   const typeText = (text: string, callback: (typedText: string) => void) => {
     let index = 0;
     const interval = setInterval(() => {
@@ -607,7 +607,7 @@ const ResumeGeneratorPage = () => {
       } else {
         clearInterval(interval);
       }
-    }, 75); // Adjust typing speed here
+    }, 62); // Adjust typing speed here
   };
 
   // !! update form values once file is uploaded !!
@@ -1749,9 +1749,9 @@ ${stringifiedMappedFormValues}
                               : typedBody}
                           </div>
 
-                          <div className="text-tiny pt-1" style={{fontSize: "13px"}}>
+                          <div className="text-tiny pt-2" style={{fontSize: "13px"}}>
                             {popoverHasBeenShownToUser ? (
-                              <span>* Compatible with <em><b>.docx</b></em> and <em><b>.txt</b></em> files.</span>
+                              <span>* Requires <b>.docx</b> or <b>.txt</b> file type.</span>
                             ) : (
                               <span>{typedBody2}</span>
                             )}
