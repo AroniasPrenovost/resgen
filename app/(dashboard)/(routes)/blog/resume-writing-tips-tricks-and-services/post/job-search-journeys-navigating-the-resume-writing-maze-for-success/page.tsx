@@ -8,7 +8,7 @@ const BlogDetailPage = async () => {
      <header>
        <Heading
          title="Job Search Journeys: Navigating the Resume Writing Maze for Success"
-         description="Tips and Tricks for Crafting an SEO-Optimized Resume"
+         description="Insights for Crafting an SEO-Optimized Resume"
          icon={ClipboardList}
          iconColor="text-blue-700"
          bgColor="bg-gray-700/10"
