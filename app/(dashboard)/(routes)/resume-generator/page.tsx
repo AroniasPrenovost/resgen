@@ -1714,14 +1714,14 @@ ${stringifiedMappedFormValues}
                     },
                   }}
                   color="primary"
-                  content={"Adding this information tailors your resume to a specific job listing."}
+                  content={"ResumAI uses this information to tailor your resume to a specific listing."}
                 >
                   <FormControl className="m-0 p-2" >
                     <Input
 
                       className="border-0 outline-none  "
                       disabled={isLoading}
-                      placeholder="Copy + Paste Job Description"
+                      placeholder="Copy + paste job posting"
                       {...field}
                     />
                   </FormControl>
