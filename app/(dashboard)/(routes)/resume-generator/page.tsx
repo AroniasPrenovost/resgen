@@ -95,7 +95,7 @@ const ResumeGeneratorPage = () => {
 
         setTimeout(() => {
           typeText(
-            '* Requires .docx or .txt file type.',
+            '* Supports .docx or .txt file types.',
             setTypedBody2
           );
         }, 9300);
@@ -1810,13 +1810,13 @@ ${stringifiedMappedFormValues}
                             {fileHasBeenUploadedAndParsed
                               ? 'You have run out of free rewrites. Submit the form to get unlimited access for $9.99.'
                               : popoverHasBeenShownToUser
-                              ? 'Upload your resume and watch as the AI assistant makes improvements. Reach out to support for any additional questions.'
+                              ? 'Upload your resume and watch as the AI assistant makes improvements.'
                               : typedBody}
                           </div>
 
                           <div className="text-tiny pt-2" style={{fontSize: "13px"}}>
                             {popoverHasBeenShownToUser ? (
-                              <span>* Requires <b>.docx</b> or <b>.txt</b> file type.</span>
+                              <span>* Supports <b>.docx</b> or <b>.txt</b> file types.</span>
                             ) : (
                               <span>{typedBody2}</span>
                             )}
