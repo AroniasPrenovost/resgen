@@ -120,8 +120,10 @@ const ResumeGeneratorPage = () => {
 
 
 
-  const convertUploadedFileToFormInputsUsingAi = async(fileContents: string) => {
+  const convertUploadedFileToFormInputsUsingAi = async(fileContents: string, jobDesc: string) => {
     console.log('convertUploadedFileToFormInputsUsingAi()');
+    let jobDescription = jobDesc ?? '';
+    console.log({jobDescription})
     // make API call
     // const promptString = "Generate me the fibonacci sequence in js";
     const promptString = `Persona: you are a expert resume writer with with years of experience improving resumes.
@@ -364,6 +366,9 @@ const ResumeGeneratorPage = () => {
   // form persistence
   let storedFormValues: any = {};
 
+  // pass job post description to AI call
+  const [jobPostDescription, setJobPostDescription] = useState('');
+
   // file upload
   let hasFileBeenSelectedByUser = false;
   let fileHasBeenUploadedAndParsed = false;
@@ -392,7 +397,7 @@ const ResumeGeneratorPage = () => {
     const convertUploadedFileToFormInputsUsingAiProcess = async () => {
       console.log('convertUploadedFileToFormInputsUsingAiProcess()')
       try {
-        const prefilledUserResData = await convertUploadedFileToFormInputsUsingAi(uploadedFileContents);
+        const prefilledUserResData = await convertUploadedFileToFormInputsUsingAi(uploadedFileContents, jobPostDescription);
         if (prefilledUserResData && prefilledUserResData.data && prefilledUserResData.data.content) {
           const responseObject = JSON.parse(prefilledUserResData.data.content);
           // prepopulate form fields with response
