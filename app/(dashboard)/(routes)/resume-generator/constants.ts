@@ -1,6 +1,7 @@
 import * as z from "zod";
 
 export const formSchema = z.object({
+  job_post_description: z.string().optional(),
   full_name: z.string().min(1, {
     message: "Your first and last name is required."
   }),
@@ -118,7 +119,7 @@ export const formSchema = z.object({
   college_start_year_3: z.string().optional(),
   college_end_year_3: z.string().optional(),
 
-  // civic service/extra - 1 
+  // civic service/extra - 1
   achievement_1_issuer: z.string().optional(),
   achievement_1_name: z.string().optional(),
   // civic service/extra - 2

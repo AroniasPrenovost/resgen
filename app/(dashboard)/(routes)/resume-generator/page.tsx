@@ -63,6 +63,7 @@ const ResumeGeneratorPage = () => {
   //
 
   // const [topCTAButtonIsHovered, setTopCTAButtonIsHovered] = useState(false);
+  const [isJobPostingTooltipOpen, setIsJobPostingTooltipOpen] = useState(false);
   const [fileUploadButtonIsHovered, setFileUploadButtonIsHovered] = useState(false);
   const [formSubmitButtonIsHovered, setFormSubmitButtonIsHovered] = useState(false);
 
@@ -139,6 +140,7 @@ const ResumeGeneratorPage = () => {
     11. The outputted result should only be a string-ified version of the 'resume_object'.
     resume_object:
     {
+      "job_post_description": "",
       "full_name": "",
       "email_address": "",
       "phone_number": "",
@@ -491,6 +493,7 @@ const ResumeGeneratorPage = () => {
     // resolver: zodResolver(formSchema), // disable form validation
     // since I want people to go to Stripe prior to filling out the form, if they wish
     defaultValues: {
+      job_post_description: storedFormValues.job_post_description ?? '',
       full_name: storedFormValues.full_name ?? '',
       email_address: storedFormValues.email_address ?? '',
       phone_number: storedFormValues.phone_number ?? '',
@@ -787,6 +790,7 @@ const ResumeGeneratorPage = () => {
   function mapFormValuesToResumeObject(formValues: any) {
     let RESUME_OBJECT: any = {
       personal_info: {
+        job_post_description: '',
         name: '',
         phone_number: '',
         email_address: '',
@@ -806,6 +810,10 @@ const ResumeGeneratorPage = () => {
     // PERSONAL INFO
     //
     //
+
+    if (formValues.job_post_description) {
+      RESUME_OBJECT.personal_info.job_post_description = formValues.job_post_description;
+    }
 
     if (formValues.full_name) {
       RESUME_OBJECT.personal_info.name = formValues.full_name;
@@ -1118,6 +1126,7 @@ const ResumeGeneratorPage = () => {
     /*
 
         {
+            "job_post_description": "test",
             "full_name": "sadas",
             "email_address": "sd",
             "phone_number": "sad",
@@ -1266,27 +1275,36 @@ const ResumeGeneratorPage = () => {
 
     */
 
-
+      const job_post_description = mappedFormValues.personal_info.job_post_description.trim();
+      const job_post_action = job_post_description.length
+        ? `It is imperative that you tailor the new resume output to align with the job description: ${job_post_description}`
+        : '';
+      // console.log('---', job_post_description)
 
     const stringifiedMappedFormValues = JSON.stringify(mappedFormValues);
 
     const promptString = `Persona: you are a expert resume writer with with years of experience improving resumes.
-Improve the verbiage, tone, and professionalism of the inputted content so it can be used in a resume.
+Improve the verbiage, tone, and professionalism of the inputted content so it can be used in a resume. ${job_post_action}
+
 Rules:
 1. The output should maintain the exact same object structure of the original 'resume_object', meaning only the key properties' values should be modified.
-2. When necessary, fix any typos, sentence structure issues, and grammar problems.
-3. Capitalize proper nouns, and expand acronyms when necessary.
-4. If a section does not have content, you will usually leave it blank unless it makes sense to add detail.
-5. For 'resume_object.experiences' data, elaborate so most of the experience summary instances are at least 2 sentances.
-6. For 'resume_object.education' section, ensure school names are proper nonand clear.
-7. For 'resume_object.achievements' section, elaborate when necessary to explain context of achievement.
-8. For 'resume_object.references' section, elaborate when necessary to explain context of relationship.
-9. Incorporate words such as 'managed', 'solved', 'planned', 'executed', 'demonstrated', 'succeeded', 'collaborated', 'implemented', 'strategized', 'lead', etc.
-10. The outputted content should be a markedly improved version of the input.
-11. The outputted result should only be a string-ified version of the 'resume_object'.
+2. When necessary fix any typos, sentence structure issues, grammar problems, capitalize proper nouns, and expand acronyms.
+3. If a section does not have content, you will usually leave it blank unless it makes sense to add detail.
+4. For 'resume_object.experiences' data, elaborate so most of the experience summary instances are at least 2 sentances.
+5. For 'resume_object.education' section, ensure school names are proper nonand clear.
+6. For 'resume_object.achievements' section, elaborate when necessary to explain context of achievement.
+7. For 'resume_object.references' section, elaborate when necessary to explain context of relationship.
+8. Incorporate words such as 'managed', 'solved', 'planned', 'executed', 'demonstrated', 'succeeded', 'collaborated', 'implemented', 'strategized', 'lead', etc.
+9. The outputted content should be a markedly improved version of the input.
+10. The outputted result should only be a string-ified version of the 'resume_object'.
 resume_object:
 ${stringifiedMappedFormValues}
     `;
+
+
+    console.log(promptString);
+
+    return;
 
     const fileName = `${(mappedFormValues.personal_info.name).replace(' ', '')}-Resume.docx`;
 
@@ -1666,6 +1684,53 @@ ${stringifiedMappedFormValues}
             >
 
 
+            {/* Job Post description */}
+            <FormField
+              name="job_post_description"
+              render={({ field }) => (
+                <FormItem className="col-span-12 lg:col-span-4 border-2 rounded-lg border-gray-300">
+                <Tooltip
+                  showArrow={true}
+                  isOpen={isJobPostingTooltipOpen}
+                  onOpenChange={(open) => setIsJobPostingTooltipOpen(open)}
+                  delay={0}
+                  closeDelay={0}
+                  motionProps={{
+                    variants: {
+                      exit: {
+                        opacity: 0,
+                        transition: {
+                          duration: 0.1,
+                          ease: "easeIn",
+                        }
+                      },
+                      enter: {
+                        opacity: 1,
+                        transition: {
+                          duration: 0.15,
+                          ease: "easeOut",
+                        }
+                      },
+                    },
+                  }}
+                  color="primary"
+                  content={"Adding this information tailors your resume to a specific job listing."}
+                >
+                  <FormControl className="m-0 p-2" >
+                    <Input
+
+                      className="border-0 outline-none  "
+                      disabled={isLoading}
+                      placeholder="Copy + Paste Job Description"
+                      {...field}
+                    />
+                  </FormControl>
+                  </Tooltip>
+                </FormItem>
+              )}
+            />
+
+
 
 
               {/* FILE UPLOAD   */}
@@ -1735,7 +1800,7 @@ ${stringifiedMappedFormValues}
 
                           <div className="text-xl font-bold">
                             {popoverHasBeenShownToUser ? (
-                              <span>📝 Need assistance?</span>
+                              <span>📝 Have any questions?</span>
                             ) : (
                               <span>{typedTitle}</span>
                             )}
@@ -1745,7 +1810,7 @@ ${stringifiedMappedFormValues}
                             {fileHasBeenUploadedAndParsed
                               ? 'You have run out of free rewrites. Submit the form to get unlimited access for $9.99.'
                               : popoverHasBeenShownToUser
-                              ? 'Upload your resume and watch as the AI assistant makes improvements.'
+                              ? 'Upload your resume and watch as the AI assistant makes improvements. Reach out to support for any additional questions.'
                               : typedBody}
                           </div>
 
@@ -1768,6 +1833,11 @@ ${stringifiedMappedFormValues}
                   </>
                 </FormControl>
               </FormItem>
+
+
+
+
+
 
             <div className="showhideContainer" style={{
               display: "contents",

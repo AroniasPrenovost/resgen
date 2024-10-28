@@ -17,6 +17,7 @@ import {
 } from "docx";
 
 type PersonalInfo = {
+  job_post_description: string,
   name: string;
   phone_number: string;
   linkedin: string;
@@ -36,7 +37,7 @@ export class DocumentCreator {
     achievements,
     references
   ]: [PersonalInfo, any[], any[], any[], any[], any[]]): Document {
-    
+
     // console.log('create doc', { personal_info, other: [
     //   personal_info,
     //   experiences,
@@ -68,7 +69,7 @@ export class DocumentCreator {
                         before: 0,
                         after: 0,
                     },
-                },  
+                },
             },
             heading2: {
                 run: {
@@ -90,15 +91,15 @@ export class DocumentCreator {
         },
       sections: [
         {
-          children: [  
+          children: [
             new Paragraph({
               text: (personal_info.name), // .toUpperCase(),
               heading: HeadingLevel.TITLE,
-              alignment: AlignmentType.LEFT, 
-              // alignment: AlignmentType.CENTER,   
+              alignment: AlignmentType.LEFT,
+              // alignment: AlignmentType.CENTER,
               spacing: {
                  before: 0,
-                after: 40, // SPACING 
+                after: 40, // SPACING
               },
             }),
 
@@ -115,7 +116,7 @@ export class DocumentCreator {
               //   }
               // ],
                        heading: HeadingLevel.TITLE,
-              alignment: AlignmentType.LEFT,  
+              alignment: AlignmentType.LEFT,
               children: [
                 new TextRun({
                text: personal_info.name,
@@ -171,7 +172,7 @@ export class DocumentCreator {
             //
             ///////////////////////
 
-          
+
             this.createHeading("Technical Skills"),
             this.createSkillList(skills),
 
@@ -320,9 +321,9 @@ export class DocumentCreator {
             // test
             //
             //
- 
-  
- 
+
+
+
 
 
 
@@ -400,7 +401,7 @@ export class DocumentCreator {
         link: personalWebsite,
       });
     }
-      
+
 
     return new Paragraph({
       alignment: AlignmentType.LEFT,
@@ -433,11 +434,11 @@ export class DocumentCreator {
       text: text,
       heading: HeadingLevel.HEADING_2,
       // alignment: AlignmentType.CENTER,
-      alignment: AlignmentType.LEFT,  
+      alignment: AlignmentType.LEFT,
       thematicBreak: true,
        spacing: {
         before: 60,
-        after: 0, // SPACING 
+        after: 0, // SPACING
       },
     });
   }
@@ -467,7 +468,7 @@ export class DocumentCreator {
         }),
         new TextRun({
           children: [
-            new Tab(), // this is how you right-align the text :/ 
+            new Tab(), // this is how you right-align the text :/
             dateText,
           ],
           bold: true,
@@ -644,4 +645,3 @@ export class DocumentCreator {
     }
   }
 }
-
