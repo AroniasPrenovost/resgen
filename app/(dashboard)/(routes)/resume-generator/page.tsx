@@ -1701,7 +1701,7 @@ ${stringifiedMappedFormValues}
             <FormField
               name="job_post_description"
               render={({ field }) => (
-                <FormItem className="col-span-12 lg:col-span-4 border-2 rounded-lg border-gray-300">
+                <FormItem className="col-span-12 lg:col-span-5 border-2 rounded-lg border-gray-300">
                 <Tooltip
                   showArrow={true}
                   isOpen={isJobPostingTooltipOpen}
@@ -1871,7 +1871,7 @@ ${stringifiedMappedFormValues}
               <FormField
                 name="full_name"
                 render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-4 border-2 rounded-lg border-gray-300">
+                  <FormItem className="col-span-12 lg:col-span-3 border-2 rounded-lg border-gray-300">
                     <FormControl className="m-0 p-2" >
                       <Input
 
@@ -1888,7 +1888,7 @@ ${stringifiedMappedFormValues}
               <FormField
                 name="email_address"
                 render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-4 border-2 rounded-lg border-gray-300">
+                  <FormItem className="col-span-12 lg:col-span-3 border-2 rounded-lg border-gray-300">
                     <FormControl className="m-0 p-2">
                       <Input
                         className="border-0 outline-none  "
@@ -1904,7 +1904,7 @@ ${stringifiedMappedFormValues}
               <FormField
                 name="phone_number"
                 render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-4 border-2 rounded-lg border-gray-300">
+                  <FormItem className="col-span-12 lg:col-span-3 border-2 rounded-lg border-gray-300">
                     <FormControl className="m-0 p-2">
                       <Input
                         className="border-0 outline-none  "
@@ -1920,7 +1920,7 @@ ${stringifiedMappedFormValues}
               <FormField
                 name="linkedin_profile"
                 render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
+                  <FormItem className="col-span-12 lg:col-span-3 border-2 rounded-lg border-gray-300">
                     <FormControl className="m-0 p-2">
                       <Input
                         className="border-0 outline-none  "
@@ -1934,25 +1934,9 @@ ${stringifiedMappedFormValues}
               />
 
               <FormField
-                name="personal_website"
-                render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
-                    <FormControl className="m-0 p-2">
-                      <Input
-                        className="border-0 outline-none  "
-                        disabled={isLoading}
-                        placeholder="Personal website (if applicable)"
-                        {...field}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-
-              <FormField
                 name="skills"
                 render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-12 border-2 rounded-lg border-gray-300">
+                  <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
                     <FormControl className="m-0 p-2">
                       <Input
                         className="border-0 outline-none  "
@@ -1968,7 +1952,7 @@ ${stringifiedMappedFormValues}
               <FormField
                 name="interests"
                 render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-12 border-2 rounded-lg border-gray-300">
+                  <FormItem className="col-span-12 lg:col-span-3 border-2 rounded-lg border-gray-300">
                     <FormControl className="m-0 p-2">
                       <Input
                         className="border-0 outline-none  "
@@ -1981,6 +1965,21 @@ ${stringifiedMappedFormValues}
                 )}
               />
 
+              <FormField
+                name="personal_website"
+                render={({ field }) => (
+                  <FormItem className="col-span-12 lg:col-span-3 border-2 rounded-lg border-gray-300">
+                    <FormControl className="m-0 p-2">
+                      <Input
+                        className="border-0 outline-none  "
+                        disabled={isLoading}
+                        placeholder="Personal website (if applicable)"
+                        {...field}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
 
               {/* Professional experience */}
 
