@@ -1285,7 +1285,6 @@ const ResumeGeneratorPage = () => {
       const job_post_description_insert = job_post_description.length
         ? `It is imperative that you tailor the new resume output to align with the given job description: ${job_post_description}`
         : '';
-      // console.log('---', job_post_description)
 
     const stringifiedMappedFormValues = JSON.stringify(mappedFormValues);
 
