@@ -120,9 +120,9 @@ const ResumeGeneratorPage = () => {
 
 
 
-  const convertUploadedFileToFormInputsUsingAi = async(fileContents: string, jobDesc: string) => {
+  const convertUploadedFileToFormInputsUsingAi = async(fileContents: string) => {
     console.log('convertUploadedFileToFormInputsUsingAi()');
-    let jobDescription = jobDesc ?? '';
+    let jobDescription = document.querySelector('input[name="job_post_description"]').value ?? '';
     console.log({jobDescription})
     // make API call
     // const promptString = "Generate me the fibonacci sequence in js";
@@ -140,9 +140,10 @@ const ResumeGeneratorPage = () => {
     9. Incorporate words such as 'managed', 'solved', 'planned', 'executed', 'demonstrated', 'succeeded', 'collaborated', 'implemented', 'strategized', 'lead', etc.
     10. The outputted content should be a markedly improved version of the input.
     11. The outputted result should only be a string-ified version of the 'resume_object'.
+    12. Do not modify the 'job_post_description field.
     resume_object:
     {
-      "job_post_description": "",
+      "job_post_description": "${jobPostDescription}",
       "full_name": "",
       "email_address": "",
       "phone_number": "",
@@ -367,7 +368,7 @@ const ResumeGeneratorPage = () => {
   let storedFormValues: any = {};
 
   // pass job post description to AI call
-  const [jobPostDescription, setJobPostDescription] = useState('');
+  // const [jobPostDescription, setJobPostDescription] = useState('');
 
   // file upload
   let hasFileBeenSelectedByUser = false;
@@ -397,7 +398,7 @@ const ResumeGeneratorPage = () => {
     const convertUploadedFileToFormInputsUsingAiProcess = async () => {
       console.log('convertUploadedFileToFormInputsUsingAiProcess()')
       try {
-        const prefilledUserResData = await convertUploadedFileToFormInputsUsingAi(uploadedFileContents, jobPostDescription);
+        const prefilledUserResData = await convertUploadedFileToFormInputsUsingAi(uploadedFileContents);
         if (prefilledUserResData && prefilledUserResData.data && prefilledUserResData.data.content) {
           const responseObject = JSON.parse(prefilledUserResData.data.content);
           // prepopulate form fields with response
@@ -1281,15 +1282,15 @@ const ResumeGeneratorPage = () => {
     */
 
       const job_post_description = mappedFormValues.personal_info.job_post_description.trim();
-      const job_post_action = job_post_description.length
-        ? `It is imperative that you tailor the new resume output to align with the job description: ${job_post_description}`
+      const job_post_description_insert = job_post_description.length
+        ? `It is imperative that you tailor the new resume output to align with the given job description: ${job_post_description}`
         : '';
       // console.log('---', job_post_description)
 
     const stringifiedMappedFormValues = JSON.stringify(mappedFormValues);
 
     const promptString = `Persona: you are a expert resume writer with with years of experience improving resumes.
-Improve the verbiage, tone, and professionalism of the inputted content so it can be used in a resume. ${job_post_action}
+Improve the verbiage, tone, and professionalism of the inputted content so it can be used in a resume. ${job_post_description_insert}
 
 Rules:
 1. The output should maintain the exact same object structure of the original 'resume_object', meaning only the key properties' values should be modified.
@@ -1719,14 +1720,13 @@ ${stringifiedMappedFormValues}
                     },
                   }}
                   color="primary"
-                  content={"ResumAI uses this information to tailor your resume to a specific listing."}
+                  content={"ResumAI will use this to tailor your resume to a specific job posting."}
                 >
                   <FormControl className="m-0 p-2" >
                     <Input
-
                       className="border-0 outline-none  "
                       disabled={isLoading}
-                      placeholder="Copy + paste job posting"
+                      placeholder="Copy + paste job description"
                       {...field}
                     />
                   </FormControl>
