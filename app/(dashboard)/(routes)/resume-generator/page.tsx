@@ -1312,8 +1312,6 @@ ${stringifiedMappedFormValues}
 
     console.log(promptString);
 
-    return;
-
     const fileName = `${(mappedFormValues.personal_info.name).replace(' ', '')}-Resume.docx`;
 
     // make API call
