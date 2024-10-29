@@ -122,10 +122,11 @@ const ResumeGeneratorPage = () => {
 
   const convertUploadedFileToFormInputsUsingAi = async(fileContents: string) => {
     console.log('convertUploadedFileToFormInputsUsingAi()');
-    let job_post_description = document.querySelector('input[name="job_post_description"]').value.trim() ?? '';
-    console.log({jobDescription})
-    // make API call
-    // const promptString = "Generate me the fibonacci sequence in js";
+    // const job_post_description = document.querySelector('input[name="job_post_description"]').value.trim() ?? '';
+    // const job_post_description_insert = job_post_description.length
+    //   ? `Ensure the new resume output to align with the given job description: ${job_post_description}`
+    //   : '';
+
     const promptString = `Persona: you are a expert resume writer with with years of experience improving resumes.
     Improve the verbiage, tone, and professionalism of the inputted content (${fileContents}) and map it to our desired 'resume_object' structure.
     Rules:
@@ -224,8 +225,10 @@ const ResumeGeneratorPage = () => {
   }
         `;
 
-        // console.log('prompt string');
-        // console.log(promptString);
+    // console.log('prompt string');
+    // console.log(promptString);
+
+    // make API call
     try {
       const userMessage: ChatCompletionRequestMessage = { role: "user", content: promptString };
       const newMessages = [...messages, userMessage];
