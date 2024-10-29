@@ -122,13 +122,16 @@ const ResumeGeneratorPage = () => {
 
   const convertUploadedFileToFormInputsUsingAi = async(fileContents: string) => {
     console.log('convertUploadedFileToFormInputsUsingAi()');
-    // get job post dscription
+    // get job post description
     let job_post_description = '';
     let job_post_description_insert = '';
-    const input = document.querySelector('input[name="job_post_description"]') ?? {value: ''};
-    const val = input.value.trim();
-    console.log('test:', val)
-    console.log(input.value)
+
+    const input = document.querySelector('input[name="job_post_description"]') as HTMLInputElement | null;
+
+    const val = input ? input.value.trim() : '';
+    console.log('test:', val);
+    console.log(input ? input.value : '');
+
     if (val) {
       job_post_description = val;
       job_post_description_insert = `Ensure the new resume output aligns with the given job description: ${job_post_description}`;
