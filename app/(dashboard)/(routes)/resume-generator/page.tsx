@@ -1815,7 +1815,7 @@ ${stringifiedMappedFormValues}
                             {fileHasBeenUploadedAndParsed
                               ? 'You have run out of free rewrites. Submit the form to get unlimited access for $9.99.'
                               : popoverHasBeenShownToUser
-                              ? 'Upload your resume and watch as the AI assistant makes improvements.'
+                              ? 'Upload your resume and watch ResumAI assistant make improvements.'
                               : typedBody}
                           </div>
 
