@@ -84,7 +84,7 @@ export const Sidebar = ({
           ))}
 
            <div className="space-y-1" style={{paddingTop: '24px', padding: '8px', fontSize: '14px'}}>
-              <b style={{fontSize: '18px', marginBottom: '20px !important', marginTop: '20px'}}>How Does It Work?</b><br/>
+              <b style={{fontSize: '18px', marginBottom: '20px !important', marginTop: '20px', color: 'orange'}}>How Does It Work?</b><br/>
               <ol>
          {/*       <li><b>1. </b><b style={{color:"orange"}}>$3.99</b> gets you access for 30 days.</li>
                   <br/>*/}
