@@ -123,10 +123,13 @@ const ResumeGeneratorPage = () => {
   const convertUploadedFileToFormInputsUsingAi = async(fileContents: string) => {
     console.log('convertUploadedFileToFormInputsUsingAi()');
     // get job post dscription
-    const job_post_description = document.querySelector('input[name="job_post_description"]').value.trim() ?? '';
-    const job_post_description_insert = job_post_description.length
-      ? `Ensure the new resume output to align with the given job description: ${job_post_description}`
-      : '';
+    let job_post_description = '';
+    let job_post_description_insert = '';
+    const input = document.querySelector('input[name="job_post_description"]');
+    if (input && input.value) {
+      job_post_description = input.value.trim();
+      job_post_description_insert = `Ensure the new resume output aligns with the given job description: ${job_post_description}`;
+    }
 
     const promptString = `Persona: you are a expert resume writer with with years of experience improving resumes.
     Improve the verbiage, tone, and professionalism of the inputted content (${fileContents}) and map it to our desired 'resume_object' structure.
@@ -1287,7 +1290,7 @@ const ResumeGeneratorPage = () => {
     // get job post dscription
     const job_post_description = mappedFormValues.personal_info.job_post_description.trim();
     const job_post_description_insert = job_post_description.length
-      ? `It is imperative that you tailor the new resume output to align with the given job description: ${job_post_description}`
+      ? `It is imperative that you tailor the resume content to align with the given job description: ${job_post_description}`
       : '';
 
     const stringifiedMappedFormValues = JSON.stringify(mappedFormValues);
