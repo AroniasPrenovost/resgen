@@ -125,7 +125,9 @@ const ResumeGeneratorPage = () => {
     // get job post dscription
     let job_post_description = '';
     let job_post_description_insert = '';
-    const input = document.querySelector('input[name="job_post_description"]');
+    const input = document.querySelector('input[name="job_post_description"]') ?? {value: ''};
+    // console.log('test:', input)
+    // console.log(input.value)
     if (input) {
       if (input.value) {
         job_post_description = input.value.trim();
