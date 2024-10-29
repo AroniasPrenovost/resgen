@@ -88,7 +88,7 @@ export const Sidebar = ({
               <ol>
          {/*       <li><b>1. </b><b style={{color:"orange"}}>$3.99</b> gets you access for 30 days.</li>
                   <br/>*/}
-                <li><b>1. </b>Copy + paste a specific job listing so our AI systems can tailor their output to it (optional).</li>
+                <li><b>1. </b>Copy + paste a specific job requirements so our AI systems can tailor their output to match (optional).</li>
                 <br/>
                 <li><b>2. </b>Upload your current resume (or manually enter your info).</li>
                 <br/>
