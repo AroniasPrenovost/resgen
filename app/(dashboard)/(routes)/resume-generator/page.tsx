@@ -17,7 +17,7 @@ import { BotAvatar } from "@/components/bot-avatar";
 import { Heading } from "@/components/heading";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { TextArea } from "@/components/ui/textarea";
+import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
@@ -1731,7 +1731,7 @@ ${stringifiedMappedFormValues}
                 >
                   <FormControl className="m-0 p-2" >
                     {/* }<Input */}
-                    <TextArea
+                    <Textarea
                       className="border-0 outline-none  "
                       disabled={isLoading}
                       placeholder="Copy + paste job description"
@@ -2109,7 +2109,7 @@ ${stringifiedMappedFormValues}
                       <FormItem className="col-span-12 lg:col-span-12 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                         {/* }<Input */}
-                        <TextArea
+                        <Textarea
                             className="border-0 outline-none  "
                             disabled={isLoading}
                             placeholder="Job description"
@@ -2238,7 +2238,7 @@ ${stringifiedMappedFormValues}
                       <FormItem className="col-span-12 lg:col-span-12 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                         {/* }<Input */}
-                        <TextArea
+                        <Textarea
                             className="border-0 outline-none  "
                             disabled={isLoading}
                             placeholder="Job description"
@@ -2368,7 +2368,7 @@ ${stringifiedMappedFormValues}
                       <FormItem className="col-span-12 lg:col-span-12 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                         {/* }<Input */}
-                        <TextArea
+                        <Textarea
                             className="border-0 outline-none  "
                             disabled={isLoading}
                             placeholder="Job description"
@@ -2500,7 +2500,7 @@ ${stringifiedMappedFormValues}
                       <FormItem className="col-span-12 lg:col-span-12 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                         {/* }<Input */}
-                        <TextArea
+                        <Textarea
                             className="border-0 outline-none  "
                             disabled={isLoading}
                             placeholder="Job description"
@@ -2628,7 +2628,7 @@ ${stringifiedMappedFormValues}
                       <FormItem className="col-span-12 lg:col-span-12 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                         {/* }<Input */}
-                        <TextArea
+                        <Textarea
                             className="border-0 outline-none  "
                             disabled={isLoading}
                             placeholder="Job description"
@@ -2757,7 +2757,7 @@ ${stringifiedMappedFormValues}
                       <FormItem className="col-span-12 lg:col-span-12 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                         {/* }<Input */}
-                        <TextArea
+                        <Textarea
                             className="border-0 outline-none  "
                             disabled={isLoading}
                             placeholder="Job description"
