@@ -122,7 +122,7 @@ const ResumeGeneratorPage = () => {
 
   const convertUploadedFileToFormInputsUsingAi = async(fileContents: string) => {
     console.log('convertUploadedFileToFormInputsUsingAi()');
-    let jobDescription = document.querySelector('input[name="job_post_description"]').value ?? '';
+    let jobDescription = document.querySelector('input[name="job_post_description"]').value.trim() ?? '';
     console.log({jobDescription})
     // make API call
     // const promptString = "Generate me the fibonacci sequence in js";
