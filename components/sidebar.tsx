@@ -88,7 +88,7 @@ export const Sidebar = ({
               <ol>
          {/*       <li><b>1. </b><b style={{color:"orange"}}>$3.99</b> gets you access for 30 days.</li>
                   <br/>*/}
-                <li><b style={{color: 'orange', fontSize: '14px'}}>1. </b>Copy + paste a job description so the AI can tailor your resume to match that role (optional).</li>
+                <li><b style={{color: 'orange', fontSize: '14px'}}>1. </b>Copy + paste a job description you&apos;d like the resume tailored to (optional).</li>
                 <br/>
                 <li><b style={{color: 'orange', fontSize: '14px'}}>2. </b>Upload your current resume and watch ResumAI analyze and begin rewriting the content.</li>
                 <br/>
