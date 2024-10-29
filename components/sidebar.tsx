@@ -108,7 +108,7 @@ export const Sidebar = ({
 
                 <br/>
                 <li>
-                <br/>
+                  <br/>
                   <em>Pro tip:</em> If you do not have Microsoft Word, you can upload your new resume template to <Link className={cn(
                     "hover:text-white transition",
                      "text-zinc-400",
