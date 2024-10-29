@@ -1727,7 +1727,7 @@ ${stringifiedMappedFormValues}
                     },
                   }}
                   color="primary"
-                  content={"ResumAI will use this to tailor your resume to a specific job posting."}
+                  content={"ResumAI will use this to tailor your resume to a specific role."}
                 >
                   <FormControl className="m-0 p-2" >
                     {/* }<Input */}

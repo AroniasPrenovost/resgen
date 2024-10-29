@@ -88,16 +88,18 @@ export const Sidebar = ({
               <ol>
          {/*       <li><b>1. </b><b style={{color:"orange"}}>$3.99</b> gets you access for 30 days.</li>
                   <br/>*/}
-                <li><b style={{color: 'orange', fontSize: '14px'}}>1. </b>Copy + paste a job description so ResumAI can tailor the resume to match (optional).</li>
+                <li><b style={{color: 'orange', fontSize: '14px'}}>1. </b>Copy + paste a job description so the AI can tailor your resume to match that role (optional).</li>
                 <br/>
-                <li><b style={{color: 'orange', fontSize: '14px'}}>2. </b>Upload your current resume (or manually enter relevant data).</li>
+                <li><b style={{color: 'orange', fontSize: '14px'}}>2. </b>Upload your current resume and watch ResumAI analyze and begin rewriting the content.</li>
                 <br/>
-                <li><b style={{color: 'orange', fontSize: '14px'}}>3. </b>ResumAI assistant analyzes and improves the resume content.</li>
+                 {/*
+                     <li><b style={{color: 'orange', fontSize: '14px'}}>3. </b>ResumAI assistant analyzes and improves the resume content.</li>
                 <br/>
-                <li><b style={{color: 'orange', fontSize: '14px'}}>4. </b>When you generate the new resume template, the AI assistant performs a final round of revision.</li>
+                   */}
+                <li><b style={{color: 'orange', fontSize: '14px'}}>3. </b>When you generate the new resume template, the AI assistant performs a final review and generates your file.</li>
                 <br/>
 
-                <li>One-time payment of <b style={{ color: "orange"}}>$9.99</b> gets you <b>30</b> days of access:<br/>
+                <li>A one-time payment of <b style={{ color: "orange"}}>$9.99</b> gets you <b>30</b> days of access:<br/>
                   <ul style={{listStyleType: 'circle', marginLeft: '18px'}}>
                     <li>new resume generations</li>
                     <li>human chat support</li>
