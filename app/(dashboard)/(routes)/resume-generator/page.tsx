@@ -124,14 +124,9 @@ const ResumeGeneratorPage = () => {
     console.log('convertUploadedFileToFormInputsUsingAi()');
     // get job post description
     const input = document.querySelector('input[name="job_post_description"]') as HTMLInputElement | null;
-    let job_post_description = input ? input.value.trim() : '';
+    let job_post_description = (input && input.value) ? input.value.trim() : '';
     let job_post_description_insert = job_post_description.length ? `Ensure the new resume output aligns with the given job description: ${job_post_description}` : '';
-    console.log({job_post_description_insert})
-//     localStorage.removeItem('file_has_been_uploaded_and_parsed', 'false')
-// localStorage.removeItem('stored_form_values', '{}');
-// localStorage.removeItem('file_upload_popover_shown');
-// localStorage.removeItem('file_upload_count');
-//     return;
+    // console.log({job_post_description_insert})
 
     const promptString = `Persona: you are a expert resume writer with with years of experience improving resumes.
     Improve the verbiage, tone, and professionalism of the inputted content (${fileContents}) and map it to our desired 'resume_object' structure.
