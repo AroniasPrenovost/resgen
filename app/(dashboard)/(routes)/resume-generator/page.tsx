@@ -126,15 +126,19 @@ const ResumeGeneratorPage = () => {
     let job_post_description = '';
     let job_post_description_insert = '';
     const input = document.querySelector('input[name="job_post_description"]') ?? {value: ''};
-    // console.log('test:', input)
-    // console.log(input.value)
-    if (input) {
-      if (input.value) {
-        job_post_description = input.value.trim();
-        job_post_description_insert = `Ensure the new resume output aligns with the given job description: ${job_post_description}`;
-      }
+    const val = input.value.trim();
+    console.log('test:', val)
+    console.log(input.value)
+    if (val) {
+      job_post_description = val;
+      job_post_description_insert = `Ensure the new resume output aligns with the given job description: ${job_post_description}`;
     }
 
+    localStorage.removeItem('file_has_been_uploaded_and_parsed', 'false')
+localStorage.removeItem('stored_form_values', '{}');
+localStorage.removeItem('file_upload_popover_shown');
+localStorage.removeItem('file_upload_count');
+    return;
 
     const promptString = `Persona: you are a expert resume writer with with years of experience improving resumes.
     Improve the verbiage, tone, and professionalism of the inputted content (${fileContents}) and map it to our desired 'resume_object' structure.
@@ -1319,7 +1323,7 @@ ${stringifiedMappedFormValues}
     `;
 
 
-    console.log('res gen step: ', promptString);
+    // console.log('res gen step: ', promptString);
 
     const fileName = `${(mappedFormValues.personal_info.name).replace(' ', '')}-Resume.docx`;
 
