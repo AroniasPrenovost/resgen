@@ -90,7 +90,7 @@ export const Sidebar = ({
                   <br/>*/}
                 <li><b style={{color: 'orange', fontSize: '14px'}}>1. </b>Copy + paste a job description so ResumAI can tailor the resume to match (optional).</li>
                 <br/>
-                <li><b style={{color: 'orange', fontSize: '14px'}}>2. </b>Upload your current resume (or manually enter any relevant data).</li>
+                <li><b style={{color: 'orange', fontSize: '14px'}}>2. </b>Upload your current resume (or manually enter relevant data).</li>
                 <br/>
                 <li><b style={{color: 'orange', fontSize: '14px'}}>3. </b>ResumAI assistant analyzes and improves the resume content.</li>
                 <br/>
