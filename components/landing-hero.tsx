@@ -43,8 +43,8 @@ export const LandingHero = () => {
           </Button>
         </Link>
       </div>
-      <div className="text-zinc-400 text-xs md:text-sm font-normal p-4 m-23">
-        Upload your existing resume, and the ResumAI assistant <b>instantly</b> starts proofreading and rewriting.<br/>
+      <div className="text-zinc-400 text-xs md:text-sm font-normal p-4 pb-1">
+        Upload your existing resume, and the ResumAI assistant <b>instantly</b> starts proofreading and rewriting.
         Once you&apos;re satisfied with the content, download your new resume template.
       </div>
     </div>
