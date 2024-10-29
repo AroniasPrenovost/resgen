@@ -228,8 +228,7 @@ const ResumeGeneratorPage = () => {
   }
         `;
 
-    console.log('res import step: ', promptString);
-    // console.log(promptString);
+    // console.log('res import step: ', promptString);
 
     // make API call
     try {
