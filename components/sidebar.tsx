@@ -88,16 +88,21 @@ export const Sidebar = ({
               <ol>
          {/*       <li><b>1. </b><b style={{color:"orange"}}>$3.99</b> gets you access for 30 days.</li>
                   <br/>*/}
-                <li><b style={{color: 'orange', fontSize: '15px'}}>1. </b>Copy + paste a job description so ResumAI can tailor the resume to match (optional).</li>
+                <li><b style={{color: 'orange', fontSize: '14px'}}>1. </b>Copy + paste a job description so ResumAI can tailor the resume to match (optional).</li>
                 <br/>
-                <li><b style={{color: 'orange', fontSize: '15px'}}>2. </b>Upload your current resume (or manually enter any relevant data).</li>
+                <li><b style={{color: 'orange', fontSize: '14px'}}>2. </b>Upload your current resume (or manually enter any relevant data).</li>
                 <br/>
-                <li><b style={{color: 'orange', fontSize: '15px'}}>3. </b>ResumAI assistant analyzes and improves the resume content.</li>
+                <li><b style={{color: 'orange', fontSize: '14px'}}>3. </b>ResumAI assistant analyzes and improves the resume content.</li>
                 <br/>
-                <li><b style={{color: 'orange', fontSize: '15px'}}>4. </b>When you generate the new resume template, the AI assistant performs one last round of revision.</li>
+                <li><b style={{color: 'orange', fontSize: '14px'}}>4. </b>When you generate the new resume template, the AI assistant performs a final round of revision.</li>
                 <br/>
 
-                <li> A single payment of <b style={{ color: "orange"}}>$9.99</b> gets you <b>30</b> days of access to unlimited downloads and live support.</li>
+                <li>One-time payment of <b style={{ color: "orange"}}>$9.99</b> gets you <b>30</b> days of access:<br/>
+                  <ul style={{listStyleType: 'circle', marginLeft: '18px'}}>
+                    <li>new resume generations</li>
+                    <li>human chat support</li>
+                  </ul>
+                </li>
 
                 <br/>
                 <li>
