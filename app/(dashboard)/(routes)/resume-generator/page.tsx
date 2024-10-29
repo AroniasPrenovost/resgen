@@ -122,7 +122,7 @@ const ResumeGeneratorPage = () => {
 
   const convertUploadedFileToFormInputsUsingAi = async(fileContents: string) => {
     console.log('convertUploadedFileToFormInputsUsingAi()');
-    let jobDescription = document.querySelector('input[name="job_post_description"]').value.trim() ?? '';
+    let job_post_description = document.querySelector('input[name="job_post_description"]').value.trim() ?? '';
     console.log({jobDescription})
     // make API call
     // const promptString = "Generate me the fibonacci sequence in js";
@@ -140,7 +140,7 @@ const ResumeGeneratorPage = () => {
     9. Incorporate words such as 'managed', 'solved', 'planned', 'executed', 'demonstrated', 'succeeded', 'collaborated', 'implemented', 'strategized', 'lead', etc.
     10. The outputted content should be a markedly improved version of the input.
     11. The outputted result should only be a string-ified version of the 'resume_object'.
-    12. Do not modify the 'job_post_description field.
+    12. Do not modify the 'job_post_description' field in any way.
     resume_object:
     {
       "job_post_description": "${jobPostDescription}",
