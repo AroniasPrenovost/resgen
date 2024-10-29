@@ -398,7 +398,7 @@ const ResumeGeneratorPage = () => {
     fileHasBeenUploadedAndParsed = localStorage.getItem('file_has_been_uploaded_and_parsed') === 'true';
 
     const convertUploadedFileToFormInputsUsingAiProcess = async () => {
-      console.log('convertUploadedFileToFormInputsUsingAiProcess()')
+      // console.log('convertUploadedFileToFormInputsUsingAiProcess()')
       try {
         const prefilledUserResData = await convertUploadedFileToFormInputsUsingAi(uploadedFileContents);
         if (prefilledUserResData && prefilledUserResData.data && prefilledUserResData.data.content) {
