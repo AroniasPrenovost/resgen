@@ -3157,7 +3157,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="achievement_1_issuer"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
+                      <FormItem className="col-span-12 lg:col-span-3 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -3174,7 +3174,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="achievement_1_name"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
+                      <FormItem className="col-span-12 lg:col-span-5 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -3207,7 +3207,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="achievement_2_issuer"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
+                      <FormItem className="col-span-12 lg:col-span-3 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -3223,7 +3223,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="achievement_2_name"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
+                      <FormItem className="col-span-12 lg:col-span-5 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -3256,7 +3256,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="achievement_3_issuer"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
+                      <FormItem className="col-span-12 lg:col-span-3 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -3272,7 +3272,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="achievement_3_name"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
+                      <FormItem className="col-span-12 lg:col-span-5 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
