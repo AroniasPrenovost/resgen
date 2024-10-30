@@ -1877,7 +1877,7 @@ ${stringifiedMappedFormValues}
 
                         className="border-0 outline-none  "
                         disabled={isLoading}
-                        placeholder="Full name"
+                        placeholder="Name"
                         {...field}
                       />
                     </FormControl>
