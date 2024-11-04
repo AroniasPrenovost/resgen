@@ -418,11 +418,11 @@ export class DocumentCreator {
         ),
         emailLink,
         new TextRun(
-          ((phoneNumber.length || emailLink.length) ? ' • ': '')
+          ((phoneNumber && phoneNumber.length || (emailLink && emailLink.length)) ? ' • ': '')
         ),
         linkedinLink,
         new TextRun(
-          ((phoneNumber.length || emailLink.length || linkedinLink.length) ? ' • ': '')
+          ((phoneNumber && phoneNumber.length || (emailLink && emailLink.length) || (linkedinLink && linkedinLink.length)) ? ' • ': '')
         ),
         personalWebsiteLink,
       ],
