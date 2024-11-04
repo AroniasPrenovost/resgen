@@ -370,7 +370,29 @@ const ResumeGeneratorPage = () => {
   const paidQueryStringValue = 'xj3z01__022';
   let paidQueryString: string = ''; // pulled from query string parameter on successful payment redirect from stripe
   let payment_received: any = false;
+  // const [hasPaid, setHasPaid] = useState(false);
   let hasPaid = false;
+
+  useEffect(() => {
+    const paidQueryString = searchParams.get('p') ?? '';
+    if (paidQueryString === paidQueryStringValue) {
+      // setHasPaid(true); // hasPaid = true;
+      hasPaid = true;
+      localStorage.setItem('pr_0012', 'true');
+      // Optionally, you can clear the query parameter from the URL
+      const nextSearchParams = new URLSearchParams(searchParams.toString());
+      nextSearchParams.delete('p');
+      router.replace(`${pathname}?${nextSearchParams}`);
+    }
+  }, [searchParams, router]);
+
+  useEffect(() => {
+    const x = localStorage.getItem('pr_0012') === 'true';
+    if (x) {
+      hasPaid = true;
+      // setHasPaid(true); // hasPaid = true;
+    }
+  }, []);
 
   // resume generator download management
   let number_of_downloads: any = 0;
@@ -453,24 +475,15 @@ const ResumeGeneratorPage = () => {
     //
     // Manage payment + download history so users can return to site
     payment_received = localStorage.getItem('pr_0012') === 'true';
-    hasPaid = payment_received;
 
-    if (hasPaid) {
-      setIsSubmitButtonTooltipOpen(false);
+    const x = localStorage.getItem('pr_0012') === 'true';
+    if (x) {
+      hasPaid = true;
+      // setHasPaid(true); // hasPaid = true;
     }
+    
 
-    paidQueryString = searchParams.get('p') ?? '';
-    if (paidQueryString === paidQueryStringValue) {
-      if (!payment_received) {
-        localStorage.setItem('pr_0012', 'true');
-        localStorage.setItem('payment_date', String(current_time));
-      }
-      // clear query string param from URL
-      const nextSearchParams = new URLSearchParams(searchParams.toString());
-      nextSearchParams.delete('p');
-      nextSearchParams.delete('user'); // subterfuge
-      router.replace(`${pathname}?${nextSearchParams}`);
-    }
+
 
     payment_date = localStorage.getItem('payment_date');
 
@@ -485,6 +498,7 @@ const ResumeGeneratorPage = () => {
 
     number_of_downloads = Number(localStorage.getItem('x8u_000_vb_nod')); // 'number_of_downloads'
 
+    
     let clearCache1 = hasPaid && (differenceInMinutes > 43200); // (30 days) // 360000); // 100 hours
     let clearCache2 = number_of_downloads > (max_download_count - 1);
     // console.log({clearCache1,clearCache2});
@@ -1238,6 +1252,9 @@ const ResumeGeneratorPage = () => {
 
     // persist form values
     localStorage.setItem('stored_form_values', JSON.stringify(values));
+
+    // console.log({hasPaid});
+    // return;
 
     if (!hasPaid) {
       window.location.assign(STRIPE_PAYMENT_LINK);
