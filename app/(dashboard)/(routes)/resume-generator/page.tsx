@@ -1302,8 +1302,8 @@ const ResumeGeneratorPage = () => {
     // persist form values
     localStorage.setItem('stored_form_values', JSON.stringify(values));
 
-    console.log('has paid: ', hasPaid);
-    return;
+    // console.log('has paid: ', hasPaid);
+    // return;
 
     if (!hasPaid) {
       window.location.assign(STRIPE_PAYMENT_LINK);
