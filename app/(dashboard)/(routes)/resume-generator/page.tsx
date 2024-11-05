@@ -353,7 +353,7 @@ const ResumeGeneratorPage = () => {
   //
   //
 
-  function toggleScrollAndDimBackground(lock) {
+  function toggleScrollAndDimBackground(lock: boolean) {
   const body = document.body;
   const dimOverlayId = 'dim-overlay';
 
