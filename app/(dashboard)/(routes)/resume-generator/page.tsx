@@ -481,7 +481,7 @@ const ResumeGeneratorPage = () => {
       hasPaid = true;
       // setHasPaid(true); // hasPaid = true;
     }
-    
+
 
 
 
@@ -498,7 +498,7 @@ const ResumeGeneratorPage = () => {
 
     number_of_downloads = Number(localStorage.getItem('x8u_000_vb_nod')); // 'number_of_downloads'
 
-    
+
     let clearCache1 = hasPaid && (differenceInMinutes > 43200); // (30 days) // 360000); // 100 hours
     let clearCache2 = number_of_downloads > (max_download_count - 1);
     // console.log({clearCache1,clearCache2});
@@ -639,7 +639,7 @@ const ResumeGeneratorPage = () => {
       } else {
         clearInterval(interval);
       }
-    }, 62); // Adjust typing speed here
+    }, 55); // Adjust typing speed here
   };
 
   // !! update form values once file is uploaded !!
