@@ -445,7 +445,7 @@ const ResumeGeneratorPage = () => {
 
   // resume generator download management
   let number_of_downloads: any = 0;
-  const max_download_count = 10;
+  const max_download_count = 15;
 
   // form persistence
   let storedFormValues: any = {};
@@ -1301,6 +1301,9 @@ const ResumeGeneratorPage = () => {
 
     // persist form values
     localStorage.setItem('stored_form_values', JSON.stringify(values));
+
+    console.log('has paid: ', hasPaid);
+    return;
 
     if (!hasPaid) {
       window.location.assign(STRIPE_PAYMENT_LINK);
