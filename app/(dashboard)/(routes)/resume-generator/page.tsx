@@ -82,6 +82,7 @@ const ResumeGeneratorPage = () => {
   useEffect(() => {
     const popoverShown = localStorage.getItem('file_upload_popover_shown') === 'true'
     if (!popoverShown) {
+      toggleScrollAndDimBackground(true);
       const showPopoverTimeout = setTimeout(() => {
         setIsFileUploadPopoverOpen(true);
 
@@ -92,21 +93,22 @@ const ResumeGeneratorPage = () => {
             'Upload your resume and watch as the AI assistant makes instant improvements.',
             setTypedBody
           );
-        }, 3400);
+        }, 3100);
 
         setTimeout(() => {
           typeText(
             '* Supports .docx or .txt file types.',
             setTypedBody2
           );
-        }, 9300);
+        }, 8300);
 
         setTimeout(() => {
           setIsFileUploadPopoverOpen(false);
           localStorage.setItem('file_upload_popover_shown', 'true');
           popoverHasBeenShownToUser = true;
-        }, 14900); // popover stays open for X seconds
-      }, 950); // Initial delay before showing popover
+          toggleScrollAndDimBackground(false);
+        }, 14100); // popover stays open for X seconds
+      }, 250); // Initial delay before showing popover
 
       return () => clearTimeout(showPopoverTimeout);
     }
@@ -344,6 +346,45 @@ const ResumeGeneratorPage = () => {
       }
     }
   };
+
+  //
+  //
+  //
+  //
+  //
+
+  function toggleScrollAndDimBackground(lock) {
+  const body = document.body;
+  const dimOverlayId = 'dim-overlay';
+
+  if (lock) {
+    // Lock scrolling
+    body.style.overflow = 'hidden';
+
+    // Create and append a dim overlay if it doesn't exist
+    if (!document.getElementById(dimOverlayId)) {
+      const dimOverlay = document.createElement('div');
+      dimOverlay.id = dimOverlayId;
+      dimOverlay.style.position = 'fixed';
+      dimOverlay.style.top = 0;
+      dimOverlay.style.left = 0;
+      dimOverlay.style.width = '100%';
+      dimOverlay.style.height = '100%';
+      dimOverlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+      dimOverlay.style.zIndex = 1000;
+      body.appendChild(dimOverlay);
+    }
+  } else {
+    // Unlock scrolling
+    body.style.overflow = '';
+
+    // Remove the dim overlay if it exists
+    const dimOverlay = document.getElementById(dimOverlayId);
+    if (dimOverlay) {
+      body.removeChild(dimOverlay);
+    }
+  }
+}
 
   //
   //
