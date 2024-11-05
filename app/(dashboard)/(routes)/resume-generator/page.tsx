@@ -108,7 +108,7 @@ const ResumeGeneratorPage = () => {
             '* Supports .docx and .txt file types.',
             setTypedBody3
           );
-        }, 15000);
+        }, 14700);
 
         setTimeout(() => {
           setIsFileUploadPopoverOpen(false);
