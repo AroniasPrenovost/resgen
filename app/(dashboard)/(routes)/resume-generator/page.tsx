@@ -108,7 +108,7 @@ const ResumeGeneratorPage = () => {
             '* Supports .docx and .txt file types.',
             setTypedBody3
           );
-        }, 14700);
+        }, 14500);
 
         setTimeout(() => {
           setIsFileUploadPopoverOpen(false);
@@ -1877,7 +1877,7 @@ ${stringifiedMappedFormValues}
                       <PopoverContent>
                         <div className="px-1 py-2">
 
-                          <div className="text-xl font-bold pb-2">
+                          <div className="text-xl font-bold">
                             {popoverHasBeenShownToUser ? (
                               <span>📝 Have any questions?</span>
                             ) : (
@@ -1885,30 +1885,37 @@ ${stringifiedMappedFormValues}
                             )}
                           </div>
 
-                          <div className="text-small">
-                            {fileHasBeenUploadedAndParsed
-                              ? 'You have run out of free rewrites. Submit the form to get unlimited access for $9.99.'
-                              : popoverHasBeenShownToUser
-                              ? 'Upload your resume and watch ResumAI assistant make improvements.'
-                              : typedBody}
-                          </div>
+                          {fileHasBeenUploadedAndParsed || popoverHasBeenShownToUser || typedBody ? (
+                            <div className="text-small pt-2">
+                              {fileHasBeenUploadedAndParsed
+                                ? 'You have run out of free rewrites. Submit the form to get unlimited access for $9.99.'
+                                : popoverHasBeenShownToUser
+                                ? 'Upload your resume and watch ResumAI assistant make improvements.'
+                                : typedBody}
+                            </div>
+                          ) : null}
 
-                          <div className="text-small pt-2">
-                            {fileHasBeenUploadedAndParsed
-                              ? 'Don\'t have a resume yet? Manually enter as much (or as little) info as you like and we\'ll take it from there.'
-                              : popoverHasBeenShownToUser
-                              ? 'Don\'t have a resume yet? Manually enter as much (or as little) info as you like and we\'ll take it from there.'
-                              : typedBody2}
-                          </div>
+                          {fileHasBeenUploadedAndParsed || popoverHasBeenShownToUser || typedBody2 ? (
+                            <div className="text-small pt-2">
+                              {fileHasBeenUploadedAndParsed
+                                ? "Don't have a resume yet? Manually enter as much (or as little) info as you like and we'll take it from there."
+                                : popoverHasBeenShownToUser
+                                ? "Don't have a resume yet? Manually enter as much (or as little) info as you like and we'll take it from there."
+                                : typedBody2}
+                            </div>
+                          ) : null}
 
-                          <div className="text-tiny pt-2" style={{fontSize: "13px"}}>
-                            {popoverHasBeenShownToUser ? (
-                              <span>* Supports <b>.docx</b> and <b>.txt</b> file types.</span>
-                            ) : (
-                              <span>{typedBody3}</span>
-                            )}
-
-                          </div>
+                          {popoverHasBeenShownToUser || typedBody3 ? (
+                            <div className="text-tiny pt-2" style={{ fontSize: "13px" }}>
+                              {popoverHasBeenShownToUser ? (
+                                <span>
+                                  * Supports <b>.docx</b> and <b>.txt</b> file types.
+                                </span>
+                              ) : (
+                                <span>{typedBody3}</span>
+                              )}
+                            </div>
+                          ) : null}
                         </div>
                       </PopoverContent>
                     </Popover>
