@@ -366,12 +366,12 @@ const ResumeGeneratorPage = () => {
       const dimOverlay = document.createElement('div');
       dimOverlay.id = dimOverlayId;
       dimOverlay.style.position = 'fixed';
-      dimOverlay.style.top = 0;
-      dimOverlay.style.left = 0;
+      dimOverlay.style.top = '0';
+      dimOverlay.style.left = '0';
       dimOverlay.style.width = '100%';
       dimOverlay.style.height = '100%';
       dimOverlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-      dimOverlay.style.zIndex = 1000;
+      dimOverlay.style.zIndex = '1000';
       body.appendChild(dimOverlay);
     }
   } else {
