@@ -76,6 +76,7 @@ const ResumeGeneratorPage = () => {
   const [typedTitle, setTypedTitle] = useState('');
   const [typedBody, setTypedBody] = useState('');
   const [typedBody2, setTypedBody2] = useState('');
+  const [typedBody3, setTypedBody3] = useState('');
   const [isFileUploadPopoverOpen, setIsFileUploadPopoverOpen] = useState(false);
   let popoverHasBeenShownToUser = false;
 
@@ -93,22 +94,29 @@ const ResumeGeneratorPage = () => {
             'Upload your resume and watch as the AI assistant makes instant improvements.',
             setTypedBody
           );
-        }, 3100);
+        }, 2900);
 
         setTimeout(() => {
           typeText(
-            '* Supports .docx or .txt file types.',
+            'Don\'t have a resume yet? Manually enter as much (or as little) info as you like and we\'ll take it from there.',
             setTypedBody2
           );
-        }, 8300);
+        }, 7800);
+
+        setTimeout(() => {
+          typeText(
+            '* Supports .docx and .txt file types.',
+            setTypedBody3
+          );
+        }, 15000);
 
         setTimeout(() => {
           setIsFileUploadPopoverOpen(false);
           localStorage.setItem('file_upload_popover_shown', 'true');
           popoverHasBeenShownToUser = true;
           toggleScrollAndDimBackground(false);
-        }, 14100); // popover stays open for X seconds
-      }, 250); // Initial delay before showing popover
+        }, 18900); // popover stays open for X seconds
+      }, 30); // Initial delay before showing popover
 
       return () => clearTimeout(showPopoverTimeout);
     }
@@ -680,7 +688,7 @@ const ResumeGeneratorPage = () => {
       } else {
         clearInterval(interval);
       }
-    }, 55); // Adjust typing speed here
+    }, 50); // Adjust typing speed here
   };
 
   // !! update form values once file is uploaded !!
@@ -1869,7 +1877,7 @@ ${stringifiedMappedFormValues}
                       <PopoverContent>
                         <div className="px-1 py-2">
 
-                          <div className="text-xl font-bold">
+                          <div className="text-xl font-bold pb-2">
                             {popoverHasBeenShownToUser ? (
                               <span>📝 Have any questions?</span>
                             ) : (
@@ -1885,11 +1893,19 @@ ${stringifiedMappedFormValues}
                               : typedBody}
                           </div>
 
+                          <div className="text-small pt-2">
+                            {fileHasBeenUploadedAndParsed
+                              ? 'Don\'t have a resume yet? Manually enter as much (or as little) info as you like and we\'ll take it from there.'
+                              : popoverHasBeenShownToUser
+                              ? 'Don\'t have a resume yet? Manually enter as much (or as little) info as you like and we\'ll take it from there.'
+                              : typedBody2}
+                          </div>
+
                           <div className="text-tiny pt-2" style={{fontSize: "13px"}}>
                             {popoverHasBeenShownToUser ? (
-                              <span>* Supports <b>.docx</b> or <b>.txt</b> file types.</span>
+                              <span>* Supports <b>.docx</b> and <b>.txt</b> file types.</span>
                             ) : (
-                              <span>{typedBody2}</span>
+                              <span>{typedBody3}</span>
                             )}
 
                           </div>
