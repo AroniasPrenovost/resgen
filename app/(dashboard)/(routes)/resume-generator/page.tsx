@@ -91,32 +91,32 @@ const ResumeGeneratorPage = () => {
 
         setTimeout(() => {
           typeText(
-            'Upload your resume and watch as the AI assistant makes instant improvements.',
+            'Upload your resume and watch as the AI assistant begins to proofread and make writing improvements.',
             setTypedBody
           );
-        }, 2900);
+        }, 3300);
 
         setTimeout(() => {
           typeText(
-            'Don\'t have a resume yet? Manually enter as much (or as little) info as you like and we\'ll take it from there.',
+            'Don\'t have a resume yet? Manually enter as much (or as little) info as you like, and we\'ll take it from there!',
             setTypedBody2
           );
-        }, 7800);
+        }, 8700);
 
         setTimeout(() => {
           typeText(
             '* Supports .docx and .txt file types.',
             setTypedBody3
           );
-        }, 14500);
+        }, 15200);
 
         setTimeout(() => {
           setIsFileUploadPopoverOpen(false);
           localStorage.setItem('file_upload_popover_shown', 'true');
           popoverHasBeenShownToUser = true;
           toggleScrollAndDimBackground(false);
-        }, 18900); // popover stays open for X seconds
-      }, 30); // Initial delay before showing popover
+        }, 19100); // popover stays open for X seconds
+      }, 15); // Initial delay before showing popover
 
       return () => clearTimeout(showPopoverTimeout);
     }
@@ -688,7 +688,7 @@ const ResumeGeneratorPage = () => {
       } else {
         clearInterval(interval);
       }
-    }, 50); // Adjust typing speed here
+    }, 45); // Adjust typing speed here
   };
 
   // !! update form values once file is uploaded !!
@@ -1890,7 +1890,7 @@ ${stringifiedMappedFormValues}
                               {fileHasBeenUploadedAndParsed
                                 ? 'You have run out of free rewrites. Submit the form to get unlimited access for $9.99.'
                                 : popoverHasBeenShownToUser
-                                ? 'Upload your resume and watch ResumAI assistant make improvements.'
+                                ? 'Upload your resume and watch the ResumAI assistant begin to work on your resume.'
                                 : typedBody}
                             </div>
                           ) : null}
@@ -1898,9 +1898,9 @@ ${stringifiedMappedFormValues}
                           {fileHasBeenUploadedAndParsed || popoverHasBeenShownToUser || typedBody2 ? (
                             <div className="text-small pt-2">
                               {fileHasBeenUploadedAndParsed
-                                ? "Don't have a resume yet? Manually enter as much (or as little) info as you like and we'll take it from there."
+                                ? "Don't have a resume yet? Manually enter as much (or as little) info as you like, and we'll take it from there!"
                                 : popoverHasBeenShownToUser
-                                ? "Don't have a resume yet? Manually enter as much (or as little) info as you like and we'll take it from there."
+                                ? "Don't have a resume yet? Manually enter as much (or as little) info as you like, and we'll take it from there!"
                                 : typedBody2}
                             </div>
                           ) : null}
@@ -3491,7 +3491,7 @@ ${stringifiedMappedFormValues}
                     },
                   }}
                   color="primary"
-                  content={"Finalize your resume content and download new template."}
+                  content={"Finalizes resume content and generates new template"}
                 >
                   <FormControl className="m-0 p-0">
                     <Button
