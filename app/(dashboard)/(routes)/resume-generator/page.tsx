@@ -275,7 +275,7 @@ const ResumeGeneratorPage = () => {
         // proModal.onOpen();
         console.log('Something bad happened when trying to read your resume');
       } else {
-        toast.error("Something went wrong with the AI connection, we were not able to read the resume you uploaded. please try again.");
+        toast.error("Something went wrong with the AI connection, please be patient as we try again.");
       }
     } finally {
       router.refresh();

@@ -90,12 +90,8 @@ export const Sidebar = ({
                   <br/>*/}
                 <li><b style={{color: 'orange', fontSize: '14px'}}>1. </b>Copy + paste a job description you&apos;d like the resume tailored to (optional).</li>
                 <br/>
-                <li><b style={{color: 'orange', fontSize: '14px'}}>2. </b>Upload your current resume and watch ResumAI analyze and begin rewriting the content.</li>
+                <li><b style={{color: 'orange', fontSize: '14px'}}>2. </b>Upload your current resume and watch as ResumAI analyzes and rewrites the content.</li>
                 <br/>
-                 {/*
-                     <li><b style={{color: 'orange', fontSize: '14px'}}>3. </b>ResumAI assistant analyzes and improves the resume content.</li>
-                <br/>
-                   */}
                 <li><b style={{color: 'orange', fontSize: '14px'}}>3. </b>When you generate the new resume template, the AI assistant performs a final review and generates your file.</li>
                 <br/>
 
@@ -107,9 +103,9 @@ export const Sidebar = ({
                 </li>
 
                 <br/>
-                <li>
+                <li style={{color: 'gray'}}>
                   <br/>
-                  <em>Pro tip:</em> If you do not have Microsoft Word, you can upload your new resume template to <Link className={cn(
+                  <em><b>Pro tip:</b></em> If you do not have Microsoft Word, you can upload your new resume template to <Link className={cn(
                     "hover:text-white transition",
                      "text-zinc-400",
                   )} target="_blank" rel="noopener noreferrer" href="https://drive.google.com/drive/home">Google Drive</Link>.
