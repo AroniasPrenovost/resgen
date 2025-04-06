@@ -2962,7 +2962,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="college_notes_1"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
+                      <FormItem className="col-span-12 lg:col-span-8 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -3077,7 +3077,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="college_notes_2"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
+                      <FormItem className="col-span-12 lg:col-span-8 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -3194,7 +3194,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="college_notes_3"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
+                      <FormItem className="col-span-12 lg:col-span-8 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
