@@ -105,10 +105,10 @@ export const Sidebar = ({
                 <br/>
                 <li style={{color: 'gray'}}>
                   <br/>
-                  <em><b>Pro tip:</b></em> If you do not have Microsoft Word, you can upload your new resume template to <Link className={cn(
+                  <em><b>Pro tip:</b></em> If you do not have Microsoft Word, upload your new resume template to <Link className={cn(
                     "hover:text-white transition",
                      "text-zinc-400",
-                  )} target="_blank" rel="noopener noreferrer" href="https://drive.google.com/drive/home">Google Drive</Link>.
+                  )} target="_blank" rel="noopener noreferrer" href="https://drive.google.com/drive/home">Google Drive</Link> for <b>free</b>.
                   {/*to access and modify formatting*/}
 
         {/*
