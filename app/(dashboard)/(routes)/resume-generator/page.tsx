@@ -91,7 +91,7 @@ const ResumeGeneratorPage = () => {
 
         setTimeout(() => {
           typeText(
-            'Upload your resume and watch as the AI assistant begins to proofread and make writing improvements.',
+            'Upload your resume and watch as the AI assistant begins to proofread and make improvements.',
             setTypedBody
           );
         }, 3300);
@@ -116,7 +116,7 @@ const ResumeGeneratorPage = () => {
           popoverHasBeenShownToUser = true;
           toggleScrollAndDimBackground(false);
         }, 19100); // popover stays open for X seconds
-      }, 15); // Initial delay before showing popover
+      }, 250); // Initial delay before showing popover
 
       return () => clearTimeout(showPopoverTimeout);
     }
