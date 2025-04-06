@@ -2154,7 +2154,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_1_employer"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-4 border-2 rounded-lg border-gray-300">
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2170,7 +2170,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_1_title"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-4 border-2 rounded-lg border-gray-300">
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2186,7 +2186,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_1_summary"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-8 border-2 rounded-lg border-gray-300">
+                      <FormItem className="col-span-12 lg:col-span-12 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                         {/* }<Input */}
                         <Textarea
@@ -2283,7 +2283,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_2_employer"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-4 border-2 rounded-lg border-gray-300">
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2299,7 +2299,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_2_title"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-4 border-2 rounded-lg border-gray-300">
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2315,7 +2315,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_2_summary"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-8 border-2 rounded-lg border-gray-300">
+                      <FormItem className="col-span-12 lg:col-span-12 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                         {/* }<Input */}
                         <Textarea
@@ -2413,7 +2413,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_3_employer"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-4 border-2 rounded-lg border-gray-300">
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2429,7 +2429,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_3_title"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-4 border-2 rounded-lg border-gray-300">
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2445,7 +2445,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_3_summary"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-8 border-2 rounded-lg border-gray-300">
+                      <FormItem className="col-span-12 lg:col-span-12 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                         {/* }<Input */}
                         <Textarea
@@ -2545,7 +2545,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_4_employer"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-4 border-2 rounded-lg border-gray-300">
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2561,7 +2561,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_4_title"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-4 border-2 rounded-lg border-gray-300">
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2577,7 +2577,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_4_summary"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-8 border-2 rounded-lg border-gray-300">
+                      <FormItem className="col-span-12 lg:col-span-12 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                         {/* }<Input */}
                         <Textarea
@@ -2673,7 +2673,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_5_employer"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-4 border-2 rounded-lg border-gray-300">
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2689,7 +2689,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_5_title"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-4 border-2 rounded-lg border-gray-300">
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2705,7 +2705,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_5_summary"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-8 border-2 rounded-lg border-gray-300">
+                      <FormItem className="col-span-12 lg:col-span-12 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                         {/* }<Input */}
                         <Textarea
@@ -2802,7 +2802,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_6_employer"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-4 border-2 rounded-lg border-gray-300">
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2818,7 +2818,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_6_title"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-4 border-2 rounded-lg border-gray-300">
+                      <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                           <Input
                             className="border-0 outline-none  "
@@ -2834,7 +2834,7 @@ ${stringifiedMappedFormValues}
                   <FormField
                     name="job_6_summary"
                     render={({ field }) => (
-                      <FormItem className="col-span-12 lg:col-span-8 border-2 rounded-lg border-gray-300">
+                      <FormItem className="col-span-12 lg:col-span-12 border-2 rounded-lg border-gray-300">
                         <FormControl className="m-0 p-2">
                         {/* }<Input */}
                         <Textarea
