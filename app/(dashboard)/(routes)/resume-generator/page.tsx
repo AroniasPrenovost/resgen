@@ -1767,7 +1767,7 @@ ${stringifiedMappedFormValues}
             <FormField
               name="job_post_description"
               render={({ field }) => (
-                <FormItem className="col-span-12 lg:col-span-5 border-2 rounded-lg border-gray-300">
+                <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
                 <Tooltip
                   showArrow={true}
                   isOpen={isJobPostingTooltipOpen}
