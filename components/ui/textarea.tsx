@@ -13,7 +13,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
   }, ref) => {
     return (
       <textarea
-        maxRows={4}
+        rows={4}
         cols={50}
         // type={type}
         style={{
