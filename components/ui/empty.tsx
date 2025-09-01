@@ -22,19 +22,6 @@ export const Empty = ({ label }: EmptyProps) => {
             <br />
               We do not collect your personal data.
             <br />
-            <span className="flex items-center justify-center" style={{marginTop: "-7px"}}>
-              One-time payments are processed securely with
-              <Image
-                width={34}
-                height={34}
-                alt="Stripe logo"
-                src="/stripe-logo.png"
-                className="inline-block ml-1"
-                style={{
-                  marginTop: "2px",
-                }}
-              />.
-            </span>
           </>
         )}
       </p>
