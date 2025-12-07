@@ -522,8 +522,7 @@ const ResumeGeneratorPage = () => {
 
     const x = localStorage.getItem('pr_0012') === 'true';
     if (x) {
-      hasPaid = true;
-      // setHasPaid(true); // hasPaid = true;
+      setHasPaid(true);
     }
 
 
