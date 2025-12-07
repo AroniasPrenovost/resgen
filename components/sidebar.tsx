@@ -92,7 +92,7 @@ export const Sidebar = ({
                 <br/>
                 <li><b style={{color: 'orange', fontSize: '14px'}}>2. </b>Upload your resume and ResumAI instantly starts rewriting and improving it.</li>
                 <br/>
-                <li><b style={{color: 'orange', fontSize: '14px'}}>3. </b>Hit "Generate Resume" and download your polished resume template in seconds.</li>
+                <li><b style={{color: 'orange', fontSize: '14px'}}>3. </b>Hit &ldquo;Generate Resume&rdquo; and download your polished resume template in seconds.</li>
                 <br/>
 
                 <li>Just <b style={{ color: "orange"}}>$9.99</b> for <b>30</b> days of access:<br/>

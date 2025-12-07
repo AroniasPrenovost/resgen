@@ -1,11 +1,12 @@
 import Image from "next/image";
 import React, { useState, useEffect } from 'react';
 
+const loadingStates = ['', '.', '..', '...'];
+
 export const SimplerLoader = () => {
 
   const prefix = 'Analyzing resume content';
   const [loadingText, setLoadingText] = useState(prefix);
-  const loadingStates = ['', '.', '..', '...'];
   // let count = 0;
 
   useEffect(() => {

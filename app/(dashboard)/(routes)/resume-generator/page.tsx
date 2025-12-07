@@ -78,7 +78,6 @@ const ResumeGeneratorPage = () => {
   const [typedBody2, setTypedBody2] = useState('');
   const [typedBody3, setTypedBody3] = useState('');
   const [isFileUploadPopoverOpen, setIsFileUploadPopoverOpen] = useState(false);
-  let popoverHasBeenShownToUser = false;
 
   useEffect(() => {
     const popoverShown = localStorage.getItem('file_upload_popover_shown') === 'true'
@@ -113,7 +112,6 @@ const ResumeGeneratorPage = () => {
         setTimeout(() => {
           setIsFileUploadPopoverOpen(false);
           localStorage.setItem('file_upload_popover_shown', 'true');
-          popoverHasBeenShownToUser = true;
           toggleScrollAndDimBackground(false);
         }, 19100); // popover stays open for X seconds
       }, 250); // Initial delay before showing popover
@@ -419,27 +417,24 @@ const ResumeGeneratorPage = () => {
   const paidQueryStringValue = 'xj3z01__022';
   let paidQueryString: string = ''; // pulled from query string parameter on successful payment redirect from stripe
   let payment_received: any = false;
-  // const [hasPaid, setHasPaid] = useState(false);
-  let hasPaid = false;
+  const [hasPaid, setHasPaid] = useState(false);
 
   useEffect(() => {
     const paidQueryString = searchParams.get('p') ?? '';
     if (paidQueryString === paidQueryStringValue) {
-      // setHasPaid(true); // hasPaid = true;
-      hasPaid = true;
+      setHasPaid(true);
       localStorage.setItem('pr_0012', 'true');
       // Optionally, you can clear the query parameter from the URL
       const nextSearchParams = new URLSearchParams(searchParams.toString());
       nextSearchParams.delete('p');
       router.replace(`${pathname}?${nextSearchParams}`);
     }
-  }, [searchParams, router]);
+  }, [searchParams, router, pathname]);
 
   useEffect(() => {
     const x = localStorage.getItem('pr_0012') === 'true';
     if (x) {
-      hasPaid = true;
-      // setHasPaid(true); // hasPaid = true;
+      setHasPaid(true);
     }
   }, []);
 
@@ -856,6 +851,7 @@ const ResumeGeneratorPage = () => {
     ) {
       setReferences1Visibility(true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uploadedResumeDataConvertedToForm]);
 
 
@@ -1692,6 +1688,7 @@ ${stringifiedMappedFormValues}
 
       // Cleanup function to clear the timeout if the component unmounts
       return () => clearTimeout(timeoutId);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []); // Empty dependency array ensures the effect runs only once
 
 
@@ -1704,7 +1701,7 @@ ${stringifiedMappedFormValues}
       }, 650);
       // Cleanup function to clear the timeout if the component unmounts
       return () => clearTimeout(timeoutId);
-    }, []); // Empty dependency array ensures the effect runs only once
+    }, [hasPaid]);
 
 
   return (
