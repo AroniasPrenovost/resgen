@@ -90,12 +90,12 @@ export const Sidebar = ({
                   <br/>*/}
                 <li><b style={{color: 'orange', fontSize: '14px'}}>1. </b>Add a job description to tailor your resume to a specific role (optional).</li>
                 <br/>
-                <li><b style={{color: 'orange', fontSize: '14px'}}>2. </b>Upload your current resume and watch as ResumAI analyzes and improves the content.</li>
+                <li><b style={{color: 'orange', fontSize: '14px'}}>2. </b>Upload your resume and ResumAI instantly starts rewriting and improving it.</li>
                 <br/>
-                <li><b style={{color: 'orange', fontSize: '14px'}}>3. </b>When you generate the new resume template, the AI assistant performs a final revision process and generates your file.</li>
+                <li><b style={{color: 'orange', fontSize: '14px'}}>3. </b>Hit "Generate Resume" and download your polished resume template in seconds.</li>
                 <br/>
 
-                <li>A one-time payment of <b style={{ color: "orange"}}>$9.99</b> gets you <b>30</b> days of access:<br/>
+                <li>Just <b style={{ color: "orange"}}>$9.99</b> for <b>30</b> days of access:<br/>
                   <ul style={{listStyleType: 'circle', marginLeft: '18px'}}>
                     <li>new resume generations</li>
                     <li>human chat support</li>

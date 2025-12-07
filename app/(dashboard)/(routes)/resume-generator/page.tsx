@@ -91,7 +91,7 @@ const ResumeGeneratorPage = () => {
 
         setTimeout(() => {
           typeText(
-            'Upload your resume and watch as the AI assistant begins to proofread and make improvements.',
+            'Upload your resume and the AI starts rewriting immediately. No complicated settings or jargon.',
             setTypedBody
           );
         }, 3300);
@@ -400,7 +400,7 @@ const ResumeGeneratorPage = () => {
   //
   //
 
-  const [subheadline, setSubheadline] = useState('Professional resume writing at your fingertips. Upload your resume and get started.');
+  const [subheadline, setSubheadline] = useState('Upload your resume and get instant feedback. Simple, clear, and effective.');
   // const [topCtaButton, setTopCtaButton] = useState('Get Instant Access');
   const [buyButtonContent, setBuyButtonContent] = useState('Generate Resume');
 
@@ -1710,7 +1710,7 @@ ${stringifiedMappedFormValues}
   return (
     <div>
       <Heading
-        title="AI-Powered Resume Generator"
+        title="Resume Generator"
         description={subheadline}
         icon={MessageSquare}
         iconColor="text-violet-500"
