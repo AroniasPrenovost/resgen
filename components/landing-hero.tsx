@@ -44,7 +44,7 @@ export const LandingHero = () => {
         </p>
 
         <p className="text-zinc-400 text-sm md:text-base font-normal leading-relaxed">
-          So I built ResumAI to give you the same winning approach - without the $200+ price tag. Upload your resume or enter your experience, and we&apos;ll generate polished, professional content instantly - completely free. Edit until it&apos;s perfect, then download your resume in our premium template for just <b style={{color:"rgba(255, 140, 0, 0.97)"}}>$9.99</b> with 30 days of unlimited revisions included.
+          So, I built ResumAI to give you the same winning approach - without the $200+ price tag. Upload your resume or enter your experience, and we generate polished, professional content - completely free. Edit until it&apos;s perfect, then download your resume in our premium template for just <b style={{color:"rgba(255, 140, 0, 0.97)"}}>$9.99</b> with 30 days of unlimited revisions included.
         </p>
       </div>
       <div>
