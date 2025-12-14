@@ -44,7 +44,7 @@ export const LandingHero = () => {
         </p>
 
         <p className="text-zinc-400 text-sm md:text-base font-normal leading-relaxed">
-          So, I built ResumAI to help others do exactly what worked for me. Simply upload your existing resume or enter experience manually, and we&apos;ll generate polished resume content for free. You&apos;re free to edit the content as needed, then download the entire professional template for just <b style={{color:"rgba(255, 140, 0, 0.97)"}}>$9.99</b> (a fraction of what I paid) - plus 30 days of unlimited revisions!
+          So I built ResumAI to give you the same winning approach - without the $200+ price tag. Upload your resume or enter your experience, and we&apos;ll generate polished, professional content instantly - completely free. Edit until it&apos;s perfect, then download your resume in our premium template for just <b style={{color:"rgba(255, 140, 0, 0.97)"}}>$9.99</b> with 30 days of unlimited revisions included.
         </p>
       </div>
       <div>
