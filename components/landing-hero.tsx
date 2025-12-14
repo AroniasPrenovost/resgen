@@ -16,9 +16,9 @@ export const LandingHero = () => {
   // const { isSignedIn } = useAuth();
 
   return (
-    <div className="text-white font-bold py-28 text-center space-y-5">
+    <div className="text-white font-bold py-28 text-center space-y-8">
       <ResumeCounter />
-      <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl space-y-5 font-extrabold">
+      <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl space-y-1 font-extrabold">
         <h1>The best AI tool for</h1>
         <div className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
           <TypewriterComponent
@@ -34,13 +34,17 @@ export const LandingHero = () => {
           />
         </div>
       </div>
-      <div className="max-w-3xl mx-auto px-4 space-y-4 mt-8">
+      <div className="max-w-3xl mx-auto px-4 space-y-6 mt-12">
         <p className="text-zinc-400 text-sm md:text-base font-normal leading-relaxed">
-          A few years ago, I paid a resume writer $200 - and got back something that was obviously not <em>me</em>.
-          That&apos;s when I realized what had actually gotten me interviews before wasn&apos;t complicated — it was simple, clear, and honest experience.
+          A few years ago, I paid a resume writer over $200 - and got back something that was obviously not <em>me</em>. That&apos;s when I realized what had actually gotten me interviews before wasn&apos;t complicated — it was simple, clear experience tied to accomplishments.
         </p>
+
         <p className="text-zinc-400 text-sm md:text-base font-normal leading-relaxed">
-          So I built ResumAI to do exactly that. Simply upload your existing resume or enter experience manually, and we&apos;ll generate polished resume content for free. Edit every word until it&apos;s perfect, then download the professional template for just <b style={{color:"rgba(255, 140, 0, 0.97)"}}>$9.99</b> (a fraction of what I paid) - plus 30 days of unlimited revisions!
+          A few years passed, I got more interviewing experience and got better at coding to build this tool.
+        </p>
+
+        <p className="text-zinc-400 text-sm md:text-base font-normal leading-relaxed">
+          So I built ResumAI to do exactly that. Simply upload your existing resume or enter experience manually, and we&apos;ll generate polished resume content for free. You&apos;re free to edit the content, then download the professional template for just <b style={{color:"rgba(255, 140, 0, 0.97)"}}>$9.99</b> (a fraction of what I paid) - plus 30 days of unlimited revisions!
         </p>
       </div>
       <div className="mt-10 mb-12">
