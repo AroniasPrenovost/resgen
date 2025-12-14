@@ -44,8 +44,30 @@ export const LandingHero = () => {
         </p>
 
         <p className="text-zinc-400 text-sm md:text-base font-normal leading-relaxed">
-          So, I built ResumAI to give you the same winning approach - without the $200+ price tag. Upload your resume or enter your experience, and we generate polished, professional content - completely free. Edit until it&apos;s perfect, then download your resume in our premium template for just <b style={{color:"rgba(255, 140, 0, 0.97)"}}>$9.99</b> with 30 days of unlimited revisions included.
+          So, I built ResumAI to give you the same winning approach without the big price tag. Upload your current resume or enter your experience, and we generate polished, professional content instantly. Try it free - only pay <b style={{color:"rgba(255, 140, 0, 0.97)"}}>$9.99</b> if you love it and want the premium template. Includes 30 days of revisions.
         </p>
+
+        {/* Trust indicators */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+          <div className="flex items-start gap-2">
+            <svg className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+            </svg>
+            <p className="text-zinc-400 text-xs md:text-sm">ATS-optimized content that passes automated screening</p>
+          </div>
+          <div className="flex items-start gap-2">
+            <svg className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+            </svg>
+            <p className="text-zinc-400 text-xs md:text-sm">Professional formatting that recruiters actually read</p>
+          </div>
+          <div className="flex items-start gap-2">
+            <svg className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+            </svg>
+            <p className="text-zinc-400 text-xs md:text-sm">Industry-specific keywords that get you interviews</p>
+          </div>
+        </div>
       </div>
       <div>
         {/* <Link href={isSignedIn ? "/dashboard" : "/sign-up"}> */}
