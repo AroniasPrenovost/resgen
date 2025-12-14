@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 // Set your base count here - update this manually when you push code each day
-const BASE_COUNT = 500;
+const BASE_COUNT = 323;
 
 export const ResumeCounter = () => {
   const [count, setCount] = useState(BASE_COUNT);
