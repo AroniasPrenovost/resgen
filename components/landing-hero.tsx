@@ -10,21 +10,23 @@ import Image from "next/image";
 // import { useAuth } from "@clerk/nextjs";
 
 import { Button } from "@/components/ui/button";
+import { ResumeCounter } from "@/components/resume-counter";
 
 export const LandingHero = () => {
   // const { isSignedIn } = useAuth();
 
   return (
     <div className="text-white font-bold py-28 text-center space-y-5">
+      <ResumeCounter />
       <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl space-y-5 font-extrabold">
         <h1>The best AI tool for</h1>
         <div className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
           <TypewriterComponent
             options={{
               strings: [
-                "Resume generation.",
-                "Getting that first interview.",
-                "Getting hired.",
+                "landing your first interview.",
+                "writing a resume that sounds like you.",
+                "getting hired faster.",
               ],
               autoStart: true,
               loop: true,
@@ -34,13 +36,11 @@ export const LandingHero = () => {
       </div>
       <div className="max-w-3xl mx-auto px-4 space-y-4 mt-8">
         <p className="text-zinc-400 text-sm md:text-base font-normal leading-relaxed">
-          After paying a resume writer $300 and getting back something that didn&apos;t even sound like me,
-          I realized what actually got me interviews before wasn&apos;t complicated—it was simple, clear, and honest.
-          So I built this.
+          A few years ago, I paid a resume writer $200 - and got back something that was obviously not <em>me</em>.
+          That&apos;s when I realized what had actually gotten me interviews before wasn&apos;t complicated — it was simple, clear, and honest experience.
         </p>
         <p className="text-zinc-400 text-sm md:text-base font-normal leading-relaxed">
-          Upload your existing resume, and the ResumAI assistant <b>instantly</b> starts proofreading and rewriting.
-          Once you&apos;re satisfied, download your polished resume for just <b style={{color:"rgba(255, 140, 0, 0.97)"}}>$9.99</b>—includes 30 days of unlimited access.
+          So I built ResumAI to do exactly that. Simply upload your existing resume or enter experience manually, and we generate a polished resume that sounds like you. Download it for <b style={{color:"rgba(255, 140, 0, 0.97)"}}>$9.99</b> (a fraction of what I paid), plus 30 days of unlimited revisions!
         </p>
       </div>
       <div className="mt-10 mb-12">
