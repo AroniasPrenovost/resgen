@@ -90,7 +90,7 @@ const ResumeGeneratorPage = () => {
 
         setTimeout(() => {
           typeText(
-            'Upload your resume and the AI starts rewriting immediately. No complicated settings or jargon.',
+            'Upload your resume and the AI generates polished content into editable fields - completely free. No complicated settings or jargon.',
             setTypedBody
           );
         }, 3300);
@@ -398,7 +398,7 @@ const ResumeGeneratorPage = () => {
   //
   //
 
-  const [subheadline, setSubheadline] = useState('Upload your resume and get instant feedback. Simple, clear, and effective.');
+  const [subheadline, setSubheadline] = useState('Generate and edit your resume content for free. Pay $9.99 only when you\'re ready to download.');
   // const [topCtaButton, setTopCtaButton] = useState('Get Instant Access');
   const [buyButtonContent, setBuyButtonContent] = useState('Generate Resume');
 
@@ -1885,9 +1885,9 @@ ${stringifiedMappedFormValues}
                           {fileHasBeenUploadedAndParsed || popoverHasBeenShownToUser || typedBody ? (
                             <div className="text-small pt-2">
                               {fileHasBeenUploadedAndParsed
-                                ? 'You have run out of free rewrites. Submit the form to get unlimited access for $9.99.'
+                                ? 'Generate and edit your resume content for free. When you\'re ready, pay $9.99 to download the professional template.'
                                 : popoverHasBeenShownToUser
-                                ? 'Upload your resume and watch the ResumAI assistant begin to work on your resume.'
+                                ? 'Upload your resume and watch the AI generate polished content in editable fields - completely free.'
                                 : typedBody}
                             </div>
                           ) : null}
@@ -3488,7 +3488,7 @@ ${stringifiedMappedFormValues}
                     },
                   }}
                   color="primary"
-                  content={"Finalizes resume content and generates new template"}
+                  content={"Free to generate & edit • Creates resume content in editable fields"}
                 >
                   <FormControl className="m-0 p-0">
                     <Button
@@ -3508,7 +3508,7 @@ ${stringifiedMappedFormValues}
                       onMouseEnter={() => setFormSubmitButtonIsHovered(true)}
                       onMouseLeave={() => setFormSubmitButtonIsHovered(false)}
                     >
-                      Generate New Resume
+                      Generate Content (Free)
                     {/*
                       <Image width={20} height={20} alt="Stripe logo" src="/stripe.png" />
                     */}

@@ -40,16 +40,19 @@ export const LandingHero = () => {
           That&apos;s when I realized what had actually gotten me interviews before wasn&apos;t complicated — it was simple, clear, and honest experience.
         </p>
         <p className="text-zinc-400 text-sm md:text-base font-normal leading-relaxed">
-          So I built ResumAI to do exactly that. Simply upload your existing resume or enter experience manually, and we generate a polished resume that sounds like you. Download it for <b style={{color:"rgba(255, 140, 0, 0.97)"}}>$9.99</b> (a fraction of what I paid), plus 30 days of unlimited revisions!
+          So I built ResumAI to do exactly that. Simply upload your existing resume or enter experience manually, and we&apos;ll generate polished resume content for free. Edit every word until it&apos;s perfect, then download the professional template for just <b style={{color:"rgba(255, 140, 0, 0.97)"}}>$9.99</b> (a fraction of what I paid) - plus 30 days of unlimited revisions!
         </p>
       </div>
       <div className="mt-10 mb-12">
         {/* <Link href={isSignedIn ? "/dashboard" : "/sign-up"}> */}
         <Link href="/resume-generator" prefetch={true}>
           <Button variant="premium" className="md:text-lg p-4 md:p-6 rounded-full font-semibold">
-            Generate Your Last Resume
+            Create My Resume Free
           </Button>
         </Link>
+        <p className="text-zinc-400 text-xs md:text-sm mt-4">
+          Free to generate & edit • $9.99 to download • No credit card needed
+        </p>
       </div>
     </div>
   );

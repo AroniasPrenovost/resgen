@@ -84,21 +84,20 @@ export const Sidebar = ({
           ))}
 
            <div className="space-y-1" style={{paddingTop: '24px', padding: '8px', fontSize: '14px'}}>
-              <b style={{fontSize: '18px', marginBottom: '20px !important', marginTop: '20px', color: 'orange'}}>So, how does it work?</b><br/>
+              <b style={{fontSize: '18px', marginBottom: '20px !important', marginTop: '20px', color: 'orange'}}>How it works:</b><br/>
               <ol>
-         {/*       <li><b>1. </b><b style={{color:"orange"}}>$3.99</b> gets you access for 30 days.</li>
-                  <br/>*/}
-                <li><b style={{color: 'orange', fontSize: '14px'}}>1. </b>Add a job description to tailor your resume to a specific role (optional).</li>
+                <li><b style={{color: 'orange', fontSize: '14px'}}>1. </b>Upload your resume or enter experience manually (completely free).</li>
                 <br/>
-                <li><b style={{color: 'orange', fontSize: '14px'}}>2. </b>Upload your resume and ResumAI instantly starts rewriting and improving it.</li>
+                <li><b style={{color: 'orange', fontSize: '14px'}}>2. </b>AI generates polished content in editable fields - review and perfect every word for free.</li>
                 <br/>
-                <li><b style={{color: 'orange', fontSize: '14px'}}>3. </b>Hit &ldquo;Generate Resume&rdquo; and download your polished resume template in seconds.</li>
+                <li><b style={{color: 'orange', fontSize: '14px'}}>3. </b>When you&apos;re satisfied, pay <b style={{ color: "orange"}}>$9.99</b> to download the professional template.</li>
                 <br/>
 
-                <li>Just <b style={{ color: "orange"}}>$9.99</b> for <b>30</b> days of access:<br/>
+                <li>One-time <b style={{ color: "orange"}}>$9.99</b> payment includes:<br/>
                   <ul style={{listStyleType: 'circle', marginLeft: '18px'}}>
-                    <li>new resume generations</li>
+                    <li>30 days of unlimited downloads & revisions</li>
                     <li>human chat support</li>
+                    <li>no subscription, no hidden fees</li>
                   </ul>
                 </li>
 
