@@ -50,7 +50,7 @@ export const LandingContent = () => {
       <div className="max-w-7xl mx-auto">
         <h2 className="text-center text-3xl md:text-4xl text-white font-extrabold mb-4">Real results from real job seekers</h2>
         <p className="text-center text-zinc-400 text-sm md:text-base mb-12 max-w-2xl mx-auto">
-          Join hundreds of professionals who landed their dream jobs with ResumAI
+          Join professionals using ResumAI to land their next role
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {testimonials.map((item) => (
