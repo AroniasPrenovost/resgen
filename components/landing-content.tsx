@@ -81,9 +81,9 @@ export const LandingContent = () => {
 
                 <CardContent className="px-0 pb-0">
                   <p className="text-zinc-300 text-sm leading-relaxed relative pl-3">
-                    <span className="text-purple-400/40 text-2xl absolute -left-1 top-0 leading-none">"</span>
+                    <span className="text-purple-400/40 text-2xl absolute -left-1 top-0 leading-none">&ldquo;</span>
                     <span className="relative z-10">{item.description}</span>
-                    <span className="text-purple-400/40 text-2xl absolute -bottom-2 right-0 leading-none">"</span>
+                    <span className="text-purple-400/40 text-2xl absolute -bottom-2 right-0 leading-none">&rdquo;</span>
                   </p>
                   <p className="text-zinc-500 text-xs mt-4 flex items-center gap-1">
                     <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
