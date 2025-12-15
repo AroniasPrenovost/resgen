@@ -40,7 +40,7 @@ export const LandingHero = () => {
         </p>
 
         <p className="text-zinc-400 text-sm md:text-base font-normal leading-relaxed">
-          That lesson stuck, and after a few more years in the job market - gaining interviewing experience and sharpening my coding skillset - I finally had what I needed to solve the problem.
+          That lesson stuck, and after a few more years in the job market - gaining interviewing experience, sharpening my coding skillset, and AI becoming a thing - I finally had what I needed to solve the problem.
         </p>
 
         <p className="text-zinc-400 text-sm md:text-base font-normal leading-relaxed">
