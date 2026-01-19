@@ -89,7 +89,7 @@ export const Sidebar = ({
                   ?
                   "text-white bg-white/10"
                   :
-                  "text-zinc-400",
+                  "text-zinc-200",
                 )}
               >
                 <route.icon className={cn("h-6 w-6", route.color)} />
