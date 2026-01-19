@@ -14,7 +14,7 @@ const LandingPage = () => {
         // color: "#ffffff",
         marginLeft: "18px !important"
       }}>
-        © {year} ResumeAI
+        © {year} ResumAI
       </p>
       <br/>
     </div>
