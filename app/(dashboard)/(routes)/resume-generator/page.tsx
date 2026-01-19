@@ -6,14 +6,11 @@ import { MessageSquare } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import { useRouter, usePathname, redirect, useSearchParams } from "next/navigation";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { ChatCompletionRequestMessage } from "openai";
-
-import Image from "next/image"
 
 import { Tooltip } from '@nextui-org/react';
 import {Popover, PopoverTrigger, PopoverContent} from "@nextui-org/popover";
-import { BotAvatar } from "@/components/bot-avatar";
 import { Heading } from "@/components/heading";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -26,16 +23,12 @@ import { SimplerLoader } from "@/components/simpler-loader";
 import { UserAvatar } from "@/components/user-avatar";
 import { Empty } from "@/components/ui/empty";
 
-// import { useProModal } from "@/hooks/use-pro-modal";
-// import { checkSubscription } from "@/lib/subscription";
-
 import { formSchema } from "./constants";
 
 const STRIPE_PAYMENT_LINK: string = process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK ?? 'https://stripe.com';
 
 // file upload
 import mammoth from "mammoth"; // supports .docx
-import { PDFDocument } from 'pdf-lib'; // supports .pdf
 
 // saving (downloading) generated resume as .docx
 import { saveAs } from "file-saver";
@@ -47,8 +40,6 @@ const ResumeGeneratorPage = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-
-  // const proModal = useProModal();
 
   //
   //
@@ -63,7 +54,6 @@ const ResumeGeneratorPage = () => {
   // button hover states
   //
 
-  // const [topCTAButtonIsHovered, setTopCTAButtonIsHovered] = useState(false);
   const [isJobPostingTooltipOpen, setIsJobPostingTooltipOpen] = useState(false);
   const [fileUploadButtonIsHovered, setFileUploadButtonIsHovered] = useState(false);
 
@@ -135,12 +125,6 @@ const ResumeGeneratorPage = () => {
     let job_post_description = (input && input.value) ? input.value.trim() : '';
     let job_post_description_insert = job_post_description.length ? `Ensure the new resume output aligns with the given job description: ${job_post_description}` : '';
     console.log({job_post_description_insert})
-
-    // localStorage.removeItem('file_has_been_uploaded_and_parsed', 'false')
-    // localStorage.removeItem('stored_form_values', '{}');
-    // localStorage.removeItem('file_upload_popover_shown');
-    // localStorage.removeItem('file_upload_count');
-    // return;
 
     const promptString = `Persona: you are a expert resume writer with with years of experience improving resumes.
     Improve the verbiage, tone, and professionalism of the inputted content (${fileContents}) and map it to our desired 'resume_object' structure.
@@ -293,33 +277,7 @@ const ResumeGeneratorPage = () => {
       setUploadedFileName(file.name);
 
       try {
-        if (fileType === "application/pdf") {
-          //
-          // .pdf
-          //
-          // (curently not supported, am seeing a lot of resources saying I need to set up a webworker)
-
-          const arrayBuffer = await file.arrayBuffer();
-          const pdfDoc = await PDFDocument.load(arrayBuffer);
-          let text = "";
-
-          // Extracting text is not directly supported, however, assuming some JSON structure for text location might not help.
-          // Text extraction would require parsing text run attributes, which is complex and often unsuccessful without workers or back-end support.
-
-          // Sample code for iterating pages (text output would need a precise method):
-          console.log(pdfDoc)
-          for (let i = 0; i < pdfDoc.getPageCount(); i++) {
-            const page = pdfDoc.getPage(i);
-            console.log('page: ', page);
-            // const content = page.getTextContent();
-            // console.log('content: ', content);
-            const { width, height } = page.getSize();
-            text += `Page ${i + 1} (Size: ${width} x ${height})\n`; // Dummy text, actual text extraction is complex
-          }
-
-          setUploadedFileContents(text);
-
-        } else if (
+        if (
           fileType === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
           fileType === "application/msword"
         ) {
@@ -398,7 +356,6 @@ const ResumeGeneratorPage = () => {
   //
 
   const [subheadline, setSubheadline] = useState('Generate and edit your resume content for free. Pay $9.99 only when you\'re ready to download.');
-  // const [topCtaButton, setTopCtaButton] = useState('Get Instant Access');
   const [buyButtonContent, setBuyButtonContent] = useState('Generate Resume');
 
   //
@@ -1712,32 +1669,6 @@ ${stringifiedMappedFormValues}
         iconColor="text-violet-500"
         bgColor="bg-violet-500/10"
       />
-
-
-{/*
-
-     <Button
-      style={{
-          position: 'absolute',
-          maxWidth: '232px',
-          backgroundColor: topCTAButtonIsHovered ? 'rgba(255, 159, 64, 0.97)' : 'rgba(255, 140, 0, 0.97)',
-          right: '0',
-          top: '0',
-          marginRight: '32px',
-          marginTop: '32px',
-          visibility: hasPaid ? 'hidden' : 'visible',
-        }}
-        className="col-span-6 w-full xs:hidden sm:hidden md:hidden lg:block"
-        type="submit"
-        size="icon"
-        onClick={onClick}
-        onMouseEnter={() => setTopCTAButtonIsHovered(true)}
-        onMouseLeave={() => setTopCTAButtonIsHovered(false)}
-      >
-         {topCtaButton}
-      </Button>
-
-*/}
 
       <div className="px-4 lg:px-8">
         <div>
