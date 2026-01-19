@@ -66,7 +66,6 @@ const ResumeGeneratorPage = () => {
   // const [topCTAButtonIsHovered, setTopCTAButtonIsHovered] = useState(false);
   const [isJobPostingTooltipOpen, setIsJobPostingTooltipOpen] = useState(false);
   const [fileUploadButtonIsHovered, setFileUploadButtonIsHovered] = useState(false);
-  const [formSubmitButtonIsHovered, setFormSubmitButtonIsHovered] = useState(false);
 
   // manage form submit button tooltip display states
   const [isSubmitButtonTooltipOpen, setIsSubmitButtonTooltipOpen] = useState(false);
@@ -3492,26 +3491,18 @@ ${stringifiedMappedFormValues}
                 >
                   <FormControl className="m-0 p-0">
                     <Button
-                      className="w-full"
-                      // className="col-span-12 lg:col-span-12 w-full"
                       type="submit"
                       disabled={isLoading}
-                      style={{
-                        float: 'left',
-                        backgroundColor: formSubmitButtonIsHovered ? 'rgba(90, 84, 236, 0.97)' : 'rgba(111, 90, 246, 0.97)',
-                        marginTop: '4px',
-                        maxWidth: '192px',
-                        whiteSpace: 'nowrap',
-                       }}
-                      size="icon"
                       id='submit'
-                      onMouseEnter={() => setFormSubmitButtonIsHovered(true)}
-                      onMouseLeave={() => setFormSubmitButtonIsHovered(false)}
+                      style={{
+                        padding: "8px 16px",
+                        borderRadius: "8px",
+                        fontSize: "14px",
+                        fontWeight: "500",
+                        whiteSpace: "nowrap",
+                      }}
                     >
-                      Generate Content (Free)
-                    {/*
-                      <Image width={20} height={20} alt="Stripe logo" src="/stripe.png" />
-                    */}
+                      Generate Resume
                     </Button>
                   </FormControl>
                 </Tooltip>
