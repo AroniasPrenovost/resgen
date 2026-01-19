@@ -13,11 +13,11 @@ const DashboardLayout = async ({
 
   return (
     <div className="h-full relative">
-      <div className="hidden h-full md:flex md:w-72 md:flex-col md:fixed md:inset-y-0 z-80 bg-gray-900">
+      <div className="hidden h-full md:flex md:w-20 md:flex-col md:fixed md:inset-y-0 z-80 bg-gray-900">
         {/*<Sidebar isPro={isPro} apiLimitCount={apiLimitCount} />*/}
        <Sidebar isPro={true} apiLimitCount={0} />
       </div>
-      <main className="md:pl-72 pb-1">
+      <main className="md:pl-20 pb-1">
         <Navbar />
         {children}
       </main>

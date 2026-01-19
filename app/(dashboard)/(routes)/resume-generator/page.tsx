@@ -10,8 +10,6 @@ import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { ChatCompletionRequestMessage } from "openai";
 
 import { Tooltip } from '@nextui-org/react';
-import {Popover, PopoverTrigger, PopoverContent} from "@nextui-org/popover";
-import { Heading } from "@/components/heading";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -61,53 +59,7 @@ const ResumeGeneratorPage = () => {
   const [isSubmitButtonTooltipOpen, setIsSubmitButtonTooltipOpen] = useState(false);
 
 
-  // manage file upload POPOVER display states
-  const [typedTitle, setTypedTitle] = useState('');
-  const [typedBody, setTypedBody] = useState('');
-  const [typedBody2, setTypedBody2] = useState('');
-  const [typedBody3, setTypedBody3] = useState('');
-  const [isFileUploadPopoverOpen, setIsFileUploadPopoverOpen] = useState(false);
-
-  useEffect(() => {
-    const popoverShown = localStorage.getItem('file_upload_popover_shown') === 'true'
-    if (!popoverShown) {
-      toggleScrollAndDimBackground(true);
-      const showPopoverTimeout = setTimeout(() => {
-        setIsFileUploadPopoverOpen(true);
-
-        typeText('👋 Hey there, welcome to ResumAI!', setTypedTitle);
-
-        setTimeout(() => {
-          typeText(
-            'Upload your resume and the AI generates polished content into editable fields - completely free. No complicated settings or jargon.',
-            setTypedBody
-          );
-        }, 3300);
-
-        setTimeout(() => {
-          typeText(
-            'Don\'t have a resume yet? Manually enter as much (or as little) info as you like, and we\'ll take it from there!',
-            setTypedBody2
-          );
-        }, 8700);
-
-        setTimeout(() => {
-          typeText(
-            '* Supports .docx and .txt file types.',
-            setTypedBody3
-          );
-        }, 15200);
-
-        setTimeout(() => {
-          setIsFileUploadPopoverOpen(false);
-          localStorage.setItem('file_upload_popover_shown', 'true');
-          toggleScrollAndDimBackground(false);
-        }, 19100); // popover stays open for X seconds
-      }, 250); // Initial delay before showing popover
-
-      return () => clearTimeout(showPopoverTimeout);
-    }
-  }, []);
+  // Note: Popup modal removed - welcome content now shown inline on the page
 
 
   //
@@ -316,38 +268,6 @@ const ResumeGeneratorPage = () => {
   //
   //
 
-  function toggleScrollAndDimBackground(lock: boolean) {
-  const body = document.body;
-  const dimOverlayId = 'dim-overlay';
-
-  if (lock) {
-    // Lock scrolling
-    body.style.overflow = 'hidden';
-
-    // Create and append a dim overlay if it doesn't exist
-    if (!document.getElementById(dimOverlayId)) {
-      const dimOverlay = document.createElement('div');
-      dimOverlay.id = dimOverlayId;
-      dimOverlay.style.position = 'fixed';
-      dimOverlay.style.top = '0';
-      dimOverlay.style.left = '0';
-      dimOverlay.style.width = '100%';
-      dimOverlay.style.height = '100%';
-      dimOverlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-      dimOverlay.style.zIndex = '1000';
-      body.appendChild(dimOverlay);
-    }
-  } else {
-    // Unlock scrolling
-    body.style.overflow = '';
-
-    // Remove the dim overlay if it exists
-    const dimOverlay = document.getElementById(dimOverlayId);
-    if (dimOverlay) {
-      body.removeChild(dimOverlay);
-    }
-  }
-}
 
   //
   //
@@ -404,16 +324,11 @@ const ResumeGeneratorPage = () => {
   // file upload
   let hasFileBeenSelectedByUser = false;
   let fileHasBeenUploadedAndParsed = false;
-  let popoverHasBeenShownToUser = false;
   type UploadedResumeDataType = { [key: string]: string; }; // Assuming all values are strings, adjust as necessary
   const [uploadedResumeDataConvertedToForm, setUploadedResumeDataConvertedToForm] = useState<UploadedResumeDataType>({});
   const [isGettingAiResponseForFileUploadProcess, setIsGettingAiResponseForFileUploadProcess] = useState(false);
 
   if (global?.window !== undefined) { // now it's safe to access window and localStorage
-
-    //
-    //
-    popoverHasBeenShownToUser = localStorage.getItem('file_upload_popover_shown') === 'true'
 
     //
     // manage form persistence
@@ -1662,13 +1577,51 @@ ${stringifiedMappedFormValues}
 
   return (
     <div>
-      <Heading
-        title="Resume Generator"
-        description={subheadline}
-        icon={MessageSquare}
-        iconColor="text-violet-500"
-        bgColor="bg-violet-500/10"
-      />
+      {/* Consolidated Welcome & Info Section */}
+      <div className="px-4 lg:px-8 mb-8 mt-8">
+        <div className="bg-violet-50 border border-violet-200 rounded-lg p-6 md:p-8">
+          {/* Header with Icon */}
+          <div className="flex items-center gap-3 mb-4">
+            <div className="p-3 bg-violet-500/10 rounded-lg">
+              <MessageSquare className="w-8 h-8 text-violet-500" />
+            </div>
+            <div>
+              <h1 className="text-2xl md:text-3xl font-bold text-violet-900">
+                Resume Generator
+              </h1>
+            </div>
+          </div>
+
+          {/* Welcome Message */}
+          <h2 className="text-xl font-semibold text-violet-900 mb-4">
+            👋 You're in the right place!
+          </h2>
+
+          <div className="space-y-3 text-sm md:text-base text-gray-700">
+            <p className="leading-relaxed">
+              <strong>Here's how it works:</strong> Upload your current resume or manually enter your experience - our AI instantly generates polished, professional content in editable fields. Review and perfect every word for <strong>free</strong>.
+            </p>
+
+            <p className="leading-relaxed">
+              Starting from scratch? No problem! Enter as much or as little as you like, and we'll help you create compelling content that showcases your experience.
+            </p>
+
+            {/* Pricing highlight */}
+            <div className="bg-white border border-violet-300 rounded-lg p-4 mt-4">
+              <p className="text-base font-semibold text-violet-900 mb-2">
+                💰 Completely free to generate and edit
+              </p>
+              <p className="text-sm text-gray-700">
+                Only pay <strong className="text-violet-700">$9.99</strong> when you're ready to download your professional resume template. That's it - no subscription, no hidden fees.
+              </p>
+            </div>
+
+            <p className="text-xs text-gray-600 pt-2 border-t border-violet-200 mt-4">
+              * Supports <strong>.docx</strong> and <strong>.txt</strong> file formats
+            </p>
+          </div>
+        </div>
+      </div>
 
       <div className="px-4 lg:px-8">
         <div>
@@ -1750,102 +1703,44 @@ ${stringifiedMappedFormValues}
               >
                 <FormControl className="m-0 p-2">
                   <>
-                    <Popover
-                      color="primary"
-                      offset={12}
-                      showArrow={true}
-                      isOpen={isFileUploadPopoverOpen}
-                      onOpenChange={(open) => setIsFileUploadPopoverOpen(open)}
-                    >
-                      <PopoverTrigger>
-                        <label
-                          style={{ fontWeight: "bold" }}
-                          onMouseEnter={() => setIsFileUploadPopoverOpen(true)}
-                          onMouseLeave={() => setIsFileUploadPopoverOpen(false)}
-                        >
-                          <input
-                            type="file"
-                            accept={ACCEPTED_FILE_TYPES}
-                            onChange={handleFileChange}
-                            style={{ display: "none" }}
-                            id="file-upload-input"
-                            disabled={fileHasBeenUploadedAndParsed}
-                          />
-                          <label
-                            htmlFor="file-upload-input"
-                            className="noWrap"
-                            style={{
-                              padding: "8px 16px",
-                              borderRadius: "8px",
-                              color: "#ffffff",
-                              fontSize: "14px",
-                              fontWeight: "500",
-                              display: "inline-block",
-                              cursor: "pointer",
-                              whiteSpace: "nowrap",
-                              backgroundColor: fileHasBeenUploadedAndParsed ? 'grey' : fileUploadButtonIsHovered ? 'rgba(255, 159, 64, 0.97)' : 'rgba(255, 140, 0, 0.97)',
-                            }}
-                            onMouseEnter={() => setFileUploadButtonIsHovered(true)}
-                            onMouseLeave={() => setFileUploadButtonIsHovered(false)}
-                          >
-                            Upload Current Resume
-                          </label>
-                          {uploadedFileName && (
-                            <p style={{
-                              color: "black !important",
-                              fontSize: "12px",
-                              fontWeight: "normal",
-                              paddingLeft: "8px",
-                              whiteSpace: "nowrap",
-                            }}>{uploadedFileName}</p>
-                          )}
-                        </label>
-                      </PopoverTrigger>
-                      <PopoverContent>
-                        <div className="px-1 py-2">
-
-                          <div className="text-xl font-bold">
-                            {popoverHasBeenShownToUser ? (
-                              <span>📝 Have any questions?</span>
-                            ) : (
-                              <span>{typedTitle}</span>
-                            )}
-                          </div>
-
-                          {fileHasBeenUploadedAndParsed || popoverHasBeenShownToUser || typedBody ? (
-                            <div className="text-small pt-2">
-                              {fileHasBeenUploadedAndParsed
-                                ? 'Generate and edit your resume content for free. When you\'re ready, pay $9.99 to download the professional template.'
-                                : popoverHasBeenShownToUser
-                                ? 'Upload your resume and watch the AI generate polished content in editable fields - completely free.'
-                                : typedBody}
-                            </div>
-                          ) : null}
-
-                          {fileHasBeenUploadedAndParsed || popoverHasBeenShownToUser || typedBody2 ? (
-                            <div className="text-small pt-2">
-                              {fileHasBeenUploadedAndParsed
-                                ? "Don't have a resume yet? Manually enter as much (or as little) info as you like, and we'll take it from there!"
-                                : popoverHasBeenShownToUser
-                                ? "Don't have a resume yet? Manually enter as much (or as little) info as you like, and we'll take it from there!"
-                                : typedBody2}
-                            </div>
-                          ) : null}
-
-                          {popoverHasBeenShownToUser || typedBody3 ? (
-                            <div className="text-tiny pt-2" style={{ fontSize: "13px" }}>
-                              {popoverHasBeenShownToUser ? (
-                                <span>
-                                  * Supports <b>.docx</b> and <b>.txt</b> file types.
-                                </span>
-                              ) : (
-                                <span>{typedBody3}</span>
-                              )}
-                            </div>
-                          ) : null}
-                        </div>
-                      </PopoverContent>
-                    </Popover>
+                    <label style={{ fontWeight: "bold" }}>
+                      <input
+                        type="file"
+                        accept={ACCEPTED_FILE_TYPES}
+                        onChange={handleFileChange}
+                        style={{ display: "none" }}
+                        id="file-upload-input"
+                        disabled={fileHasBeenUploadedAndParsed}
+                      />
+                      <label
+                        htmlFor="file-upload-input"
+                        className="noWrap"
+                        style={{
+                          padding: "8px 16px",
+                          borderRadius: "8px",
+                          color: "#ffffff",
+                          fontSize: "14px",
+                          fontWeight: "500",
+                          display: "inline-block",
+                          cursor: "pointer",
+                          whiteSpace: "nowrap",
+                          backgroundColor: fileHasBeenUploadedAndParsed ? 'grey' : fileUploadButtonIsHovered ? 'rgba(255, 159, 64, 0.97)' : 'rgba(255, 140, 0, 0.97)',
+                        }}
+                        onMouseEnter={() => setFileUploadButtonIsHovered(true)}
+                        onMouseLeave={() => setFileUploadButtonIsHovered(false)}
+                      >
+                        Upload Current Resume
+                      </label>
+                      {uploadedFileName && (
+                        <p style={{
+                          color: "black !important",
+                          fontSize: "12px",
+                          fontWeight: "normal",
+                          paddingLeft: "8px",
+                          whiteSpace: "nowrap",
+                        }}>{uploadedFileName}</p>
+                      )}
+                    </label>
                     {isGettingAiResponseForFileUploadProcess && (
                       <div className="col-span-5 p-0 rounded-lg w-full flex items-left justify-center">
                         <SimplerLoader />
