@@ -16,11 +16,11 @@ export const LandingHero = () => {
   // const { isSignedIn } = useAuth();
 
   return (
-    <div className="text-white font-bold py-28 text-center space-y-12">
+    <div className="text-white font-bold py-20 px-4 text-center space-y-8">
       <ResumeCounter />
       <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl space-y-1 font-extrabold">
         <h1>The AI that helps you</h1>
-        <div className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
+        <div className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 min-h-[120px] sm:min-h-[140px] md:min-h-[160px] lg:min-h-[180px]">
           <TypewriterComponent
             options={{
               strings: [
