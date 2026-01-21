@@ -19,6 +19,7 @@ import { cn } from "@/lib/utils";
 import { Loader } from "@/components/loader";
 import { SimplerLoader } from "@/components/simpler-loader";
 import { UserAvatar } from "@/components/user-avatar";
+import { BotAvatar } from "@/components/bot-avatar";
 import { Empty } from "@/components/ui/empty";
 
 import { formSchema } from "./constants";
