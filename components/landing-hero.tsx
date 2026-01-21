@@ -20,13 +20,13 @@ export const LandingHero = () => {
       <ResumeCounter />
       <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl space-y-1 font-extrabold">
         <h1>The AI that helps you</h1>
-        <div className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 min-h-[120px] sm:min-h-[140px] md:min-h-[160px] lg:min-h-[180px]">
+        <div className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 min-h-[80px] sm:min-h-[100px] md:min-h-[110px] lg:min-h-[120px]">
           <TypewriterComponent
             options={{
               strings: [
                 "land that first interview.",
-                "stand out to hiring managers.",
-                "sound like you, not a template.",
+                "stand out to recruiters.",
+                "highlight your strengths.",
               ],
               autoStart: true,
               loop: true,
