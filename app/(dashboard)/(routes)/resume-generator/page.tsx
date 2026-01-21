@@ -2,7 +2,7 @@
 
 import * as z from "zod";
 import axios from "axios";
-import { MessageSquare } from "lucide-react";
+import { FileText, Sparkles } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -1583,12 +1583,13 @@ ${stringifiedMappedFormValues}
         <div className="bg-violet-50 border border-violet-200 rounded-lg p-6 md:p-8">
           {/* Header with Icon */}
           <div className="flex items-center gap-3 mb-4">
-            <div className="p-3 bg-violet-500/10 rounded-lg">
-              <MessageSquare className="w-8 h-8 text-violet-500" />
+            <div className="p-3 bg-violet-500/10 rounded-lg relative">
+              <FileText className="w-8 h-8 text-violet-500" />
+              <Sparkles className="w-4 h-4 text-violet-400 absolute -top-0.5 -right-0.5" />
             </div>
             <div>
               <h1 className="text-2xl md:text-3xl font-bold text-violet-900">
-                Resume Generator
+                ResumAI
               </h1>
             </div>
           </div>
@@ -1604,13 +1605,13 @@ ${stringifiedMappedFormValues}
               <div className="flex items-start gap-2">
                 <span className="font-semibold text-violet-700 mt-0.5">1.</span>
                 <p className="leading-relaxed flex-1">
-                  <strong>Upload or paste</strong> your current resume below (or start from scratch)
+                  <strong>Upload</strong> your current resume below (or start from scratch)
                 </p>
               </div>
               <div className="flex items-start gap-2">
                 <span className="font-semibold text-violet-700 mt-0.5">2.</span>
                 <p className="leading-relaxed flex-1">
-                  <strong>AI generates</strong> ATS-optimized content instantly
+                  Our AI agent <strong>instantly generates</strong> ATS-optimized content
                 </p>
               </div>
               <div className="flex items-start gap-2">
@@ -1622,7 +1623,7 @@ ${stringifiedMappedFormValues}
               <div className="flex items-start gap-2">
                 <span className="font-semibold text-violet-700 mt-0.5">4.</span>
                 <p className="leading-relaxed flex-1">
-                  <strong>Download for $9.99</strong> when ready - includes 30 days revisions
+                  <strong>Download for $9.99</strong> when ready - includes 30 days of revisions
                 </p>
               </div>
             </div>
@@ -1642,7 +1643,7 @@ ${stringifiedMappedFormValues}
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                 </svg>
                 <p className="text-sm font-medium text-gray-800">
-                  Supports .docx and .txt formats
+                  Supports <b>.docx</b> and <b>.txt</b> formats
                 </p>
               </div>
             </div>

@@ -1,5 +1,4 @@
-import { RssIcon } from "lucide-react";
-import { Heading } from "@/components/heading";
+import { BookOpen, Sparkles } from "lucide-react";
 import fs from "fs";
 import path from "path";
 
@@ -41,13 +40,28 @@ const BlogPage = async () => {
 
   return (
     <div className="min-h-screen bg-black-50">
-      <Heading
-        title="Resume Writing Blog"
-        description="Master the art of resume writing with insights from our experts."
-        icon={RssIcon}
-        iconColor="text-grey-700"
-        bgColor="bg-gray-700/10"
-      />
+      {/* Header Section - Similar to Resume Generator */}
+      <div className="px-4 lg:px-8 mb-8 mt-8">
+        <div className="bg-violet-50 border border-violet-200 rounded-lg p-6 md:p-8">
+          {/* Header with Icon */}
+          <div className="flex items-center gap-3 mb-4">
+            <div className="p-3 bg-violet-500/10 rounded-lg relative">
+              <BookOpen className="w-8 h-8 text-violet-500" />
+              <Sparkles className="w-4 h-4 text-violet-400 absolute -top-0.5 -right-0.5" />
+            </div>
+            <div>
+              <h1 className="text-2xl md:text-3xl font-bold text-violet-900">
+                Resume Writing Blog
+              </h1>
+            </div>
+          </div>
+
+          {/* Description */}
+          <p className="text-sm md:text-base text-gray-700">
+            Expert tips, proven strategies, and actionable advice to help you land more interviews.
+          </p>
+        </div>
+      </div>
       <div className="px-8 lg:px-8 py-0 space-y-2">
 {/*        <div className="text-muted-foreground text-sm">
           Writing the right resume at the right time is all it takes to strike gold.

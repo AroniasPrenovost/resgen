@@ -4,7 +4,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Montserrat } from 'next/font/google'
-import { Code, ImageIcon, LayoutDashboard, MessageSquare, Music, Settings, VideoIcon, PenLine, RssIcon } from "lucide-react";
+import { Code, ImageIcon, LayoutDashboard, FileText, Music, Settings, VideoIcon, PenLine, BookOpen } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { Tooltip } from '@nextui-org/react';
 
@@ -22,13 +22,13 @@ const routes = [
   // },
   {
     label: 'Resume Generator',
-    icon: MessageSquare,
+    icon: FileText,
     href: '/resume-generator',
     color: "text-violet-500",
   },
     {
     label: 'Blog',
-    icon: RssIcon,
+    icon: BookOpen,
     href: '/blog',
   },
   // {
