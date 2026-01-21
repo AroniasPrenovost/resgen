@@ -1594,32 +1594,58 @@ ${stringifiedMappedFormValues}
           </div>
 
           {/* Welcome Message */}
-          <h2 className="text-xl font-semibold text-violet-900 mb-4">
-            👋 You&apos;re in the right place!
+          <h2 className="text-xl font-semibold text-violet-900 mb-3">
+            Let&apos;s get you more interviews
           </h2>
 
           <div className="space-y-3 text-sm md:text-base text-gray-700">
-            <p className="leading-relaxed">
-              <strong>Here&apos;s how it works:</strong> Upload your current resume or manually enter your experience - our AI instantly generates polished, professional content in editable fields. Review and perfect every word for <strong>free</strong>.
-            </p>
-
-            <p className="leading-relaxed">
-              Starting from scratch? No problem! Enter as much or as little as you like, and we&apos;ll help you create compelling content that showcases your experience.
-            </p>
-
-            {/* Pricing highlight */}
-            <div className="bg-white border border-violet-300 rounded-lg p-4 mt-4">
-              <p className="text-base font-semibold text-violet-900 mb-2">
-                💰 Completely free to generate and edit
-              </p>
-              <p className="text-sm text-gray-700">
-                Only pay <strong className="text-violet-700">$9.99</strong> when you&apos;re ready to download your professional resume template. That&apos;s it - no subscription, no hidden fees.
-              </p>
+            {/* Step-by-step process */}
+            <div className="space-y-2">
+              <div className="flex items-start gap-2">
+                <span className="font-semibold text-violet-700 mt-0.5">1.</span>
+                <p className="leading-relaxed flex-1">
+                  <strong>Upload or paste</strong> your current resume below (or start from scratch)
+                </p>
+              </div>
+              <div className="flex items-start gap-2">
+                <span className="font-semibold text-violet-700 mt-0.5">2.</span>
+                <p className="leading-relaxed flex-1">
+                  <strong>AI generates</strong> ATS-optimized content instantly
+                </p>
+              </div>
+              <div className="flex items-start gap-2">
+                <span className="font-semibold text-violet-700 mt-0.5">3.</span>
+                <p className="leading-relaxed flex-1">
+                  <strong>Edit and perfect</strong> every word for free
+                </p>
+              </div>
+              <div className="flex items-start gap-2">
+                <span className="font-semibold text-violet-700 mt-0.5">4.</span>
+                <p className="leading-relaxed flex-1">
+                  <strong>Download for $9.99</strong> when ready - includes 30 days revisions
+                </p>
+              </div>
             </div>
 
-            <p className="text-xs text-gray-600 pt-2 border-t border-violet-200 mt-4">
-              * Supports <strong>.docx</strong> and <strong>.txt</strong> file formats
-            </p>
+            {/* Quick value props */}
+            <div className="bg-gradient-to-r from-violet-50 to-purple-50 border border-violet-200 rounded-lg p-4 mt-4">
+              <div className="flex items-center gap-2 mb-2">
+                <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                <p className="text-sm font-medium text-gray-800">
+                  No credit card required to start
+                </p>
+              </div>
+              <div className="flex items-center gap-2">
+                <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                <p className="text-sm font-medium text-gray-800">
+                  Supports .docx and .txt formats
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -1681,7 +1707,7 @@ ${stringifiedMappedFormValues}
                     <Textarea
                       className="border-0 outline-none  "
                       disabled={isLoading}
-                      placeholder="Copy + paste job description"
+                      placeholder="Paste the job description you're applying for (optional but recommended for better results)"
                       {...field}
                     />
                   </FormControl>

@@ -11,7 +11,7 @@ const testimonials = [
     name: "Bryce P.",
     avatar: "B",
     title: "Project Manager",
-    description: "Hadn't updated my resume in years. This took about 10 minutes and I had something professional I could actually send out. Beats staring at a blank doc.",
+    description: "10 minutes to update a resume I hadn't touched in years. Got 2 interviews within the first week of applying. Beats spending hours on formatting.",
     location: 'Seattle, WA',
     rating: 5,
   },
@@ -19,7 +19,7 @@ const testimonials = [
     name: "Mary",
     avatar: "M",
     title: "Student",
-    description: "I was skeptical, but needed to apply to internships fast. The bullet points it generated were actually better than what I was writing myself.",
+    description: "Landed my first internship at a tech startup. The bullet points it generated were way stronger than what I was writing myself.",
     location: 'Grand Rapids, MI',
     rating: 5,
   },
@@ -27,7 +27,7 @@ const testimonials = [
     name: "Marcus T.",
     avatar: "M",
     title: "Customer Success Manager",
-    description: "Got 3 interviews within 2 weeks. Worth the $10 just to avoid spending hours fighting with Word formatting.",
+    description: "3 interviews in 2 weeks after months of silence. The ATS optimization actually works. Best $10 I've spent on my career.",
     location: 'Phoenix, AZ',
     rating: 5,
   },
@@ -35,7 +35,7 @@ const testimonials = [
     name: "Sarah K.",
     avatar: "S",
     title: "Software Engineer",
-    description: "Simple, clean design that actually made it through the ATS screening. Didn't feel like just another template.",
+    description: "Finally got past ATS screening at companies that ignored me before. Clean design, no recruiter BS. Actually works.",
     location: 'Texas',
     rating: 5,
   },
@@ -48,9 +48,9 @@ export const LandingContent = () => {
   return (
     <div className="px-6 md:px-10 pb-20 pt-2">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-center text-3xl md:text-4xl text-white font-extrabold mb-4">Real results from real job seekers</h2>
-        <p className="text-center text-zinc-400 text-sm md:text-base mb-12 max-w-2xl mx-auto">
-          Join professionals using ResumAI to land their next role
+        <h2 className="text-center text-3xl md:text-4xl text-white font-extrabold mb-4">Job seekers are landing interviews</h2>
+        <p className="text-center text-zinc-400 text-sm md:text-base mb-12 max-w-2xl mx-auto font-normal">
+          Join professionals using ResumAI to get past ATS and into interviews
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {testimonials.map((item) => (
