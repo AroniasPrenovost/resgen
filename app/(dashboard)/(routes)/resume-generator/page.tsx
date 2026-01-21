@@ -1589,7 +1589,7 @@ ${stringifiedMappedFormValues}
             </div>
             <div>
               <h1 className="text-2xl md:text-3xl font-bold text-violet-900">
-                ResumAI
+                Resume Generator
               </h1>
             </div>
           </div>
@@ -1701,7 +1701,7 @@ ${stringifiedMappedFormValues}
                     },
                   }}
                   color="primary"
-                  content={"ResumAI uses this field to tailor your new resume to a specific role."}
+                  content={"Paste the job description here to automatically match keywords and highlight your most relevant experience - proven to dramatically increase interview callbacks."}
                 >
                   <FormControl className="m-0 p-2" >
                     {/* }<Input */}
