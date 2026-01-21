@@ -1595,16 +1595,16 @@ ${stringifiedMappedFormValues}
 
           {/* Welcome Message */}
           <h2 className="text-xl font-semibold text-violet-900 mb-4">
-            👋 You're in the right place!
+            👋 You&apos;re in the right place!
           </h2>
 
           <div className="space-y-3 text-sm md:text-base text-gray-700">
             <p className="leading-relaxed">
-              <strong>Here's how it works:</strong> Upload your current resume or manually enter your experience - our AI instantly generates polished, professional content in editable fields. Review and perfect every word for <strong>free</strong>.
+              <strong>Here&apos;s how it works:</strong> Upload your current resume or manually enter your experience - our AI instantly generates polished, professional content in editable fields. Review and perfect every word for <strong>free</strong>.
             </p>
 
             <p className="leading-relaxed">
-              Starting from scratch? No problem! Enter as much or as little as you like, and we'll help you create compelling content that showcases your experience.
+              Starting from scratch? No problem! Enter as much or as little as you like, and we&apos;ll help you create compelling content that showcases your experience.
             </p>
 
             {/* Pricing highlight */}
@@ -1613,7 +1613,7 @@ ${stringifiedMappedFormValues}
                 💰 Completely free to generate and edit
               </p>
               <p className="text-sm text-gray-700">
-                Only pay <strong className="text-violet-700">$9.99</strong> when you're ready to download your professional resume template. That's it - no subscription, no hidden fees.
+                Only pay <strong className="text-violet-700">$9.99</strong> when you&apos;re ready to download your professional resume template. That&apos;s it - no subscription, no hidden fees.
               </p>
             </div>
 
