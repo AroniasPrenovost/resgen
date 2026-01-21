@@ -5,7 +5,6 @@ import { Analytics } from "@vercel/analytics/react"
 
 
 import { ToasterProvider } from '@/components/toaster-provider'
-import { ModalProvider } from '@/components/modal-provider'
 import { CrispProvider } from '@/components/crisp-provider'
 
 import './globals.css'
@@ -37,7 +36,6 @@ export default async function RootLayout({
         </head>
         <body className={font.className}>
           <ToasterProvider />
-          <ModalProvider />
           {children}
           <Analytics />
         </body>
