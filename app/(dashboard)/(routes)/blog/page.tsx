@@ -41,7 +41,7 @@ const BlogPage = async () => {
   return (
     <div className="min-h-screen bg-black-50">
       {/* Header Section - Similar to Resume Generator */}
-      <div className="px-4 lg:px-8 mb-8 mt-8">
+      <div className="px-4 lg:px-8 mb-8">
         <div className="bg-violet-50 border border-violet-200 rounded-lg p-6 md:p-8">
           {/* Header with Icon */}
           <div className="flex items-center gap-3 mb-4">

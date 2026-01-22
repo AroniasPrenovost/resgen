@@ -39,6 +39,7 @@
     "eslint-config-next": "13.4.9",
     "file-saver": "^2.0.5",
     "html-to-image": "^1.11.11",
+    "html2canvas": "^1.4.1",
     "libreoffice-convert": "^1.5.1",
     "lucide-react": "^0.259.0",
     "mammoth": "^1.8.0",

@@ -35,6 +35,11 @@ import { Packer } from "docx";
 import { DocumentCreator } from "@/lib/resume-generator";
 // import { experiences, education, skills, achievements } from "@/lib/cv-data"; // dummy data
 
+// New components for button experience overhaul
+import { ResumePreviewModal } from "@/components/resume-preview-modal";
+import { ResumeActionSection } from "@/components/resume-action-section";
+import html2canvas from "html2canvas";
+
 const ResumeGeneratorPage = () => {
   const router = useRouter();
   const pathname = usePathname();
@@ -279,6 +284,13 @@ const ResumeGeneratorPage = () => {
   const [subheadline, setSubheadline] = useState('Generate and edit your resume content for free. Pay $9.99 only when you\'re ready to download.');
   const [buyButtonContent, setBuyButtonContent] = useState('Generate Resume');
 
+  // New state for button experience overhaul
+  const [actionState, setActionState] = useState<'idle' | 'generating' | 'preview-ready'>('idle');
+  const [generationProgress, setGenerationProgress] = useState(0);
+  const [showCelebration, setShowCelebration] = useState(false);
+  const [showPreviewModal, setShowPreviewModal] = useState(false);
+  const [previewResumeData, setPreviewResumeData] = useState<any>(null);
+
   //
   //
   // MANAGING PAYMENT HISTORY/CACHE
@@ -300,8 +312,15 @@ const ResumeGeneratorPage = () => {
     const paidQueryString = searchParams.get('p') ?? '';
     if (paidQueryString === paidQueryStringValue) {
       setHasPaid(true);
+      setShowCelebration(true);
       localStorage.setItem('pr_0012', 'true');
-      // Optionally, you can clear the query parameter from the URL
+      localStorage.setItem('payment_date', new Date().toISOString()); // FIX: Store payment date
+      localStorage.setItem('x8u_000_vb_nod', '0'); // FIX: Reset download counter
+
+      // Auto-hide celebration after 5 seconds
+      setTimeout(() => setShowCelebration(false), 5000);
+
+      // Clear the query parameter from the URL
       const nextSearchParams = new URLSearchParams(searchParams.toString());
       nextSearchParams.delete('p');
       router.replace(`${pathname}?${nextSearchParams}`);
@@ -1157,6 +1176,101 @@ const ResumeGeneratorPage = () => {
 
   //
   //
+  // Preview Generation Function
+  //
+  //
+
+  const generatePreview = async () => {
+    const values = form.getValues();
+
+    // Validate form
+    const result = await form.trigger();
+    if (!result) {
+      toast.error('Please fill in required fields');
+      const firstError = document.querySelector('[data-invalid="true"]');
+      firstError?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    setActionState('generating');
+    setGenerationProgress(0);
+
+    // Simulate progress during generation
+    const progressInterval = setInterval(() => {
+      setGenerationProgress(prev => Math.min(prev + 10, 90));
+    }, 500);
+
+    try {
+      // Map form values to resume structure
+      const mappedFormValues = mapFormValuesToResumeObject(values);
+
+      // Store for persistence
+      localStorage.setItem('stored_form_values', JSON.stringify(values));
+
+      // Store preview data
+      setPreviewResumeData(mappedFormValues);
+
+      clearInterval(progressInterval);
+      setGenerationProgress(100);
+
+      setTimeout(() => {
+        setActionState('preview-ready');
+        setShowPreviewModal(true); // Open modal automatically
+        toast.success('Preview ready!');
+      }, 500);
+    } catch (error) {
+      clearInterval(progressInterval);
+      setActionState('idle');
+      setGenerationProgress(0);
+      toast.error('Generation failed. Please try again.');
+      console.error('Preview generation error:', error);
+    }
+  };
+
+  //
+  //
+  // Watermarked Download Function
+  //
+  //
+
+  const downloadWatermarkedPreview = async () => {
+    const resumeElement = document.querySelector('.resume-preview');
+    if (!resumeElement) {
+      toast.error('Preview not found. Please generate preview first.');
+      return;
+    }
+
+    try {
+      const canvas = await html2canvas(resumeElement as HTMLElement, {
+        scale: 2, // High quality
+        backgroundColor: '#ffffff',
+      });
+
+      // Convert to blob and download
+      canvas.toBlob((blob) => {
+        if (blob) {
+          const fileName = `${previewResumeData?.personalInfo?.name || 'Resume'}_Preview.png`;
+          saveAs(blob, fileName);
+          toast.success('Preview downloaded! Watermark will be removed after purchase.', {
+            duration: 4000,
+          });
+        }
+      });
+
+      // Track analytics
+      if (typeof window !== 'undefined' && (window as any).gtag) {
+        (window as any).gtag('event', 'watermarked_preview_download', {
+          user_name: previewResumeData?.personalInfo?.name,
+        });
+      }
+    } catch (error) {
+      toast.error('Download failed. Please try again.');
+      console.error('Watermarked download error:', error);
+    }
+  };
+
+  //
+  //
   // onSubmit
   //
   //
@@ -1578,8 +1692,27 @@ ${stringifiedMappedFormValues}
 
   return (
     <div>
+      {/* Resume Preview Modal */}
+      <ResumePreviewModal
+        isOpen={showPreviewModal}
+        onClose={() => setShowPreviewModal(false)}
+        resumeData={previewResumeData}
+        onDownloadWatermarked={downloadWatermarkedPreview}
+        onDownloadPaid={() => {
+          setShowPreviewModal(false);
+          // Redirect to Stripe or trigger download based on hasPaid
+          if (!hasPaid) {
+            const values = form.getValues();
+            localStorage.setItem('stored_form_values', JSON.stringify(values));
+            window.location.assign(STRIPE_PAYMENT_LINK);
+          } else {
+            form.handleSubmit(onSubmit)();
+          }
+        }}
+      />
+
       {/* Consolidated Welcome & Info Section */}
-      <div className="px-4 lg:px-8 mb-8 mt-8">
+      <div className="px-4 lg:px-8 mb-8">
         <div className="bg-violet-50 border border-violet-200 rounded-lg p-6 md:p-8">
           {/* Header with Icon */}
           <div className="flex items-center gap-3 mb-4">
@@ -3308,59 +3441,42 @@ ${stringifiedMappedFormValues}
                 </> : ''}
 
 
-              {/*
-
-                Generate / 'purchase' button (variant #1)
-
-              */}
-              <FormItem className="col-span-6 lg:col-span-6 rounded-lg ">
-                <Tooltip
-                  showArrow={true}
-                  isOpen={isSubmitButtonTooltipOpen}
-                  onOpenChange={(open) => setIsSubmitButtonTooltipOpen(open)}
-                  delay={0}
-                  closeDelay={0}
-                  motionProps={{
-                    variants: {
-                      exit: {
-                        marginBottom: "-8px",
-                        opacity: 0,
-                        transition: {
-                          duration: 0.1,
-                          ease: "easeIn",
-                        }
-                      },
-                      enter: {
-                        marginBottom: "-8px",
-                        opacity: 1,
-                        transition: {
-                          duration: 0.15,
-                          ease: "easeOut",
-                        }
-                      },
-                    },
+              {/* Resume Action Section - New Button Experience */}
+              <div className="col-span-12">
+                <ResumeActionSection
+                  hasPaid={hasPaid}
+                  isLoading={isLoading}
+                  formHasErrors={!form.formState.isValid}
+                  downloadsUsed={number_of_downloads}
+                  maxDownloads={max_download_count}
+                  daysRemaining={Math.max(0, Math.floor((43200 - differenceInMinutes) / 1440))}
+                  previewGenerated={actionState === 'preview-ready'}
+                  showCelebration={showCelebration}
+                  generationProgress={generationProgress}
+                  actionState={actionState}
+                  onGeneratePreview={(e) => {
+                    e?.preventDefault();
+                    e?.stopPropagation();
+                    generatePreview();
                   }}
-                  color="primary"
-                  content={"Free to generate & edit • Creates resume content in editable fields"}
-                >
-                  <FormControl className="m-0 p-0">
-                    <Button
-                      type="submit"
-                      disabled={isLoading}
-                      id='submit'
-                      style={{
-                        padding: "8px 16px",
-                        borderRadius: "8px",
-                        fontSize: "14px",
-                        fontWeight: "500",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
-                      Generate Resume
-                    </Button>
-                  </FormControl>
-                </Tooltip>
-              </FormItem>
+                  onViewPreview={(e) => {
+                    e?.preventDefault();
+                    e?.stopPropagation();
+                    setShowPreviewModal(true);
+                  }}
+                  onDownload={() => {
+                    if (!hasPaid) {
+                      // Redirect to Stripe
+                      const values = form.getValues();
+                      localStorage.setItem('stored_form_values', JSON.stringify(values));
+                      window.location.assign(STRIPE_PAYMENT_LINK);
+                    } else {
+                      // Trigger download (submit form, which will use download logic)
+                      form.handleSubmit(onSubmit)();
+                    }
+                  }}
+                />
+              </div>
 
               </div> {/* end showhideContainer */}
 
