@@ -81,26 +81,8 @@ const ResumeGeneratorPage = () => {
     let job_post_description_insert = job_post_description.length ? `Ensure the new resume output aligns with the given job description: ${job_post_description}` : '';
     console.log({job_post_description_insert})
 
-    const promptString = `Persona: you are a expert resume writer with with years of experience improving resumes.
-    Improve the verbiage, tone, and professionalism of the inputted content (${fileContents}) and map it to our desired 'resume_object' structure.
-
-    ${job_post_description_insert}
-
-    Rules:
-    1. The output should maintain the exact same object structure of the original 'resume_object', meaning only the key properties' values should be modified.
-    2. When necessary fix any typos, sentence structure issues, grammar problems, capitalize proper nouns, and expand acronyms.
-    3. Add realistic content to sections that are blank (within reason).
-    4. For 'resume_object.experiences' data, elaborate so most of the experience summary instances are at least 2 sentances.
-    5. For 'resume_object.education' section, ensure school names are proper nonand clear.
-    6. For 'resume_object.achievements' section, elaborate when necessary to explain context of achievement.
-    7. For 'resume_object.references' section, elaborate when necessary to explain context of relationship.
-    8. Incorporate words such as 'managed', 'solved', 'planned', 'executed', 'demonstrated', 'succeeded', 'collaborated', 'implemented', 'strategized', 'lead', etc.
-    9. The outputted content should be a markedly improved version of the input.
-    10. The outputted result should only be a string-ified version of the 'resume_object'.
-    11. Do not modify the 'job_post_description' field and it's value in any way.
-    resume_object:
-    {
-      "job_post_description": "${job_post_description}",
+    const resumeObjectTemplate = {
+      "job_post_description": job_post_description,
       "full_name": "",
       "email_address": "",
       "phone_number": "",
@@ -178,8 +160,25 @@ const ResumeGeneratorPage = () => {
       "reference_2_info": "",
       "reference_3_info": "",
       "reference_4_info": ""
-  }
-        `;
+    };
+
+    const promptString = "Persona: you are a expert resume writer with with years of experience improving resumes.\n" +
+    "Improve the verbiage, tone, and professionalism of the inputted content (" + fileContents + ") and map it to our desired 'resume_object' structure.\n\n" +
+    job_post_description_insert + "\n\n" +
+    "Rules:\n" +
+    "1. The output should maintain the exact same object structure of the original 'resume_object', meaning only the key properties' values should be modified.\n" +
+    "2. When necessary fix any typos, sentence structure issues, grammar problems, capitalize proper nouns, and expand acronyms.\n" +
+    "3. Add realistic content to sections that are blank (within reason).\n" +
+    "4. For 'resume_object.experiences' data, elaborate so most of the experience summary instances are at least 2 sentances.\n" +
+    "5. For 'resume_object.education' section, ensure school names are proper nonand clear.\n" +
+    "6. For 'resume_object.achievements' section, elaborate when necessary to explain context of achievement.\n" +
+    "7. For 'resume_object.references' section, elaborate when necessary to explain context of relationship.\n" +
+    "8. Incorporate words such as 'managed', 'solved', 'planned', 'executed', 'demonstrated', 'succeeded', 'collaborated', 'implemented', 'strategized', 'lead', etc.\n" +
+    "9. The outputted content should be a markedly improved version of the input.\n" +
+    "10. The outputted result should only be a string-ified version of the 'resume_object'.\n" +
+    "11. Do not modify the 'job_post_description' field and it's value in any way.\n" +
+    "resume_object:\n" +
+    JSON.stringify(resumeObjectTemplate, null, 2);
 
     // console.log('res import step: ', promptString);
 
@@ -1201,23 +1200,21 @@ const ResumeGeneratorPage = () => {
 
     const stringifiedMappedFormValues = JSON.stringify(mappedFormValues);
 
-    const promptString = `Persona: you are a expert resume writer with with years of experience improving resumes.
-Improve the verbiage, tone, and professionalism of the inputted content so it can be used in a resume. ${job_post_description_insert}
-
-Rules:
-1. The output should maintain the exact same object structure of the original 'resume_object', meaning only the key properties' values should be modified.
-2. When necessary fix any typos, sentence structure issues, grammar problems, capitalize proper nouns, and expand acronyms.
-3. If a section does not have content, you will usually leave it blank unless it makes sense to add detail.
-4. For 'resume_object.experiences' data, elaborate so most of the experience summary instances are at least 2 sentances.
-5. For 'resume_object.education' section, ensure school names are proper nonand clear.
-6. For 'resume_object.achievements' section, elaborate when necessary to explain context of achievement.
-7. For 'resume_object.references' section, elaborate when necessary to explain context of relationship.
-8. Incorporate words such as 'managed', 'solved', 'planned', 'executed', 'demonstrated', 'succeeded', 'collaborated', 'implemented', 'strategized', 'lead', etc.
-9. The outputted content should be a markedly improved version of the input.
-10. The outputted result should only be a string-ified version of the 'resume_object'.
-resume_object:
-${stringifiedMappedFormValues}
-    `;
+    const promptString = "Persona: you are a expert resume writer with with years of experience improving resumes.\n" +
+"Improve the verbiage, tone, and professionalism of the inputted content so it can be used in a resume. " + job_post_description_insert + "\n\n" +
+"Rules:\n" +
+"1. The output should maintain the exact same object structure of the original 'resume_object', meaning only the key properties' values should be modified.\n" +
+"2. When necessary fix any typos, sentence structure issues, grammar problems, capitalize proper nouns, and expand acronyms.\n" +
+"3. If a section does not have content, you will usually leave it blank unless it makes sense to add detail.\n" +
+"4. For 'resume_object.experiences' data, elaborate so most of the experience summary instances are at least 2 sentances.\n" +
+"5. For 'resume_object.education' section, ensure school names are proper nonand clear.\n" +
+"6. For 'resume_object.achievements' section, elaborate when necessary to explain context of achievement.\n" +
+"7. For 'resume_object.references' section, elaborate when necessary to explain context of relationship.\n" +
+"8. Incorporate words such as 'managed', 'solved', 'planned', 'executed', 'demonstrated', 'succeeded', 'collaborated', 'implemented', 'strategized', 'lead', etc.\n" +
+"9. The outputted content should be a markedly improved version of the input.\n" +
+"10. The outputted result should only be a string-ified version of the 'resume_object'.\n" +
+"resume_object:\n" +
+stringifiedMappedFormValues;
 
 
     // console.log('res gen step: ', promptString);
