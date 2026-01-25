@@ -5,9 +5,11 @@ import { FileText, Sparkles, Zap } from "lucide-react";
 
 interface FullscreenProcessingAnimationProps {
   isVisible: boolean;
+  isProcessingComplete?: boolean;
+  onComplete?: () => void;
 }
 
-export function FullscreenProcessingAnimation({ isVisible }: FullscreenProcessingAnimationProps) {
+export function FullscreenProcessingAnimation({ isVisible, isProcessingComplete = false, onComplete }: FullscreenProcessingAnimationProps) {
   const [progress, setProgress] = useState(0);
   const [currentStep, setCurrentStep] = useState(0);
 
@@ -26,20 +28,37 @@ export function FullscreenProcessingAnimation({ isVisible }: FullscreenProcessin
 
     const progressInterval = setInterval(() => {
       setProgress((prev) => {
+        // Stop at 75% until processing is complete
+        if (!isProcessingComplete && prev >= 75) return 75;
         if (prev >= 100) return 100;
         return prev + 2;
       });
     }, 50);
 
     const stepInterval = setInterval(() => {
-      setCurrentStep((prev) => (prev + 1) % steps.length);
+      setCurrentStep((prev) => {
+        // Only cycle through steps once (0 -> 1 -> 2, then stay at 2)
+        if (prev >= steps.length - 1) return steps.length - 1;
+        return prev + 1;
+      });
     }, 2000);
 
     return () => {
       clearInterval(progressInterval);
       clearInterval(stepInterval);
     };
-  }, [isVisible]);
+  }, [isVisible, isProcessingComplete]);
+
+  // Auto-close when complete and reaches 100%
+  useEffect(() => {
+    if (isProcessingComplete && progress >= 100 && onComplete) {
+      const timeout = setTimeout(() => {
+        onComplete();
+      }, 500); // Short delay before closing
+
+      return () => clearTimeout(timeout);
+    }
+  }, [isProcessingComplete, progress, onComplete]);
 
   if (!isVisible) return null;
 
@@ -67,8 +86,8 @@ export function FullscreenProcessingAnimation({ isVisible }: FullscreenProcessin
       <div className="relative z-10 text-center px-6 max-w-2xl">
         {/* Animated icon */}
         <div className="mb-8 relative inline-block">
-          <div className={`absolute inset-0 bg-gradient-to-r ${steps[currentStep].color} blur-3xl opacity-60 animate-pulse`} />
-          <div className="relative bg-white/10 backdrop-blur-sm rounded-full p-8 border-4 border-white/30 animate-bounce-slow">
+          <div className={`absolute inset-0 bg-gradient-to-r ${steps[currentStep].color} blur-3xl opacity-60 animate-pulse-gentle`} />
+          <div className="relative bg-white/10 backdrop-blur-sm rounded-full p-8 border-4 border-white/30 animate-float-gentle">
             <CurrentIcon className="w-24 h-24 text-white animate-spin-slow" />
           </div>
         </div>
@@ -86,7 +105,7 @@ export function FullscreenProcessingAnimation({ isVisible }: FullscreenProcessin
         <div className="w-full max-w-md mx-auto">
           <div className="bg-white/20 rounded-full h-4 overflow-hidden backdrop-blur-sm border border-white/30">
             <div
-              className={`h-full bg-gradient-to-r ${steps[currentStep].color} transition-all duration-300 ease-out relative overflow-hidden`}
+              className={`h-full bg-gradient-to-r ${steps[currentStep].color} transition-all duration-500 ease-out relative overflow-hidden`}
               style={{ width: `${Math.min(progress, 100)}%` }}
             >
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer" />
@@ -121,25 +140,34 @@ export function FullscreenProcessingAnimation({ isVisible }: FullscreenProcessin
             opacity: 1;
           }
           100% {
-            transform: translateY(-100vh) translateX(${Math.random() * 100 - 50}px);
+            transform: translateY(-100vh) translateX(20px);
             opacity: 0;
           }
         }
 
-        @keyframes bounce-slow {
+        @keyframes float-gentle {
           0%, 100% {
             transform: translateY(0);
           }
           50% {
-            transform: translateY(-20px);
+            transform: translateY(-12px);
+          }
+        }
+
+        @keyframes pulse-gentle {
+          0%, 100% {
+            opacity: 0.5;
+          }
+          50% {
+            opacity: 0.7;
           }
         }
 
         @keyframes spin-slow {
-          from {
+          0% {
             transform: rotate(0deg);
           }
-          to {
+          100% {
             transform: rotate(360deg);
           }
         }
@@ -168,12 +196,16 @@ export function FullscreenProcessingAnimation({ isVisible }: FullscreenProcessin
           animation: float linear infinite;
         }
 
-        .animate-bounce-slow {
-          animation: bounce-slow 2s ease-in-out infinite;
+        .animate-float-gentle {
+          animation: float-gentle 3s ease-in-out infinite;
+        }
+
+        .animate-pulse-gentle {
+          animation: pulse-gentle 3s ease-in-out infinite;
         }
 
         .animate-spin-slow {
-          animation: spin-slow 3s linear infinite;
+          animation: spin-slow 4s linear infinite;
         }
 
         .animate-fade-in {

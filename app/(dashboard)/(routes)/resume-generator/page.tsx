@@ -297,6 +297,7 @@ const ResumeGeneratorPage = () => {
   type UploadedResumeDataType = { [key: string]: string; };
   const [uploadedResumeDataConvertedToForm, setUploadedResumeDataConvertedToForm] = useState<UploadedResumeDataType>({});
   const [isGettingAiResponseForFileUploadProcess, setIsGettingAiResponseForFileUploadProcess] = useState(false);
+  const [hasAiResponseReturned, setHasAiResponseReturned] = useState(false);
   const [fileHasBeenUploadedAndParsed, setFileHasBeenUploadedAndParsed] = useState(false);
   const [isFormInitialized, setIsFormInitialized] = useState(false);
 
@@ -428,20 +429,21 @@ const ResumeGeneratorPage = () => {
           // set flag to track that we've processed the resume
           localStorage.setItem('file_has_been_uploaded_and_parsed', 'true');
           setFileHasBeenUploadedAndParsed(true);
-          setIsGettingAiResponseForFileUploadProcess(false);
+          setHasAiResponseReturned(true);
           setShouldAutoGeneratePreview(true);
           console.log('form populated with rewritten resume and tracked');
         } else {
-          setIsGettingAiResponseForFileUploadProcess(false);
+          setHasAiResponseReturned(true);
         }
       } catch (error) {
         console.log('Error processing resume: ', error);
-        setIsGettingAiResponseForFileUploadProcess(false);
+        setHasAiResponseReturned(true);
       }
     };
 
     if (!isGettingAiResponseForFileUploadProcess && hasFileBeenSelectedByUser && !fileHasBeenUploadedAndParsed) {
       setIsGettingAiResponseForFileUploadProcess(true);
+      setHasAiResponseReturned(false);
       convertUploadedFileToFormInputsUsingAiProcess();
     }
   }, [uploadedFileContents]);
@@ -1569,7 +1571,11 @@ ${stringifiedMappedFormValues}
   return (
     <div>
       {/* Fullscreen Processing Animation */}
-      <FullscreenProcessingAnimation isVisible={isGettingAiResponseForFileUploadProcess} />
+      <FullscreenProcessingAnimation
+        isVisible={isGettingAiResponseForFileUploadProcess}
+        isProcessingComplete={hasAiResponseReturned}
+        onComplete={() => setIsGettingAiResponseForFileUploadProcess(false)}
+      />
 
       {/* Resume Preview Modal */}
       <ResumePreviewModal
