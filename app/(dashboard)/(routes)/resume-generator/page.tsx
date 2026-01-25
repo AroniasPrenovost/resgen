@@ -38,7 +38,7 @@ import { DocumentCreator } from "@/lib/resume-generator";
 // New components for button experience overhaul
 import { ResumePreviewModal } from "@/components/resume-preview-modal";
 import { ResumeActionSection } from "@/components/resume-action-section";
-import html2canvas from "html2canvas";
+import { FullscreenProcessingAnimation } from "@/components/fullscreen-processing-animation";
 
 const ResumeGeneratorPage = () => {
   const router = useRouter();
@@ -290,6 +290,15 @@ const ResumeGeneratorPage = () => {
   const [showCelebration, setShowCelebration] = useState(false);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const [previewResumeData, setPreviewResumeData] = useState<any>(null);
+  const [showFormFields, setShowFormFields] = useState(false);
+  const [shouldAutoGeneratePreview, setShouldAutoGeneratePreview] = useState(false);
+
+  // file upload state
+  type UploadedResumeDataType = { [key: string]: string; };
+  const [uploadedResumeDataConvertedToForm, setUploadedResumeDataConvertedToForm] = useState<UploadedResumeDataType>({});
+  const [isGettingAiResponseForFileUploadProcess, setIsGettingAiResponseForFileUploadProcess] = useState(false);
+  const [fileHasBeenUploadedAndParsed, setFileHasBeenUploadedAndParsed] = useState(false);
+  const [isFormInitialized, setIsFormInitialized] = useState(false);
 
   //
   //
@@ -297,15 +306,8 @@ const ResumeGeneratorPage = () => {
   //
   //
 
-  const current_time: any = new Date();
-  let payment_date: any = false;
-  let differenceInMinutes = 0;
-  let differenceInMilliseconds = 0;
-
   // tracking if user has paid or not
   const paidQueryStringValue = 'xj3z01__022';
-  let paidQueryString: string = ''; // pulled from query string parameter on successful payment redirect from stripe
-  let payment_received: any = false;
   const [hasPaid, setHasPaid] = useState(false);
 
   useEffect(() => {
@@ -335,59 +337,100 @@ const ResumeGeneratorPage = () => {
   }, []);
 
   // resume generator download management
-  let number_of_downloads: any = 0;
+  const [numberOfDownloads, setNumberOfDownloads] = useState(0);
   const max_download_count = 15;
 
-  // form persistence
-  let storedFormValues: any = {};
+  // payment time tracking
+  const [differenceInMinutes, setDifferenceInMinutes] = useState(0);
 
-  // file upload
-  let hasFileBeenSelectedByUser = false;
-  let fileHasBeenUploadedAndParsed = false;
-  type UploadedResumeDataType = { [key: string]: string; }; // Assuming all values are strings, adjust as necessary
-  const [uploadedResumeDataConvertedToForm, setUploadedResumeDataConvertedToForm] = useState<UploadedResumeDataType>({});
-  const [isGettingAiResponseForFileUploadProcess, setIsGettingAiResponseForFileUploadProcess] = useState(false);
+  // Main useEffect to handle all localStorage operations after mount
+  useEffect(() => {
+    if (typeof window === 'undefined' || isFormInitialized) return;
 
-  if (global?.window !== undefined) { // now it's safe to access window and localStorage
-
-    //
-    // manage form persistence
-    let sfv = localStorage.getItem('stored_form_values') ?? '';
+    // Load form values from localStorage
+    const sfv = localStorage.getItem('stored_form_values') ?? '';
     if (sfv && sfv.length) {
-      storedFormValues = JSON.parse(sfv);
+      try {
+        const storedFormValues = JSON.parse(sfv);
+        // Reset form with stored values
+        form.reset(storedFormValues);
+      } catch (error) {
+        console.error('Error parsing stored form values:', error);
+      }
     }
 
-    //
-    // manage file upload form and prefilling inputs with response
+    // Load download count
+    const downloads = Number(localStorage.getItem('x8u_000_vb_nod') || '0');
+    setNumberOfDownloads(downloads);
 
-    fileHasBeenUploadedAndParsed = localStorage.getItem('file_has_been_uploaded_and_parsed') === 'true';
+    // Load file upload status
+    const hasUploadedFile = localStorage.getItem('file_has_been_uploaded_and_parsed') === 'true';
+    setFileHasBeenUploadedAndParsed(hasUploadedFile);
+
+    // Calculate time difference for payment
+    const paymentDate = localStorage.getItem('payment_date');
+    if (paymentDate) {
+      const currentTime = new Date();
+      const paymentTime = new Date(paymentDate);
+      const diffMs = currentTime.getTime() - paymentTime.getTime();
+      const diffMins = diffMs / (1000 * 60);
+      setDifferenceInMinutes(diffMins);
+
+      // Check if cache should be cleared
+      const isPaid = localStorage.getItem('pr_0012') === 'true';
+      const clearCache1 = isPaid && (diffMins > 43200); // 30 days
+      const clearCache2 = downloads > (max_download_count - 1);
+
+      if (clearCache1 || clearCache2) {
+        localStorage.removeItem('pr_0012');
+        localStorage.setItem('payment_date', '');
+        localStorage.setItem('x8u_000_vb_nod', '0');
+        setNumberOfDownloads(0);
+        setHasPaid(false);
+      }
+    }
+
+    // Update UI based on payment status
+    if (localStorage.getItem('pr_0012') === 'true') {
+      const downloads = Number(localStorage.getItem('x8u_000_vb_nod') || '0');
+      setBuyButtonContent(`Download Now (${downloads}/${max_download_count})`);
+
+      const paymentDate = localStorage.getItem('payment_date');
+      if (paymentDate) {
+        const currentTime = new Date();
+        const paymentTime = new Date(paymentDate);
+        const diffMs = currentTime.getTime() - paymentTime.getTime();
+        const diffMins = diffMs / (1000 * 60);
+        const daysRemaining = ((43200 - diffMins) / 1440).toFixed(0);
+        setSubheadline(`Thank you for your purchase. You have ${daysRemaining} days of access remaining.`);
+      }
+    }
+
+    setIsFormInitialized(true);
+  }, []);
+
+  // Handle file upload and AI processing
+  useEffect(() => {
+    if (typeof window === 'undefined' || !uploadedFileContents) return;
+
+    const fileHasBeenUploadedAndParsed = localStorage.getItem('file_has_been_uploaded_and_parsed') === 'true';
+    const hasFileBeenSelectedByUser = uploadedFileContents.length > 0;
 
     const convertUploadedFileToFormInputsUsingAiProcess = async () => {
-      // console.log('convertUploadedFileToFormInputsUsingAiProcess()')
       try {
         const prefilledUserResData = await convertUploadedFileToFormInputsUsingAi(uploadedFileContents);
         if (prefilledUserResData && prefilledUserResData.data && prefilledUserResData.data.content) {
           const responseObject = JSON.parse(prefilledUserResData.data.content);
           // prepopulate form fields with response
           localStorage.setItem('stored_form_values', JSON.stringify(responseObject));
-          storedFormValues = responseObject;
-          setUploadedResumeDataConvertedToForm(responseObject); // jump to '!! update form values once file is uploaded !!'
+          setUploadedResumeDataConvertedToForm(responseObject);
+          form.reset(responseObject);
           // set flag to track that we've processed the resume
           localStorage.setItem('file_has_been_uploaded_and_parsed', 'true');
+          setFileHasBeenUploadedAndParsed(true);
           setIsGettingAiResponseForFileUploadProcess(false);
+          setShouldAutoGeneratePreview(true);
           console.log('form populated with rewritten resume and tracked');
-
-          // scroll to submit button and show tooltip
-          // setTimeout(() => {
-          //   const element = document.getElementById("bottomSectionOfPage");
-          //   if (element) {
-          //     element?.scrollIntoView({ behavior: "smooth",  block: "end"});
-          //   }
-          //   setIsSubmitButtonTooltipOpen(true);
-          //   setTimeout(() => {
-          //     setIsSubmitButtonTooltipOpen(false);
-          //   }, 6500); // Tooltip stays open for X seconds
-          // }, 1200);
         } else {
           setIsGettingAiResponseForFileUploadProcess(false);
         }
@@ -397,165 +440,116 @@ const ResumeGeneratorPage = () => {
       }
     };
 
-    hasFileBeenSelectedByUser = uploadedFileContents && uploadedFileContents.length > 0 ? true : false;
-    // console.log({isGettingAiResponseForFileUploadProcess, hasFileBeenSelectedByUser, fileHasBeenUploadedAndParsed})
-
-    if (
-      !isGettingAiResponseForFileUploadProcess && hasFileBeenSelectedByUser && !fileHasBeenUploadedAndParsed) {
+    if (!isGettingAiResponseForFileUploadProcess && hasFileBeenSelectedByUser && !fileHasBeenUploadedAndParsed) {
       setIsGettingAiResponseForFileUploadProcess(true);
       convertUploadedFileToFormInputsUsingAiProcess();
-    } else {
-      // console.log('skipping uploaded resume rewrite - file has already been processed or hasnt been uploaded yet');
     }
+  }, [uploadedFileContents]);
 
-    //
-    // Manage payment + download history so users can return to site
-    payment_received = localStorage.getItem('pr_0012') === 'true';
-
-    const x = localStorage.getItem('pr_0012') === 'true';
-    if (x) {
-      setHasPaid(true);
-    }
-
-
-
-
-    payment_date = localStorage.getItem('payment_date');
-
-    //
-    // Timestamps
-    const timestamp1: any = new Date(current_time);
-    const timestamp2: any = new Date(payment_date);
-
-    differenceInMilliseconds = timestamp1 - timestamp2;
-    differenceInMinutes = differenceInMilliseconds / (1000 * 60);
-    // console.log({hasPaid, timestamp1, timestamp2, payment_date, differenceInMinutes, number_of_downloads})
-
-    number_of_downloads = Number(localStorage.getItem('x8u_000_vb_nod')); // 'number_of_downloads'
-
-
-    let clearCache1 = hasPaid && (differenceInMinutes > 43200); // (30 days) // 360000); // 100 hours
-    let clearCache2 = number_of_downloads > (max_download_count - 1);
-    // console.log({clearCache1,clearCache2});
-
-    if (clearCache1 || clearCache2) {
-      // console.log('cache cleared');
-      localStorage.removeItem('pr_0012'); // 'payment_received'
-      localStorage.setItem('payment_date', '');
-      localStorage.setItem('x8u_000_vb_nod', '0'); // 'number_of_downloads'
-    }
-  }
-
-
-  //
-  //
-  // MANAGING FORM FIELDS
-  //
-  //
-
+  // Initialize form with empty defaults to avoid hydration issues
   const form = useForm<z.infer<typeof formSchema>>({
     // resolver: zodResolver(formSchema), // disable form validation
     // since I want people to go to Stripe prior to filling out the form, if they wish
     defaultValues: {
-      job_post_description: storedFormValues.job_post_description ?? '',
-      full_name: storedFormValues.full_name ?? '',
-      email_address: storedFormValues.email_address ?? '',
-      phone_number: storedFormValues.phone_number ?? '',
-      personal_website: storedFormValues.personal_website ?? '',
-      linkedin_profile: storedFormValues.linkedin_profile ?? '',
+      job_post_description: '',
+      full_name: '',
+      email_address: '',
+      phone_number: '',
+      personal_website: '',
+      linkedin_profile: '',
       //
-      interests: storedFormValues.interests ?? '',
+      interests: '',
       //
-      skills: storedFormValues.skills ?? '',
+      skills: '',
       //
       // job #1
       //
-      job_1_employer: storedFormValues.job_1_employer ?? '',
-      job_1_title: storedFormValues.job_1_title ?? '',
-      job_1_start_month: storedFormValues.job_1_start_month ?? '',
-      job_1_start_year: storedFormValues.job_1_start_year ?? '',
-      job_1_end_month: storedFormValues.job_1_end_month ?? '',
-      job_1_end_year: storedFormValues.job_1_end_year ?? '',
-      job_1_summary: storedFormValues.job_1_summary ?? '',
+      job_1_employer: '',
+      job_1_title: '',
+      job_1_start_month: '',
+      job_1_start_year: '',
+      job_1_end_month: '',
+      job_1_end_year: '',
+      job_1_summary: '',
       // job #2
-      job_2_employer: storedFormValues.job_2_employer ?? '',
-      job_2_title: storedFormValues.job_2_title ?? '',
-      job_2_start_month: storedFormValues.job_2_start_month ?? '',
-      job_2_start_year: storedFormValues.job_2_start_year ?? '',
-      job_2_end_month: storedFormValues.job_2_end_month ?? '',
-      job_2_end_year: storedFormValues.job_2_end_year ?? '',
-      job_2_summary: storedFormValues.job_2_summary ?? '',
+      job_2_employer: '',
+      job_2_title: '',
+      job_2_start_month: '',
+      job_2_start_year: '',
+      job_2_end_month: '',
+      job_2_end_year: '',
+      job_2_summary: '',
       // job #3
-      job_3_employer: storedFormValues.job_3_employer ?? '',
-      job_3_title: storedFormValues.job_3_title ?? '',
-      job_3_start_month: storedFormValues.job_3_start_month ?? '',
-      job_3_start_year: storedFormValues.job_3_start_year ?? '',
-      job_3_end_month: storedFormValues.job_3_end_month ?? '',
-      job_3_end_year: storedFormValues.job_3_end_year ?? '',
-      job_3_summary: storedFormValues.job_3_summary ?? '',
+      job_3_employer: '',
+      job_3_title: '',
+      job_3_start_month: '',
+      job_3_start_year: '',
+      job_3_end_month: '',
+      job_3_end_year: '',
+      job_3_summary: '',
       // job #4
-      job_4_employer: storedFormValues.job_4_employer ?? '',
-      job_4_title: storedFormValues.job_4_title ?? '',
-      job_4_start_month: storedFormValues.job_4_start_month ?? '',
-      job_4_start_year: storedFormValues.job_4_start_year ?? '',
-      job_4_end_month: storedFormValues.job_4_end_month ?? '',
-      job_4_end_year: storedFormValues.job_4_end_year ?? '',
-      job_4_summary: storedFormValues.job_4_summary ?? '',
+      job_4_employer: '',
+      job_4_title: '',
+      job_4_start_month: '',
+      job_4_start_year: '',
+      job_4_end_month: '',
+      job_4_end_year: '',
+      job_4_summary: '',
       // job #5
-      job_5_employer: storedFormValues.job_5_employer ?? '',
-      job_5_title: storedFormValues.job_5_title ?? '',
-      job_5_start_month: storedFormValues.job_5_start_month ?? '',
-      job_5_start_year: storedFormValues.job_5_start_year ?? '',
-      job_5_end_month: storedFormValues.job_5_end_month ?? '',
-      job_5_end_year: storedFormValues.job_5_end_year ?? '',
-      job_5_summary: storedFormValues.job_5_summary ?? '',
+      job_5_employer: '',
+      job_5_title: '',
+      job_5_start_month: '',
+      job_5_start_year: '',
+      job_5_end_month: '',
+      job_5_end_year: '',
+      job_5_summary: '',
       // job #6
-      job_6_employer: storedFormValues.job_6_employer ?? '',
-      job_6_title: storedFormValues.job_6_title ?? '',
-      job_6_start_month: storedFormValues.job_6_start_month ?? '',
-      job_6_start_year: storedFormValues.job_6_start_year ?? '',
-      job_6_end_month: storedFormValues.job_6_end_month ?? '',
-      job_6_end_year: storedFormValues.job_6_end_year ?? '',
-      job_6_summary: storedFormValues.job_6_summary ?? '',
+      job_6_employer: '',
+      job_6_title: '',
+      job_6_start_month: '',
+      job_6_start_year: '',
+      job_6_end_month: '',
+      job_6_end_year: '',
+      job_6_summary: '',
       //
       // education
       //
-      college_name_1: storedFormValues.college_name_1 ?? '',
-      college_degree_1: storedFormValues.college_degree_1 ?? '',
-      college_field_of_study_1: storedFormValues.college_field_of_study_1 ?? '',
-      college_notes_1: storedFormValues.college_notes_1 ?? '',
-      college_start_year_1: storedFormValues.college_start_year_1 ?? '',
-      college_end_year_1: storedFormValues.college_end_year_1 ?? '',
+      college_name_1: '',
+      college_degree_1: '',
+      college_field_of_study_1: '',
+      college_notes_1: '',
+      college_start_year_1: '',
+      college_end_year_1: '',
 
-      college_name_2: storedFormValues.college_name_2 ?? '',
-      college_degree_2: storedFormValues.college_degree_2 ?? '',
-      college_field_of_study_2: storedFormValues.college_field_of_study_2 ?? '',
-      college_notes_2: storedFormValues.college_notes_2 ?? '',
-      college_start_year_2: storedFormValues.college_start_year_2 ?? '',
-      college_end_year_2: storedFormValues.college_end_year_2 ?? '',
+      college_name_2: '',
+      college_degree_2: '',
+      college_field_of_study_2: '',
+      college_notes_2: '',
+      college_start_year_2: '',
+      college_end_year_2: '',
 
-      college_name_3: storedFormValues.college_name_3 ?? '',
-      college_degree_3: storedFormValues.college_degree_3 ?? '',
-      college_field_of_study_3: storedFormValues.college_field_of_study_3 ?? '',
-      college_notes_3: storedFormValues.college_notes_3 ?? '',
-      college_start_year_3: storedFormValues.college_start_year_3 ?? '',
-      college_end_year_3: storedFormValues.college_end_year_3 ?? '',
+      college_name_3: '',
+      college_degree_3: '',
+      college_field_of_study_3: '',
+      college_notes_3: '',
+      college_start_year_3: '',
+      college_end_year_3: '',
       //
       // civic service/extra
       //
-      achievement_1_issuer: storedFormValues.achievement_1_issuer ?? '',
-      achievement_1_name: storedFormValues.achievement_1_name ?? '',
-      achievement_2_issuer: storedFormValues.achievement_2_issuer ?? '',
-      achievement_2_name: storedFormValues.achievement_2_name ?? '',
-      achievement_3_issuer: storedFormValues.achievement_3_issuer ?? '',
-      achievement_3_name: storedFormValues.achievement_3_name ?? '',
+      achievement_1_issuer: '',
+      achievement_1_name: '',
+      achievement_2_issuer: '',
+      achievement_2_name: '',
+      achievement_3_issuer: '',
+      achievement_3_name: '',
       //
       // references
       //
-      reference_1_info: storedFormValues.reference_1_info ?? '',
-      reference_2_info: storedFormValues.reference_2_info ?? '',
-      reference_3_info: storedFormValues.reference_3_info ?? '',
-      reference_4_info: storedFormValues.reference_4_info ?? '',
+      reference_1_info: '',
+      reference_2_info: '',
+      reference_3_info: '',
+      reference_4_info: '',
     }
   });
 
@@ -593,85 +587,85 @@ const ResumeGeneratorPage = () => {
       }
     });
 
-    if (storedFormValues.job_1_employer) {
+    if (uploadedResumeDataConvertedToForm.job_1_employer) {
       if (
-        storedFormValues.job_1_employer.length ||
-        storedFormValues.job_1_title.length ||
-        storedFormValues.job_1_start_month.length ||
-        storedFormValues.job_1_start_year.length ||
-        storedFormValues.job_1_end_month.length  ||
-        storedFormValues.job_1_end_year.length ||
-        storedFormValues.job_1_summary.length
+        uploadedResumeDataConvertedToForm.job_1_employer.length ||
+        uploadedResumeDataConvertedToForm.job_1_title.length ||
+        uploadedResumeDataConvertedToForm.job_1_start_month.length ||
+        uploadedResumeDataConvertedToForm.job_1_start_year.length ||
+        uploadedResumeDataConvertedToForm.job_1_end_month.length  ||
+        uploadedResumeDataConvertedToForm.job_1_end_year.length ||
+        uploadedResumeDataConvertedToForm.job_1_summary.length
       ) {
         setJob1Visibility(true);
       }
     }
 
-    if (storedFormValues.job_2_employer) {
+    if (uploadedResumeDataConvertedToForm.job_2_employer) {
       if (
-        storedFormValues.job_2_employer.length ||
-        storedFormValues.job_2_title.length ||
-        storedFormValues.job_2_start_month.length ||
-        storedFormValues.job_2_start_year.length ||
-        storedFormValues.job_2_end_month.length  ||
-        storedFormValues.job_2_end_year.length ||
-        storedFormValues.job_2_summary.length
+        uploadedResumeDataConvertedToForm.job_2_employer.length ||
+        uploadedResumeDataConvertedToForm.job_2_title.length ||
+        uploadedResumeDataConvertedToForm.job_2_start_month.length ||
+        uploadedResumeDataConvertedToForm.job_2_start_year.length ||
+        uploadedResumeDataConvertedToForm.job_2_end_month.length  ||
+        uploadedResumeDataConvertedToForm.job_2_end_year.length ||
+        uploadedResumeDataConvertedToForm.job_2_summary.length
       ) {
         setJob2Visibility(true);
       }
     }
 
-    if (storedFormValues.job_3_employer) {
+    if (uploadedResumeDataConvertedToForm.job_3_employer) {
       if (
-        storedFormValues.job_3_employer.length ||
-        storedFormValues.job_3_title.length ||
-        storedFormValues.job_3_start_month.length ||
-        storedFormValues.job_3_start_year.length ||
-        storedFormValues.job_3_end_month.length  ||
-        storedFormValues.job_3_end_year.length ||
-        storedFormValues.job_3_summary.length
+        uploadedResumeDataConvertedToForm.job_3_employer.length ||
+        uploadedResumeDataConvertedToForm.job_3_title.length ||
+        uploadedResumeDataConvertedToForm.job_3_start_month.length ||
+        uploadedResumeDataConvertedToForm.job_3_start_year.length ||
+        uploadedResumeDataConvertedToForm.job_3_end_month.length  ||
+        uploadedResumeDataConvertedToForm.job_3_end_year.length ||
+        uploadedResumeDataConvertedToForm.job_3_summary.length
       ) {
         setJob3Visibility(true);
       }
     }
 
-    if (storedFormValues.job_4_employer) {
+    if (uploadedResumeDataConvertedToForm.job_4_employer) {
       if (
-        storedFormValues.job_4_employer.length ||
-        storedFormValues.job_4_title.length ||
-        storedFormValues.job_4_start_month.length ||
-        storedFormValues.job_4_start_year.length ||
-        storedFormValues.job_4_end_month.length  ||
-        storedFormValues.job_4_end_year.length ||
-        storedFormValues.job_4_summary.length
+        uploadedResumeDataConvertedToForm.job_4_employer.length ||
+        uploadedResumeDataConvertedToForm.job_4_title.length ||
+        uploadedResumeDataConvertedToForm.job_4_start_month.length ||
+        uploadedResumeDataConvertedToForm.job_4_start_year.length ||
+        uploadedResumeDataConvertedToForm.job_4_end_month.length  ||
+        uploadedResumeDataConvertedToForm.job_4_end_year.length ||
+        uploadedResumeDataConvertedToForm.job_4_summary.length
       ) {
         setJob4Visibility(true);
       }
     }
 
-    if (storedFormValues.job_5_employer) {
+    if (uploadedResumeDataConvertedToForm.job_5_employer) {
       if (
-        storedFormValues.job_5_employer.length ||
-        storedFormValues.job_5_title.length ||
-        storedFormValues.job_5_start_month.length ||
-        storedFormValues.job_5_start_year.length ||
-        storedFormValues.job_5_end_month.length  ||
-        storedFormValues.job_5_end_year.length ||
-        storedFormValues.job_5_summary.length
+        uploadedResumeDataConvertedToForm.job_5_employer.length ||
+        uploadedResumeDataConvertedToForm.job_5_title.length ||
+        uploadedResumeDataConvertedToForm.job_5_start_month.length ||
+        uploadedResumeDataConvertedToForm.job_5_start_year.length ||
+        uploadedResumeDataConvertedToForm.job_5_end_month.length  ||
+        uploadedResumeDataConvertedToForm.job_5_end_year.length ||
+        uploadedResumeDataConvertedToForm.job_5_summary.length
       ) {
         setJob5Visibility(true);
       }
     }
 
-    if (storedFormValues.job_6_employer) {
+    if (uploadedResumeDataConvertedToForm.job_6_employer) {
       if (
-        storedFormValues.job_6_employer.length ||
-        storedFormValues.job_6_title.length ||
-        storedFormValues.job_6_start_month.length ||
-        storedFormValues.job_6_start_year.length ||
-        storedFormValues.job_6_end_month.length  ||
-        storedFormValues.job_6_end_year.length ||
-        storedFormValues.job_6_summary.length
+        uploadedResumeDataConvertedToForm.job_6_employer.length ||
+        uploadedResumeDataConvertedToForm.job_6_title.length ||
+        uploadedResumeDataConvertedToForm.job_6_start_month.length ||
+        uploadedResumeDataConvertedToForm.job_6_start_year.length ||
+        uploadedResumeDataConvertedToForm.job_6_end_month.length  ||
+        uploadedResumeDataConvertedToForm.job_6_end_year.length ||
+        uploadedResumeDataConvertedToForm.job_6_summary.length
       ) {
         setJob6Visibility(true);
       }
@@ -679,66 +673,66 @@ const ResumeGeneratorPage = () => {
 
     // education
     if (
-      storedFormValues.college_name_1 ||
-      storedFormValues.college_degree_1 ||
-      storedFormValues.college_field_of_study_1 ||
-      storedFormValues.college_notes_1 ||
-      storedFormValues.college_start_year_1 ||
-      storedFormValues.college_end_year_1
+      uploadedResumeDataConvertedToForm.college_name_1 ||
+      uploadedResumeDataConvertedToForm.college_degree_1 ||
+      uploadedResumeDataConvertedToForm.college_field_of_study_1 ||
+      uploadedResumeDataConvertedToForm.college_notes_1 ||
+      uploadedResumeDataConvertedToForm.college_start_year_1 ||
+      uploadedResumeDataConvertedToForm.college_end_year_1
     ) {
       setEducation1Visibility(true);
     }
 
     if (
-      storedFormValues.college_name_2 ||
-      storedFormValues.college_degree_2 ||
-      storedFormValues.college_field_of_study_2 ||
-      storedFormValues.college_notes_2 ||
-      storedFormValues.college_start_year_2 ||
-      storedFormValues.college_end_year_2
+      uploadedResumeDataConvertedToForm.college_name_2 ||
+      uploadedResumeDataConvertedToForm.college_degree_2 ||
+      uploadedResumeDataConvertedToForm.college_field_of_study_2 ||
+      uploadedResumeDataConvertedToForm.college_notes_2 ||
+      uploadedResumeDataConvertedToForm.college_start_year_2 ||
+      uploadedResumeDataConvertedToForm.college_end_year_2
     ) {
       setEducation2Visibility(true);
     }
 
     if (
-      storedFormValues.college_name_3 ||
-      storedFormValues.college_degree_3 ||
-      storedFormValues.college_field_of_study_3 ||
-      storedFormValues.college_notes_3 ||
-      storedFormValues.college_start_year_3 ||
-      storedFormValues.college_end_year_3
+      uploadedResumeDataConvertedToForm.college_name_3 ||
+      uploadedResumeDataConvertedToForm.college_degree_3 ||
+      uploadedResumeDataConvertedToForm.college_field_of_study_3 ||
+      uploadedResumeDataConvertedToForm.college_notes_3 ||
+      uploadedResumeDataConvertedToForm.college_start_year_3 ||
+      uploadedResumeDataConvertedToForm.college_end_year_3
     ) {
       setEducation3Visibility(true);
     }
 
     // civic
     if (
-      storedFormValues.achievement_1_issuer ||
-      storedFormValues.achievement_1_name
+      uploadedResumeDataConvertedToForm.achievement_1_issuer ||
+      uploadedResumeDataConvertedToForm.achievement_1_name
     ) {
       setCivic1Visibility(true);
     }
 
     if (
-      storedFormValues.achievement_2_issuer ||
-      storedFormValues.achievement_2_name
+      uploadedResumeDataConvertedToForm.achievement_2_issuer ||
+      uploadedResumeDataConvertedToForm.achievement_2_name
     ) {
       setCivic2Visibility(true);
     }
 
     if (
-      storedFormValues.achievement_3_name ||
-      storedFormValues.achievement_3_issuer
+      uploadedResumeDataConvertedToForm.achievement_3_name ||
+      uploadedResumeDataConvertedToForm.achievement_3_issuer
     ) {
       setCivic3Visibility(true);
     }
 
     // references
     if (
-      storedFormValues.reference_1_info ||
-      storedFormValues.reference_2_info ||
-      storedFormValues.reference_3_info ||
-      storedFormValues.reference_4_info
+      uploadedResumeDataConvertedToForm.reference_1_info ||
+      uploadedResumeDataConvertedToForm.reference_2_info ||
+      uploadedResumeDataConvertedToForm.reference_3_info ||
+      uploadedResumeDataConvertedToForm.reference_4_info
     ) {
       setReferences1Visibility(true);
     }
@@ -1085,93 +1079,6 @@ const ResumeGeneratorPage = () => {
   }
 
 
-  if (storedFormValues) {
-    // console.log(' there are stored values', storedFormValues);
-    // RAW DATA
-    /*
-
-        {
-            "job_post_description": "test",
-            "full_name": "sadas",
-            "email_address": "sd",
-            "phone_number": "sad",
-            "personal_website": "asdas",
-            "linkedin_profile": "sadasd",
-            "interests": "sdasd",
-            "skills": "sadas",
-            "job_1_employer": "",
-            "job_1_title": "",
-            "job_1_start_month": "",
-            "job_1_start_year": "",
-            "job_1_end_month": "",
-            "job_1_end_year": "",
-            "job_1_summary": "",
-            "job_2_employer": "",
-            "job_2_title": "",
-            "job_2_start_month": "",
-            "job_2_start_year": "",
-            "job_2_end_month": "",
-            "job_2_end_year": "",
-            "job_2_summary": "",
-            "job_3_employer": "",
-            "job_3_title": "",
-            "job_3_start_month": "",
-            "job_3_start_year": "",
-            "job_3_end_month": "",
-            "job_3_end_year": "",
-            "job_3_summary": "",
-            "job_4_employer": "",
-            "job_4_title": "",
-            "job_4_start_month": "",
-            "job_4_start_year": "",
-            "job_4_end_month": "",
-            "job_4_end_year": "",
-            "job_4_summary": "",
-            "job_5_employer": "",
-            "job_5_title": "",
-            "job_5_start_month": "",
-            "job_5_start_year": "",
-            "job_5_end_month": "",
-            "job_5_end_year": "",
-            "job_5_summary": "",
-            "job_6_employer": "",
-            "job_6_title": "",
-            "job_6_start_month": "",
-            "job_6_start_year": "",
-            "job_6_end_month": "",
-            "job_6_end_year": "",
-            "job_6_summary": "",
-            "college_name_1": "",
-            "college_degree_1": "",
-            "college_field_of_study_1": "",
-            "college_notes_1": "",
-            "college_start_year_1": "",
-            "college_end_year_1": "",
-            "college_name_2": "",
-            "college_degree_2": "",
-            "college_field_of_study_2": "",
-            "college_notes_2": "",
-            "college_start_year_2": "",
-            "college_end_year_2": "",
-            "college_name_3": "",
-            "college_field_of_study_3": "",
-            "college_degree_3": "",
-            "college_notes_3": "",
-            "college_start_year_3": "",
-            "college_end_year_3": "",
-            "achievement_1_issuer": "",
-            "achievement_1_name": "",
-            "achievement_2_issuer": "",
-            "achievement_2_name": "",
-            "achievement_3_issuer": "",
-            "achievement_3_name": "",
-            "reference_1_info": "",
-            "reference_2_info": "",
-            "reference_3_info": "",
-            "reference_4_info": ""
-        }
-    */
-  }
 
 
   //
@@ -1227,47 +1134,6 @@ const ResumeGeneratorPage = () => {
     }
   };
 
-  //
-  //
-  // Watermarked Download Function
-  //
-  //
-
-  const downloadWatermarkedPreview = async () => {
-    const resumeElement = document.querySelector('.resume-preview');
-    if (!resumeElement) {
-      toast.error('Preview not found. Please generate preview first.');
-      return;
-    }
-
-    try {
-      const canvas = await html2canvas(resumeElement as HTMLElement, {
-        scale: 2, // High quality
-        backgroundColor: '#ffffff',
-      });
-
-      // Convert to blob and download
-      canvas.toBlob((blob) => {
-        if (blob) {
-          const fileName = `${previewResumeData?.personalInfo?.name || 'Resume'}_Preview.png`;
-          saveAs(blob, fileName);
-          toast.success('Preview downloaded! Watermark will be removed after purchase.', {
-            duration: 4000,
-          });
-        }
-      });
-
-      // Track analytics
-      if (typeof window !== 'undefined' && (window as any).gtag) {
-        (window as any).gtag('event', 'watermarked_preview_download', {
-          user_name: previewResumeData?.personalInfo?.name,
-        });
-      }
-    } catch (error) {
-      toast.error('Download failed. Please try again.');
-      console.error('Watermarked download error:', error);
-    }
-  };
 
   //
   //
@@ -1302,8 +1168,8 @@ const ResumeGeneratorPage = () => {
 
     */
     // increment on # of downloads
-    // let new_download_count = number_of_downloads + 1;
-    // localStorage.setItem('x8u_000_vb_nod', new_download_count); // 'number_of_downloads'
+    // let new_download_count = numberOfDownloads + 1;
+    // localStorage.setItem('x8u_000_vb_nod', new_download_count); // 'numberOfDownloads'
     // let remaining_downloads = (3 - new_download_count); // 3, 2, 1
 
     // toast.dismiss();
@@ -1401,8 +1267,9 @@ ${stringifiedMappedFormValues}
       });
 
        // increment on # of downloads
-      let new_download_count = number_of_downloads + 1;
-      localStorage.setItem('x8u_000_vb_nod', new_download_count); // 'number_of_downloads'
+      let new_download_count = numberOfDownloads + 1;
+      localStorage.setItem('x8u_000_vb_nod', String(new_download_count)); // 'numberOfDownloads'
+      setNumberOfDownloads(new_download_count);
       let remaining_downloads = (max_download_count - new_download_count); // 3, 2, 1
 
       toast.dismiss();
@@ -1435,7 +1302,7 @@ ${stringifiedMappedFormValues}
           console.log(`Successfully created resume (without AI) - ${mappedFormValues.personal_info.name}`);
         });
 
-        toast.error("Something went wrong with the AI connection, but your resume was still generated.\n\nThis did not count against your remaining downloads: " +  number_of_downloads + "/" + max_download_count);
+        toast.error("Something went wrong with the AI connection, but your resume was still generated.\n\nThis did not count against your remaining downloads: " +  numberOfDownloads + "/" + max_download_count);
       }
     } finally {
       router.refresh();
@@ -1447,13 +1314,13 @@ ${stringifiedMappedFormValues}
   //
   //
 
-    const onClick = () => {
-      const x = document && document.getElementById('submit');
-      if (x) {
-        x.click();
-      }
-      // window.location.assign(STRIPE_PAYMENT_LINK);
+  const onClick = () => {
+    const x = document && document.getElementById('submit');
+    if (x) {
+      x.click();
     }
+    // window.location.assign(STRIPE_PAYMENT_LINK);
+  }
 
   //
   //
@@ -1512,192 +1379,203 @@ ${stringifiedMappedFormValues}
 
   // preselect checkboxes if they have content
 
-    useEffect(() => {
-      // Use setTimeout to update the message after 2000 milliseconds (2 seconds)
-      const timeoutId = setTimeout(() => {
-        if (storedFormValues.job_1_employer) {
-          if (
-            storedFormValues.job_1_employer.length ||
-            storedFormValues.job_1_title.length ||
-            storedFormValues.job_1_start_month.length ||
-            storedFormValues.job_1_start_year.length ||
-            storedFormValues.job_1_end_month.length  ||
-            storedFormValues.job_1_end_year.length ||
-            storedFormValues.job_1_summary.length
-          ) {
-            setJob1Visibility(true);
-          }
-        }
+  useEffect(() => {
+    if (!isFormInitialized) return;
 
-        if (storedFormValues.job_2_employer) {
-          if (
-            storedFormValues.job_2_employer.length ||
-            storedFormValues.job_2_title.length ||
-            storedFormValues.job_2_start_month.length ||
-            storedFormValues.job_2_start_year.length ||
-            storedFormValues.job_2_end_month.length  ||
-            storedFormValues.job_2_end_year.length ||
-            storedFormValues.job_2_summary.length
-          ) {
-            setJob2Visibility(true);
-          }
-        }
-
-        if (storedFormValues.job_3_employer) {
-          if (
-            storedFormValues.job_3_employer.length ||
-            storedFormValues.job_3_title.length ||
-            storedFormValues.job_3_start_month.length ||
-            storedFormValues.job_3_start_year.length ||
-            storedFormValues.job_3_end_month.length  ||
-            storedFormValues.job_3_end_year.length ||
-            storedFormValues.job_3_summary.length
-          ) {
-            setJob3Visibility(true);
-          }
-        }
-
-        if (storedFormValues.job_4_employer) {
-          if (
-            storedFormValues.job_4_employer.length ||
-            storedFormValues.job_4_title.length ||
-            storedFormValues.job_4_start_month.length ||
-            storedFormValues.job_4_start_year.length ||
-            storedFormValues.job_4_end_month.length  ||
-            storedFormValues.job_4_end_year.length ||
-            storedFormValues.job_4_summary.length
-          ) {
-            setJob4Visibility(true);
-          }
-        }
-
-        if (storedFormValues.job_5_employer) {
-          if (
-            storedFormValues.job_5_employer.length ||
-            storedFormValues.job_5_title.length ||
-            storedFormValues.job_5_start_month.length ||
-            storedFormValues.job_5_start_year.length ||
-            storedFormValues.job_5_end_month.length  ||
-            storedFormValues.job_5_end_year.length ||
-            storedFormValues.job_5_summary.length
-          ) {
-            setJob5Visibility(true);
-          }
-        }
-
-        if (storedFormValues.job_6_employer) {
-          if (
-            storedFormValues.job_6_employer.length ||
-            storedFormValues.job_6_title.length ||
-            storedFormValues.job_6_start_month.length ||
-            storedFormValues.job_6_start_year.length ||
-            storedFormValues.job_6_end_month.length  ||
-            storedFormValues.job_6_end_year.length ||
-            storedFormValues.job_6_summary.length
-          ) {
-            setJob6Visibility(true);
-          }
-        }
-
-        // education
+    // Use setTimeout to update the message after 2000 milliseconds (2 seconds)
+    const timeoutId = setTimeout(() => {
+      const values = form.getValues();
+      if (values.job_1_employer) {
         if (
-          storedFormValues.college_name_1 ||
-          storedFormValues.college_degree_1 ||
-          storedFormValues.college_field_of_study_1 ||
-          storedFormValues.college_notes_1 ||
-          storedFormValues.college_start_year_1 ||
-          storedFormValues.college_end_year_1
+          values.job_1_employer?.length ||
+          values.job_1_title?.length ||
+          values.job_1_start_month?.length ||
+          values.job_1_start_year?.length ||
+          values.job_1_end_month?.length  ||
+          values.job_1_end_year?.length ||
+          values.job_1_summary?.length
         ) {
-          setEducation1Visibility(true);
+          setJob1Visibility(true);
         }
+      }
 
+      if (values.job_2_employer) {
         if (
-          storedFormValues.college_name_2 ||
-          storedFormValues.college_degree_2 ||
-          storedFormValues.college_field_of_study_2 ||
-          storedFormValues.college_notes_2 ||
-          storedFormValues.college_start_year_2 ||
-          storedFormValues.college_end_year_2
+          values.job_2_employer?.length ||
+          values.job_2_title?.length ||
+          values.job_2_start_month?.length ||
+          values.job_2_start_year?.length ||
+          values.job_2_end_month?.length  ||
+          values.job_2_end_year?.length ||
+          values.job_2_summary?.length
         ) {
-          setEducation2Visibility(true);
+          setJob2Visibility(true);
         }
+      }
 
+      if (values.job_3_employer) {
         if (
-          storedFormValues.college_name_3 ||
-          storedFormValues.college_degree_3 ||
-          storedFormValues.college_field_of_study_3 ||
-          storedFormValues.college_notes_3 ||
-          storedFormValues.college_start_year_3 ||
-          storedFormValues.college_end_year_3
+          values.job_3_employer?.length ||
+          values.job_3_title?.length ||
+          values.job_3_start_month?.length ||
+          values.job_3_start_year?.length ||
+          values.job_3_end_month?.length  ||
+          values.job_3_end_year?.length ||
+          values.job_3_summary?.length
         ) {
-          setEducation3Visibility(true);
+          setJob3Visibility(true);
         }
+      }
 
-        // civic
+      if (values.job_4_employer) {
         if (
-          storedFormValues.achievement_1_issuer ||
-          storedFormValues.achievement_1_name
+          values.job_4_employer?.length ||
+          values.job_4_title?.length ||
+          values.job_4_start_month?.length ||
+          values.job_4_start_year?.length ||
+          values.job_4_end_month?.length  ||
+          values.job_4_end_year?.length ||
+          values.job_4_summary?.length
         ) {
-          setCivic1Visibility(true);
+          setJob4Visibility(true);
         }
+      }
 
+      if (values.job_5_employer) {
         if (
-          storedFormValues.achievement_2_issuer ||
-          storedFormValues.achievement_2_name
+          values.job_5_employer?.length ||
+          values.job_5_title?.length ||
+          values.job_5_start_month?.length ||
+          values.job_5_start_year?.length ||
+          values.job_5_end_month?.length  ||
+          values.job_5_end_year?.length ||
+          values.job_5_summary?.length
         ) {
-          setCivic2Visibility(true);
+          setJob5Visibility(true);
         }
+      }
 
+      if (values.job_6_employer) {
         if (
-          storedFormValues.achievement_3_name ||
-          storedFormValues.achievement_3_issuer
+          values.job_6_employer?.length ||
+          values.job_6_title?.length ||
+          values.job_6_start_month?.length ||
+          values.job_6_start_year?.length ||
+          values.job_6_end_month?.length  ||
+          values.job_6_end_year?.length ||
+          values.job_6_summary?.length
         ) {
-          setCivic3Visibility(true);
+          setJob6Visibility(true);
         }
+      }
 
-        // references
-        if (
-          storedFormValues.reference_1_info ||
-          storedFormValues.reference_2_info ||
-          storedFormValues.reference_3_info ||
-          storedFormValues.reference_4_info
-        ) {
-          setReferences1Visibility(true);
-        }
+      // education
+      if (
+        values.college_name_1 ||
+        values.college_degree_1 ||
+        values.college_field_of_study_1 ||
+        values.college_notes_1 ||
+        values.college_start_year_1 ||
+        values.college_end_year_1
+      ) {
+        setEducation1Visibility(true);
+      }
 
-        if (payment_received) {
-          setBuyButtonContent(`Download Now (${number_of_downloads}/${max_download_count})`); // 'number_of_downloads'
-          setSubheadline(`Thank you for your purchase. You have ${((43200-differenceInMinutes)/1440).toFixed(0)} days of access remaining.`);
-        }
+      if (
+        values.college_name_2 ||
+        values.college_degree_2 ||
+        values.college_field_of_study_2 ||
+        values.college_notes_2 ||
+        values.college_start_year_2 ||
+        values.college_end_year_2
+      ) {
+        setEducation2Visibility(true);
+      }
 
-      }, 250);
+      if (
+        values.college_name_3 ||
+        values.college_degree_3 ||
+        values.college_field_of_study_3 ||
+        values.college_notes_3 ||
+        values.college_start_year_3 ||
+        values.college_end_year_3
+      ) {
+        setEducation3Visibility(true);
+      }
 
-      // Cleanup function to clear the timeout if the component unmounts
-      return () => clearTimeout(timeoutId);
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []); // Empty dependency array ensures the effect runs only once
+      // civic
+      if (
+        values.achievement_1_issuer ||
+        values.achievement_1_name
+      ) {
+        setCivic1Visibility(true);
+      }
+
+      if (
+        values.achievement_2_issuer ||
+        values.achievement_2_name
+      ) {
+        setCivic2Visibility(true);
+      }
+
+      if (
+        values.achievement_3_name ||
+        values.achievement_3_issuer
+      ) {
+        setCivic3Visibility(true);
+      }
+
+      // references
+      if (
+        values.reference_1_info ||
+        values.reference_2_info ||
+        values.reference_3_info ||
+        values.reference_4_info
+      ) {
+        setReferences1Visibility(true);
+      }
+
+    }, 250);
+
+    // Cleanup function to clear the timeout if the component unmounts
+    return () => clearTimeout(timeoutId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isFormInitialized]); // Re-run when form is initialized
 
 
-    useEffect(() => {
-      const timeoutId = setTimeout(() => {
-          const element = document.getElementById("bottomSectionOfPage");
-          if (hasPaid) {
-            element?.scrollIntoView({ behavior: "smooth",  block: "end"});
-          }
-      }, 650);
-      // Cleanup function to clear the timeout if the component unmounts
-      return () => clearTimeout(timeoutId);
-    }, [hasPaid]);
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      const element = document.getElementById("bottomSectionOfPage");
+      if (hasPaid) {
+        element?.scrollIntoView({ behavior: "smooth",  block: "end"});
+      }
+    }, 650);
+    // Cleanup function to clear the timeout if the component unmounts
+    return () => clearTimeout(timeoutId);
+  }, [hasPaid]);
+
+  // Auto-generate preview after file upload processing completes
+  // TODO: Re-enable after fixing scope issue
+  // useEffect(() => {
+  //   if (shouldAutoGeneratePreview) {
+  //     setShouldAutoGeneratePreview(false);
+  //     setTimeout(() => {
+  //       generatePreview();
+  //     }, 1000);
+  //   }
+  // }, [shouldAutoGeneratePreview]);
 
 
   return (
     <div>
+      {/* Fullscreen Processing Animation */}
+      <FullscreenProcessingAnimation isVisible={isGettingAiResponseForFileUploadProcess} />
+
       {/* Resume Preview Modal */}
       <ResumePreviewModal
         isOpen={showPreviewModal}
         onClose={() => setShowPreviewModal(false)}
         resumeData={previewResumeData}
-        onDownloadWatermarked={downloadWatermarkedPreview}
         onDownloadPaid={() => {
           setShowPreviewModal(false);
           // Redirect to Stripe or trigger download based on hasPaid
@@ -1804,118 +1682,119 @@ ${stringifiedMappedFormValues}
             >
 
 
-            {/* Job Post description */}
-            <FormField
-              name="job_post_description"
-              render={({ field }) => (
-                <FormItem className="col-span-12 lg:col-span-6 border-2 rounded-lg border-gray-300">
-                <Tooltip
-                  showArrow={true}
-                  isOpen={isJobPostingTooltipOpen}
-                  onOpenChange={(open) => setIsJobPostingTooltipOpen(open)}
-                  delay={0}
-                  closeDelay={0}
-                  motionProps={{
-                    variants: {
-                      exit: {
-                        opacity: 0,
-                        transition: {
-                          duration: 0.1,
-                          ease: "easeIn",
-                        }
-                      },
-                      enter: {
-                        opacity: 1,
-                        transition: {
-                          duration: 0.15,
-                          ease: "easeOut",
-                        }
-                      },
-                    },
-                  }}
-                  color="primary"
-                  content={"Paste the job description here to automatically match keywords and highlight your most relevant experience - proven to dramatically increase interview callbacks."}
-                >
-                  <FormControl className="m-0 p-2" >
-                    {/* }<Input */}
-                    <Textarea
-                      className="border-0 outline-none  "
-                      disabled={isLoading}
-                      placeholder="Paste the job description you're applying for (optional but recommended for better results)"
-                      {...field}
-                    />
-                  </FormControl>
-                  </Tooltip>
-                </FormItem>
-              )}
-            />
+            {/* Enhanced Upload Section */}
+            <div className="col-span-12 mb-6">
+              <div className="bg-gradient-to-br from-purple-50 to-pink-50 border-2 border-purple-300 rounded-xl p-6 md:p-8">
+                <div className="text-center mb-6">
+                  <h3 className="text-2xl font-bold text-purple-900 mb-2">
+                    Upload Your Resume to Get Started
+                  </h3>
+                  <p className="text-gray-700">
+                    Our AI will analyze and optimize your content in seconds
+                  </p>
+                </div>
 
+                <div className="flex flex-col items-center gap-4">
+                  <input
+                    type="file"
+                    accept={ACCEPTED_FILE_TYPES}
+                    onChange={handleFileChange}
+                    style={{ display: "none" }}
+                    id="file-upload-input"
+                    disabled={fileHasBeenUploadedAndParsed}
+                  />
+                  <label
+                    htmlFor="file-upload-input"
+                    className={`
+                      px-8 py-4 rounded-lg text-white text-lg font-semibold
+                      transition-all duration-200 cursor-pointer
+                      ${fileHasBeenUploadedAndParsed
+                        ? 'bg-gray-400 cursor-not-allowed'
+                        : 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 hover:shadow-lg transform hover:scale-105'
+                      }
+                    `}
+                  >
+                    {fileHasBeenUploadedAndParsed ? '✓ Resume Uploaded' : '📄 Upload Your Resume'}
+                  </label>
 
+                  {uploadedFileName && (
+                    <p className="text-sm text-gray-600 flex items-center gap-2">
+                      <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                      {uploadedFileName}
+                    </p>
+                  )}
 
+                  <p className="text-xs text-gray-500 mt-2">
+                    Supports .docx and .txt formats • No credit card required
+                  </p>
+                </div>
 
-              {/* FILE UPLOAD   */}
-
-              <FormItem
-                className="col-span-6 lg:col-span-4"
-                style={{
-                  color: '#576574',
-                  textAlign: 'left',
-                }}
-              >
-                <FormControl className="m-0 p-2">
-                  <>
-                    <label style={{ fontWeight: "bold" }}>
-                      <input
-                        type="file"
-                        accept={ACCEPTED_FILE_TYPES}
-                        onChange={handleFileChange}
-                        style={{ display: "none" }}
-                        id="file-upload-input"
-                        disabled={fileHasBeenUploadedAndParsed}
-                      />
-                      <label
-                        htmlFor="file-upload-input"
-                        className="noWrap"
-                        style={{
-                          padding: "8px 16px",
-                          borderRadius: "8px",
-                          color: "#ffffff",
-                          fontSize: "14px",
-                          fontWeight: "500",
-                          display: "inline-block",
-                          cursor: "pointer",
-                          whiteSpace: "nowrap",
-                          backgroundColor: fileHasBeenUploadedAndParsed ? 'grey' : fileUploadButtonIsHovered ? 'rgba(255, 159, 64, 0.97)' : 'rgba(255, 140, 0, 0.97)',
-                        }}
-                        onMouseEnter={() => setFileUploadButtonIsHovered(true)}
-                        onMouseLeave={() => setFileUploadButtonIsHovered(false)}
-                      >
-                        Upload Current Resume
-                      </label>
-                      {uploadedFileName && (
-                        <p style={{
-                          color: "black !important",
-                          fontSize: "12px",
-                          fontWeight: "normal",
-                          paddingLeft: "8px",
-                          whiteSpace: "nowrap",
-                        }}>{uploadedFileName}</p>
-                      )}
-                    </label>
-                    {isGettingAiResponseForFileUploadProcess && (
-                      <div className="col-span-5 p-0 rounded-lg w-full flex items-left justify-center">
-                        <SimplerLoader />
-                      </div>
+                {/* Optional: Job Description */}
+                <div className="mt-6">
+                  <FormField
+                    name="job_post_description"
+                    render={({ field }) => (
+                      <FormItem>
+                        <Tooltip
+                          showArrow={true}
+                          isOpen={isJobPostingTooltipOpen}
+                          onOpenChange={(open) => setIsJobPostingTooltipOpen(open)}
+                          delay={0}
+                          closeDelay={0}
+                          motionProps={{
+                            variants: {
+                              exit: {
+                                opacity: 0,
+                                transition: {
+                                  duration: 0.1,
+                                  ease: "easeIn",
+                                }
+                              },
+                              enter: {
+                                opacity: 1,
+                                transition: {
+                                  duration: 0.15,
+                                  ease: "easeOut",
+                                }
+                              },
+                            },
+                          }}
+                          color="primary"
+                          content={"Paste the job description here to automatically match keywords and highlight your most relevant experience - proven to dramatically increase interview callbacks."}
+                        >
+                          <FormControl>
+                            <Textarea
+                              className="border-2 border-purple-200 rounded-lg p-3 min-h-[100px] focus:border-purple-400 transition-colors"
+                              disabled={isLoading}
+                              placeholder="Optional: Paste the job description you're applying for (recommended for better results)"
+                              {...field}
+                            />
+                          </FormControl>
+                        </Tooltip>
+                      </FormItem>
                     )}
-                  </>
-                </FormControl>
-              </FormItem>
+                  />
+                </div>
+
+                {/* Toggle for manual form fields */}
+                <div className="mt-6 text-center">
+                  <button
+                    type="button"
+                    onClick={() => setShowFormFields(!showFormFields)}
+                    className="text-purple-700 hover:text-purple-900 font-medium text-sm flex items-center gap-2 mx-auto transition-colors"
+                  >
+                    {showFormFields ? '▲ Hide manual entry fields' : '▼ Or fill out manually'}
+                  </button>
+                </div>
+              </div>
+            </div>
 
 
 
 
 
 
+            {showFormFields && (
             <div className="showhideContainer" style={{
               display: "contents",
             }}>
@@ -3447,21 +3326,17 @@ ${stringifiedMappedFormValues}
                   hasPaid={hasPaid}
                   isLoading={isLoading}
                   formHasErrors={!form.formState.isValid}
-                  downloadsUsed={number_of_downloads}
+                  downloadsUsed={numberOfDownloads}
                   maxDownloads={max_download_count}
                   daysRemaining={Math.max(0, Math.floor((43200 - differenceInMinutes) / 1440))}
                   previewGenerated={actionState === 'preview-ready'}
                   showCelebration={showCelebration}
                   generationProgress={generationProgress}
                   actionState={actionState}
-                  onGeneratePreview={(e) => {
-                    e?.preventDefault();
-                    e?.stopPropagation();
+                  onGeneratePreview={() => {
                     generatePreview();
                   }}
-                  onViewPreview={(e) => {
-                    e?.preventDefault();
-                    e?.stopPropagation();
+                  onViewPreview={() => {
                     setShowPreviewModal(true);
                   }}
                   onDownload={() => {
@@ -3478,7 +3353,8 @@ ${stringifiedMappedFormValues}
                 />
               </div>
 
-              </div> {/* end showhideContainer */}
+              </div>
+            )} {/* end showFormFields conditional */}
 
               {/*
 

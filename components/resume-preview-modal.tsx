@@ -21,7 +21,6 @@ interface ResumePreviewModalProps {
     achievements: any[];
     references: any[];
   } | null;
-  onDownloadWatermarked: () => void;
   onDownloadPaid: () => void;
 }
 
@@ -29,7 +28,6 @@ export function ResumePreviewModal({
   isOpen,
   onClose,
   resumeData,
-  onDownloadWatermarked,
   onDownloadPaid,
 }: ResumePreviewModalProps) {
   if (!resumeData) return null;
@@ -288,23 +286,13 @@ export function ResumePreviewModal({
             <Button type="button" variant="ghost" onClick={onClose}>
               Close Preview
             </Button>
-            <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={onDownloadWatermarked}
-                className="px-6 w-full sm:w-auto"
-              >
-                📥 Download Preview (Free)
-              </Button>
-              <Button
-                type="button"
-                className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 w-full sm:w-auto"
-                onClick={onDownloadPaid}
-              >
-                💎 Get Clean Resume - $9.99
-              </Button>
-            </div>
+            <Button
+              type="button"
+              className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 w-full sm:w-auto"
+              onClick={onDownloadPaid}
+            >
+              💎 Get Clean Resume - $9.99
+            </Button>
           </div>
         </div>
 
