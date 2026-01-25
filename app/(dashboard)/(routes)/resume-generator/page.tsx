@@ -3320,41 +3320,42 @@ ${stringifiedMappedFormValues}
                 </> : ''}
 
 
-              {/* Resume Action Section - New Button Experience */}
-              <div className="col-span-12">
-                <ResumeActionSection
-                  hasPaid={hasPaid}
-                  isLoading={isLoading}
-                  formHasErrors={!form.formState.isValid}
-                  downloadsUsed={numberOfDownloads}
-                  maxDownloads={max_download_count}
-                  daysRemaining={Math.max(0, Math.floor((43200 - differenceInMinutes) / 1440))}
-                  previewGenerated={actionState === 'preview-ready'}
-                  showCelebration={showCelebration}
-                  generationProgress={generationProgress}
-                  actionState={actionState}
-                  onGeneratePreview={() => {
-                    generatePreview();
-                  }}
-                  onViewPreview={() => {
-                    setShowPreviewModal(true);
-                  }}
-                  onDownload={() => {
-                    if (!hasPaid) {
-                      // Redirect to Stripe
-                      const values = form.getValues();
-                      localStorage.setItem('stored_form_values', JSON.stringify(values));
-                      window.location.assign(STRIPE_PAYMENT_LINK);
-                    } else {
-                      // Trigger download (submit form, which will use download logic)
-                      form.handleSubmit(onSubmit)();
-                    }
-                  }}
-                />
-              </div>
 
               </div>
             )} {/* end showFormFields conditional */}
+
+            {/* Resume Action Section - New Button Experience */}
+            <div className="col-span-12">
+              <ResumeActionSection
+                hasPaid={hasPaid}
+                isLoading={isLoading}
+                formHasErrors={!form.formState.isValid}
+                downloadsUsed={numberOfDownloads}
+                maxDownloads={max_download_count}
+                daysRemaining={Math.max(0, Math.floor((43200 - differenceInMinutes) / 1440))}
+                previewGenerated={actionState === 'preview-ready'}
+                showCelebration={showCelebration}
+                generationProgress={generationProgress}
+                actionState={actionState}
+                onGeneratePreview={() => {
+                  generatePreview();
+                }}
+                onViewPreview={() => {
+                  setShowPreviewModal(true);
+                }}
+                onDownload={() => {
+                  if (!hasPaid) {
+                    // Redirect to Stripe
+                    const values = form.getValues();
+                    localStorage.setItem('stored_form_values', JSON.stringify(values));
+                    window.location.assign(STRIPE_PAYMENT_LINK);
+                  } else {
+                    // Trigger download (submit form, which will use download logic)
+                    form.handleSubmit(onSubmit)();
+                  }
+                }}
+              />
+            </div>
 
               {/*
 
