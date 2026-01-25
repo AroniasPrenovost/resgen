@@ -119,10 +119,10 @@ export function FullscreenProcessingAnimation({ isVisible, isProcessingComplete 
         {/* Fun facts */}
         <div className="mt-12 text-purple-200 text-sm animate-fade-in-slow">
           <p className="italic">
-            Did you know? ATS systems scan for specific keywords in your resume.
+            ATS systems scan for specific keywords in your resume
           </p>
           <p className="mt-2">
-            We&apos;re optimizing yours right now!
+            Optimizing your content right now
           </p>
         </div>
       </div>

@@ -1613,7 +1613,7 @@ ${stringifiedMappedFormValues}
 
           {/* Welcome Message */}
           <h2 className="text-xl font-semibold text-violet-900 mb-3">
-            Let&apos;s get you more interviews
+            Get More Interviews
           </h2>
 
           <div className="space-y-3 text-sm md:text-base text-gray-700">
