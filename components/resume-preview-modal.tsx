@@ -296,7 +296,7 @@ export function ResumePreviewModal({
           </div>
         </div>
 
-        <style jsx global>{`
+        <style dangerouslySetInnerHTML={{ __html: `
           .section-heading {
             font-size: 15px;
             font-weight: 700;
@@ -329,7 +329,7 @@ export function ResumePreviewModal({
           .resume-preview a:hover {
             text-decoration: underline;
           }
-        `}</style>
+        `}} />
       </DialogContent>
     </Dialog>
   );
