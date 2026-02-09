@@ -296,40 +296,6 @@ export function ResumePreviewModal({
           </div>
         </div>
 
-        <style dangerouslySetInnerHTML={{ __html: `
-          .section-heading {
-            font-size: 15px;
-            font-weight: 700;
-            color: #1e40af;
-            margin-top: 16px;
-            margin-bottom: 8px;
-            border-bottom: 1.5px solid #1e40af;
-            padding-bottom: 3px;
-          }
-
-          .resume-preview {
-            font-family: Calibri, 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
-            color: #1f2937;
-          }
-
-          .resume-preview h1 {
-            line-height: 1.2;
-          }
-
-          .resume-preview p {
-            line-height: 1.5;
-          }
-
-          .resume-preview a {
-            color: #1e40af;
-            text-decoration: none;
-            font-weight: 500;
-          }
-
-          .resume-preview a:hover {
-            text-decoration: underline;
-          }
-        `}} />
       </DialogContent>
     </Dialog>
   );
