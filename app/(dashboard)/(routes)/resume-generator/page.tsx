@@ -32,10 +32,10 @@ import { Packer } from "docx";
 import { DocumentCreator } from "@/lib/resume-generator";
 // import { experiences, education, skills, achievements } from "@/lib/cv-data"; // dummy data
 
-// New components for button experience overhaul
-import { ResumePreviewModal } from "@/components/resume-preview-modal";
-import { ResumeActionSection } from "@/components/resume-action-section";
-import { FullscreenProcessingAnimation } from "@/components/fullscreen-processing-animation";
+// New components for button experience overhaul - TEMPORARILY DISABLED for production debugging
+// import { ResumePreviewModal } from "@/components/resume-preview-modal";
+// import { ResumeActionSection } from "@/components/resume-action-section";
+// import { FullscreenProcessingAnimation } from "@/components/fullscreen-processing-animation";
 
 const ResumeGeneratorPage = () => {
   // Track client-side mounting to prevent hydration mismatch with useSearchParams
@@ -1569,15 +1569,15 @@ stringifiedMappedFormValues;
 
   return (
     <div>
-      {/* Fullscreen Processing Animation */}
-      <FullscreenProcessingAnimation
+      {/* Fullscreen Processing Animation - TEMPORARILY DISABLED */}
+      {/* <FullscreenProcessingAnimation
         isVisible={isGettingAiResponseForFileUploadProcess}
         isProcessingComplete={hasAiResponseReturned}
         onComplete={() => setIsGettingAiResponseForFileUploadProcess(false)}
-      />
+      /> */}
 
-      {/* Resume Preview Modal */}
-      <ResumePreviewModal
+      {/* Resume Preview Modal - TEMPORARILY DISABLED */}
+      {/* <ResumePreviewModal
         isOpen={showPreviewModal}
         onClose={() => setShowPreviewModal(false)}
         resumeData={previewResumeData}
@@ -1592,7 +1592,7 @@ stringifiedMappedFormValues;
             form.handleSubmit(onSubmit)();
           }
         }}
-      />
+      /> */}
 
       {/* Consolidated Welcome & Info Section */}
       <div className="px-4 lg:px-8 mb-8">
@@ -3329,37 +3329,34 @@ stringifiedMappedFormValues;
               </div>
             )} {/* end showFormFields conditional */}
 
-            {/* Resume Action Section - New Button Experience */}
+            {/* Resume Action Section - SIMPLIFIED for production debugging */}
             <div className="col-span-12">
-              <ResumeActionSection
-                hasPaid={hasPaid}
-                isLoading={isLoading}
-                formHasErrors={!form.formState.isValid}
-                downloadsUsed={numberOfDownloads}
-                maxDownloads={max_download_count}
-                daysRemaining={Math.max(0, Math.floor((43200 - differenceInMinutes) / 1440))}
-                previewGenerated={actionState === 'preview-ready'}
-                showCelebration={showCelebration}
-                generationProgress={generationProgress}
-                actionState={actionState}
-                onGeneratePreview={() => {
-                  generatePreview();
-                }}
-                onViewPreview={() => {
-                  setShowPreviewModal(true);
-                }}
-                onDownload={() => {
-                  if (!hasPaid) {
-                    // Redirect to Stripe
-                    const values = form.getValues();
-                    localStorage.setItem('stored_form_values', JSON.stringify(values));
-                    window.location.assign(STRIPE_PAYMENT_LINK);
-                  } else {
-                    // Trigger download (submit form, which will use download logic)
-                    form.handleSubmit(onSubmit)();
-                  }
-                }}
-              />
+              <div className="border-2 border-purple-200 rounded-lg p-6 bg-white shadow-lg">
+                <h3 className="text-xl font-bold mb-4">
+                  {hasPaid ? "Download Your Resume" : "Generate Your Resume"}
+                </h3>
+                <p className="text-gray-600 mb-4">
+                  {hasPaid
+                    ? `Downloads used: ${numberOfDownloads}/${max_download_count}`
+                    : "Preview for free, download for $9.99"}
+                </p>
+                <Button
+                  type="button"
+                  disabled={isLoading}
+                  className="w-full h-14 text-base bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
+                  onClick={() => {
+                    if (!hasPaid) {
+                      const values = form.getValues();
+                      localStorage.setItem('stored_form_values', JSON.stringify(values));
+                      window.location.assign(STRIPE_PAYMENT_LINK);
+                    } else {
+                      form.handleSubmit(onSubmit)();
+                    }
+                  }}
+                >
+                  {isLoading ? "Processing..." : (hasPaid ? "Download Resume" : "Generate & Pay $9.99")}
+                </Button>
+              </div>
             </div>
 
               {/*
