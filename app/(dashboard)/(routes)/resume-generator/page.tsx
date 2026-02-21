@@ -233,6 +233,72 @@ const ResumeGeneratorPage = () => {
   const ACCEPTED_FILE_TYPES = ".docx,.txt"; // .pdf not currently supported
   const [uploadedFileContents, setUploadedFileContents] = useState<string>('');
   const [uploadedFileName, setUploadedFileName] = useState<string | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+
+  // Drag and drop handlers
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!fileHasBeenUploadedAndParsed) {
+      setIsDragging(true);
+    }
+  };
+
+  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  };
+
+  const handleDrop = async (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+
+    if (fileHasBeenUploadedAndParsed) return;
+
+    const files = e.dataTransfer.files;
+    if (files && files.length > 0) {
+      const file = files[0];
+      await processDroppedFile(file);
+    }
+  };
+
+  const processDroppedFile = async (file: File) => {
+    const fileType = file.type;
+    const fileName = file.name.toLowerCase();
+
+    // Check file extension as backup for mime type
+    const isDocx = fileName.endsWith('.docx') || fileType === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" || fileType === "application/msword";
+    const isTxt = fileName.endsWith('.txt') || fileType === "text/plain";
+
+    if (!isDocx && !isTxt) {
+      toast.error("Please upload a .docx or .txt file");
+      return;
+    }
+
+    setUploadedFileName(file.name);
+
+    try {
+      if (isDocx) {
+        const arrayBuffer = await file.arrayBuffer();
+        const result = await mammoth.extractRawText({ arrayBuffer });
+        setUploadedFileContents(result.value);
+        toast.success('Resume uploaded successfully!');
+      } else if (isTxt) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const text = e.target?.result;
+          setUploadedFileContents(text as string);
+          toast.success('Resume uploaded successfully!');
+        };
+        reader.readAsText(file);
+      }
+    } catch (error) {
+      console.error("Error processing file:", error);
+      toast.error("Something went wrong while processing the file.");
+    }
+  };
 
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -1607,73 +1673,211 @@ stringifiedMappedFormValues;
         }}
       /> */}
 
-      {/* Consolidated Welcome & Info Section */}
+      {/* Modern Hero Section with Visual Mockup */}
       <div className="px-4 lg:px-8 mb-8">
-        <div className="bg-violet-50 border border-violet-200 rounded-lg p-6 md:p-8">
-          {/* Header with Icon */}
-          <div className="flex items-center gap-3 mb-4">
-            <div className="p-3 bg-violet-500/10 rounded-lg relative">
-              <FileText className="w-8 h-8 text-violet-500" />
-              <Sparkles className="w-4 h-4 text-violet-400 absolute -top-0.5 -right-0.5" />
+        <div className="grid lg:grid-cols-2 gap-8 items-center">
+
+          {/* Left Side - Upload Area */}
+          <div className="order-2 lg:order-1">
+            {/* Main Drag & Drop Zone */}
+            <div
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDrop}
+              className={`
+                relative rounded-2xl border-2 border-dashed transition-all duration-300 p-8 md:p-12
+                ${fileHasBeenUploadedAndParsed
+                  ? 'border-green-400 bg-green-50/50'
+                  : isDragging
+                    ? 'border-purple-500 bg-purple-100/50 shadow-xl shadow-purple-200 scale-[1.02]'
+                    : 'border-purple-300 bg-gradient-to-br from-white to-purple-50/30 hover:border-purple-500 hover:shadow-xl hover:shadow-purple-100'
+                }
+              `}
+            >
+              <input
+                type="file"
+                accept={ACCEPTED_FILE_TYPES}
+                onChange={handleFileChange}
+                style={{ display: "none" }}
+                id="file-upload-input"
+                disabled={fileHasBeenUploadedAndParsed}
+              />
+
+              <label
+                htmlFor="file-upload-input"
+                className={`flex flex-col items-center cursor-pointer ${fileHasBeenUploadedAndParsed ? 'cursor-default' : ''}`}
+              >
+                {/* Upload Icon */}
+                <div className={`
+                  w-20 h-20 rounded-2xl flex items-center justify-center mb-6 transition-all duration-300
+                  ${fileHasBeenUploadedAndParsed
+                    ? 'bg-green-100'
+                    : isDragging
+                      ? 'bg-gradient-to-br from-purple-600 to-pink-600 shadow-xl scale-110'
+                      : 'bg-gradient-to-br from-purple-500 to-pink-500 shadow-lg hover:scale-105'
+                  }
+                `}>
+                  {fileHasBeenUploadedAndParsed ? (
+                    <svg className="w-10 h-10 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  ) : isDragging ? (
+                    <svg className="w-10 h-10 text-white animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                    </svg>
+                  ) : (
+                    <svg className="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                    </svg>
+                  )}
+                </div>
+
+                {/* Text */}
+                {fileHasBeenUploadedAndParsed ? (
+                  <div className="text-center">
+                    <p className="text-xl font-semibold text-green-700 mb-2">Resume Uploaded</p>
+                    <p className="text-sm text-green-600 flex items-center justify-center gap-2">
+                      <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                      {uploadedFileName}
+                    </p>
+                  </div>
+                ) : isDragging ? (
+                  <div className="text-center">
+                    <p className="text-xl font-semibold text-purple-700 mb-2">
+                      Release to upload
+                    </p>
+                    <p className="text-purple-500">Drop your file here</p>
+                  </div>
+                ) : (
+                  <div className="text-center">
+                    <p className="text-xl font-semibold text-gray-800 mb-2">
+                      Drop your resume here
+                    </p>
+                    <p className="text-gray-500 mb-4">or click to browse</p>
+                    <span className="inline-flex items-center px-4 py-2 bg-purple-600 text-white rounded-lg font-medium text-sm hover:bg-purple-700 transition-colors">
+                      Select File
+                    </span>
+                  </div>
+                )}
+              </label>
+
+              {/* File type indicator */}
+              <div className="absolute bottom-4 left-0 right-0 flex justify-center">
+                <div className="flex items-center gap-3 text-xs text-gray-400">
+                  <span className="flex items-center gap-1">
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clipRule="evenodd"/>
+                    </svg>
+                    .docx
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clipRule="evenodd"/>
+                    </svg>
+                    .txt
+                  </span>
+                </div>
+              </div>
             </div>
-            <div>
-              <h1 className="text-2xl md:text-3xl font-bold text-violet-900">
-                Resume Generator
-              </h1>
+
+            {/* Preview Free Badge */}
+            <div className="mt-6 flex items-center justify-center gap-6">
+              <div className="flex items-center gap-2 text-sm">
+                <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center">
+                  <svg className="w-3 h-3 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
+                  </svg>
+                </div>
+                <span className="text-gray-600">Preview <strong className="text-green-600">FREE</strong></span>
+              </div>
+              <div className="flex items-center gap-2 text-sm">
+                <div className="w-5 h-5 rounded-full bg-purple-100 flex items-center justify-center">
+                  <svg className="w-3 h-3 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586L7.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7z" clipRule="evenodd"/>
+                  </svg>
+                </div>
+                <span className="text-gray-600">Download <strong className="text-purple-600">$9.99</strong></span>
+              </div>
             </div>
           </div>
 
-          {/* Welcome Message */}
-          <h2 className="text-xl font-semibold text-violet-900 mb-3">
-            Get More Interviews
-          </h2>
+          {/* Right Side - Visual Mockup */}
+          <div className="order-1 lg:order-2 relative">
+            {/* Decorative circles */}
+            <div className="absolute -top-10 -right-10 w-40 h-40 bg-gradient-to-br from-purple-200/40 to-pink-200/40 rounded-full blur-3xl"></div>
+            <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-gradient-to-br from-blue-200/40 to-cyan-200/40 rounded-full blur-3xl"></div>
 
-          <div className="space-y-3 text-sm md:text-base text-gray-700">
-            {/* Step-by-step process */}
-            <div className="space-y-2">
-              <div className="flex items-start gap-2">
-                <span className="font-semibold text-violet-700 mt-0.5">1.</span>
-                <p className="leading-relaxed flex-1">
-                  <strong>Upload</strong> your current resume below (or start from scratch)
-                </p>
+            {/* Main Resume Preview Card */}
+            <div className="relative bg-white rounded-2xl shadow-2xl shadow-purple-200/50 p-6 border border-gray-100">
+              {/* Resume Header */}
+              <div className="flex items-start gap-4 mb-4">
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center text-white text-xl font-bold">
+                  JD
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold text-gray-800">John Doe</h3>
+                  <p className="text-sm text-gray-500">Senior Software Engineer</p>
+                  <div className="flex items-center gap-2 mt-1 text-xs text-gray-400">
+                    <span>john@email.com</span>
+                    <span>•</span>
+                    <span>San Francisco, CA</span>
+                  </div>
+                </div>
               </div>
-              <div className="flex items-start gap-2">
-                <span className="font-semibold text-violet-700 mt-0.5">2.</span>
-                <p className="leading-relaxed flex-1">
-                  Our AI agent <strong>instantly generates</strong> ATS-optimized content
-                </p>
-              </div>
-              <div className="flex items-start gap-2">
-                <span className="font-semibold text-violet-700 mt-0.5">3.</span>
-                <p className="leading-relaxed flex-1">
-                  <strong>Edit and perfect</strong> every word for free
-                </p>
-              </div>
-              <div className="flex items-start gap-2">
-                <span className="font-semibold text-violet-700 mt-0.5">4.</span>
-                <p className="leading-relaxed flex-1">
-                  <strong>Download for $9.99</strong> when ready - includes 30 days of revisions
-                </p>
-              </div>
-            </div>
 
-            {/* Quick value props */}
-            <div className="bg-gradient-to-r from-violet-50 to-purple-50 border border-violet-200 rounded-lg p-4 mt-4">
-              <div className="flex items-center gap-2 mb-2">
-                <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-                <p className="text-sm font-medium text-gray-800">
-                  No credit card required to start
-                </p>
+              {/* Skills Section */}
+              <div className="mb-4">
+                <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Skills</p>
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-2 py-1 bg-purple-50 text-purple-700 rounded text-xs font-medium">React</span>
+                  <span className="px-2 py-1 bg-blue-50 text-blue-700 rounded text-xs font-medium">TypeScript</span>
+                  <span className="px-2 py-1 bg-green-50 text-green-700 rounded text-xs font-medium">Node.js</span>
+                  <span className="px-2 py-1 bg-orange-50 text-orange-700 rounded text-xs font-medium">AWS</span>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-                <p className="text-sm font-medium text-gray-800">
-                  Supports <b>.docx</b> and <b>.txt</b> formats
-                </p>
+
+              {/* Experience Preview */}
+              <div>
+                <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Experience</p>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded bg-gray-100 flex items-center justify-center text-xs">G</div>
+                    <div>
+                      <p className="text-sm font-medium text-gray-800">Google</p>
+                      <p className="text-xs text-gray-400">2020 - Present</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded bg-gray-100 flex items-center justify-center text-xs">M</div>
+                    <div>
+                      <p className="text-sm font-medium text-gray-800">Meta</p>
+                      <p className="text-xs text-gray-400">2018 - 2020</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Floating Badge - ATS Score */}
+              <div className="absolute -top-3 -right-3 bg-white rounded-xl shadow-lg px-3 py-2 border border-gray-100">
+                <div className="flex items-center gap-2">
+                  <div className="relative w-10 h-10">
+                    <svg className="w-10 h-10 transform -rotate-90">
+                      <circle cx="20" cy="20" r="16" stroke="#e5e7eb" strokeWidth="3" fill="none"/>
+                      <circle cx="20" cy="20" r="16" stroke="#22c55e" strokeWidth="3" fill="none" strokeDasharray="100" strokeDashoffset="8" strokeLinecap="round"/>
+                    </svg>
+                    <span className="absolute inset-0 flex items-center justify-center text-xs font-bold text-green-600">92</span>
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold text-gray-800">ATS Score</p>
+                    <p className="text-[10px] text-green-600">Excellent</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Floating Badge - ATS Perfect */}
+              <div className="absolute -bottom-2 right-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg shadow-lg px-3 py-1.5 text-white text-xs font-medium flex items-center gap-1.5">
+                <Sparkles className="w-3 h-3" />
+                ATS Optimized
               </div>
             </div>
           </div>
@@ -1686,147 +1890,84 @@ stringifiedMappedFormValues;
             <form
               onSubmit={form.handleSubmit(onSubmit)}
               className="
-                rounded-lg
+                rounded-2xl
                 border
+                border-gray-200
                 w-full
-                p-4
-                px-3
-                md:px-6
-                focus-within:shadow-sm
-                grid
-                grid-cols-12
-                gap-2
+                p-6
+                md:p-8
+                bg-white
+                shadow-sm
               "
             >
 
-
-            {/* Enhanced Upload Section */}
-            <div className="col-span-12 mb-6">
-              <div className="bg-gradient-to-br from-purple-50 to-pink-50 border-2 border-purple-300 rounded-xl p-6 md:p-8">
-                <div className="text-center mb-6">
-                  <h3 className="text-2xl font-bold text-purple-900 mb-2">
-                    Upload Your Resume to Get Started
-                  </h3>
-                  <p className="text-gray-700">
-                    Our AI will analyze and optimize your content in seconds
-                  </p>
+            {/* Job Description Section - More Prominent */}
+            <div className="mb-8">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-8 h-8 rounded-lg bg-purple-100 flex items-center justify-center">
+                  <svg className="w-4 h-4 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
                 </div>
-
-                <div className="flex flex-col items-center gap-4">
-                  <input
-                    type="file"
-                    accept={ACCEPTED_FILE_TYPES}
-                    onChange={handleFileChange}
-                    style={{ display: "none" }}
-                    id="file-upload-input"
-                    disabled={fileHasBeenUploadedAndParsed}
-                  />
-                  <label
-                    htmlFor="file-upload-input"
-                    className={`
-                      px-8 py-4 rounded-lg text-white text-lg font-semibold
-                      transition-all duration-200 cursor-pointer
-                      ${fileHasBeenUploadedAndParsed
-                        ? 'bg-gray-400 cursor-not-allowed'
-                        : 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 hover:shadow-lg transform hover:scale-105'
-                      }
-                    `}
-                  >
-                    {fileHasBeenUploadedAndParsed ? '✓ Resume Uploaded' : '📄 Upload Your Resume'}
-                  </label>
-
-                  {uploadedFileName && (
-                    <p className="text-sm text-gray-600 flex items-center gap-2">
-                      <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                      {uploadedFileName}
-                    </p>
-                  )}
-
-                  <p className="text-xs text-gray-500 mt-2">
-                    Supports .docx and .txt formats • No credit card required
-                  </p>
-                </div>
-
-                {/* Optional: Job Description */}
-                <div className="mt-6">
-                  <FormField
-                    name="job_post_description"
-                    render={({ field }) => (
-                      <FormItem>
-                        <Tooltip
-                          showArrow={true}
-                          isOpen={isJobPostingTooltipOpen}
-                          onOpenChange={(open) => setIsJobPostingTooltipOpen(open)}
-                          delay={0}
-                          closeDelay={0}
-                          motionProps={{
-                            variants: {
-                              exit: {
-                                opacity: 0,
-                                transition: {
-                                  duration: 0.1,
-                                  ease: "easeIn",
-                                }
-                              },
-                              enter: {
-                                opacity: 1,
-                                transition: {
-                                  duration: 0.15,
-                                  ease: "easeOut",
-                                }
-                              },
-                            },
-                          }}
-                          color="primary"
-                          content={"Paste the job description here to automatically match keywords and highlight your most relevant experience - proven to dramatically increase interview callbacks."}
-                        >
-                          <FormControl>
-                            <Textarea
-                              className="border-2 border-purple-200 rounded-lg p-3 min-h-[100px] focus:border-purple-400 transition-colors"
-                              disabled={isLoading}
-                              placeholder="Optional: Paste the job description you're applying for (recommended for better results)"
-                              {...field}
-                            />
-                          </FormControl>
-                        </Tooltip>
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                {/* Toggle for manual form fields */}
-                <div className="mt-6 text-center">
-                  <button
-                    type="button"
-                    onClick={() => setShowFormFields(!showFormFields)}
-                    className="text-purple-700 hover:text-purple-900 font-medium text-sm flex items-center gap-2 mx-auto transition-colors"
-                  >
-                    {showFormFields ? '▲ Hide manual entry fields' : '▼ Or fill out manually'}
-                  </button>
+                <div>
+                  <h3 className="font-semibold text-gray-800">Target Job Description</h3>
+                  <p className="text-sm text-gray-500">Optional - helps tailor your resume to the role</p>
                 </div>
               </div>
+              <FormField
+                name="job_post_description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Textarea
+                        className="border border-gray-200 rounded-xl p-4 min-h-[100px] focus:border-purple-400 focus:ring-2 focus:ring-purple-100 transition-all resize-none bg-gray-50/50"
+                        disabled={isLoading}
+                        placeholder="Paste the job posting here and we'll optimize your resume to match the keywords and requirements..."
+                        {...field}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
             </div>
 
+            {/* Manual Entry Toggle */}
+            <div className="mb-6">
+              <button
+                type="button"
+                onClick={() => setShowFormFields(!showFormFields)}
+                className="w-full flex items-center justify-between p-4 rounded-xl border border-gray-200 hover:border-purple-300 hover:bg-purple-50/50 transition-all group"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-gray-100 group-hover:bg-purple-100 flex items-center justify-center transition-colors">
+                    <svg className="w-4 h-4 text-gray-500 group-hover:text-purple-600 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg>
+                  </div>
+                  <div className="text-left">
+                    <p className="font-medium text-gray-800">Edit details manually</p>
+                    <p className="text-sm text-gray-500">Fine-tune your information after upload</p>
+                  </div>
+                </div>
+                <svg className={`w-5 h-5 text-gray-400 transition-transform ${showFormFields ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+            </div>
 
-
-
-
-
+            {/* Form Fields - Shown when toggle clicked */}
             {showFormFields && (
-            <div className="showhideContainer" style={{
-              display: "contents",
-            }}>
+            <div className="grid grid-cols-12 gap-3 p-4 bg-gray-50/50 rounded-xl border border-gray-200">
 
-
-             {/* PERSONAL INFO  */}
-
-              <FormItem className="col-span-12 lg:col-span-10">
-                <FormControl className="m-0 p-2">
-                  <label style={{ fontWeight: 'bold' }}>
-                    Resume Header Section
-                  </label>
-                </FormControl>
-              </FormItem>
+              {/* PERSONAL INFO  */}
+              <div className="col-span-12 mb-2">
+                <h4 className="font-semibold text-gray-700 flex items-center gap-2">
+                  <svg className="w-4 h-4 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                  Personal Information
+                </h4>
+              </div>
 
 
               <FormField
@@ -3342,34 +3483,131 @@ stringifiedMappedFormValues;
               </div>
             )} {/* end showFormFields conditional */}
 
-            {/* Resume Action Section - SIMPLIFIED for production debugging */}
-            <div className="col-span-12">
-              <div className="border-2 border-purple-200 rounded-lg p-6 bg-white shadow-lg">
-                <h3 className="text-xl font-bold mb-4">
-                  {hasPaid ? "Download Your Resume" : "Generate Your Resume"}
-                </h3>
-                <p className="text-gray-600 mb-4">
-                  {hasPaid
-                    ? `Downloads used: ${numberOfDownloads}/${max_download_count}`
-                    : "Preview for free, download for $9.99"}
-                </p>
-                <Button
-                  type="button"
-                  disabled={isLoading}
-                  className="w-full h-14 text-base bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
-                  onClick={() => {
-                    if (!hasPaid) {
+            {/* Generate Button Section - Clean & Modern */}
+            <div className="mt-8 pt-8 border-t border-gray-100">
+              {hasPaid ? (
+                // Paid User - Download Section
+                <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-200">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center">
+                        <svg className="w-5 h-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-gray-800">Ready to Download</h3>
+                        <p className="text-sm text-gray-500">Downloads: {numberOfDownloads}/{max_download_count} used</p>
+                      </div>
+                    </div>
+                  </div>
+                  <Button
+                    type="button"
+                    disabled={isLoading}
+                    className="w-full h-14 text-base bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white rounded-xl font-semibold shadow-lg shadow-green-200 transition-all hover:shadow-xl"
+                    onClick={() => form.handleSubmit(onSubmit)()}
+                  >
+                    {isLoading ? (
+                      <span className="flex items-center gap-2">
+                        <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
+                        </svg>
+                        Generating...
+                      </span>
+                    ) : (
+                      <span className="flex items-center gap-2">
+                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                        </svg>
+                        Download Resume
+                      </span>
+                    )}
+                  </Button>
+                </div>
+              ) : (
+                // Non-paid User - Generate & Preview Section
+                <div className="text-center">
+                  {/* Visual Flow Indicator */}
+                  <div className="flex items-center justify-center gap-4 mb-6">
+                    <div className="flex items-center gap-2">
+                      <div className="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 font-semibold text-sm">1</div>
+                      <span className="text-sm text-gray-600">Upload</span>
+                    </div>
+                    <svg className="w-4 h-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                    <div className="flex items-center gap-2">
+                      <div className="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 font-semibold text-sm">2</div>
+                      <span className="text-sm text-gray-600">Preview <span className="text-green-600 font-medium">FREE</span></span>
+                    </div>
+                    <svg className="w-4 h-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                    <div className="flex items-center gap-2">
+                      <div className="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 font-semibold text-sm">3</div>
+                      <span className="text-sm text-gray-600">Download <span className="text-purple-600 font-medium">$9.99</span></span>
+                    </div>
+                  </div>
+
+                  <Button
+                    type="button"
+                    disabled={isLoading || !uploadedFileContents}
+                    className={`w-full max-w-md h-14 text-lg rounded-xl font-semibold transition-all ${
+                      uploadedFileContents
+                        ? 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white shadow-lg shadow-purple-200 hover:shadow-xl hover:scale-[1.02]'
+                        : 'bg-gray-200 text-gray-500 cursor-not-allowed'
+                    }`}
+                    onClick={() => {
                       const values = form.getValues();
                       localStorage.setItem('stored_form_values', JSON.stringify(values));
                       window.location.assign(STRIPE_PAYMENT_LINK);
-                    } else {
-                      form.handleSubmit(onSubmit)();
-                    }
-                  }}
-                >
-                  {isLoading ? "Processing..." : (hasPaid ? "Download Resume" : "Generate & Pay $9.99")}
-                </Button>
-              </div>
+                    }}
+                  >
+                    {isLoading ? (
+                      <span className="flex items-center justify-center gap-2">
+                        <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
+                        </svg>
+                        Processing...
+                      </span>
+                    ) : (
+                      <span className="flex items-center justify-center gap-2">
+                        <Sparkles className="w-5 h-5" />
+                        Generate My Resume
+                      </span>
+                    )}
+                  </Button>
+
+                  {!uploadedFileContents && (
+                    <p className="text-sm text-gray-400 mt-3">Upload your resume above to get started</p>
+                  )}
+
+                  {/* Trust badges */}
+                  <div className="flex items-center justify-center gap-6 mt-6 text-xs text-gray-400">
+                    <span className="flex items-center gap-1">
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd"/>
+                      </svg>
+                      Secure payment
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
+                      </svg>
+                      30-day revisions
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
+                        <path fillRule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clipRule="evenodd"/>
+                      </svg>
+                      ATS-optimized
+                    </span>
+                  </div>
+                </div>
+              )}
             </div>
 
               {/*
@@ -3382,33 +3620,20 @@ stringifiedMappedFormValues;
             </form>
           </Form>
         </div>
-        <div className="space-y-4" id="bottomSectionOfPage">
-          {isLoading && (
-            <div className="p-8 rounded-lg w-full flex items-center justify-center bg-muted">
-              <Loader />
-            </div>
-          )}
-          {messages.length === 0 && !isLoading && (
-            <Empty />
-          )}
-          <div className="flex flex-col-reverse gap-y-4">
-            {(messages.reverse()).map((message) => (
-              <div
-                key={message.content}
-                className={cn(
-                  "p-8 w-full flex items-start gap-x-8 rounded-lg",
-                  message.role === "user" ? "bg-white border border-black/10" : "bg-muted",
-                )}
-              >
-                {message.role === "user" ? <UserAvatar /> : <BotAvatar />}
-                {message.role !== "user" ? "Data output: " : "Prompt: "}
-                <p className="text-sm">
-                  {message.content}
-                </p>
+        {/* Processing indicator - only shown when loading */}
+        {isLoading && (
+          <div className="mt-8 p-6 rounded-2xl bg-gradient-to-br from-purple-50 to-pink-50 border border-purple-200">
+            <div className="flex items-center justify-center gap-4">
+              <div className="relative">
+                <div className="w-12 h-12 rounded-full border-4 border-purple-200 border-t-purple-600 animate-spin"></div>
               </div>
-            ))}
+              <div>
+                <p className="font-semibold text-gray-800">Optimizing your resume...</p>
+                <p className="text-sm text-gray-500">Our AI is enhancing your content for ATS compatibility</p>
+              </div>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

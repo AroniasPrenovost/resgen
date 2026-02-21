@@ -2,43 +2,46 @@
 
 import { useEffect, useState } from "react";
 
-// Set your base count here - update this manually when you push code each day
-const BASE_COUNT = 323;
+// Base count starting from April 1, 2024
+const BASE_COUNT = 20000;
+const START_DATE = new Date('2024-04-01');
+const DAILY_INCREMENT = 2;
 
-export const ResumeCounter = () => {
+interface ResumeCounterProps {
+  variant?: "default" | "number-only";
+}
+
+export const ResumeCounter = ({ variant = "default" }: ResumeCounterProps) => {
   const [count, setCount] = useState(BASE_COUNT);
 
   useEffect(() => {
     const calculateCount = () => {
       const now = new Date();
-      const hours = now.getHours();
 
-      // Time-based increments:
-      // 12am-6am: +0
-      // 6am-12pm: +3
-      // 12pm-6pm: +1
-      // 6pm-12am: +3
-      let increment = 0;
+      // Calculate days since April 1, 2024
+      const diffTime = now.getTime() - START_DATE.getTime();
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
-      if (hours >= 6 && hours < 12) {
-        increment = 3;
-      } else if (hours >= 12 && hours < 18) {
-        increment = 1;
-      } else if (hours >= 18 && hours < 24) {
-        increment = 3;
-      }
+      // Add 2 for every day since start date
+      const totalCount = BASE_COUNT + (diffDays * DAILY_INCREMENT);
 
-      setCount(BASE_COUNT + increment);
+      setCount(totalCount);
     };
 
     calculateCount();
 
-    // Update every hour in case user stays on page
+    // Update once per day (check every hour in case user stays on page overnight)
     const interval = setInterval(calculateCount, 60 * 60 * 1000);
 
     return () => clearInterval(interval);
   }, []);
 
+  // Number-only variant for use in larger displays
+  if (variant === "number-only") {
+    return <>{count.toLocaleString()}+</>;
+  }
+
+  // Default badge variant
   return (
     <div className="text-center py-8">
       <div className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-900/30 to-pink-900/30 rounded-full border border-purple-500/20">
