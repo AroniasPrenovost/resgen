@@ -26,6 +26,9 @@ import { formSchema } from "./constants";
 
 const STRIPE_PAYMENT_LINK: string = process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK ?? 'https://stripe.com';
 
+// file upload
+import mammoth from "mammoth"; // supports .docx
+
 // saving (downloading) generated resume as .docx
 import { saveAs } from "file-saver";
 import { Packer } from "docx";
@@ -234,29 +237,39 @@ const ResumeGeneratorPage = () => {
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
+      const fileType = file.type;
       setUploadedFileName(file.name);
 
       try {
-        // Send file to server for processing
-        const formData = new FormData();
-        formData.append('file', file);
+        if (
+          fileType === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
+          fileType === "application/msword"
+        ) {
+          //
+          // .docx
+          //
+          const arrayBuffer = await file.arrayBuffer();
+          const result = await mammoth.extractRawText({ arrayBuffer });
+          setUploadedFileContents(result.value);
+          console.log('successfully processed .docx file')
 
-        const response = await fetch('/api/process-file', {
-          method: 'POST',
-          body: formData,
-        });
+        } else if (fileType === "text/plain") {
+          //
+          // .txt
+          //
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const text = e.target?.result;
+            setUploadedFileContents(text as string);
+          };
+          reader.readAsText(file);
 
-        if (!response.ok) {
-          throw new Error('Failed to process file');
+        } else {
+          alert("Unsupported file format! Please upload a PDF, Word document, or TXT file.");
         }
-
-        const data = await response.json();
-        setUploadedFileContents(data.text);
-        console.log('successfully processed file:', file.name);
-
       } catch (error) {
         console.error("Error processing file:", error);
-        alert("Something went wrong while processing the file. Please try again.");
+        alert("Something went wrong while processing the .txt file.");
       }
     }
   };
