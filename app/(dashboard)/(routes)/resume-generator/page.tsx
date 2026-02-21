@@ -38,6 +38,13 @@ import { ResumeActionSection } from "@/components/resume-action-section";
 import { FullscreenProcessingAnimation } from "@/components/fullscreen-processing-animation";
 
 const ResumeGeneratorPage = () => {
+  // Track client-side mounting to prevent hydration mismatch with useSearchParams
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -1551,6 +1558,14 @@ stringifiedMappedFormValues;
   //   }
   // }, [shouldAutoGeneratePreview]);
 
+  // Don't render until client-side hydration is complete to avoid mismatch
+  if (!isMounted) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="w-10 h-10 border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
   return (
     <div>
