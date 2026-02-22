@@ -193,7 +193,7 @@ export const LandingHero = () => {
           {/* Bento Grid */}
           <div className="grid md:grid-cols-2 gap-4">
             {/* Step-by-step guidance - Large card */}
-            <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 hover:border-purple-500/30 transition-colors">
+            <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 hover:border-purple-500/30 transition-colors flex flex-col">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/10 text-purple-400 text-xs font-medium mb-4">
                 <Sparkles className="w-3 h-3" />
                 AI-powered
@@ -203,7 +203,7 @@ export const LandingHero = () => {
                 No need to think much. We guide you through every step of the process. It&apos;s clear and simple.
               </p>
               {/* Visual mockup */}
-              <div className="bg-white rounded-xl p-4 shadow-lg">
+              <div className="bg-white rounded-xl p-4 shadow-lg flex-grow">
                 <div className="space-y-3">
                   <div className="flex items-center gap-3">
                     <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center">
@@ -239,10 +239,16 @@ export const LandingHero = () => {
                   </div>
                 </div>
               </div>
+              <Link href="/app/resume-generator" className="inline-flex items-center gap-1 text-purple-400 hover:text-purple-300 text-sm font-medium mt-5 group transition-colors">
+                Create my resume
+                <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
             </div>
 
             {/* AI writes for you */}
-            <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 hover:border-purple-500/30 transition-colors">
+            <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 hover:border-purple-500/30 transition-colors flex flex-col">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/10 text-purple-400 text-xs font-medium mb-4">
                 <Sparkles className="w-3 h-3" />
                 AI-powered
@@ -252,7 +258,7 @@ export const LandingHero = () => {
                 Stuck on what to write? Our AI generates professional bullet points and summaries tailored to your experience.
               </p>
               {/* Visual mockup */}
-              <div className="bg-white rounded-xl p-4 shadow-lg">
+              <div className="bg-white rounded-xl p-4 shadow-lg flex-grow">
                 <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Professional Summary</p>
                 <div className="text-sm text-gray-700 leading-relaxed">
                   <span>Experienced and effective </span>
@@ -276,7 +282,7 @@ export const LandingHero = () => {
             </div>
 
             {/* Instant cover letters */}
-            <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 hover:border-purple-500/30 transition-colors">
+            <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 hover:border-purple-500/30 transition-colors flex flex-col">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/10 text-purple-400 text-xs font-medium mb-4">
                 <Sparkles className="w-3 h-3" />
                 AI-powered
@@ -286,7 +292,7 @@ export const LandingHero = () => {
                 Get a matching cover letter generated automatically with your resume. You&apos;re done in 2 mins. Purpose built to impress recruiters.
               </p>
               {/* Visual mockup - Cover letter preview */}
-              <div className="bg-white rounded-xl p-4 shadow-lg">
+              <div className="bg-white rounded-xl p-4 shadow-lg flex-grow">
                 <div className="flex items-start gap-3">
                   <div className="w-10 h-10 rounded bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
                     JS
@@ -314,13 +320,13 @@ export const LandingHero = () => {
             </div>
 
             {/* Paste job description */}
-            <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 hover:border-purple-500/30 transition-colors">
+            <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 hover:border-purple-500/30 transition-colors flex flex-col">
               <h3 className="text-xl font-bold text-white mb-2">Paste a job description</h3>
               <p className="text-zinc-400 text-sm mb-6">
                 Drop in any job posting and we generate a tailored resume + cover letter that matches perfectly. One click, full application ready.
               </p>
               {/* Visual mockup */}
-              <div className="bg-zinc-800 rounded-xl p-4 border border-zinc-700">
+              <div className="bg-zinc-800 rounded-xl p-4 border border-zinc-700 flex-grow">
                 <div className="bg-zinc-900 rounded-lg px-3 py-2 border border-zinc-700 text-xs text-zinc-500 mb-3">
                   <span className="text-zinc-400">Senior Software Engineer at Acme Corp...</span>
                 </div>
@@ -355,6 +361,12 @@ export const LandingHero = () => {
                   </div>
                 </div>
               </div>
+              <Link href="/app/resume-generator" className="inline-flex items-center gap-1 text-purple-400 hover:text-purple-300 text-sm font-medium mt-5 group transition-colors">
+                Tailor my resume
+                <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
             </div>
           </div>
         </div>
