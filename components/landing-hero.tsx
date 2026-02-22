@@ -183,89 +183,178 @@ export const LandingHero = () => {
         </div>
       </div>
 
-      {/* How it works section */}
+      {/* Feature Showcase - Bento Grid */}
       <div className="max-w-6xl mx-auto px-4 pt-8">
         <div className="border-t border-zinc-800 pt-12">
-          <h2 className="text-2xl md:text-3xl font-bold text-white text-center mb-4">
-            How it works
+          <h2 className="text-2xl md:text-3xl font-bold text-white text-center mb-12">
+            Way beyond a resume builder...
           </h2>
-          <p className="text-zinc-400 text-center mb-12 max-w-2xl mx-auto">
-            Get an interview-winning resume in 3 simple steps
-          </p>
 
-          {/* 3 Step Cards */}
-          <div className="grid md:grid-cols-3 gap-6 mb-16">
-            {/* Step 1 */}
-            <div className="relative bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 hover:border-purple-500/50 transition-colors">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold mb-4">
-                1
-              </div>
-              <h3 className="text-lg font-semibold text-white mb-2">Upload your resume</h3>
-              <p className="text-zinc-400 text-sm">
-                Drop your existing resume or paste your experience. We support .docx and .txt files.
+          {/* Bento Grid */}
+          <div className="grid md:grid-cols-2 gap-4">
+            {/* Step-by-step guidance - Large card */}
+            <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 hover:border-purple-500/30 transition-colors">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/10 text-purple-400 text-xs font-medium mb-4">
+                <Sparkles className="w-3 h-3" />
+                AI-powered
+              </span>
+              <h3 className="text-xl font-bold text-white mb-2">Step-by-step guidance</h3>
+              <p className="text-zinc-400 text-sm mb-6">
+                No need to think much. We guide you through every step of the process. It&apos;s clear and simple.
               </p>
+              {/* Visual mockup */}
+              <div className="bg-white rounded-xl p-4 shadow-lg">
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center">
+                      <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <span className="text-gray-500 text-sm">Step 1 •</span>
+                    <span className="text-gray-800 text-sm font-medium">Personal Details</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center">
+                      <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <span className="text-gray-500 text-sm">Step 2 •</span>
+                    <span className="text-gray-800 text-sm font-medium">Professional Summary</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-5 h-5 rounded-full bg-purple-500 flex items-center justify-center animate-pulse">
+                      <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                      </svg>
+                    </div>
+                    <span className="text-gray-500 text-sm">Step 3 •</span>
+                    <span className="text-gray-800 text-sm font-semibold">Skills</span>
+                  </div>
+                  <div className="flex flex-wrap gap-2 mt-2 pl-8">
+                    <span className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-xs border border-gray-200">Management Skills +</span>
+                    <span className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-xs border border-gray-200">Leadership +</span>
+                    <span className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-xs border border-gray-200">Communication +</span>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            {/* Step 2 */}
-            <div className="relative bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 hover:border-purple-500/50 transition-colors">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold mb-4">
-                2
-              </div>
-              <h3 className="text-lg font-semibold text-white mb-2">AI optimizes your content</h3>
-              <p className="text-zinc-400 text-sm">
-                Our AI rewrites your experience with power verbs, quantified achievements, and ATS-friendly formatting.
+            {/* AI writes for you */}
+            <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 hover:border-purple-500/30 transition-colors">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/10 text-purple-400 text-xs font-medium mb-4">
+                <Sparkles className="w-3 h-3" />
+                AI-powered
+              </span>
+              <h3 className="text-xl font-bold text-white mb-2">AI writes for you</h3>
+              <p className="text-zinc-400 text-sm mb-6">
+                Stuck on what to write? Our AI generates professional bullet points and summaries tailored to your experience.
               </p>
+              {/* Visual mockup */}
+              <div className="bg-white rounded-xl p-4 shadow-lg">
+                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Professional Summary</p>
+                <div className="text-sm text-gray-700 leading-relaxed">
+                  <span>Experienced and effective </span>
+                  <span className="bg-purple-100 text-purple-700 px-1 rounded">Business Development Manager</span>
+                  <span> bringing forth </span>
+                  <span className="bg-purple-100 text-purple-700 px-1 rounded">significant value</span>
+                  <span> and a genuine passion for management. With a proven track record of driving growth...</span>
+                </div>
+                <div className="flex items-center gap-2 mt-3 pt-3 border-t border-gray-100">
+                  <div className="flex gap-1">
+                    <button className="p-1.5 rounded bg-gray-100 text-gray-500 text-xs font-bold">B</button>
+                    <button className="p-1.5 rounded bg-gray-100 text-gray-500 text-xs italic">I</button>
+                    <button className="p-1.5 rounded bg-gray-100 text-gray-500 text-xs underline">U</button>
+                  </div>
+                  <div className="ml-auto flex items-center gap-1 text-purple-500 text-xs font-medium">
+                    <Sparkles className="w-3 h-3" />
+                    AI Enhanced
+                  </div>
+                </div>
+              </div>
             </div>
 
-            {/* Step 3 */}
-            <div className="relative bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 hover:border-purple-500/50 transition-colors">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold mb-4">
-                3
-              </div>
-              <h3 className="text-lg font-semibold text-white mb-2">Download & apply</h3>
-              <p className="text-zinc-400 text-sm">
-                Preview for free, then download your polished resume for just $9.99. Includes 30 days of revisions.
+            {/* Instant cover letters */}
+            <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 hover:border-purple-500/30 transition-colors">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/10 text-purple-400 text-xs font-medium mb-4">
+                <Sparkles className="w-3 h-3" />
+                AI-powered
+              </span>
+              <h3 className="text-xl font-bold text-white mb-2">Instant cover letters</h3>
+              <p className="text-zinc-400 text-sm mb-6">
+                Get a matching cover letter generated automatically with your resume. You&apos;re done in 2 mins. Purpose built to impress recruiters.
               </p>
+              {/* Visual mockup - Cover letter preview */}
+              <div className="bg-white rounded-xl p-4 shadow-lg">
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 rounded bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+                    JS
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-bold text-gray-800">Jorge Sanders</p>
+                    <p className="text-xs text-gray-500">Financial Analyst</p>
+                    <div className="mt-2 space-y-1">
+                      <div className="h-2 bg-gray-200 rounded w-full"></div>
+                      <div className="h-2 bg-gray-200 rounded w-5/6"></div>
+                      <div className="h-2 bg-gray-200 rounded w-4/6"></div>
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-3 pt-3 border-t border-gray-100 flex items-center justify-between">
+                  <span className="text-xs text-gray-500">Cover Letter</span>
+                  <span className="text-xs text-green-600 font-medium flex items-center gap-1">
+                    <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    </svg>
+                    Auto-generated
+                  </span>
+                </div>
+              </div>
             </div>
-          </div>
 
-          {/* Value Props */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 py-8 border-t border-zinc-800">
-            <div className="bg-zinc-900/30 rounded-xl p-5 border border-zinc-800/50">
-              <div className="w-10 h-10 rounded-lg bg-purple-500/10 flex items-center justify-center mb-3">
-                <svg className="w-5 h-5 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
+            {/* Paste job description */}
+            <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 hover:border-purple-500/30 transition-colors">
+              <h3 className="text-xl font-bold text-white mb-2">Paste a job description</h3>
+              <p className="text-zinc-400 text-sm mb-6">
+                Drop in any job posting and we generate a tailored resume + cover letter that matches perfectly. One click, full application ready.
+              </p>
+              {/* Visual mockup */}
+              <div className="bg-zinc-800 rounded-xl p-4 border border-zinc-700">
+                <div className="bg-zinc-900 rounded-lg px-3 py-2 border border-zinc-700 text-xs text-zinc-500 mb-3">
+                  <span className="text-zinc-400">Senior Software Engineer at Acme Corp...</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="flex-1 bg-zinc-900/50 rounded-lg p-2 border border-zinc-700/50">
+                    <div className="flex items-center gap-2 mb-1">
+                      <svg className="w-3.5 h-3.5 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                      <span className="text-xs text-zinc-300 font-medium">Resume</span>
+                    </div>
+                    <div className="flex items-center gap-1 text-green-500 text-[10px]">
+                      <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                      Tailored
+                    </div>
+                  </div>
+                  <div className="flex-1 bg-zinc-900/50 rounded-lg p-2 border border-zinc-700/50">
+                    <div className="flex items-center gap-2 mb-1">
+                      <svg className="w-3.5 h-3.5 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      </svg>
+                      <span className="text-xs text-zinc-300 font-medium">Cover Letter</span>
+                    </div>
+                    <div className="flex items-center gap-1 text-green-500 text-[10px]">
+                      <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                      Generated
+                    </div>
+                  </div>
+                </div>
               </div>
-              <h4 className="text-white font-semibold mb-1">Done in minutes</h4>
-              <p className="text-zinc-500 text-sm">10x faster than writing from scratch on your own</p>
-            </div>
-            <div className="bg-zinc-900/30 rounded-xl p-5 border border-zinc-800/50">
-              <div className="w-10 h-10 rounded-lg bg-green-500/10 flex items-center justify-center mb-3">
-                <svg className="w-5 h-5 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <h4 className="text-white font-semibold mb-1">Zero mistakes</h4>
-              <p className="text-zinc-500 text-sm">No typos, perfect grammar. You&apos;ll sound polished and professional</p>
-            </div>
-            <div className="bg-zinc-900/30 rounded-xl p-5 border border-zinc-800/50">
-              <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center mb-3">
-                <svg className="w-5 h-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-                </svg>
-              </div>
-              <h4 className="text-white font-semibold mb-1">100% ATS compliant</h4>
-              <p className="text-zinc-500 text-sm">Your resume passes the bots. Recruiters will actually see you</p>
-            </div>
-            <div className="bg-zinc-900/30 rounded-xl p-5 border border-zinc-800/50">
-              <div className="w-10 h-10 rounded-lg bg-orange-500/10 flex items-center justify-center mb-3">
-                <svg className="w-5 h-5 text-orange-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <h4 className="text-white font-semibold mb-1">Land higher offers</h4>
-              <p className="text-zinc-500 text-sm">Strong resumes lead to better negotiations and higher starting salaries</p>
             </div>
           </div>
         </div>
