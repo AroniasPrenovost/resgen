@@ -23,13 +23,13 @@ const routes = [
   {
     label: 'Resume Generator',
     icon: FileText,
-    href: '/resume-generator',
+    href: '/app/resume-generator',
     color: "text-violet-500",
   },
     {
     label: 'Blog',
     icon: BookOpen,
-    href: '/blog',
+    href: '/app/blog',
   },
   // {
   //   label: 'Settings',
@@ -46,7 +46,7 @@ export const Sidebar = ({
   isPro: boolean;
 }) => {
   const pathname = usePathname();
-  const isResumeGeneratorPage = pathname === '/resume-generator';
+  const isResumeGeneratorPage = pathname === '/app/resume-generator';
 
   return (
     <div className="space-y-4 py-6 flex flex-col h-full bg-[#111827] text-white" style={{ width: '80px' }}>

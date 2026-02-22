@@ -71,7 +71,7 @@ const BlogPage = async () => {
           {blogPosts.map((post:any , index: number) => (
             <li key={index} className="space-y-1 text-blue-600 hover:underline">
               {post.title && post.date &&
-                <a href={`/blog/resume-writing-tips-tricks-and-services/post/${post.file}`} title={post.title}>
+                <a href={`/app/blog/resume-writing-tips-tricks-and-services/post/${post.file}`} title={post.title}>
                   <span className="block text-xs text-muted-foreground">{convertDateString(post.date)}</span>
                   <span className="block font-semibold">{post.title}</span>
                 </a>

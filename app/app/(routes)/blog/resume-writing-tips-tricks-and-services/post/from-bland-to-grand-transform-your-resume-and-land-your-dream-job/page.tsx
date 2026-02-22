@@ -47,7 +47,7 @@ const BlogDetailPage = async () => {
        </p>
 
        <div className="border-l-4 border-blue-700 pl-4 text-gray-700 space-y-2">
-         <p className="custom_html"><strong>Ready to Transform Your Resume?</strong> Visit <a href="https://www.resumai.services/resume-generator" className="text-blue-700 hover:underline" title="ResumAI - Resume Generator">ResumAI&apos;s Resume Generator</a> to create a standout resume today!</p>
+         <p className="custom_html"><strong>Ready to Transform Your Resume?</strong> Visit <a href="https://www.resumai.services/app/resume-generator" className="text-blue-700 hover:underline" title="ResumAI - Resume Generator">ResumAI&apos;s Resume Generator</a> to create a standout resume today!</p>
          <p className="custom_html"><strong>Connect with Me:</strong> Reach out on <a href="https://www.linkedin.com/in/ian-vensel-%F0%9F%8F%81-a2047146" className="text-blue-700 hover:underline" title="Ian Vensel on LinkedIn">LinkedIn</a> for more career advice and tips.</p>
        </div>
 

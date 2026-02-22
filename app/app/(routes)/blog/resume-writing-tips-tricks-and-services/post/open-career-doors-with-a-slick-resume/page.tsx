@@ -64,7 +64,7 @@ const BlogDetailPage = async () => {
            <p className="text-lg font-medium text-gray-800">Eli Lewis</p>
            <p className="text-sm text-gray-600 font-small">Sales Recruitment Specialist</p>
            <p className="text-gray-600 pt-2">
-             Ready to take your resume to the next level? Visit our <a href="https://www.resumai.services/resume-generator" className="text-blue-700 hover:underline" title="ResumAI - Resume Generator">Resume Generator</a> and create a standout resume today!
+             Ready to take your resume to the next level? Visit our <a href="https://www.resumai.services/app/resume-generator" className="text-blue-700 hover:underline" title="ResumAI - Resume Generator">Resume Generator</a> and create a standout resume today!
            </p>
          </div>
        </div>

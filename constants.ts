@@ -35,7 +35,7 @@ export const tools = [
   {
     label: 'Resume Generator',
     icon: MessageSquare,
-    href: '/resume-generator',
+    href: '/app/resume-generator',
     color: "text-violet-500",
     bgColor: "bg-violet-500/10",
   },

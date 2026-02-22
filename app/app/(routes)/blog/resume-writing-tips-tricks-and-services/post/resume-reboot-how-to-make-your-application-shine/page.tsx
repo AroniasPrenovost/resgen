@@ -61,7 +61,7 @@ const BlogDetailPage = async () => {
          In 2024, making your resume shine requires a combination of customization, showcasing achievements, optimizing for ATS, and leveraging your network. By following these tips, you will be well on your way to landing your dream job.
        </p>
        <p>
-        Ready to give your resume a reboot? Check out our <a href="https://www.resumai.services/resume-generator" className="text-blue-700 hover:underline" title="ResumAI - Resume Generator">Resume Generator</a> today!
+        Ready to give your resume a reboot? Check out our <a href="https://www.resumai.services/app/resume-generator" className="text-blue-700 hover:underline" title="ResumAI - Resume Generator">Resume Generator</a> today!
        </p>
      </section>
      <footer className="bg-gray-100 p-6 mt-8">

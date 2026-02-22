@@ -70,7 +70,7 @@ export const LandingHero = () => {
             </div>
 
             <div className="pt-2">
-              <Link href="/resume-generator" prefetch={true}>
+              <Link href="/app/resume-generator" prefetch={true}>
                 <Button variant="premium" className="md:text-lg p-4 md:p-6 rounded-full font-semibold">
                   Create My Resume Free
                 </Button>

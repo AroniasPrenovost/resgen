@@ -58,7 +58,7 @@ const BlogDetailPage = async () => {
 
         <h2 className="text-2xl font-bold text-gray-800">Conclusion</h2>
         <p className="text-gray-700 custom_html">
-          Crafting a compelling resume is an art that requires attention to detail and a strategic approach. By following these expert strategies, you can create a resume that not only showcases your skills and experience but also captures the attention of hiring managers. Ready to take your resume to the next level? Visit our <a href="https://www.resumai.services/resume-generator" className="text-blue-700 hover:underline" title="ResumAI - Resume Generator">ResumAI - Resume Generator</a> to get started.
+          Crafting a compelling resume is an art that requires attention to detail and a strategic approach. By following these expert strategies, you can create a resume that not only showcases your skills and experience but also captures the attention of hiring managers. Ready to take your resume to the next level? Visit our <a href="https://www.resumai.services/app/resume-generator" className="text-blue-700 hover:underline" title="ResumAI - Resume Generator">ResumAI - Resume Generator</a> to get started.
         </p>
       </section>
       <footer className="bg-gray-100 p-6 mt-8">

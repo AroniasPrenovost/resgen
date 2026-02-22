@@ -48,7 +48,7 @@ const BlogDetailPage = async () => {
 
        <h2 className="text-2xl font-bold text-gray-800">Conclusion</h2>
        <p className="text-gray-700 custom_html">
-         Crafting a standout resume is the first step towards landing your dream job. Follow these insider tips to create a resume that will make recruiters do a double-take. Ready to craft your perfect resume? Visit <a href="https://www.resumai.services/resume-generator" className="text-blue-700 hover:underline" title="ResumAI - Resume Generator">ResumAI&apos;s Resume Generator</a> now!
+         Crafting a standout resume is the first step towards landing your dream job. Follow these insider tips to create a resume that will make recruiters do a double-take. Ready to craft your perfect resume? Visit <a href="https://www.resumai.services/app/resume-generator" className="text-blue-700 hover:underline" title="ResumAI - Resume Generator">ResumAI&apos;s Resume Generator</a> now!
        </p>
 
        <footer className="bg-gray-100 p-6 mt-8">

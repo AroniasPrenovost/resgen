@@ -58,7 +58,7 @@ const BlogDetailPage = async () => {
 
         <h2 className="text-2xl font-bold text-gray-800">Conclusion</h2>
         <p className="text-gray-700 custom_html">
-          Mastering the art of resume writing in 2024 is about more than just listing your experiences. It is about crafting a compelling narrative that showcases your unique value. By focusing on key elements, incorporating keywords, and paying attention to design, you can create a resume that opens doors to new career opportunities. Ready to take the next step? Visit our <a href="https://www.resumai.services/resume-generator" className="text-blue-700 hover:underline" title="ResumAI - Resume Generator">ResumAI - Resume Generator</a> to start crafting your standout resume today.
+          Mastering the art of resume writing in 2024 is about more than just listing your experiences. It is about crafting a compelling narrative that showcases your unique value. By focusing on key elements, incorporating keywords, and paying attention to design, you can create a resume that opens doors to new career opportunities. Ready to take the next step? Visit our <a href="https://www.resumai.services/app/resume-generator" className="text-blue-700 hover:underline" title="ResumAI - Resume Generator">ResumAI - Resume Generator</a> to start crafting your standout resume today.
         </p>
       </section>
       <footer className="bg-gray-100 p-6 mt-8">

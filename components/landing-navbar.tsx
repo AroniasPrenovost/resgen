@@ -26,7 +26,7 @@ export const LandingNavbar = () => {
       <div className="flex items-center gap-x-2">
         {/* <Link href={isSignedIn ? "/dashboard" : "/sign-up"}> */}
         {/*<Link href={isSignedIn ? "/resume-generator" : "/sign-up"}>*/}
-        <Link href="/resume-generator" prefetch={true}>
+        <Link href="/app/resume-generator" prefetch={true}>
           <Button variant="outline" className="rounded-full">
             Start Free
           </Button>

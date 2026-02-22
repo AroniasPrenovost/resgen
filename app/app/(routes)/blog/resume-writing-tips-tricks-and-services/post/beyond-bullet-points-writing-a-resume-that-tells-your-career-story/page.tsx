@@ -47,7 +47,7 @@ const BlogDetailPage = async () => {
        </p>
 
        <div className="border-l-4 border-blue-700 pl-4 text-gray-700 space-y-2">
-         <p className="custom_html"><strong>Need Help Getting Started?</strong> Check out our <a href="https://www.resumai.services/resume-generator" className="text-blue-700 hover:underline" title="ResumAI - Resume Generator">Resume Generator</a> for expert guidance.</p>
+         <p className="custom_html"><strong>Need Help Getting Started?</strong> Check out our <a href="https://www.resumai.services/app/resume-generator" className="text-blue-700 hover:underline" title="ResumAI - Resume Generator">Resume Generator</a> for expert guidance.</p>
          <p className="custom_html"><strong>Good luck on your job search journey!</strong> Remember, your story is unique, make sure your resume reflects that.</p>
        </div>
      </section>

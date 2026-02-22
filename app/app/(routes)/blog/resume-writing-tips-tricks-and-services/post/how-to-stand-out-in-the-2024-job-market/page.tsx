@@ -58,7 +58,7 @@ const BlogDetailPage = async () => {
 
        <h2 className="text-2xl font-bold text-gray-800">Conclusion</h2>
        <p className="text-gray-700 custom_html">
-         Revamping your resume for the 2024 job market is essential to stand out among the competition. Tailor your resume for each job, showcase your achievements, optimize for ATS, and keep it concise. Ready to create a standout resume? Visit our <a href="https://www.resumai.services/resume-generator" className="text-blue-700 hover:underline" title="ResumAI - Resume Generator">ResumAI - Resume Generator</a> to get started.
+         Revamping your resume for the 2024 job market is essential to stand out among the competition. Tailor your resume for each job, showcase your achievements, optimize for ATS, and keep it concise. Ready to create a standout resume? Visit our <a href="https://www.resumai.services/app/resume-generator" className="text-blue-700 hover:underline" title="ResumAI - Resume Generator">ResumAI - Resume Generator</a> to get started.
        </p>
      </section>
      <footer className="bg-gray-100 p-6 mt-8">
