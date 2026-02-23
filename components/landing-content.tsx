@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-
+import { useEffect, useState } from "react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -95,6 +95,117 @@ export const LandingContent = () => {
               </CardHeader>
             </Card>
           ))}
+        </div>
+
+        {/* Join CTA Section */}
+        <div className="mt-20 rounded-3xl bg-gradient-to-br from-blue-50 to-blue-100 p-8 md:p-12 lg:p-16">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
+            {/* Left Content */}
+            <div className="flex-1 text-center lg:text-left">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
+                Join over <span className="text-blue-500">36,386</span>
+                <br />
+                resume makers
+              </h2>
+              <p className="text-gray-600 text-lg md:text-xl mt-4 mb-8">
+                Start now and get hired faster.
+              </p>
+              <Link href="/app/resume-generator">
+                <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-8 py-4 rounded-lg text-lg transition-colors duration-200 shadow-lg hover:shadow-xl">
+                  Create my resume
+                </button>
+              </Link>
+            </div>
+
+            {/* Right Visual - Animated Resume */}
+            <div className="flex-1 relative flex justify-center items-center">
+              <div className="relative">
+                {/* Resume Document */}
+                <div
+                  className="w-56 md:w-64 lg:w-72 bg-white rounded-lg shadow-2xl overflow-hidden"
+                  style={{ aspectRatio: '8.5/11' }}
+                >
+                  <div className="p-4 md:p-5 lg:p-6 h-full">
+                    {/* Name */}
+                    <div className="text-blue-700 font-bold text-sm md:text-base lg:text-lg mb-1 animate-pulse">
+                      Sarah Johnson
+                    </div>
+
+                    {/* Contact Line */}
+                    <div className="text-[8px] md:text-[9px] text-gray-500 mb-3 pb-2 border-b border-gray-200">
+                      sarah@email.com • (555) 123-4567 • linkedin.com/in/sarah
+                    </div>
+
+                    {/* Skills Section */}
+                    <div className="mb-3">
+                      <div className="text-[9px] md:text-[10px] font-bold text-gray-800 uppercase tracking-wide mb-1">
+                        Technical Skills
+                      </div>
+                      <div className="space-y-0.5">
+                        <div className="h-1.5 bg-gray-200 rounded animate-[pulse_2s_ease-in-out_infinite]" style={{ width: '90%' }} />
+                        <div className="h-1.5 bg-gray-200 rounded animate-[pulse_2s_ease-in-out_0.3s_infinite]" style={{ width: '75%' }} />
+                      </div>
+                    </div>
+
+                    {/* Experience Section */}
+                    <div className="mb-3">
+                      <div className="text-[9px] md:text-[10px] font-bold text-gray-800 uppercase tracking-wide mb-1">
+                        Professional Experience
+                      </div>
+
+                      {/* Job 1 */}
+                      <div className="mb-2">
+                        <div className="flex justify-between items-baseline">
+                          <span className="text-[8px] md:text-[9px] font-semibold text-gray-700">TECH COMPANY INC.</span>
+                          <span className="text-[7px] text-gray-500">2022 - Present</span>
+                        </div>
+                        <div className="text-[7px] md:text-[8px] italic text-gray-600 mb-1">Senior Software Engineer</div>
+                        <div className="space-y-0.5">
+                          <div className="h-1 bg-gray-100 rounded animate-[pulse_2s_ease-in-out_0.5s_infinite]" style={{ width: '100%' }} />
+                          <div className="h-1 bg-gray-100 rounded animate-[pulse_2s_ease-in-out_0.7s_infinite]" style={{ width: '95%' }} />
+                          <div className="h-1 bg-gray-100 rounded animate-[pulse_2s_ease-in-out_0.9s_infinite]" style={{ width: '85%' }} />
+                        </div>
+                      </div>
+
+                      {/* Job 2 */}
+                      <div className="mb-2">
+                        <div className="flex justify-between items-baseline">
+                          <span className="text-[8px] md:text-[9px] font-semibold text-gray-700">STARTUP LLC</span>
+                          <span className="text-[7px] text-gray-500">2020 - 2022</span>
+                        </div>
+                        <div className="text-[7px] md:text-[8px] italic text-gray-600 mb-1">Software Engineer</div>
+                        <div className="space-y-0.5">
+                          <div className="h-1 bg-gray-100 rounded animate-[pulse_2s_ease-in-out_1.1s_infinite]" style={{ width: '100%' }} />
+                          <div className="h-1 bg-gray-100 rounded animate-[pulse_2s_ease-in-out_1.3s_infinite]" style={{ width: '80%' }} />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Education Section */}
+                    <div>
+                      <div className="text-[9px] md:text-[10px] font-bold text-gray-800 uppercase tracking-wide mb-1">
+                        Education
+                      </div>
+                      <div className="text-[8px] md:text-[9px] font-semibold text-gray-700">University of Technology</div>
+                      <div className="text-[7px] md:text-[8px] italic text-gray-600">B.S. Computer Science</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Sparkle/Magic Icon */}
+                <div className="absolute -top-3 -right-3 w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full shadow-lg flex items-center justify-center">
+                  <svg className="w-5 h-5 md:w-6 md:h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 0L14.59 8.41L23 11L14.59 13.59L12 22L9.41 13.59L1 11L9.41 8.41L12 0Z"/>
+                  </svg>
+                </div>
+
+                {/* AI Badge */}
+                <div className="absolute -bottom-2 -left-2 bg-gradient-to-r from-blue-500 to-cyan-500 text-white text-[10px] md:text-xs font-semibold px-3 py-1 rounded-full shadow-lg">
+                  AI-Optimized
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
