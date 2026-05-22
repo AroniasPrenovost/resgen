@@ -35,8 +35,8 @@ import { Packer } from "docx";
 import { DocumentCreator } from "@/lib/resume-generator";
 // import { experiences, education, skills, achievements } from "@/lib/cv-data"; // dummy data
 
-// New components for button experience overhaul - TEMPORARILY DISABLED for production debugging
-// import { ResumePreviewModal } from "@/components/resume-preview-modal";
+// Components for button experience overhaul
+import { ResumePreviewModal } from "@/components/resume-preview-modal";
 // import { ResumeActionSection } from "@/components/resume-action-section";
 // import { FullscreenProcessingAnimation } from "@/components/fullscreen-processing-animation";
 
@@ -1441,13 +1441,11 @@ stringifiedMappedFormValues;
   // References - 1st section
   const [references1Visibility, setReferences1Visibility] = useState<boolean>(false);
 
-
-  //
-  //
-
-
-  //
-  //
+  // Section collapse states for accordion UI
+  const [sectionExperienceOpen, setSectionExperienceOpen] = useState<boolean>(true);
+  const [sectionEducationOpen, setSectionEducationOpen] = useState<boolean>(false);
+  const [sectionAchievementsOpen, setSectionAchievementsOpen] = useState<boolean>(false);
+  const [sectionReferencesOpen, setSectionReferencesOpen] = useState<boolean>(false);
 
   // preselect checkboxes if they have content
 
@@ -1655,8 +1653,8 @@ stringifiedMappedFormValues;
         onComplete={() => setIsGettingAiResponseForFileUploadProcess(false)}
       /> */}
 
-      {/* Resume Preview Modal - TEMPORARILY DISABLED */}
-      {/* <ResumePreviewModal
+      {/* Resume Preview Modal */}
+      <ResumePreviewModal
         isOpen={showPreviewModal}
         onClose={() => setShowPreviewModal(false)}
         resumeData={previewResumeData}
@@ -1671,7 +1669,7 @@ stringifiedMappedFormValues;
             form.handleSubmit(onSubmit)();
           }
         }}
-      /> */}
+      />
 
       {/* Modern Hero Section with Visual Mockup */}
       <div className="px-4 lg:px-8 mb-8">
@@ -1812,15 +1810,15 @@ stringifiedMappedFormValues;
               {/* Resume Header */}
               <div className="flex items-start gap-4 mb-4">
                 <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center text-white text-xl font-bold">
-                  JD
+                  MR
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-lg font-bold text-gray-800">John Doe</h3>
-                  <p className="text-sm text-gray-500">Senior Software Engineer</p>
+                  <h3 className="text-lg font-bold text-gray-800">Maya Rodriguez</h3>
+                  <p className="text-sm text-gray-500">Product Marketing Manager</p>
                   <div className="flex items-center gap-2 mt-1 text-xs text-gray-400">
-                    <span>john@email.com</span>
+                    <span>maya.r@email.com</span>
                     <span>•</span>
-                    <span>San Francisco, CA</span>
+                    <span>Austin, TX</span>
                   </div>
                 </div>
               </div>
@@ -1829,10 +1827,10 @@ stringifiedMappedFormValues;
               <div className="mb-4">
                 <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Skills</p>
                 <div className="flex flex-wrap gap-2">
-                  <span className="px-2 py-1 bg-purple-50 text-purple-700 rounded text-xs font-medium">React</span>
-                  <span className="px-2 py-1 bg-blue-50 text-blue-700 rounded text-xs font-medium">TypeScript</span>
-                  <span className="px-2 py-1 bg-green-50 text-green-700 rounded text-xs font-medium">Node.js</span>
-                  <span className="px-2 py-1 bg-orange-50 text-orange-700 rounded text-xs font-medium">AWS</span>
+                  <span className="px-2 py-1 bg-purple-50 text-purple-700 rounded text-xs font-medium">Claude</span>
+                  <span className="px-2 py-1 bg-blue-50 text-blue-700 rounded text-xs font-medium">Prompt Eng.</span>
+                  <span className="px-2 py-1 bg-green-50 text-green-700 rounded text-xs font-medium">Notion AI</span>
+                  <span className="px-2 py-1 bg-orange-50 text-orange-700 rounded text-xs font-medium">Midjourney</span>
                 </div>
               </div>
 
@@ -1841,17 +1839,17 @@ stringifiedMappedFormValues;
                 <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Experience</p>
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded bg-gray-100 flex items-center justify-center text-xs">G</div>
+                    <div className="w-8 h-8 rounded bg-gray-100 flex items-center justify-center text-xs">S</div>
                     <div>
-                      <p className="text-sm font-medium text-gray-800">Google</p>
-                      <p className="text-xs text-gray-400">2020 - Present</p>
+                      <p className="text-sm font-medium text-gray-800">Shopify</p>
+                      <p className="text-xs text-gray-400">2022 - Present</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded bg-gray-100 flex items-center justify-center text-xs">M</div>
+                    <div className="w-8 h-8 rounded bg-gray-100 flex items-center justify-center text-xs">H</div>
                     <div>
-                      <p className="text-sm font-medium text-gray-800">Meta</p>
-                      <p className="text-xs text-gray-400">2018 - 2020</p>
+                      <p className="text-sm font-medium text-gray-800">HubSpot</p>
+                      <p className="text-xs text-gray-400">2019 - 2022</p>
                     </div>
                   </div>
                 </div>
@@ -2083,16 +2081,27 @@ stringifiedMappedFormValues;
                 )}
               />
 
-              {/* Professional experience */}
-
-              <FormItem className="col-span-12 lg:col-span-10">
-                <FormControl className="m-0 p-2">
-                  <label style={{ fontWeight: 'bold' }}>
+              {/* Professional experience - Collapsible Section */}
+              <div className="col-span-12 mt-4">
+                <button
+                  type="button"
+                  onClick={() => setSectionExperienceOpen(!sectionExperienceOpen)}
+                  className="w-full flex items-center justify-between p-3 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
+                >
+                  <span className="font-semibold text-gray-700 flex items-center gap-2">
+                    <svg className="w-4 h-4 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
                     Employment History
-                  </label>
-                </FormControl>
-              </FormItem>
+                  </span>
+                  <svg className={`w-5 h-5 text-gray-500 transition-transform ${sectionExperienceOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+              </div>
 
+              {sectionExperienceOpen && (
+              <>
               {/* EXPERIENCE 1 */}
               <FormItem className="col-span-12 lg:col-span-10">
                 <FormControl className="m-0 p-2">
@@ -2869,20 +2878,31 @@ stringifiedMappedFormValues;
                     )}
                   />
                 </> : ''}
+              </>
+              )}
 
-
-
-
-              {/* EDUCATION */}
-
-              <FormItem className="col-span-12 lg:col-span-10">
-                <FormControl className="m-0 p-2">
-                  <label style={{ fontWeight: 'bold' }}>
+              {/* EDUCATION - Collapsible Section */}
+              <div className="col-span-12 mt-4">
+                <button
+                  type="button"
+                  onClick={() => setSectionEducationOpen(!sectionEducationOpen)}
+                  className="w-full flex items-center justify-between p-3 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
+                >
+                  <span className="font-semibold text-gray-700 flex items-center gap-2">
+                    <svg className="w-4 h-4 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+                    </svg>
                     Education
-                  </label>
-                </FormControl>
-              </FormItem>
+                  </span>
+                  <svg className={`w-5 h-5 text-gray-500 transition-transform ${sectionEducationOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+              </div>
 
+              {sectionEducationOpen && (
+              <>
               <FormItem className="col-span-12 lg:col-span-10">
                 <FormControl className="m-0 p-2">
                   <label style={{ color: '#576574' }} className="text-sm">
@@ -3231,17 +3251,30 @@ stringifiedMappedFormValues;
                 </>
 
                 : ''}
+              </>
+              )}
 
-              {/* CIVIC INVOLVEMENT */}
-
-              <FormItem className="col-span-12 lg:col-span-10">
-                <FormControl className="m-0 p-2">
-                  <label style={{ fontWeight: 'bold' }}>
+              {/* ACHIEVEMENTS - Collapsible Section */}
+              <div className="col-span-12 mt-4">
+                <button
+                  type="button"
+                  onClick={() => setSectionAchievementsOpen(!sectionAchievementsOpen)}
+                  className="w-full flex items-center justify-between p-3 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
+                >
+                  <span className="font-semibold text-gray-700 flex items-center gap-2">
+                    <svg className="w-4 h-4 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                    </svg>
                     Achievements and Recognitions
-                  </label>
-                </FormControl>
-              </FormItem>
+                  </span>
+                  <svg className={`w-5 h-5 text-gray-500 transition-transform ${sectionAchievementsOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+              </div>
 
+              {sectionAchievementsOpen && (
+              <>
               {/* CIVIC 1 DROPDOWN */}
               <FormItem className="col-span-12 lg:col-span-12">
                 <FormControl className="m-0 p-2">
@@ -3387,19 +3420,30 @@ stringifiedMappedFormValues;
                     )}
                   />
                 </> : ''}
+              </>
+              )}
 
-
-              {/* REFERENCES DROPDOWN */}
-
-
-              <FormItem className="col-span-12 lg:col-span-12">
-                <FormControl className="m-0 p-2">
-                  <label style={{ fontWeight: 'bold' }}>
+              {/* REFERENCES - Collapsible Section */}
+              <div className="col-span-12 mt-4">
+                <button
+                  type="button"
+                  onClick={() => setSectionReferencesOpen(!sectionReferencesOpen)}
+                  className="w-full flex items-center justify-between p-3 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
+                >
+                  <span className="font-semibold text-gray-700 flex items-center gap-2">
+                    <svg className="w-4 h-4 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
                     Professional References
-                  </label>
-                </FormControl>
-              </FormItem>
+                  </span>
+                  <svg className={`w-5 h-5 text-gray-500 transition-transform ${sectionReferencesOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+              </div>
 
+              {sectionReferencesOpen && (
+              <>
               <FormItem className="col-span-12 lg:col-span-12">
                 <FormControl className="m-0 p-2">
                   <label style={{ color: '#576574' }} className="text-sm">
@@ -3477,8 +3521,8 @@ stringifiedMappedFormValues;
                     )}
                   />
                 </> : ''}
-
-
+              </>
+              )}
 
               </div>
             )} {/* end showFormFields conditional */}
@@ -3528,54 +3572,81 @@ stringifiedMappedFormValues;
               ) : (
                 // Non-paid User - Generate & Preview Section
                 <div className="text-center">
-                  {/* Visual Flow Indicator */}
-                  <div className="flex items-center justify-center gap-4 mb-6">
+                  {/* Visual Flow Indicator - Dynamic Steps */}
+                  <div className="flex items-center justify-center gap-3 sm:gap-4 mb-6">
+                    {/* Step 1: Input */}
                     <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 font-semibold text-sm">1</div>
-                      <span className="text-sm text-gray-600">Upload</span>
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center font-semibold text-sm transition-all ${
+                        fileHasBeenUploadedAndParsed
+                          ? 'bg-green-500 text-white'
+                          : 'bg-purple-600 text-white ring-4 ring-purple-200'
+                      }`}>
+                        {fileHasBeenUploadedAndParsed ? (
+                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                          </svg>
+                        ) : '1'}
+                      </div>
+                      <span className={`text-sm ${fileHasBeenUploadedAndParsed ? 'text-green-600 font-medium' : 'text-gray-800 font-medium'}`}>Input</span>
                     </div>
-                    <svg className="w-4 h-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
+
+                    <div className={`w-8 h-0.5 ${fileHasBeenUploadedAndParsed ? 'bg-green-400' : 'bg-gray-200'}`}></div>
+
+                    {/* Step 2: Preview */}
                     <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 font-semibold text-sm">2</div>
-                      <span className="text-sm text-gray-600">Preview <span className="text-green-600 font-medium">FREE</span></span>
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center font-semibold text-sm transition-all ${
+                        actionState === 'preview-ready'
+                          ? 'bg-green-500 text-white'
+                          : actionState === 'generating'
+                            ? 'bg-purple-600 text-white ring-4 ring-purple-200 animate-pulse'
+                            : fileHasBeenUploadedAndParsed
+                              ? 'bg-purple-600 text-white ring-4 ring-purple-200'
+                              : 'bg-gray-200 text-gray-500'
+                      }`}>
+                        {actionState === 'preview-ready' ? (
+                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                          </svg>
+                        ) : '2'}
+                      </div>
+                      <span className={`text-sm ${actionState === 'preview-ready' ? 'text-green-600 font-medium' : actionState === 'generating' || fileHasBeenUploadedAndParsed ? 'text-gray-800 font-medium' : 'text-gray-400'}`}>
+                        Preview <span className="text-green-600 font-medium text-xs">FREE</span>
+                      </span>
                     </div>
-                    <svg className="w-4 h-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
+
+                    <div className={`w-8 h-0.5 ${actionState === 'preview-ready' ? 'bg-green-400' : 'bg-gray-200'}`}></div>
+
+                    {/* Step 3: Download */}
                     <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 font-semibold text-sm">3</div>
-                      <span className="text-sm text-gray-600">Download <span className="text-purple-600 font-medium">$9.99</span></span>
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center font-semibold text-sm transition-all ${
+                        actionState === 'preview-ready'
+                          ? 'bg-purple-600 text-white ring-4 ring-purple-200'
+                          : 'bg-gray-200 text-gray-500'
+                      }`}>3</div>
+                      <span className={`text-sm ${actionState === 'preview-ready' ? 'text-gray-800 font-medium' : 'text-gray-400'}`}>
+                        Download <span className="text-purple-600 font-medium text-xs">$9.99</span>
+                      </span>
                     </div>
                   </div>
 
                   <Button
                     type="button"
-                    disabled={isLoading || !uploadedFileContents}
-                    className={`w-full max-w-md h-14 text-lg rounded-xl font-semibold transition-all ${
-                      uploadedFileContents
-                        ? 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white shadow-lg shadow-purple-200 hover:shadow-xl hover:scale-[1.02]'
-                        : 'bg-gray-200 text-gray-500 cursor-not-allowed'
-                    }`}
-                    onClick={() => {
-                      const values = form.getValues();
-                      localStorage.setItem('stored_form_values', JSON.stringify(values));
-                      window.location.assign(STRIPE_PAYMENT_LINK);
-                    }}
+                    disabled={isLoading || actionState === 'generating'}
+                    className={`w-full max-w-md h-14 text-lg rounded-xl font-semibold transition-all bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white shadow-lg shadow-purple-200 hover:shadow-xl hover:scale-[1.02]`}
+                    onClick={() => generatePreview()}
                   >
-                    {isLoading ? (
+                    {isLoading || actionState === 'generating' ? (
                       <span className="flex items-center justify-center gap-2">
                         <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
                           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
                           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
                         </svg>
-                        Processing...
+                        Generating Preview...
                       </span>
                     ) : (
                       <span className="flex items-center justify-center gap-2">
                         <Sparkles className="w-5 h-5" />
-                        Generate My Resume
+                        Preview My Resume
                       </span>
                     )}
                   </Button>
