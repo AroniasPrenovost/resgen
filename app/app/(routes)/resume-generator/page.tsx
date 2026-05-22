@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
-import { ChatCompletionRequestMessage } from "openai";
+import { ChatCompletionMessageParam } from "openai/resources/chat/completions";
 
 import { Tooltip } from '@nextui-org/react';
 import { Button } from "@/components/ui/button";
@@ -58,7 +58,7 @@ const ResumeGeneratorPage = () => {
   //
   //
 
-  const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
+  const [messages, setMessages] = useState<ChatCompletionMessageParam[]>([]);
 
   //
   //
@@ -194,7 +194,7 @@ const ResumeGeneratorPage = () => {
 
     // make API call
     try {
-      const userMessage: ChatCompletionRequestMessage = { role: "user", content: promptString };
+      const userMessage: ChatCompletionMessageParam = { role: "user", content: promptString };
       const newMessages = [...messages, userMessage];
 
       const response = await axios.post('/api/resume-generator', { messages: newMessages });
@@ -1309,7 +1309,7 @@ stringifiedMappedFormValues;
 
     // make API call
     try {
-      const userMessage: ChatCompletionRequestMessage = { role: "user", content: promptString };
+      const userMessage: ChatCompletionMessageParam = { role: "user", content: promptString };
       const newMessages = [...messages, userMessage];
 
       const response = await axios.post('/api/resume-generator', { messages: newMessages });
