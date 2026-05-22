@@ -1827,10 +1827,10 @@ stringifiedMappedFormValues;
               <div className="mb-4">
                 <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Skills</p>
                 <div className="flex flex-wrap gap-2">
-                  <span className="px-2 py-1 bg-purple-50 text-purple-700 rounded text-xs font-medium">Claude</span>
-                  <span className="px-2 py-1 bg-blue-50 text-blue-700 rounded text-xs font-medium">Prompt Eng.</span>
-                  <span className="px-2 py-1 bg-green-50 text-green-700 rounded text-xs font-medium">Notion AI</span>
-                  <span className="px-2 py-1 bg-orange-50 text-orange-700 rounded text-xs font-medium">Midjourney</span>
+                  <span className="px-2 py-1 bg-purple-50 text-purple-700 rounded text-xs font-medium">Excel</span>
+                  <span className="px-2 py-1 bg-blue-50 text-blue-700 rounded text-xs font-medium">Salesforce</span>
+                  <span className="px-2 py-1 bg-green-50 text-green-700 rounded text-xs font-medium">Marketing</span>
+                  <span className="px-2 py-1 bg-orange-50 text-orange-700 rounded text-xs font-medium">Leadership</span>
                 </div>
               </div>
 
@@ -1839,16 +1839,16 @@ stringifiedMappedFormValues;
                 <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Experience</p>
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded bg-gray-100 flex items-center justify-center text-xs">S</div>
+                    <div className="w-8 h-8 rounded bg-gray-100 flex items-center justify-center text-xs">T</div>
                     <div>
-                      <p className="text-sm font-medium text-gray-800">Shopify</p>
+                      <p className="text-sm font-medium text-gray-800">Target</p>
                       <p className="text-xs text-gray-400">2022 - Present</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded bg-gray-100 flex items-center justify-center text-xs">H</div>
+                    <div className="w-8 h-8 rounded bg-gray-100 flex items-center justify-center text-xs">W</div>
                     <div>
-                      <p className="text-sm font-medium text-gray-800">HubSpot</p>
+                      <p className="text-sm font-medium text-gray-800">Wells Fargo</p>
                       <p className="text-xs text-gray-400">2019 - 2022</p>
                     </div>
                   </div>
