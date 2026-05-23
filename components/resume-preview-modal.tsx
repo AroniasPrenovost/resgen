@@ -1,6 +1,6 @@
 "use client";
 
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
 interface ResumePreviewModalProps {
@@ -35,6 +35,7 @@ export function ResumePreviewModal({
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto p-0">
+        <DialogTitle className="sr-only">Resume Preview</DialogTitle>
         <div className="relative">
           {/* Resume Preview */}
           <div

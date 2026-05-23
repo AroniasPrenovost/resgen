@@ -82,12 +82,15 @@ const ResumeGeneratorPage = () => {
 
 
   const convertUploadedFileToFormInputsUsingAi = async(fileContents: string) => {
-    console.log('convertUploadedFileToFormInputsUsingAi()');
+    console.log('=== [CLIENT] convertUploadedFileToFormInputsUsingAi() START ===');
+    console.log('[CLIENT] File contents length:', fileContents?.length || 0);
+    console.log('[CLIENT] File contents (first 500 chars):', fileContents?.substring(0, 500));
+
     // get job post description
     const input = document.querySelector('input[name="job_post_description"]') as HTMLInputElement | null;
     let job_post_description = (input && input.value) ? input.value.trim() : '';
     let job_post_description_insert = job_post_description.length ? `Ensure the new resume output aligns with the given job description: ${job_post_description}` : '';
-    console.log({job_post_description_insert})
+    console.log('[CLIENT] Job post description:', job_post_description || '(none)');
 
     const resumeObjectTemplate = {
       "job_post_description": job_post_description,
@@ -183,7 +186,7 @@ const ResumeGeneratorPage = () => {
     "7. For 'resume_object.references' section, elaborate when necessary to explain context of relationship.\n" +
     "8. Incorporate words such as 'managed', 'solved', 'planned', 'executed', 'demonstrated', 'succeeded', 'collaborated', 'implemented', 'strategized', 'lead', etc.\n" +
     "9. The outputted content should be a markedly improved version of the input.\n" +
-    "10. The outputted result should only be a string-ified version of the 'resume_object'.\n" +
+    "10. The outputted result must be valid JSON matching the exact structure of 'resume_object'. Output only the JSON object, no additional text.\n" +
     "11. Do not modify the 'job_post_description' field and it's value in any way.\n" +
     "resume_object:\n" +
     JSON.stringify(resumeObjectTemplate, null, 2);
@@ -192,35 +195,77 @@ const ResumeGeneratorPage = () => {
 
     // make API call
     try {
+      console.log('[CLIENT] Building API request...');
       const userMessage: ChatCompletionMessageParam = { role: "user", content: promptString };
       const newMessages = [...messages, userMessage];
+      console.log('[CLIENT] Messages array length:', newMessages.length);
+      console.log('[CLIENT] Prompt length:', promptString.length);
 
+      console.log('[CLIENT] Calling /api/resume-generator...');
+      const startTime = Date.now();
       const response = await axios.post('/api/resume-generator', { messages: newMessages });
-      // setMessages((current) => [...current, userMessage, response.data]);
-      // console.log('try/catch data: ', response.data.content);
+      const duration = Date.now() - startTime;
 
-      // NOTE: hopefully these instructions work consistently
-      // console.log({response});
-      const outputObject = JSON.parse(response.data.content);
-      // console.log({response, outputObject});
+      console.log('[CLIENT] API response received in', duration, 'ms');
+      console.log('[CLIENT] Response status:', response.status);
+      console.log('[CLIENT] Response data:', response.data);
+      console.log('[CLIENT] Response data type:', typeof response.data);
+      console.log('[CLIENT] Response data.content exists:', !!response.data?.content);
+      console.log('[CLIENT] Response data.content type:', typeof response.data?.content);
+      console.log('[CLIENT] Response data.content length:', response.data?.content?.length || 0);
+
+      // Extract content and handle potential markdown code blocks
+      let content = response.data.content;
+      if (!content) {
+        console.error('[CLIENT] ERROR: No content in response!');
+        console.error('[CLIENT] Full response.data:', JSON.stringify(response.data, null, 2));
+        throw new Error('No content in API response');
+      }
+
+      console.log('[CLIENT] Raw content (first 500 chars):', content.substring(0, 500));
+
+      // Strip markdown code blocks if present (```json ... ``` or ``` ... ```)
+      content = content.trim();
+      if (content.startsWith('```')) {
+        console.log('[CLIENT] Stripping markdown code blocks...');
+        content = content.replace(/^```(?:json)?\s*\n?/, '').replace(/\n?```\s*$/, '');
+      }
+
+      console.log('[CLIENT] Cleaned content (first 500 chars):', content.substring(0, 500));
+      console.log('[CLIENT] Attempting JSON.parse...');
+
+      const outputObject = JSON.parse(content);
+
+      console.log('[CLIENT] JSON.parse SUCCESS!');
+      console.log('[CLIENT] Parsed object keys:', Object.keys(outputObject));
+      console.log('[CLIENT] Sample values - full_name:', outputObject.full_name);
+      console.log('[CLIENT] Sample values - email_address:', outputObject.email_address);
 
       toast.dismiss();
       toast.success('Successfully imported, analyzed, and updated your resume.', {
         duration: 22000,
       });
 
+      console.log('=== [CLIENT] convertUploadedFileToFormInputsUsingAi() SUCCESS ===');
       return response;
-      // console.log({ outputObject });
-      // form.reset(); // we want to persist form data if they want to submit again
     } catch (error: any) {
-      if (error?.response?.status === 999/* 403 */) {
-        // don't want this to ever happen, 999 doesn't exist
-        // proModal.onOpen();
-        console.log('Something bad happened when trying to read your resume');
+      console.error('=== [CLIENT] ERROR in convertUploadedFileToFormInputsUsingAi ===');
+      console.error('[CLIENT] Error name:', error?.name);
+      console.error('[CLIENT] Error message:', error?.message);
+      console.error('[CLIENT] Error stack:', error?.stack);
+      console.error('[CLIENT] Axios response status:', error?.response?.status);
+      console.error('[CLIENT] Axios response data:', error?.response?.data);
+      console.error('[CLIENT] Full error object:', error);
+
+      if (error?.response?.status === 403) {
+        toast.error("Access denied. Please check your subscription.");
+      } else if (error?.response?.status === 500) {
+        toast.error("Server error. The AI service may be temporarily unavailable.");
       } else {
-        toast.error("Something went wrong with the AI connection, please be patient as we try again.");
+        toast.error("Something went wrong analyzing your resume. Please try again.");
       }
     } finally {
+      console.log('[CLIENT] Finally block - refreshing router');
       router.refresh();
     }
   };
@@ -481,17 +526,55 @@ const ResumeGeneratorPage = () => {
 
   // Handle file upload and AI processing
   useEffect(() => {
-    if (typeof window === 'undefined' || !uploadedFileContents) return;
+    console.log('[WRAPPER] useEffect triggered, uploadedFileContents length:', uploadedFileContents?.length || 0);
+
+    if (typeof window === 'undefined' || !uploadedFileContents) {
+      console.log('[WRAPPER] Early return - window undefined or no file contents');
+      return;
+    }
 
     const fileHasBeenUploadedAndParsed = localStorage.getItem('file_has_been_uploaded_and_parsed') === 'true';
     const hasFileBeenSelectedByUser = uploadedFileContents.length > 0;
 
+    console.log('[WRAPPER] State check:', {
+      isGettingAiResponseForFileUploadProcess,
+      hasFileBeenSelectedByUser,
+      fileHasBeenUploadedAndParsed
+    });
+
     const convertUploadedFileToFormInputsUsingAiProcess = async () => {
+      console.log('=== [WRAPPER] convertUploadedFileToFormInputsUsingAiProcess START ===');
       try {
+        console.log('[WRAPPER] Calling convertUploadedFileToFormInputsUsingAi...');
         const prefilledUserResData = await convertUploadedFileToFormInputsUsingAi(uploadedFileContents);
+
+        console.log('[WRAPPER] Got response from AI function:', !!prefilledUserResData);
+        console.log('[WRAPPER] prefilledUserResData:', prefilledUserResData);
+        console.log('[WRAPPER] prefilledUserResData?.data:', prefilledUserResData?.data);
+        console.log('[WRAPPER] prefilledUserResData?.data?.content exists:', !!prefilledUserResData?.data?.content);
+
         if (prefilledUserResData && prefilledUserResData.data && prefilledUserResData.data.content) {
-          const responseObject = JSON.parse(prefilledUserResData.data.content);
+          console.log('[WRAPPER] Valid response received, processing...');
+
+          // Extract and clean the content
+          let content = prefilledUserResData.data.content;
+          console.log('[WRAPPER] Content type:', typeof content);
+          console.log('[WRAPPER] Content length:', content?.length);
+          console.log('[WRAPPER] Content (first 500 chars):', content?.substring(0, 500));
+
+          content = content.trim();
+          // Strip markdown code blocks if present
+          if (content.startsWith('```')) {
+            console.log('[WRAPPER] Stripping markdown code blocks...');
+            content = content.replace(/^```(?:json)?\s*\n?/, '').replace(/\n?```\s*$/, '');
+          }
+
+          console.log('[WRAPPER] Attempting JSON.parse...');
+          const responseObject = JSON.parse(content);
+          console.log('[WRAPPER] JSON.parse SUCCESS! Keys:', Object.keys(responseObject));
+
           // prepopulate form fields with response
+          console.log('[WRAPPER] Saving to localStorage and populating form...');
           localStorage.setItem('stored_form_values', JSON.stringify(responseObject));
           setUploadedResumeDataConvertedToForm(responseObject);
           form.reset(responseObject);
@@ -499,16 +582,30 @@ const ResumeGeneratorPage = () => {
           localStorage.setItem('file_has_been_uploaded_and_parsed', 'true');
           setFileHasBeenUploadedAndParsed(true);
           setShouldAutoGeneratePreview(true);
-          console.log('form populated with rewritten resume and tracked');
+          console.log('=== [WRAPPER] SUCCESS - Form populated with rewritten resume ===');
+        } else {
+          console.error('[WRAPPER] ERROR: No valid response from AI');
+          console.error('[WRAPPER] prefilledUserResData was:', prefilledUserResData);
+          toast.error("Failed to analyze resume. Please try again.");
         }
-      } catch (error) {
-        console.log('Error processing resume: ', error);
+      } catch (error: any) {
+        console.error('=== [WRAPPER] ERROR in convertUploadedFileToFormInputsUsingAiProcess ===');
+        console.error('[WRAPPER] Error name:', error?.name);
+        console.error('[WRAPPER] Error message:', error?.message);
+        console.error('[WRAPPER] Error stack:', error?.stack);
+        toast.error("Something went wrong analyzing your resume. Please try again.");
+      } finally {
+        console.log('[WRAPPER] Finally block - setting isGettingAiResponseForFileUploadProcess to false');
+        setIsGettingAiResponseForFileUploadProcess(false);
       }
     };
 
     if (!isGettingAiResponseForFileUploadProcess && hasFileBeenSelectedByUser && !fileHasBeenUploadedAndParsed) {
+      console.log('[WRAPPER] Conditions met! Starting AI processing...');
       setIsGettingAiResponseForFileUploadProcess(true);
       convertUploadedFileToFormInputsUsingAiProcess();
+    } else {
+      console.log('[WRAPPER] Conditions NOT met, skipping AI processing');
     }
   }, [uploadedFileContents]);
 
