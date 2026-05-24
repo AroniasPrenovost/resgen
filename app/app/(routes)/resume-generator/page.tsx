@@ -37,6 +37,7 @@ import { DocumentCreator } from "@/lib/resume-generator";
 
 // Components for button experience overhaul
 import { ResumePreviewModal } from "@/components/resume-preview-modal";
+import { CreditMeter } from "@/components/credit-meter";
 
 const ResumeGeneratorPage = () => {
   // Track client-side mounting to prevent hydration mismatch with useSearchParams
@@ -459,6 +460,29 @@ const ResumeGeneratorPage = () => {
   const [numberOfDownloads, setNumberOfDownloads] = useState(0);
   const max_download_count = 15;
 
+  // Free AI-generation credits. A "generation" = regenerating content or
+  // re-tailoring to a job description. Parsing an uploaded resume is FREE and does
+  // NOT spend a credit (it's the hook). Once these run out, generation locks behind
+  // the paywall but previewing the last version stays free.
+  const MAX_FREE_GENERATIONS = 6;
+  const FREE_GEN_KEY = 'free_ai_generations_used';
+  const [freeGenerationsUsed, setFreeGenerationsUsed] = useState(0);
+  const freeGenerationsLeft = Math.max(0, MAX_FREE_GENERATIONS - freeGenerationsUsed);
+  const isOutOfCredits = !hasPaid && freeGenerationsLeft <= 0;
+
+  // Spend one free generation credit. Returns false (without spending) when the user
+  // is already out — callers should route to the paywall in that case.
+  const spendCredit = (): boolean => {
+    if (hasPaid) return true; // paid users have unlimited generations
+    if (freeGenerationsLeft <= 0) return false;
+    const next = freeGenerationsUsed + 1;
+    setFreeGenerationsUsed(next);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(FREE_GEN_KEY, String(next));
+    }
+    return true;
+  };
+
   // payment time tracking
   const [differenceInMinutes, setDifferenceInMinutes] = useState(0);
 
@@ -481,6 +505,10 @@ const ResumeGeneratorPage = () => {
     // Load download count
     const downloads = Number(localStorage.getItem('x8u_000_vb_nod') || '0');
     setNumberOfDownloads(downloads);
+
+    // Load free AI-generation credits used
+    const genUsed = Number(localStorage.getItem(FREE_GEN_KEY) || '0');
+    setFreeGenerationsUsed(genUsed);
 
     // Load file upload status
     const hasUploadedFile = localStorage.getItem('file_has_been_uploaded_and_parsed') === 'true';
@@ -1318,6 +1346,147 @@ const ResumeGeneratorPage = () => {
 
   //
   //
+  // AI Generation (spends a free credit) — decoupled from download
+  //
+  //
+
+  // Runs the AI rewrite on the current form values, spends one free credit, stores
+  // the improved resume as the preview source, and opens the preview. This is the
+  // "generation" the credit model gates on (regenerate / re-tailor). Parsing an
+  // upload happens elsewhere and is intentionally free.
+  const runAiGeneration = async () => {
+    // Out of free credits -> straight to the paywall.
+    if (isOutOfCredits) {
+      const values = form.getValues();
+      localStorage.setItem('stored_form_values', JSON.stringify(values));
+      window.location.assign(STRIPE_PAYMENT_LINK);
+      return;
+    }
+
+    // Validate required fields first.
+    const valid = await form.trigger();
+    if (!valid) {
+      toast.error('Please fill in the required fields first');
+      const firstError = document.querySelector('[data-invalid="true"]');
+      firstError?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    // Reserve the credit up front; refund it if the call fails.
+    if (!spendCredit()) {
+      window.location.assign(STRIPE_PAYMENT_LINK);
+      return;
+    }
+    const creditWasSpent = !hasPaid;
+
+    const values = form.getValues();
+    const mappedFormValues = mapFormValuesToResumeObject(values);
+    localStorage.setItem('stored_form_values', JSON.stringify(values));
+
+    setActionState('generating');
+    setGenerationProgress(0);
+    const progressInterval = setInterval(() => {
+      setGenerationProgress((prev) => Math.min(prev + 8, 90));
+    }, 400);
+
+    const job_post_description = (mappedFormValues.personal_info.job_post_description || '').trim();
+    const job_post_description_insert = job_post_description.length
+      ? `It is imperative that you tailor the resume content to align with the given job description: ${job_post_description}`
+      : '';
+
+    const promptString =
+      "Persona: you are a expert resume writer with with years of experience improving resumes.\n" +
+      "Improve the verbiage, tone, and professionalism of the inputted content so it can be used in a resume. " + job_post_description_insert + "\n\n" +
+      "Rules:\n" +
+      "1. The output should maintain the exact same object structure of the original 'resume_object', meaning only the key properties' values should be modified.\n" +
+      "2. When necessary fix any typos, sentence structure issues, grammar problems, capitalize proper nouns, and expand acronyms.\n" +
+      "3. If a section does not have content, you will usually leave it blank unless it makes sense to add detail.\n" +
+      "4. For 'resume_object.experiences' data, write each experience summary as a substantial paragraph of 3-4 full sentences. Describe the responsibilities, the actions taken, and the outcome or impact (quantify with realistic metrics where it fits). Be thorough and descriptive while staying professional and clear, but never pad with filler or repeat the same point.\n" +
+      "5. For 'resume_object.education' section, ensure school names are proper nouns and clear, and use the notes field to add 1-2 sentences of relevant detail (coursework, focus areas, honors, or activities) when appropriate.\n" +
+      "6. For 'resume_object.achievements' section, elaborate with a sentence or two explaining the context and significance of each achievement.\n" +
+      "7. For 'resume_object.references' section, do NOT invent or fabricate references. If the user provided references, you may elaborate with a sentence explaining the context of the relationship. If no references were provided, leave the references array empty.\n" +
+      "8. Incorporate strong action verbs such as 'managed', 'solved', 'planned', 'executed', 'demonstrated', 'succeeded', 'collaborated', 'implemented', 'strategized', 'led', etc.\n" +
+      "9. Aim for a fuller, more detailed resume overall. Favor complete, descriptive sentences over terse fragments, while keeping every sentence professional, specific, and free of fluff.\n" +
+      "10. The outputted content should be a markedly improved and more thoroughly developed version of the input.\n" +
+      "11. The outputted result must be valid JSON matching the exact structure of 'resume_object'. Output only the JSON object, no additional text.\n" +
+      "resume_object:\n" +
+      JSON.stringify(mappedFormValues);
+
+    try {
+      const userMessage: ChatCompletionMessageParam = { role: "user", content: promptString };
+      const newMessages = [...messages, userMessage];
+      const response = await axios.post('/api/resume-generator', { messages: newMessages });
+      setMessages((current) => [...current, userMessage, response.data]);
+
+      let content = response.data.content;
+      content = (content || '').trim();
+      if (content.startsWith('```')) {
+        content = content.replace(/^```(?:json)?\s*\n?/, '').replace(/\n?```\s*$/, '');
+      }
+      const outputObject = JSON.parse(content);
+
+      // The previewed object IS what gets downloaded (preview === download).
+      setPreviewResumeData(outputObject);
+      aiImprovedFormKeyRef.current = JSON.stringify(outputObject);
+
+      clearInterval(progressInterval);
+      setGenerationProgress(100);
+      setTimeout(() => {
+        setActionState('preview-ready');
+        setShowPreviewModal(true);
+        setFileHasBeenUploadedAndParsed(true);
+      }, 400);
+      toast.success('Resume generated — preview is free!');
+    } catch (error) {
+      clearInterval(progressInterval);
+      setActionState('idle');
+      setGenerationProgress(0);
+      // Refund the credit since the generation didn't succeed.
+      if (creditWasSpent) {
+        setFreeGenerationsUsed((prev) => {
+          const refunded = Math.max(0, prev - 1);
+          localStorage.setItem(FREE_GEN_KEY, String(refunded));
+          return refunded;
+        });
+      }
+      toast.error('Generation failed — your free credit was not used. Please try again.');
+      console.error('AI generation error:', error);
+    }
+  };
+
+  // Builds and downloads the .docx straight from the previewed resume object, so the
+  // download matches exactly what the user saw. Used by the paid download path.
+  const downloadResumeFromData = (data: any) => {
+    if (!data) {
+      form.handleSubmit(onSubmit)();
+      return;
+    }
+    try {
+      const fileName = `${(data.personal_info?.name || 'resume').replace(' ', '')}-Resume.docx`;
+      const documentCreator = new DocumentCreator();
+      const doc = documentCreator.create([
+        data.personal_info,
+        data.experiences,
+        data.education,
+        data.skills,
+        data.achievements,
+        data.references,
+      ]);
+      Packer.toBlob(doc).then((blob) => saveAs(blob, fileName));
+
+      const new_download_count = numberOfDownloads + 1;
+      localStorage.setItem('x8u_000_vb_nod', String(new_download_count));
+      setNumberOfDownloads(new_download_count);
+      toast.success('Resume downloaded! Check your downloads folder.', { duration: 8000 });
+    } catch (error) {
+      console.error('Direct download failed, falling back to full submit:', error);
+      form.handleSubmit(onSubmit)();
+    }
+  };
+
+
+  //
+  //
   // onSubmit
   //
   //
@@ -1778,7 +1947,8 @@ stringifiedMappedFormValues;
             localStorage.setItem('stored_form_values', JSON.stringify(values));
             window.location.assign(STRIPE_PAYMENT_LINK);
           } else {
-            form.handleSubmit(onSubmit)();
+            // Download exactly what was previewed.
+            downloadResumeFromData(previewResumeData);
           }
         }}
       />
@@ -1789,6 +1959,20 @@ stringifiedMappedFormValues;
 
           {/* Left Side - Upload Area */}
           <div className="order-2 lg:order-1">
+            {/* Step 1 header */}
+            <div className="flex items-center gap-3 mb-4">
+              <span className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-all ${
+                fileHasBeenUploadedAndParsed ? 'bg-green-500 text-white' : 'bg-purple-600 text-white ring-4 ring-purple-100'
+              }`}>
+                {fileHasBeenUploadedAndParsed ? (
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
+                ) : '1'}
+              </span>
+              <div>
+                <p className="font-bold text-gray-900 leading-tight">Upload your resume <span className="text-xs font-medium text-gray-400">· optional</span></p>
+                <p className="text-sm text-gray-500">Have one already? Drop it in — we&apos;ll read it instantly. <span className="text-green-600 font-semibold">Free.</span></p>
+              </div>
+            </div>
             {/* Main Drag & Drop Zone */}
             <div
               onDragOver={handleDragOver}
@@ -2046,14 +2230,12 @@ stringifiedMappedFormValues;
             {/* Job Description Section - More Prominent */}
             <div className="mb-8">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-8 h-8 rounded-lg bg-purple-100 flex items-center justify-center">
-                  <svg className="w-4 h-4 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
-                </div>
+                <span className="flex-shrink-0 w-8 h-8 rounded-full bg-purple-600 text-white flex items-center justify-center font-bold text-sm ring-4 ring-purple-100">
+                  2
+                </span>
                 <div>
-                  <h3 className="font-semibold text-gray-800">Target Job Description</h3>
-                  <p className="text-sm text-gray-500">Optional - helps tailor your resume to the role</p>
+                  <h3 className="font-bold text-gray-900">Paste a job description <span className="text-xs font-medium text-gray-400">· optional</span></h3>
+                  <p className="text-sm text-gray-500">Drop in a posting and we&apos;ll tailor your resume to its exact keywords. <span className="text-purple-600 font-semibold">Beats the bots.</span></p>
                 </div>
               </div>
               <FormField
@@ -3716,87 +3898,107 @@ stringifiedMappedFormValues;
               ) : (
                 // Non-paid User - Generate & Preview Section
                 <div className="text-center">
-                  {/* Visual Flow Indicator - Dynamic Steps */}
-                  <div className="flex items-center justify-center gap-3 sm:gap-4 mb-6">
-                    {/* Step 1: Input */}
-                    <div className="flex items-center gap-2">
-                      <div className={`w-8 h-8 rounded-full flex items-center justify-center font-semibold text-sm transition-all ${
-                        fileHasBeenUploadedAndParsed
-                          ? 'bg-green-500 text-white'
-                          : 'bg-purple-600 text-white ring-4 ring-purple-200'
-                      }`}>
-                        {fileHasBeenUploadedAndParsed ? (
-                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                          </svg>
-                        ) : '1'}
-                      </div>
-                      <span className={`text-sm ${fileHasBeenUploadedAndParsed ? 'text-green-600 font-medium' : 'text-gray-800 font-medium'}`}>Input</span>
-                    </div>
-
-                    <div className={`w-8 h-0.5 ${fileHasBeenUploadedAndParsed ? 'bg-green-400' : 'bg-gray-200'}`}></div>
-
-                    {/* Step 2: Preview */}
-                    <div className="flex items-center gap-2">
-                      <div className={`w-8 h-8 rounded-full flex items-center justify-center font-semibold text-sm transition-all ${
-                        actionState === 'preview-ready'
-                          ? 'bg-green-500 text-white'
-                          : actionState === 'generating'
-                            ? 'bg-purple-600 text-white ring-4 ring-purple-200 animate-pulse'
-                            : fileHasBeenUploadedAndParsed
-                              ? 'bg-purple-600 text-white ring-4 ring-purple-200'
-                              : 'bg-gray-200 text-gray-500'
-                      }`}>
-                        {actionState === 'preview-ready' ? (
-                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                          </svg>
-                        ) : '2'}
-                      </div>
-                      <span className={`text-sm ${actionState === 'preview-ready' ? 'text-green-600 font-medium' : actionState === 'generating' || fileHasBeenUploadedAndParsed ? 'text-gray-800 font-medium' : 'text-gray-400'}`}>
-                        Preview <span className="text-green-600 font-medium text-xs">FREE</span>
-                      </span>
-                    </div>
-
-                    <div className={`w-8 h-0.5 ${actionState === 'preview-ready' ? 'bg-green-400' : 'bg-gray-200'}`}></div>
-
-                    {/* Step 3: Download */}
-                    <div className="flex items-center gap-2">
-                      <div className={`w-8 h-8 rounded-full flex items-center justify-center font-semibold text-sm transition-all ${
-                        actionState === 'preview-ready'
-                          ? 'bg-purple-600 text-white ring-4 ring-purple-200'
-                          : 'bg-gray-200 text-gray-500'
-                      }`}>3</div>
-                      <span className={`text-sm ${actionState === 'preview-ready' ? 'text-gray-800 font-medium' : 'text-gray-400'}`}>
-                        Download <span className="text-purple-600 font-medium text-xs">$9.99</span>
-                      </span>
+                  {/* Step 3 header */}
+                  <div className="flex items-center justify-center gap-3 mb-5">
+                    <span className="flex-shrink-0 w-8 h-8 rounded-full bg-purple-600 text-white flex items-center justify-center font-bold text-sm ring-4 ring-purple-100">
+                      3
+                    </span>
+                    <div className="text-left">
+                      <p className="font-bold text-gray-900 leading-tight">Generate your resume</p>
+                      <p className="text-sm text-gray-500">AI rewrites it to be sharp, ATS-ready &amp; recruiter-approved.</p>
                     </div>
                   </div>
 
-                  <Button
-                    type="button"
-                    disabled={isLoading || actionState === 'generating'}
-                    className={`w-full max-w-md h-14 text-lg rounded-xl font-semibold transition-all bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white shadow-lg shadow-purple-200 hover:shadow-xl hover:scale-[1.02]`}
-                    onClick={() => generatePreview()}
-                  >
-                    {isLoading || actionState === 'generating' ? (
-                      <span className="flex items-center justify-center gap-2">
-                        <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
-                        </svg>
-                        Generating Preview...
-                      </span>
-                    ) : (
-                      <span className="flex items-center justify-center gap-2">
-                        <Sparkles className="w-5 h-5" />
-                        Preview My Resume
-                      </span>
-                    )}
-                  </Button>
+                  {/* Free-credit meter */}
+                  <CreditMeter used={freeGenerationsUsed} max={MAX_FREE_GENERATIONS} className="mb-5" />
 
-                  {!uploadedFileContents && (
-                    <p className="text-sm text-gray-400 mt-3">Upload your resume above to get started</p>
+                  {/* Generating progress */}
+                  {actionState === 'generating' && (
+                    <div className="w-full max-w-md mx-auto mb-4">
+                      <div className="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
+                        <div
+                          className="h-full bg-gradient-to-r from-purple-500 to-pink-500 transition-all duration-300"
+                          style={{ width: `${generationProgress}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                  )}
+
+                  {isOutOfCredits ? (
+                    /* OUT OF FREE CREDITS — lock generation, keep preview free, push to paywall */
+                    <div className="flex flex-col items-center gap-3">
+                      <p className="text-sm font-semibold text-gray-700">
+                        🎉 You&apos;ve used all {MAX_FREE_GENERATIONS} free generations.
+                      </p>
+                      <Button
+                        type="button"
+                        className="relative w-full max-w-md h-16 text-lg rounded-xl font-bold bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white shadow-lg shadow-green-500/30 transition-all hover:scale-[1.02]"
+                        onClick={() => {
+                          const values = form.getValues();
+                          localStorage.setItem('stored_form_values', JSON.stringify(values));
+                          window.location.assign(STRIPE_PAYMENT_LINK);
+                        }}
+                      >
+                        <span className="flex items-center justify-center gap-2">
+                          🔓 Unlock &amp; Download My Resume
+                        </span>
+                        <span className="absolute -top-2 -right-2 bg-yellow-400 text-yellow-900 text-xs font-bold px-2 py-0.5 rounded-full">
+                          $9.99
+                        </span>
+                      </Button>
+                      <button
+                        type="button"
+                        onClick={() => { if (previewResumeData) { setShowPreviewModal(true); } else { generatePreview(); } }}
+                        className="text-sm text-gray-500 hover:text-purple-600 underline underline-offset-2 transition-colors"
+                      >
+                        Preview my last version (free)
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col items-center gap-3">
+                      {/* Primary: Generate / Regenerate (spends 1 credit) */}
+                      <Button
+                        type="button"
+                        disabled={isLoading || actionState === 'generating'}
+                        className="w-full max-w-md h-16 text-lg rounded-xl font-bold transition-all bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white shadow-lg shadow-purple-200 hover:shadow-xl hover:scale-[1.02] disabled:opacity-70 disabled:hover:scale-100"
+                        onClick={() => runAiGeneration()}
+                      >
+                        {isLoading || actionState === 'generating' ? (
+                          <span className="flex items-center justify-center gap-2">
+                            <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
+                            </svg>
+                            Generating your resume...
+                          </span>
+                        ) : (
+                          <span className="flex items-center justify-center gap-2">
+                            <Sparkles className="w-5 h-5" />
+                            {freeGenerationsUsed > 0
+                              ? (form.watch('job_post_description') ? 'Regenerate & Tailor to Job' : 'Regenerate My Resume')
+                              : (form.watch('job_post_description') ? 'Generate & Tailor to Job' : 'Generate My Resume')}
+                          </span>
+                        )}
+                      </Button>
+                      <p className="text-xs text-gray-400">
+                        Uses 1 of your free generations · preview is always free
+                      </p>
+
+                      {/* Secondary: free preview of current version */}
+                      {previewResumeData && actionState !== 'generating' && (
+                        <button
+                          type="button"
+                          onClick={() => setShowPreviewModal(true)}
+                          className="text-sm font-medium text-purple-600 hover:text-purple-800 underline underline-offset-2 transition-colors"
+                        >
+                          👁 Preview current version — free
+                        </button>
+                      )}
+
+                      {!uploadedFileContents && !previewResumeData && (
+                        <p className="text-sm text-gray-400 mt-1">Upload above or fill in your details, then hit generate</p>
+                      )}
+                    </div>
                   )}
 
                   {/* Trust badges */}

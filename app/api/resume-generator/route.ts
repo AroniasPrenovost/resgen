@@ -60,8 +60,18 @@ export async function POST(
     const response = await openai.chat.completions.create({
       model: "gpt-4o",
       messages,
-      response_format: { type: "json_object" }
+      response_format: { type: "json_object" },
+      // Without an explicit cap the completion can be cut short, which truncates
+      // the JSON and drops later resume sections (experience, education, etc.).
+      // gpt-4o supports up to 16,384 output tokens — give the model room for a
+      // full, comprehensive resume.
+      max_tokens: 16000,
     });
+
+    const finishReason = response.choices[0]?.finish_reason;
+    if (finishReason === 'length') {
+      console.warn('[API] WARNING: response truncated by token limit (finish_reason=length)');
+    }
 
     const duration = Date.now() - startTime;
     console.log('[API] OpenAI response received in', duration, 'ms');
