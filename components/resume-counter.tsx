@@ -11,29 +11,53 @@ interface ResumeCounterProps {
   variant?: "default" | "number-only";
 }
 
+const calculateTotal = () => {
+  const now = new Date();
+
+  // Calculate days since April 1, 2024
+  const diffTime = now.getTime() - START_DATE.getTime();
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+  // Add DAILY_INCREMENT for every day since start date
+  return BASE_COUNT + diffDays * DAILY_INCREMENT;
+};
+
 export const ResumeCounter = ({ variant = "default" }: ResumeCounterProps) => {
-  const [count, setCount] = useState(BASE_COUNT);
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
-    const calculateCount = () => {
-      const now = new Date();
+    let frame: number;
+    let target = calculateTotal();
 
-      // Calculate days since April 1, 2024
-      const diffTime = now.getTime() - START_DATE.getTime();
-      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    // Animate the displayed value up to the target on mount
+    const ANIMATION_MS = 900;
+    const start = performance.now();
+    const from = 0;
 
-      // Add 2 for every day since start date
-      const totalCount = BASE_COUNT + (diffDays * DAILY_INCREMENT);
+    const tick = (now: number) => {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / ANIMATION_MS, 1);
+      // easeOutCubic for a natural deceleration
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setCount(Math.round(from + (target - from) * eased));
 
-      setCount(totalCount);
+      if (progress < 1) {
+        frame = requestAnimationFrame(tick);
+      }
     };
 
-    calculateCount();
+    frame = requestAnimationFrame(tick);
 
-    // Update once per day (check every hour in case user stays on page overnight)
-    const interval = setInterval(calculateCount, 60 * 60 * 1000);
+    // Keep in sync once per day (check hourly in case the page stays open overnight)
+    const interval = setInterval(() => {
+      target = calculateTotal();
+      setCount(target);
+    }, 60 * 60 * 1000);
 
-    return () => clearInterval(interval);
+    return () => {
+      cancelAnimationFrame(frame);
+      clearInterval(interval);
+    };
   }, []);
 
   // Number-only variant for use in larger displays
