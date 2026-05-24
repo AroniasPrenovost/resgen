@@ -8,14 +8,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const testimonials = [
   {
-    name: "Bryce P.",
-    avatar: "B",
-    title: "Project Manager",
-    description: "Hadn't touched my resume in years. Had a clean version in about 15 minutes and only changed a couple bullets. Two interview requests that first week.",
-    location: 'Seattle, WA',
-    rating: 5,
-  },
-  {
     name: "Mary R.",
     avatar: "M",
     title: "Marketing Student",
@@ -29,6 +21,14 @@ const testimonials = [
     title: "Customer Success Manager",
     description: "Three months of applying with no responses. Reworked my resume here and got three interviews in the next couple weeks. Not sure what changed but it worked.",
     location: 'Phoenix, AZ',
+    rating: 5,
+  },
+  {
+    name: "Bryce P.",
+    avatar: "B",
+    title: "Project Manager",
+    description: "Hadn't touched my resume in years. Had a clean version in about 15 minutes and only changed a couple bullets. Two interview requests that first week.",
+    location: 'Seattle, WA',
     rating: 5,
   },
   {
