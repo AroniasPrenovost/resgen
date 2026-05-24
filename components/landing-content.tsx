@@ -8,34 +8,34 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const testimonials = [
   {
-    name: "Mary R.",
-    avatar: "M",
-    title: "Marketing Student",
-    description: "Used it for internship apps. Made my one part-time job and a class project actually sound professional. Worth it for that alone.",
-    location: 'Grand Rapids, MI',
-    rating: 5,
-  },
-  {
     name: "Marcus T.",
     avatar: "M",
     title: "Customer Success Manager",
-    description: "Three months of applying with no responses. Reworked my resume here and got three interviews in the next couple weeks. Not sure what changed but it worked.",
+    description: "Three months of applying, basically nothing. I redid my resume here, kept maybe half of what it suggested, and had three interviews lined up two weeks later. Honestly I have no idea which change did it, but something clicked.",
     location: 'Phoenix, AZ',
     rating: 5,
+  },
+  {
+    name: "Priya N.",
+    avatar: "P",
+    title: "Recent Grad",
+    description: "Does what it says.",
+    location: 'Edison, NJ',
+    rating: 4,
   },
   {
     name: "Bryce P.",
     avatar: "B",
     title: "Project Manager",
-    description: "Hadn't touched my resume in years. Had a clean version in about 15 minutes and only changed a couple bullets. Two interview requests that first week.",
+    description: "Hadn't touched my resume in like four years and dreaded the whole thing. Had a clean draft in maybe 15 min. I tweaked a couple bullets that felt a little generic, but it got me 90% there.",
     location: 'Seattle, WA',
-    rating: 5,
+    rating: 4,
   },
   {
     name: "Sarah K.",
     avatar: "S",
     title: "Software Engineer",
-    description: "Was skeptical it'd just spit out buzzwords, but it pulled the real impact out of my project descriptions. Formatting pasted into application portals cleanly too, which is half the battle.",
+    description: "Went in fully expecting buzzword soup. It actually pulled the real impact out of my project notes instead. Bonus: it pasted into the Workday portal without the formatting exploding, which never happens.",
     location: 'Austin, TX',
     rating: 5,
   },
@@ -72,8 +72,8 @@ export const LandingContent = () => {
                 </div>
 
                 <div className="flex gap-0.5">
-                  {[...Array(item.rating)].map((_, i) => (
-                    <svg key={i} className="w-4 h-4 fill-yellow-400" viewBox="0 0 20 20">
+                  {[...Array(5)].map((_, i) => (
+                    <svg key={i} className={cn("w-4 h-4", i < item.rating ? "fill-yellow-400" : "fill-zinc-700")} viewBox="0 0 20 20">
                       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                     </svg>
                   ))}
