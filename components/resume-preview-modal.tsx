@@ -253,8 +253,8 @@ export function ResumePreviewModal({
                 ))}
               </>
             ) : (
-              <p style={{ fontSize: '13px', lineHeight: '1.5', color: '#666', fontStyle: 'italic', marginBottom: '12px' }}>
-                No references added
+              <p style={{ fontSize: '13px', lineHeight: '1.5', marginBottom: '12px' }}>
+                References available upon request
               </p>
             )}
           </div>

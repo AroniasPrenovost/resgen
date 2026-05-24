@@ -4,7 +4,7 @@ import * as z from "zod";
 import axios from "axios";
 import { FileText, Sparkles } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { toast } from "react-hot-toast";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { ChatCompletionMessageParam } from "openai/resources/chat/completions";
@@ -179,13 +179,13 @@ const ResumeGeneratorPage = () => {
     "Rules:\n" +
     "1. The output should maintain the exact same object structure of the original 'resume_object', meaning only the key properties' values should be modified.\n" +
     "2. When necessary fix any typos, sentence structure issues, grammar problems, capitalize proper nouns, and expand acronyms.\n" +
-    "3. Add realistic content to sections that are blank (within reason).\n" +
-    "4. For 'resume_object.experiences' data, elaborate so most of the experience summary instances are at least 2 sentances.\n" +
-    "5. For 'resume_object.education' section, ensure school names are proper nonand clear.\n" +
-    "6. For 'resume_object.achievements' section, elaborate when necessary to explain context of achievement.\n" +
-    "7. For 'resume_object.references' section, elaborate when necessary to explain context of relationship.\n" +
-    "8. Incorporate words such as 'managed', 'solved', 'planned', 'executed', 'demonstrated', 'succeeded', 'collaborated', 'implemented', 'strategized', 'lead', etc.\n" +
-    "9. The outputted content should be a markedly improved version of the input.\n" +
+    "3. Add realistic detail to flesh out content the user did provide, but do NOT fabricate entire entries the user left blank (such as additional jobs, schools, achievements, or references). Leave unprovided repeated entries blank.\n" +
+    "4. For 'resume_object.experiences' data, write each experience summary as a substantial paragraph of 3-4 full sentences. Describe the responsibilities, the actions taken, and the outcome or impact (quantify with realistic metrics where it fits). Be thorough and descriptive while staying professional and clear, but never pad with filler or repeat the same point.\n" +
+    "5. For 'resume_object.education' section, ensure school names are proper nouns and clear, and use the notes field to add 1-2 sentences of relevant detail (coursework, focus areas, honors, or activities) when appropriate.\n" +
+    "6. For 'resume_object.achievements' section, elaborate with a sentence or two explaining the context and significance of each achievement.\n" +
+    "7. For 'resume_object.references' section, do NOT invent or fabricate references. If the user provided references, you may elaborate with a sentence explaining the context of the relationship. If no references were provided, leave the references array empty.\n" +
+    "8. Incorporate strong action verbs such as 'managed', 'solved', 'planned', 'executed', 'demonstrated', 'succeeded', 'collaborated', 'implemented', 'strategized', 'led', etc.\n" +
+    "9. Aim for a fuller, more detailed resume overall. Favor complete, descriptive sentences over terse fragments, while keeping every sentence professional, specific, and free of fluff.\n" +
     "10. The outputted result must be valid JSON matching the exact structure of 'resume_object'. Output only the JSON object, no additional text.\n" +
     "11. Do not modify the 'job_post_description' field and it's value in any way.\n" +
     "resume_object:\n" +
@@ -404,6 +404,12 @@ const ResumeGeneratorPage = () => {
   const [previewResumeData, setPreviewResumeData] = useState<any>(null);
   const [showFormFields, setShowFormFields] = useState(false);
   const [shouldAutoGeneratePreview, setShouldAutoGeneratePreview] = useState(false);
+  // AI-improved resume data from an uploaded document. Drives the preview directly
+  // (instead of the raw / mid-animation form values) so the preview shows the rewrite.
+  const [aiPreviewSource, setAiPreviewSource] = useState<any>(null);
+  // Marks that the current form content is already AI-improved (from an upload) so the
+  // download can reuse it instead of making a second AI call. Keeps preview === download.
+  const aiImprovedFormKeyRef = useRef<string | null>(null);
 
   // file upload state
   type UploadedResumeDataType = { [key: string]: string; };
@@ -577,6 +583,12 @@ const ResumeGeneratorPage = () => {
           localStorage.setItem('stored_form_values', JSON.stringify(responseObject));
           setUploadedResumeDataConvertedToForm(responseObject);
           form.reset(responseObject);
+          // The uploaded content was already AI-improved by the conversion step above.
+          // Capture it as the preview source (avoids the typewriter race) and mark the
+          // form content as AI-improved so the download reuses it rather than re-calling AI.
+          const aiImprovedMapped = mapFormValuesToResumeObject(responseObject);
+          setAiPreviewSource(aiImprovedMapped);
+          aiImprovedFormKeyRef.current = JSON.stringify(aiImprovedMapped);
           // set flag to track that we've processed the resume
           localStorage.setItem('file_has_been_uploaded_and_parsed', 'true');
           // Show "Opening preview..." state before the preview actually opens
@@ -1251,7 +1263,7 @@ const ResumeGeneratorPage = () => {
   //
   //
 
-  const generatePreview = async () => {
+  const generatePreview = async (precomputedData?: any) => {
     const values = form.getValues();
 
     // Validate form
@@ -1272,8 +1284,9 @@ const ResumeGeneratorPage = () => {
     }, 500);
 
     try {
-      // Map form values to resume structure
-      const mappedFormValues = mapFormValuesToResumeObject(values);
+      // Prefer AI-improved data (e.g. from an uploaded document) so the preview shows
+      // the rewrite; otherwise fall back to the mapped form values.
+      const mappedFormValues = precomputedData ?? mapFormValuesToResumeObject(values);
 
       // Store for persistence
       localStorage.setItem('stored_form_values', JSON.stringify(values));
@@ -1386,13 +1399,14 @@ const ResumeGeneratorPage = () => {
 "1. The output should maintain the exact same object structure of the original 'resume_object', meaning only the key properties' values should be modified.\n" +
 "2. When necessary fix any typos, sentence structure issues, grammar problems, capitalize proper nouns, and expand acronyms.\n" +
 "3. If a section does not have content, you will usually leave it blank unless it makes sense to add detail.\n" +
-"4. For 'resume_object.experiences' data, elaborate so most of the experience summary instances are at least 2 sentances.\n" +
-"5. For 'resume_object.education' section, ensure school names are proper nonand clear.\n" +
-"6. For 'resume_object.achievements' section, elaborate when necessary to explain context of achievement.\n" +
-"7. For 'resume_object.references' section, elaborate when necessary to explain context of relationship.\n" +
-"8. Incorporate words such as 'managed', 'solved', 'planned', 'executed', 'demonstrated', 'succeeded', 'collaborated', 'implemented', 'strategized', 'lead', etc.\n" +
-"9. The outputted content should be a markedly improved version of the input.\n" +
-"10. The outputted result should only be a string-ified version of the 'resume_object'.\n" +
+"4. For 'resume_object.experiences' data, write each experience summary as a substantial paragraph of 3-4 full sentences. Describe the responsibilities, the actions taken, and the outcome or impact (quantify with realistic metrics where it fits). Be thorough and descriptive while staying professional and clear, but never pad with filler or repeat the same point.\n" +
+"5. For 'resume_object.education' section, ensure school names are proper nouns and clear, and use the notes field to add 1-2 sentences of relevant detail (coursework, focus areas, honors, or activities) when appropriate.\n" +
+"6. For 'resume_object.achievements' section, elaborate with a sentence or two explaining the context and significance of each achievement.\n" +
+"7. For 'resume_object.references' section, do NOT invent or fabricate references. If the user provided references, you may elaborate with a sentence explaining the context of the relationship. If no references were provided, leave the references array empty.\n" +
+"8. Incorporate strong action verbs such as 'managed', 'solved', 'planned', 'executed', 'demonstrated', 'succeeded', 'collaborated', 'implemented', 'strategized', 'led', etc.\n" +
+"9. Aim for a fuller, more detailed resume overall. Favor complete, descriptive sentences over terse fragments, while keeping every sentence professional, specific, and free of fluff.\n" +
+"10. The outputted content should be a markedly improved and more thoroughly developed version of the input.\n" +
+"11. The outputted result must be valid JSON matching the exact structure of 'resume_object'. Output only the JSON object, no additional text.\n" +
 "resume_object:\n" +
 stringifiedMappedFormValues;
 
@@ -1403,16 +1417,26 @@ stringifiedMappedFormValues;
 
     // make API call
     try {
-      const userMessage: ChatCompletionMessageParam = { role: "user", content: promptString };
-      const newMessages = [...messages, userMessage];
+      let outputObject: any;
 
-      const response = await axios.post('/api/resume-generator', { messages: newMessages });
-      setMessages((current) => [...current, userMessage, response.data]);
-      // console.log('try/catch data: ', response.data.content);
+      // If the form content is already AI-improved (from an uploaded document the user
+      // previewed without editing), reuse it so the download matches the preview exactly
+      // and we skip a redundant second AI call.
+      const alreadyAiImproved =
+        aiImprovedFormKeyRef.current === JSON.stringify(mappedFormValues);
 
-      // NOTE: hopefully these instructions work consistently
-      const outputObject = JSON.parse(response.data.content);
-      // console.log({ outputObject });
+      if (alreadyAiImproved) {
+        outputObject = mappedFormValues;
+      } else {
+        const userMessage: ChatCompletionMessageParam = { role: "user", content: promptString };
+        const newMessages = [...messages, userMessage];
+
+        const response = await axios.post('/api/resume-generator', { messages: newMessages });
+        setMessages((current) => [...current, userMessage, response.data]);
+
+        // NOTE: hopefully these instructions work consistently
+        outputObject = JSON.parse(response.data.content);
+      }
 
       // Generate word doc
       //
@@ -1723,7 +1747,8 @@ stringifiedMappedFormValues;
     if (shouldAutoGeneratePreview) {
       setShouldAutoGeneratePreview(false);
       setTimeout(() => {
-        generatePreview();
+        // Drive the preview from the AI-improved upload data so it reflects the rewrite.
+        generatePreview(aiPreviewSource);
       }, 1000);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

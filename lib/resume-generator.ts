@@ -286,23 +286,35 @@ export class DocumentCreator {
             ///////////////////////
 
             this.createHeading("References"),
-            ...references
-              .map((reference: any) => {
-                const arr: Paragraph[] = [];
-                arr.push(
+            ...(references && references.length > 0
+              ? references
+                  .map((reference: any) => {
+                    const arr: Paragraph[] = [];
+                    arr.push(
+                      new Paragraph({
+                        children: [
+                          new TextRun({
+                            text: reference.info,
+                            size: 22,
+                            font: 'Calibri',
+                          }),
+                        ]
+                      })
+                    );
+                    return arr;
+                  })
+                  .reduce((prev: any, curr: any) => prev.concat(curr), [])
+              : [
                   new Paragraph({
                     children: [
                       new TextRun({
-                        text: reference.info,
+                        text: "References available upon request",
                         size: 22,
                         font: 'Calibri',
                       }),
                     ]
                   })
-                );
-                return arr;
-              })
-              .reduce((prev: any, curr: any) => prev.concat(curr), []),
+                ]),
             // new Paragraph(
             //   "Dr. Dean Mohamedally Director of Postgraduate Studies Department of Computer Science, University College London Malet Place, Bloomsbury, London WC1E d.mohamedally@ucl.ac.uk"
             // ),

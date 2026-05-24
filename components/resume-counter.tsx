@@ -30,7 +30,7 @@ export const ResumeCounter = ({ variant = "default" }: ResumeCounterProps) => {
     let target = calculateTotal();
 
     // Animate the displayed value up to the target on mount
-    const ANIMATION_MS = 900;
+    const ANIMATION_MS = 1400;
     const start = performance.now();
     const from = 0;
 
