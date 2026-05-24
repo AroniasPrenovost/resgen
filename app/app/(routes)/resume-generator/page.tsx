@@ -38,6 +38,7 @@ import { DocumentCreator } from "@/lib/resume-generator";
 // Components for button experience overhaul
 import { ResumePreviewModal } from "@/components/resume-preview-modal";
 import { CreditMeter } from "@/components/credit-meter";
+import { ResumeCounter } from "@/components/resume-counter";
 
 const ResumeGeneratorPage = () => {
   // Track client-side mounting to prevent hydration mismatch with useSearchParams
@@ -1953,12 +1954,43 @@ stringifiedMappedFormValues;
         }}
       />
 
-      {/* Modern Hero Section with Visual Mockup */}
+      {/* Value-prop band — single top-level element */}
       <div className="px-4 lg:px-8 mb-8">
-        <div className="grid lg:grid-cols-2 gap-8 items-center">
+        <div className="relative overflow-hidden rounded-2xl border border-purple-100 bg-gradient-to-r from-purple-50 via-white to-pink-50 px-6 py-7 md:px-10 md:py-9">
+          {/* Decorative blur */}
+          <div className="absolute -top-12 -right-12 w-44 h-44 bg-gradient-to-br from-purple-200/40 to-pink-200/40 rounded-full blur-3xl pointer-events-none"></div>
+          <div className="relative text-center max-w-3xl mx-auto">
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-900 leading-tight">
+              Land more interviews with an ATS-ready resume
+            </h1>
+            <p className="mt-2 text-gray-600 md:text-lg">
+              Upload, tailor it to any job, and generate a recruiter-approved resume in seconds.
+            </p>
+            <div className="mt-4 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm">
+              <span className="inline-flex items-center gap-1.5 font-medium text-purple-700">
+                <Sparkles className="w-4 h-4" /> ATS-Optimized
+              </span>
+              <span className="text-gray-300">·</span>
+              <span className="inline-flex items-center gap-1.5 text-gray-700">
+                <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                <strong className="text-gray-900"><ResumeCounter variant="number-only" /></strong> resumes generated
+              </span>
+              <span className="text-gray-300">·</span>
+              <span className="inline-flex items-center gap-1.5 text-gray-700">
+                <svg className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                30-day revisions
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
 
-          {/* Left Side - Upload Area */}
-          <div className="order-2 lg:order-1">
+      {/* Step 1 — Upload (funnel) */}
+      <div className="px-4 lg:px-8 mb-8">
+        <div>
+          <div>
             {/* Step 1 header */}
             <div className="flex items-center gap-3 mb-4">
               <span className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-all ${
@@ -2126,87 +2158,6 @@ stringifiedMappedFormValues;
               </div>
             </div>
           </div>
-
-          {/* Right Side - Visual Mockup */}
-          <div className="order-1 lg:order-2 relative">
-            {/* Decorative circles */}
-            <div className="absolute -top-10 -right-10 w-40 h-40 bg-gradient-to-br from-purple-200/40 to-pink-200/40 rounded-full blur-3xl"></div>
-            <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-gradient-to-br from-blue-200/40 to-cyan-200/40 rounded-full blur-3xl"></div>
-
-            {/* Main Resume Preview Card */}
-            <div className="relative bg-white rounded-2xl shadow-2xl shadow-purple-200/50 p-6 border border-gray-100">
-              {/* Resume Header */}
-              <div className="flex items-start gap-4 mb-4">
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center text-white text-xl font-bold">
-                  MR
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-lg font-bold text-gray-800">Maya Rodriguez</h3>
-                  <p className="text-sm text-gray-500">Product Marketing Manager</p>
-                  <div className="flex items-center gap-2 mt-1 text-xs text-gray-400">
-                    <span>maya.r@email.com</span>
-                    <span>•</span>
-                    <span>Austin, TX</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Skills Section */}
-              <div className="mb-4">
-                <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Skills</p>
-                <div className="flex flex-wrap gap-2">
-                  <span className="px-2 py-1 bg-purple-50 text-purple-700 rounded text-xs font-medium">Excel</span>
-                  <span className="px-2 py-1 bg-blue-50 text-blue-700 rounded text-xs font-medium">Salesforce</span>
-                  <span className="px-2 py-1 bg-green-50 text-green-700 rounded text-xs font-medium">Marketing</span>
-                  <span className="px-2 py-1 bg-orange-50 text-orange-700 rounded text-xs font-medium">Leadership</span>
-                </div>
-              </div>
-
-              {/* Experience Preview */}
-              <div>
-                <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Experience</p>
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded bg-gray-100 flex items-center justify-center text-xs">T</div>
-                    <div>
-                      <p className="text-sm font-medium text-gray-800">Target</p>
-                      <p className="text-xs text-gray-400">2022 - Present</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded bg-gray-100 flex items-center justify-center text-xs">W</div>
-                    <div>
-                      <p className="text-sm font-medium text-gray-800">Wells Fargo</p>
-                      <p className="text-xs text-gray-400">2019 - 2022</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Floating Badge - ATS Score */}
-              <div className="absolute -top-3 -right-3 bg-white rounded-xl shadow-lg px-3 py-2 border border-gray-100">
-                <div className="flex items-center gap-2">
-                  <div className="relative w-10 h-10">
-                    <svg className="w-10 h-10 transform -rotate-90">
-                      <circle cx="20" cy="20" r="16" stroke="#e5e7eb" strokeWidth="3" fill="none"/>
-                      <circle cx="20" cy="20" r="16" stroke="#22c55e" strokeWidth="3" fill="none" strokeDasharray="100" strokeDashoffset="8" strokeLinecap="round"/>
-                    </svg>
-                    <span className="absolute inset-0 flex items-center justify-center text-xs font-bold text-green-600">92</span>
-                  </div>
-                  <div>
-                    <p className="text-xs font-semibold text-gray-800">ATS Score</p>
-                    <p className="text-[10px] text-green-600">Excellent</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Floating Badge - ATS Perfect */}
-              <div className="absolute -bottom-2 right-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg shadow-lg px-3 py-1.5 text-white text-xs font-medium flex items-center gap-1.5">
-                <Sparkles className="w-3 h-3" />
-                ATS Optimized
-              </div>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -2263,14 +2214,12 @@ stringifiedMappedFormValues;
                 className="w-full flex items-center justify-between p-4 rounded-xl border border-gray-200 hover:border-purple-300 hover:bg-purple-50/50 transition-all group"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-gray-100 group-hover:bg-purple-100 flex items-center justify-center transition-colors">
-                    <svg className="w-4 h-4 text-gray-500 group-hover:text-purple-600 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                    </svg>
-                  </div>
+                  <span className="flex-shrink-0 w-8 h-8 rounded-full bg-purple-600 text-white flex items-center justify-center font-bold text-sm ring-4 ring-purple-100">
+                    3
+                  </span>
                   <div className="text-left">
-                    <p className="font-medium text-gray-800">Edit details manually</p>
-                    <p className="text-sm text-gray-500">Fine-tune your information after upload</p>
+                    <p className="font-bold text-gray-900 leading-tight">Edit details manually <span className="text-xs font-medium text-gray-400">· optional</span></p>
+                    <p className="text-sm text-gray-500">Fine-tune your information after upload.</p>
                   </div>
                 </div>
                 <svg className={`w-5 h-5 text-gray-400 transition-transform ${showFormFields ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -3898,10 +3847,10 @@ stringifiedMappedFormValues;
               ) : (
                 // Non-paid User - Generate & Preview Section
                 <div className="text-center">
-                  {/* Step 3 header */}
+                  {/* Step 4 header */}
                   <div className="flex items-center justify-center gap-3 mb-5">
                     <span className="flex-shrink-0 w-8 h-8 rounded-full bg-purple-600 text-white flex items-center justify-center font-bold text-sm ring-4 ring-purple-100">
-                      3
+                      4
                     </span>
                     <div className="text-left">
                       <p className="font-bold text-gray-900 leading-tight">Generate your resume</p>
