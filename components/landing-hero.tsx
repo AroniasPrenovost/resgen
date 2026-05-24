@@ -92,13 +92,13 @@ export const LandingHero = () => {
               {/* Resume Header */}
               <div className="flex items-start gap-4 mb-5">
                 <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center text-white text-xl font-bold shadow-lg">
-                  JD
+                  MC
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-lg font-bold text-gray-800">John Doe</h3>
-                  <p className="text-sm text-gray-500">Senior Software Engineer</p>
+                  <h3 className="text-lg font-bold text-gray-800">Maya Chen</h3>
+                  <p className="text-sm text-gray-500">Marketing Coordinator</p>
                   <div className="flex items-center gap-2 mt-1 text-xs text-gray-400">
-                    <span>john@email.com</span>
+                    <span>maya.chen@email.com</span>
                     <span>•</span>
                     <span>San Francisco, CA</span>
                   </div>
@@ -109,10 +109,10 @@ export const LandingHero = () => {
               <div className="mb-5">
                 <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Skills</p>
                 <div className="flex flex-wrap gap-2">
-                  <span className="px-3 py-1 bg-purple-50 text-purple-700 rounded-full text-xs font-medium border border-purple-200">React</span>
-                  <span className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-medium border border-blue-200">TypeScript</span>
-                  <span className="px-3 py-1 bg-green-50 text-green-700 rounded-full text-xs font-medium border border-green-200">Node.js</span>
-                  <span className="px-3 py-1 bg-orange-50 text-orange-700 rounded-full text-xs font-medium border border-orange-200">AWS</span>
+                  <span className="px-3 py-1 bg-purple-50 text-purple-700 rounded-full text-xs font-medium border border-purple-200">SEO</span>
+                  <span className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-medium border border-blue-200">Google Analytics</span>
+                  <span className="px-3 py-1 bg-green-50 text-green-700 rounded-full text-xs font-medium border border-green-200">Content Strategy</span>
+                  <span className="px-3 py-1 bg-orange-50 text-orange-700 rounded-full text-xs font-medium border border-orange-200">AI Tools</span>
                 </div>
               </div>
 
@@ -121,17 +121,17 @@ export const LandingHero = () => {
                 <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">Experience</p>
                 <div className="space-y-3">
                   <div className="flex items-center gap-3 p-2 rounded-lg bg-gray-50">
-                    <div className="w-10 h-10 rounded-lg bg-white shadow-sm flex items-center justify-center text-sm font-bold text-gray-600 border">G</div>
+                    <div className="w-10 h-10 rounded-lg bg-white shadow-sm flex items-center justify-center text-sm font-bold text-gray-600 border">N</div>
                     <div>
-                      <p className="text-sm font-semibold text-gray-800">Google</p>
-                      <p className="text-xs text-gray-400">2020 - Present</p>
+                      <p className="text-sm font-semibold text-gray-800">Marketing Intern · Northwind Media</p>
+                      <p className="text-xs text-gray-400">Summer 2025</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3 p-2 rounded-lg bg-gray-50">
-                    <div className="w-10 h-10 rounded-lg bg-white shadow-sm flex items-center justify-center text-sm font-bold text-gray-600 border">M</div>
+                    <div className="w-10 h-10 rounded-lg bg-white shadow-sm flex items-center justify-center text-sm font-bold text-gray-600 border">R</div>
                     <div>
-                      <p className="text-sm font-semibold text-gray-800">Meta</p>
-                      <p className="text-xs text-gray-400">2018 - 2020</p>
+                      <p className="text-sm font-semibold text-gray-800">Marketing Assistant · Riverview Retail Co.</p>
+                      <p className="text-xs text-gray-400">2024 - 2025</p>
                     </div>
                   </div>
                 </div>
@@ -261,11 +261,11 @@ export const LandingHero = () => {
               <div className="bg-white rounded-xl p-4 shadow-lg flex-grow">
                 <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Professional Summary</p>
                 <div className="text-sm text-gray-700 leading-relaxed">
-                  <span>Experienced and effective </span>
-                  <span className="bg-purple-100 text-purple-700 px-1 rounded">Business Development Manager</span>
-                  <span> bringing forth </span>
-                  <span className="bg-purple-100 text-purple-700 px-1 rounded">significant value</span>
-                  <span> and a genuine passion for management. With a proven track record of driving growth...</span>
+                  <span>Driven and detail-oriented </span>
+                  <span className="bg-purple-100 text-purple-700 px-1 rounded">Marketing Coordinator</span>
+                  <span> with hands-on experience running </span>
+                  <span className="bg-purple-100 text-purple-700 px-1 rounded">data-driven campaigns</span>
+                  <span> that grow engagement. Passionate about building brands that connect and convert...</span>
                 </div>
                 <div className="flex items-center gap-2 mt-3 pt-3 border-t border-gray-100">
                   <div className="flex gap-1">
@@ -295,11 +295,11 @@ export const LandingHero = () => {
               <div className="bg-white rounded-xl p-4 shadow-lg flex-grow">
                 <div className="flex items-start gap-3">
                   <div className="w-10 h-10 rounded bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
-                    JS
+                    MC
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-bold text-gray-800">Jorge Sanders</p>
-                    <p className="text-xs text-gray-500">Financial Analyst</p>
+                    <p className="text-sm font-bold text-gray-800">Maya Chen</p>
+                    <p className="text-xs text-gray-500">Marketing Coordinator</p>
                     <div className="mt-2 space-y-1">
                       <div className="h-2 bg-gray-200 rounded w-full"></div>
                       <div className="h-2 bg-gray-200 rounded w-5/6"></div>
@@ -328,7 +328,7 @@ export const LandingHero = () => {
               {/* Visual mockup */}
               <div className="bg-zinc-800 rounded-xl p-4 border border-zinc-700 flex-grow">
                 <div className="bg-zinc-900 rounded-lg px-3 py-2 border border-zinc-700 text-xs text-zinc-500 mb-3">
-                  <span className="text-zinc-400">Senior Software Engineer at Acme Corp...</span>
+                  <span className="text-zinc-400">Marketing Coordinator at Acme Co...</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="flex-1 bg-zinc-900/50 rounded-lg p-2 border border-zinc-700/50">
