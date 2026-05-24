@@ -519,6 +519,7 @@ const ResumeGeneratorPage = () => {
     }
 
     setIsFormInitialized(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Handle file upload and AI processing
@@ -604,6 +605,7 @@ const ResumeGeneratorPage = () => {
     } else {
       console.log('[WRAPPER] Conditions NOT met, skipping AI processing');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uploadedFileContents]);
 
   // Initialize form with empty defaults to avoid hydration issues
@@ -1717,6 +1719,7 @@ stringifiedMappedFormValues;
         generatePreview();
       }, 1000);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shouldAutoGeneratePreview]);
 
   // Don't render until client-side hydration is complete to avoid mismatch

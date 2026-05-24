@@ -318,7 +318,7 @@ export function ResumePreviewModal({
                 onClick={onClose}
                 className="text-sm text-gray-400 hover:text-gray-600 transition-colors"
               >
-                I'll do this later
+                I&apos;ll do this later
               </button>
             </div>
           </div>
