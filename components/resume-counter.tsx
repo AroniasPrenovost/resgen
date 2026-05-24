@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react";
 
 // Base count starting from April 1, 2024
-const BASE_COUNT = 20000;
+const BASE_COUNT = 4500;
 const START_DATE = new Date('2024-04-01');
-const DAILY_INCREMENT = 2;
+const DAILY_INCREMENT = 3;
 
 interface ResumeCounterProps {
   variant?: "default" | "number-only";

@@ -103,9 +103,9 @@ export const LandingContent = () => {
             {/* Left Content */}
             <div className="flex-1 text-center lg:text-left">
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
-                Join over <span className="text-blue-500">36,386</span>
+                Join over <span className="text-blue-500">3,000+</span>
                 <br />
-                resume makers
+                happy customers
               </h2>
               <p className="text-gray-600 text-lg md:text-xl mt-4 mb-8">
                 Start now and get hired faster.
