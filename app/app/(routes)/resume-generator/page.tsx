@@ -242,9 +242,6 @@ const ResumeGeneratorPage = () => {
       console.log('[CLIENT] Sample values - email_address:', outputObject.email_address);
 
       toast.dismiss();
-      toast.success('Successfully imported, analyzed, and updated your resume.', {
-        duration: 22000,
-      });
 
       console.log('=== [CLIENT] convertUploadedFileToFormInputsUsingAi() SUCCESS ===');
       return response;
@@ -327,13 +324,13 @@ const ResumeGeneratorPage = () => {
         const arrayBuffer = await file.arrayBuffer();
         const result = await mammoth.extractRawText({ arrayBuffer });
         setUploadedFileContents(result.value);
-        toast.success('Resume uploaded successfully!');
+        toast.success('Resume uploaded and analyzed successfully!');
       } else if (isTxt) {
         const reader = new FileReader();
         reader.onload = (e) => {
           const text = e.target?.result;
           setUploadedFileContents(text as string);
-          toast.success('Resume uploaded successfully!');
+          toast.success('Resume uploaded and analyzed successfully!');
         };
         reader.readAsText(file);
       }
@@ -1286,7 +1283,6 @@ const ResumeGeneratorPage = () => {
       setTimeout(() => {
         setActionState('preview-ready');
         setShowPreviewModal(true); // Open modal automatically
-        toast.success('Preview ready!');
       }, 500);
     } catch (error) {
       clearInterval(progressInterval);
@@ -1714,15 +1710,14 @@ stringifiedMappedFormValues;
   }, [hasPaid]);
 
   // Auto-generate preview after file upload processing completes
-  // TODO: Re-enable after fixing scope issue
-  // useEffect(() => {
-  //   if (shouldAutoGeneratePreview) {
-  //     setShouldAutoGeneratePreview(false);
-  //     setTimeout(() => {
-  //       generatePreview();
-  //     }, 1000);
-  //   }
-  // }, [shouldAutoGeneratePreview]);
+  useEffect(() => {
+    if (shouldAutoGeneratePreview) {
+      setShouldAutoGeneratePreview(false);
+      setTimeout(() => {
+        generatePreview();
+      }, 1000);
+    }
+  }, [shouldAutoGeneratePreview]);
 
   // Don't render until client-side hydration is complete to avoid mismatch
   if (!isMounted) {
