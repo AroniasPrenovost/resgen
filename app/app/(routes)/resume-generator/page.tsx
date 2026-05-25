@@ -1955,7 +1955,7 @@ stringifiedMappedFormValues;
             {/* pr-20 keeps the buttons clear of the floating chat bubble */}
             <div className="mx-auto flex max-w-3xl items-center gap-3 px-4 py-3 sm:pr-20">
               <p className="hidden flex-1 text-sm font-medium text-gray-700 sm:block">
-                Your resume is ready — preview it free or download the polished .docx.
+                Your resume is ready — preview it free or download the final document.
               </p>
               <Button
                 type="button"
