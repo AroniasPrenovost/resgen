@@ -9,6 +9,10 @@ const DAILY_INCREMENT = 3;
 
 interface ResumeCounterProps {
   variant?: "default" | "number-only";
+  // Classes applied to the visible digits. When a gradient/clip is used here it
+  // must live on this span (which carries the real digits), not on a parent —
+  // the digits are absolutely positioned and won't inherit a parent's bg-clip.
+  numberClassName?: string;
 }
 
 const calculateTotal = () => {
@@ -22,7 +26,7 @@ const calculateTotal = () => {
   return BASE_COUNT + diffDays * DAILY_INCREMENT;
 };
 
-export const ResumeCounter = ({ variant = "default" }: ResumeCounterProps) => {
+export const ResumeCounter = ({ variant = "default", numberClassName }: ResumeCounterProps) => {
   const [count, setCount] = useState(0);
   // The final value the counter animates toward, used to reserve layout width
   // up front so the surrounding text doesn't reflow as the digits grow.
@@ -70,7 +74,7 @@ export const ResumeCounter = ({ variant = "default" }: ResumeCounterProps) => {
   const number = (
     <span className="relative inline-block tabular-nums">
       <span aria-hidden className="invisible">{target.toLocaleString()}+</span>
-      <span className="absolute inset-0">{count.toLocaleString()}+</span>
+      <span className={`absolute inset-0 ${numberClassName ?? ""}`}>{count.toLocaleString()}+</span>
     </span>
   );
 

@@ -176,9 +176,10 @@ export const LandingHero = () => {
           </div>
           <div className="text-center lg:text-left">
             <p className="text-3xl md:text-4xl lg:text-5xl font-bold">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">
-                <ResumeCounter variant="number-only" />
-              </span>
+              <ResumeCounter
+                variant="number-only"
+                numberClassName="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500"
+              />
               <span className="text-white ml-2">resumes created</span>
             </p>
           </div>
