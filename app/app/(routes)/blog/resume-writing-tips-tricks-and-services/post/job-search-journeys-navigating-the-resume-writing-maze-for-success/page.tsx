@@ -1,6 +1,19 @@
-
+import type { Metadata } from "next";
 import { ClipboardList, User } from "lucide-react";
 import { Heading } from "@/components/heading";
+
+export const metadata: Metadata = {
+  title: "Job Search Journeys: Navigating the Resume Writing Maze for Success",
+  description: "Insights for Crafting an SEO-Optimized Resume",
+  alternates: { canonical: "/app/blog/resume-writing-tips-tricks-and-services/post/job-search-journeys-navigating-the-resume-writing-maze-for-success" },
+  openGraph: {
+    title: "Job Search Journeys: Navigating the Resume Writing Maze for Success | ResumAI Blog",
+    description: "Insights for Crafting an SEO-Optimized Resume",
+    url: "/app/blog/resume-writing-tips-tricks-and-services/post/job-search-journeys-navigating-the-resume-writing-maze-for-success",
+    type: "article",
+    publishedTime: "2023-05-18T13:20:00.000Z",
+  },
+};
 
 const BlogDetailPage = async () => {
  return (

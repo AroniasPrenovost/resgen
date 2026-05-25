@@ -1,6 +1,19 @@
-
+import type { Metadata } from "next";
 import { ClipboardList, User } from "lucide-react";
 import { Heading } from "@/components/heading";
+
+export const metadata: Metadata = {
+  title: "Insider Secrets To Stand Out In The Job Market",
+  description: "Tips and Tricks to Elevate Your Resume Game",
+  alternates: { canonical: "/app/blog/resume-writing-tips-tricks-and-services/post/insider-secrets-to-stand-out-in-the-job-market" },
+  openGraph: {
+    title: "Insider Secrets To Stand Out In The Job Market | ResumAI Blog",
+    description: "Tips and Tricks to Elevate Your Resume Game",
+    url: "/app/blog/resume-writing-tips-tricks-and-services/post/insider-secrets-to-stand-out-in-the-job-market",
+    type: "article",
+    publishedTime: "2024-03-07T16:15:00.000Z",
+  },
+};
 
 const BlogDetailPage = async () => {
  return (

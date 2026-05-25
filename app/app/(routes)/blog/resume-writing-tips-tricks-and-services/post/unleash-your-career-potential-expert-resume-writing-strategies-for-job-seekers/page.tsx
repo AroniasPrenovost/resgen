@@ -1,6 +1,19 @@
-
+import type { Metadata } from "next";
 import { ClipboardList, User } from "lucide-react";
 import { Heading } from "@/components/heading";
+
+export const metadata: Metadata = {
+  title: "Unleash Your Career Potential: Expert Resume Writing Strategies for Job Seekers",
+  description: "Master the art of resume writing with these expert strategies tailored for job seekers, new grads, and professionals.",
+  alternates: { canonical: "/app/blog/resume-writing-tips-tricks-and-services/post/unleash-your-career-potential-expert-resume-writing-strategies-for-job-seekers" },
+  openGraph: {
+    title: "Unleash Your Career Potential: Expert Resume Writing Strategies for Job Seekers | ResumAI Blog",
+    description: "Master the art of resume writing with these expert strategies tailored for job seekers, new grads, and professionals.",
+    url: "/app/blog/resume-writing-tips-tricks-and-services/post/unleash-your-career-potential-expert-resume-writing-strategies-for-job-seekers",
+    type: "article",
+    publishedTime: "2023-10-05T11:00:00.000Z",
+  },
+};
 
 const BlogDetailPage = async () => {
   return (

@@ -1,6 +1,11 @@
-
+import type { Metadata } from "next";
 import { ClipboardList, User } from "lucide-react";
 import { Heading } from "@/components/heading";
+
+export const metadata: Metadata = {
+  title: "Blog Post",
+  robots: { index: false, follow: false },
+};
 
 const BlogDetailPage = async () => {
  return (

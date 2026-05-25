@@ -1,5 +1,19 @@
+import type { Metadata } from "next";
 import { ClipboardList, User } from "lucide-react";
 import { Heading } from "@/components/heading";
+
+export const metadata: Metadata = {
+  title: "Revamp Your Resume: Expert Tips for Landing Your Dream Job",
+  description: "Unlock the Secrets to Crafting a Winning Resume",
+  alternates: { canonical: "/app/blog/resume-writing-tips-tricks-and-services/post/revamp-your-resume-expert-tips-for-landing-your-dream-job" },
+  openGraph: {
+    title: "Revamp Your Resume: Expert Tips for Landing Your Dream Job | ResumAI Blog",
+    description: "Unlock the Secrets to Crafting a Winning Resume",
+    url: "/app/blog/resume-writing-tips-tricks-and-services/post/revamp-your-resume-expert-tips-for-landing-your-dream-job",
+    type: "article",
+    publishedTime: "2023-02-22T10:15:00.000Z",
+  },
+};
 
 const BlogDetailPage = async () => {
  return (

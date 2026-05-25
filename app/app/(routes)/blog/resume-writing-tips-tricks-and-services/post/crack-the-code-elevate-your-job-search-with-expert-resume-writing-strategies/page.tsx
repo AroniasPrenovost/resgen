@@ -1,6 +1,19 @@
-
+import type { Metadata } from "next";
 import { ClipboardList, User } from "lucide-react";
 import { Heading } from "@/components/heading";
+
+export const metadata: Metadata = {
+  title: "Crack the Code: Elevate Your Job Search with Expert Resume Writing Strategies",
+  description: "Unlock the Secrets to Crafting a Standout Resume and Boosting Your Online Presence",
+  alternates: { canonical: "/app/blog/resume-writing-tips-tricks-and-services/post/crack-the-code-elevate-your-job-search-with-expert-resume-writing-strategies" },
+  openGraph: {
+    title: "Crack the Code: Elevate Your Job Search with Expert Resume Writing Strategies | ResumAI Blog",
+    description: "Unlock the Secrets to Crafting a Standout Resume and Boosting Your Online Presence",
+    url: "/app/blog/resume-writing-tips-tricks-and-services/post/crack-the-code-elevate-your-job-search-with-expert-resume-writing-strategies",
+    type: "article",
+    publishedTime: "2023-07-03T09:00:00.000Z",
+  },
+};
 
 const BlogDetailPage = async () => {
  return (

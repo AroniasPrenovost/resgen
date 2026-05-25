@@ -1,6 +1,19 @@
-
+import type { Metadata } from "next";
 import { ClipboardList, User } from "lucide-react";
 import { Heading } from "@/components/heading";
+
+export const metadata: Metadata = {
+  title: "Beyond Bullet Points: Writing A Resume That Tells Your Career Story",
+  description: "Tips and Tricks for Writing a Resume That Stands Out",
+  alternates: { canonical: "/app/blog/resume-writing-tips-tricks-and-services/post/beyond-bullet-points-writing-a-resume-that-tells-your-career-story" },
+  openGraph: {
+    title: "Beyond Bullet Points: Writing A Resume That Tells Your Career Story | ResumAI Blog",
+    description: "Tips and Tricks for Writing a Resume That Stands Out",
+    url: "/app/blog/resume-writing-tips-tricks-and-services/post/beyond-bullet-points-writing-a-resume-that-tells-your-career-story",
+    type: "article",
+    publishedTime: "2026-01-10T13:45:00.000Z",
+  },
+};
 
 const BlogDetailPage = async () => {
  return (

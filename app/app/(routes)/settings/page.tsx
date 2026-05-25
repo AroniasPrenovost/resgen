@@ -1,8 +1,16 @@
+import type { Metadata } from "next";
 import { Settings } from "lucide-react";
 
 import { Heading } from "@/components/heading";
 import { SubscriptionButton } from "@/components/subscription-button";
 import { checkSubscription } from "@/lib/subscription";
+
+export const metadata: Metadata = {
+  title: "Account Settings",
+  description: "Manage your ResumAI account settings and subscription plan.",
+  robots: { index: false, follow: false },
+  alternates: { canonical: "/app/settings" },
+};
 
 const SettingsPage = async () => {
   const isPro = false; // await checkSubscription();

@@ -1,6 +1,19 @@
-
+import type { Metadata } from "next";
 import { ClipboardList, User } from "lucide-react";
 import { Heading } from "@/components/heading";
+
+export const metadata: Metadata = {
+  title: "Opening Career Doors In 2024",
+  description: "Discover the secrets to crafting a resume that stands out in the competitive job market of 2024.",
+  alternates: { canonical: "/app/blog/resume-writing-tips-tricks-and-services/post/opening-career-doors-in-2024" },
+  openGraph: {
+    title: "Opening Career Doors In 2024 | ResumAI Blog",
+    description: "Discover the secrets to crafting a resume that stands out in the competitive job market of 2024.",
+    url: "/app/blog/resume-writing-tips-tricks-and-services/post/opening-career-doors-in-2024",
+    type: "article",
+    publishedTime: "2024-12-16T10:15:00.000Z",
+  },
+};
 
 const BlogDetailPage = async () => {
   return (

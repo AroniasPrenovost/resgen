@@ -1,6 +1,19 @@
-
+import type { Metadata } from "next";
 import { ClipboardList, User } from "lucide-react";
 import { Heading } from "@/components/heading";
+
+export const metadata: Metadata = {
+  title: "Open Career Doors with a Slick Resume",
+  description: "Master the art of resume writing with these expert tips and open the door to your dream job.",
+  alternates: { canonical: "/app/blog/resume-writing-tips-tricks-and-services/post/open-career-doors-with-a-slick-resume" },
+  openGraph: {
+    title: "Open Career Doors with a Slick Resume | ResumAI Blog",
+    description: "Master the art of resume writing with these expert tips and open the door to your dream job.",
+    url: "/app/blog/resume-writing-tips-tricks-and-services/post/open-career-doors-with-a-slick-resume",
+    type: "article",
+    publishedTime: "2024-08-02T14:20:00.000Z",
+  },
+};
 
 const BlogDetailPage = async () => {
  return (

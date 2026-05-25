@@ -1,6 +1,19 @@
-
+import type { Metadata } from "next";
 import { ClipboardList, User } from "lucide-react";
 import { Heading } from "@/components/heading";
+
+export const metadata: Metadata = {
+  title: "From Bland to Grand: Transform Your Resume and Land Your Dream Job",
+  description: "Tips and Tricks to Spice Up Your Resume and Stand Out in the Job Market",
+  alternates: { canonical: "/app/blog/resume-writing-tips-tricks-and-services/post/from-bland-to-grand-transform-your-resume-and-land-your-dream-job" },
+  openGraph: {
+    title: "From Bland to Grand: Transform Your Resume and Land Your Dream Job | ResumAI Blog",
+    description: "Tips and Tricks to Spice Up Your Resume and Stand Out in the Job Market",
+    url: "/app/blog/resume-writing-tips-tricks-and-services/post/from-bland-to-grand-transform-your-resume-and-land-your-dream-job",
+    type: "article",
+    publishedTime: "2023-11-19T14:45:00.000Z",
+  },
+};
 
 const BlogDetailPage = async () => {
  return (

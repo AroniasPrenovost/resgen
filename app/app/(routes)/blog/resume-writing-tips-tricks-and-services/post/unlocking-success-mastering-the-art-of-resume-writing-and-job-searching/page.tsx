@@ -1,5 +1,19 @@
+import type { Metadata } from "next";
 import { ClipboardList, User } from "lucide-react";
 import { Heading } from "@/components/heading";
+
+export const metadata: Metadata = {
+  title: "Unlocking Success: Mastering the Art of Resume Writing and Job Searching",
+  description: "Tips and Tricks for Crafting the Perfect Resume and Navigating the Job Market",
+  alternates: { canonical: "/app/blog/resume-writing-tips-tricks-and-services/post/unlocking-success-mastering-the-art-of-resume-writing-and-job-searching" },
+  openGraph: {
+    title: "Unlocking Success: Mastering the Art of Resume Writing and Job Searching | ResumAI Blog",
+    description: "Tips and Tricks for Crafting the Perfect Resume and Navigating the Job Market",
+    url: "/app/blog/resume-writing-tips-tricks-and-services/post/unlocking-success-mastering-the-art-of-resume-writing-and-job-searching",
+    type: "article",
+    publishedTime: "2023-04-08T16:45:00.000Z",
+  },
+};
 
 const BlogDetailPage = async () => {
  return (

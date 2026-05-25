@@ -1,6 +1,19 @@
-
+import type { Metadata } from "next";
 import { ClipboardList, User } from "lucide-react";
 import { Heading } from "@/components/heading";
+
+export const metadata: Metadata = {
+  title: "Crafting a Resume that Shines Brighter than a Diamond",
+  description: "Learn how to stand out like a diamond in the rough.",
+  alternates: { canonical: "/app/blog/resume-writing-tips-tricks-and-services/post/crafting-a-resume-that-shines-brighter-than-a-diamond" },
+  openGraph: {
+    title: "Crafting a Resume that Shines Brighter than a Diamond | ResumAI Blog",
+    description: "Learn how to stand out like a diamond in the rough.",
+    url: "/app/blog/resume-writing-tips-tricks-and-services/post/crafting-a-resume-that-shines-brighter-than-a-diamond",
+    type: "article",
+    publishedTime: "2024-09-17T11:30:00.000Z",
+  },
+};
 
 const BlogDetailPage = async () => {
  return (

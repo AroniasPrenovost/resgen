@@ -1,6 +1,19 @@
-
+import type { Metadata } from "next";
 import { ClipboardList, User } from "lucide-react";
 import { Heading } from "@/components/heading";
+
+export const metadata: Metadata = {
+  title: "Harmonizing Your Resume Writing into a Job Search Symphony",
+  description: "Insights for Crafting an Optimized Resume",
+  alternates: { canonical: "/app/blog/resume-writing-tips-tricks-and-services/post/harmonizing-your-resume-writing-into-a-job-search-symphony" },
+  openGraph: {
+    title: "Harmonizing Your Resume Writing into a Job Search Symphony | ResumAI Blog",
+    description: "Insights for Crafting an Optimized Resume",
+    url: "/app/blog/resume-writing-tips-tricks-and-services/post/harmonizing-your-resume-writing-into-a-job-search-symphony",
+    type: "article",
+    publishedTime: "2024-06-09T09:45:00.000Z",
+  },
+};
 
 const BlogDetailPage = async () => {
  return (

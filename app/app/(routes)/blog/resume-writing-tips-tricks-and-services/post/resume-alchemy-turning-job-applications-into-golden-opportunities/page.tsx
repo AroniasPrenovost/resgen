@@ -1,6 +1,19 @@
-
+import type { Metadata } from "next";
 import { ClipboardList, User } from "lucide-react";
 import { Heading } from "@/components/heading";
+
+export const metadata: Metadata = {
+  title: "Resume Alchemy: Turning Job Applications Into Golden Opportunities",
+  description: "Unlock the secrets to crafting a winning resume that shines like gold in the tech industry.",
+  alternates: { canonical: "/app/blog/resume-writing-tips-tricks-and-services/post/resume-alchemy-turning-job-applications-into-golden-opportunities" },
+  openGraph: {
+    title: "Resume Alchemy: Turning Job Applications Into Golden Opportunities | ResumAI Blog",
+    description: "Unlock the secrets to crafting a winning resume that shines like gold in the tech industry.",
+    url: "/app/blog/resume-writing-tips-tricks-and-services/post/resume-alchemy-turning-job-applications-into-golden-opportunities",
+    type: "article",
+    publishedTime: "2024-11-04T15:00:00.000Z",
+  },
+};
 
 const BlogDetailPage = async () => {
  return (

@@ -1,6 +1,21 @@
+import type { Metadata } from "next";
 import { BookOpen, Sparkles } from "lucide-react";
 import fs from "fs";
 import path from "path";
+
+export const metadata: Metadata = {
+  title: "Resume Writing Blog – Tips, Tricks & Strategies",
+  description:
+    "Expert resume writing tips, job search strategies, and career advice to help you craft an ATS-friendly resume that stands out and lands interviews.",
+  alternates: { canonical: "/app/blog" },
+  openGraph: {
+    title: "Resume Writing Blog – Tips, Tricks & Strategies | ResumAI",
+    description:
+      "Expert resume writing tips, job search strategies, and career advice to help you craft an ATS-friendly resume that stands out and lands interviews.",
+    url: "/app/blog",
+    type: "website",
+  },
+};
 
 const BlogPage = async () => {
 

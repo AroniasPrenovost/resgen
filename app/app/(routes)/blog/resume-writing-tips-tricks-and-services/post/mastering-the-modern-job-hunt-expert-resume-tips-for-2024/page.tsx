@@ -1,5 +1,19 @@
+import type { Metadata } from "next";
 import { ClipboardList, User } from "lucide-react";
 import { Heading } from "@/components/heading";
+
+export const metadata: Metadata = {
+  title: "Mastering the Modern Job Hunt: Expert Resume Tips for 2024",
+  description: "Unlock the secrets to crafting a standout resume and navigating the job market with confidence.",
+  alternates: { canonical: "/app/blog/resume-writing-tips-tricks-and-services/post/mastering-the-modern-job-hunt-expert-resume-tips-for-2024" },
+  openGraph: {
+    title: "Mastering the Modern Job Hunt: Expert Resume Tips for 2024 | ResumAI Blog",
+    description: "Unlock the secrets to crafting a standout resume and navigating the job market with confidence.",
+    url: "/app/blog/resume-writing-tips-tricks-and-services/post/mastering-the-modern-job-hunt-expert-resume-tips-for-2024",
+    type: "article",
+    publishedTime: "2023-08-14T15:30:00.000Z",
+  },
+};
 
 const BlogDetailPage = async () => {
   return (

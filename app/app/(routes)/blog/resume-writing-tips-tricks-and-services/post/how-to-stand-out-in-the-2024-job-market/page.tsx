@@ -1,6 +1,19 @@
-
+import type { Metadata } from "next";
 import { ClipboardList, User } from "lucide-react";
 import { Heading } from "@/components/heading";
+
+export const metadata: Metadata = {
+  title: "How to Stand Out in the 2024 Job Market",
+  description: "Discover the latest strategies to make your resume shine in the competitive 2024 job market.",
+  alternates: { canonical: "/app/blog/resume-writing-tips-tricks-and-services/post/how-to-stand-out-in-the-2024-job-market" },
+  openGraph: {
+    title: "How to Stand Out in the 2024 Job Market | ResumAI Blog",
+    description: "Discover the latest strategies to make your resume shine in the competitive 2024 job market.",
+    url: "/app/blog/resume-writing-tips-tricks-and-services/post/how-to-stand-out-in-the-2024-job-market",
+    type: "article",
+    publishedTime: "2024-01-12T10:30:00.000Z",
+  },
+};
 
 const BlogDetailPage = async () => {
  return (

@@ -1,5 +1,19 @@
+import type { Metadata } from "next";
 import { ClipboardList, User } from "lucide-react";
 import { Heading } from "@/components/heading";
+
+export const metadata: Metadata = {
+  title: "Crafting Your Dream Job: Insider Tips for a Winning Resume",
+  description: "Unlock the secrets to creating a resume that stands out in this competitive job market.",
+  alternates: { canonical: "/app/blog/resume-writing-tips-tricks-and-services/post/crafting-your-dream-job-insider-tips-for-a-winning-resume" },
+  openGraph: {
+    title: "Crafting Your Dream Job: Insider Tips for a Winning Resume | ResumAI Blog",
+    description: "Unlock the secrets to creating a resume that stands out in this competitive job market.",
+    url: "/app/blog/resume-writing-tips-tricks-and-services/post/crafting-your-dream-job-insider-tips-for-a-winning-resume",
+    type: "article",
+    publishedTime: "2023-01-15T14:30:00.000Z",
+  },
+};
 
 const BlogDetailPage = async () => {
   return (

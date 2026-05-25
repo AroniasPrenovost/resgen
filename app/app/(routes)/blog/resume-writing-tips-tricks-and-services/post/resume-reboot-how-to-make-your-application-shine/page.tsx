@@ -1,6 +1,19 @@
-
+import type { Metadata } from "next";
 import { ClipboardList, User } from "lucide-react";
 import { Heading } from "@/components/heading";
+
+export const metadata: Metadata = {
+  title: "Resume Reboot: How to Make Your Application Shine in 2024",
+  description: "Discover the latest tips and tricks to make your resume stand out",
+  alternates: { canonical: "/app/blog/resume-writing-tips-tricks-and-services/post/resume-reboot-how-to-make-your-application-shine" },
+  openGraph: {
+    title: "Resume Reboot: How to Make Your Application Shine in 2024 | ResumAI Blog",
+    description: "Discover the latest tips and tricks to make your resume stand out",
+    url: "/app/blog/resume-writing-tips-tricks-and-services/post/resume-reboot-how-to-make-your-application-shine",
+    type: "article",
+    publishedTime: "2024-04-21T13:00:00.000Z",
+  },
+};
 
 const BlogDetailPage = async () => {
  return (
