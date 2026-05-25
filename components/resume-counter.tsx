@@ -24,6 +24,9 @@ const calculateTotal = () => {
 
 export const ResumeCounter = ({ variant = "default" }: ResumeCounterProps) => {
   const [count, setCount] = useState(0);
+  // The final value the counter animates toward, used to reserve layout width
+  // up front so the surrounding text doesn't reflow as the digits grow.
+  const [target, setTarget] = useState(calculateTotal);
 
   useEffect(() => {
     let frame: number;
@@ -51,6 +54,7 @@ export const ResumeCounter = ({ variant = "default" }: ResumeCounterProps) => {
     // Keep in sync once per day (check hourly in case the page stays open overnight)
     const interval = setInterval(() => {
       target = calculateTotal();
+      setTarget(target);
       setCount(target);
     }, 60 * 60 * 1000);
 
@@ -60,9 +64,19 @@ export const ResumeCounter = ({ variant = "default" }: ResumeCounterProps) => {
     };
   }, []);
 
+  // Renders the animating value on top of an invisible copy of the final
+  // value. The invisible copy reserves the maximum width so the box never
+  // grows/shrinks while counting; tabular-nums keeps each digit a fixed width.
+  const number = (
+    <span className="relative inline-block tabular-nums">
+      <span aria-hidden className="invisible">{target.toLocaleString()}+</span>
+      <span className="absolute inset-0">{count.toLocaleString()}+</span>
+    </span>
+  );
+
   // Number-only variant for use in larger displays
   if (variant === "number-only") {
-    return <>{count.toLocaleString()}+</>;
+    return number;
   }
 
   // Default badge variant
@@ -72,7 +86,7 @@ export const ResumeCounter = ({ variant = "default" }: ResumeCounterProps) => {
         <div className="flex items-center gap-2">
           <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
           <span className="text-zinc-300 text-sm md:text-base">
-            <span className="font-bold text-white">{count.toLocaleString()}+</span> resumes generated
+            <span className="font-bold text-white">{number}</span> resumes generated
           </span>
         </div>
       </div>
