@@ -407,10 +407,6 @@ const ResumeGeneratorPage = () => {
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const [previewResumeData, setPreviewResumeData] = useState<any>(null);
   const [showFormFields, setShowFormFields] = useState(false);
-  const [shouldAutoGeneratePreview, setShouldAutoGeneratePreview] = useState(false);
-  // AI-improved resume data from an uploaded document. Drives the preview directly
-  // (instead of the raw / mid-animation form values) so the preview shows the rewrite.
-  const [aiPreviewSource, setAiPreviewSource] = useState<any>(null);
   // Marks that the current form content is already AI-improved (from an upload) so the
   // download can reuse it instead of making a second AI call. Keeps preview === download.
   const aiImprovedFormKeyRef = useRef<string | null>(null);
@@ -618,13 +614,12 @@ const ResumeGeneratorPage = () => {
           // Capture it as the preview source (avoids the typewriter race) and mark the
           // form content as AI-improved so the download reuses it rather than re-calling AI.
           const aiImprovedMapped = mapFormValuesToResumeObject(responseObject);
-          setAiPreviewSource(aiImprovedMapped);
           aiImprovedFormKeyRef.current = JSON.stringify(aiImprovedMapped);
           // set flag to track that we've processed the resume
           localStorage.setItem('file_has_been_uploaded_and_parsed', 'true');
-          // Show "Opening preview..." state before the preview actually opens
-          setIsOpeningPreview(true);
-          setShouldAutoGeneratePreview(true);
+          // Mark the upload as parsed so the UI reveals the preview action. We no
+          // longer auto-open the preview — the user clicks to open the popup.
+          setFileHasBeenUploadedAndParsed(true);
           console.log('=== [WRAPPER] SUCCESS - Form populated with rewritten resume ===');
         } else {
           console.error('[WRAPPER] ERROR: No valid response from AI');
@@ -1442,7 +1437,6 @@ const ResumeGeneratorPage = () => {
       // Count this real generation toward the public "resumes generated" total
       // so the counter ticks up live for the user who just generated.
       incrementLocalGenerationCount();
-      toast.success('Resume generated — preview is free!');
     } catch (error) {
       clearInterval(progressInterval);
       setActionState('idle');
@@ -1916,18 +1910,6 @@ stringifiedMappedFormValues;
     // Cleanup function to clear the timeout if the component unmounts
     return () => clearTimeout(timeoutId);
   }, [hasPaid]);
-
-  // Auto-generate preview after file upload processing completes
-  useEffect(() => {
-    if (shouldAutoGeneratePreview) {
-      setShouldAutoGeneratePreview(false);
-      setTimeout(() => {
-        // Drive the preview from the AI-improved upload data so it reflects the rewrite.
-        generatePreview(aiPreviewSource);
-      }, 1000);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [shouldAutoGeneratePreview]);
 
   // Don't render until client-side hydration is complete to avoid mismatch
   if (!isMounted) {
