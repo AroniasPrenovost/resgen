@@ -615,10 +615,16 @@ const ResumeGeneratorPage = () => {
           // form content as AI-improved so the download reuses it rather than re-calling AI.
           const aiImprovedMapped = mapFormValuesToResumeObject(responseObject);
           aiImprovedFormKeyRef.current = JSON.stringify(aiImprovedMapped);
+          // The upload parse already AI-rewrote the resume. Surface that rewrite as
+          // the ready-to-view preview right away — free, no extra generation/credit.
+          // This lights up the prominent Preview CTA + sticky preview/download bar so
+          // it's immediately obvious what to do next. The modal does NOT auto-open;
+          // the user clicks Preview.
+          setPreviewResumeData(aiImprovedMapped);
+          setActionState('preview-ready');
           // set flag to track that we've processed the resume
           localStorage.setItem('file_has_been_uploaded_and_parsed', 'true');
-          // Mark the upload as parsed so the UI reveals the preview action. We no
-          // longer auto-open the preview — the user clicks to open the popup.
+          // Mark the upload as parsed so the UI reveals the preview action.
           setFileHasBeenUploadedAndParsed(true);
           console.log('=== [WRAPPER] SUCCESS - Form populated with rewritten resume ===');
         } else {
@@ -1431,7 +1437,8 @@ const ResumeGeneratorPage = () => {
       setGenerationProgress(100);
       setTimeout(() => {
         setActionState('preview-ready');
-        setShowPreviewModal(true);
+        // Generation no longer auto-opens the preview — the user clicks the
+        // "👁 Preview current version" button to view it.
         setFileHasBeenUploadedAndParsed(true);
       }, 400);
       // Count this real generation toward the public "resumes generated" total
@@ -2144,33 +2151,46 @@ stringifiedMappedFormValues;
               </div>
             </div>
 
-            {/* Preview CTA — make the free preview unmistakable */}
+            {/* Preview CTA — dominant after the upload's initial rewrite: this is the
+                clear "what's next". The resume is already rewritten and previewable. */}
             {fileHasBeenUploadedAndParsed && (
-              <div className="mt-6 flex flex-col items-center gap-2">
-                <Button
-                  type="button"
-                  disabled={isOpeningPreview || actionState === 'generating'}
-                  onClick={() => { if (previewResumeData) { setShowPreviewModal(true); } else { generatePreview(); } }}
-                  className="h-12 px-7 text-base rounded-xl font-semibold bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white shadow-lg shadow-purple-200 hover:shadow-xl hover:scale-[1.02] transition-all"
-                >
-                  {isOpeningPreview ? (
-                    <span className="flex items-center gap-2">
-                      <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                      </svg>
-                      Opening preview...
-                    </span>
-                  ) : (
-                    <span className="flex items-center gap-2">
-                      <Eye className="w-5 h-5" />
-                      Preview my resume — free
-                    </span>
-                  )}
-                </Button>
-                <p className="text-xs text-gray-500">
-                  See it free first · download the polished .docx for <strong className="text-purple-600">$9.99</strong>
-                </p>
+              <div className="mt-6 rounded-2xl border-2 border-purple-200 bg-gradient-to-br from-purple-50 via-white to-pink-50 p-6 md:p-8 shadow-lg shadow-purple-100 animate-in fade-in slide-in-from-bottom-2 duration-500">
+                <div className="flex flex-col items-center gap-3 text-center">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">
+                    <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
+                    Rewritten &amp; ready
+                  </span>
+                  <h3 className="text-xl md:text-2xl font-bold text-gray-900">
+                    ✨ Your resume is ready to preview
+                  </h3>
+                  <p className="text-sm text-gray-600 max-w-md">
+                    We&apos;ve polished your content. Take a look — it&apos;s free.
+                  </p>
+                  <Button
+                    type="button"
+                    disabled={isOpeningPreview || actionState === 'generating'}
+                    onClick={() => { if (previewResumeData) { setShowPreviewModal(true); } else { generatePreview(); } }}
+                    className="mt-1 h-14 w-full max-w-sm px-8 text-lg rounded-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white shadow-lg shadow-purple-200 hover:shadow-xl hover:scale-[1.02] transition-all"
+                  >
+                    {isOpeningPreview ? (
+                      <span className="flex items-center gap-2">
+                        <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                        </svg>
+                        Opening preview...
+                      </span>
+                    ) : (
+                      <span className="flex items-center gap-2">
+                        <Eye className="w-6 h-6" />
+                        Preview my resume — free
+                      </span>
+                    )}
+                  </Button>
+                  <p className="text-xs text-gray-500">
+                    See it free first · download the polished .docx for <strong className="text-purple-600">$9.99</strong>
+                  </p>
+                </div>
               </div>
             )}
           </div>
