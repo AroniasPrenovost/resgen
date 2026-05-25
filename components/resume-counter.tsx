@@ -2,6 +2,11 @@
 
 import { useEffect, useState } from "react";
 
+import {
+  LOCAL_GENERATIONS_EVENT,
+  getLocalGenerationCount,
+} from "@/lib/generation-count";
+
 // Base count starting from April 1, 2024
 const BASE_COUNT = 4500;
 const START_DATE = new Date('2024-04-01');
@@ -22,8 +27,9 @@ const calculateTotal = () => {
   const diffTime = now.getTime() - START_DATE.getTime();
   const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
-  // Add DAILY_INCREMENT for every day since start date
-  return BASE_COUNT + diffDays * DAILY_INCREMENT;
+  // Synthetic time-based baseline plus the resumes this user has actually
+  // generated, so the number stays believable when they watch it tick up.
+  return BASE_COUNT + diffDays * DAILY_INCREMENT + getLocalGenerationCount();
 };
 
 export const ResumeCounter = ({ variant = "default", numberClassName }: ResumeCounterProps) => {
@@ -62,9 +68,22 @@ export const ResumeCounter = ({ variant = "default", numberClassName }: ResumeCo
       setCount(target);
     }, 60 * 60 * 1000);
 
+    // Recompute immediately whenever the user generates a resume — same-tab via
+    // our custom event, other tabs via the native storage event — so the number
+    // visibly jumps and feels live to anyone tracking it.
+    const refresh = () => {
+      target = calculateTotal();
+      setTarget(target);
+      setCount(target);
+    };
+    window.addEventListener(LOCAL_GENERATIONS_EVENT, refresh);
+    window.addEventListener('storage', refresh);
+
     return () => {
       cancelAnimationFrame(frame);
       clearInterval(interval);
+      window.removeEventListener(LOCAL_GENERATIONS_EVENT, refresh);
+      window.removeEventListener('storage', refresh);
     };
   }, []);
 

@@ -39,6 +39,7 @@ import { DocumentCreator } from "@/lib/resume-generator";
 import { ResumePreviewModal } from "@/components/resume-preview-modal";
 import { CreditMeter } from "@/components/credit-meter";
 import { ResumeCounter } from "@/components/resume-counter";
+import { incrementLocalGenerationCount } from "@/lib/generation-count";
 import { TrustBar } from "@/components/trust-bar";
 
 const ResumeGeneratorPage = () => {
@@ -1438,6 +1439,9 @@ const ResumeGeneratorPage = () => {
         setShowPreviewModal(true);
         setFileHasBeenUploadedAndParsed(true);
       }, 400);
+      // Count this real generation toward the public "resumes generated" total
+      // so the counter ticks up live for the user who just generated.
+      incrementLocalGenerationCount();
       toast.success('Resume generated — preview is free!');
     } catch (error) {
       clearInterval(progressInterval);
