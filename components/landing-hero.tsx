@@ -12,6 +12,7 @@ import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
 import { ResumeCounter } from "@/components/resume-counter";
+import { TrustBar } from "@/components/trust-bar";
 
 export const LandingHero = () => {
   // const { isSignedIn } = useAuth();
@@ -78,6 +79,7 @@ export const LandingHero = () => {
               <p className="text-zinc-400 text-xs md:text-sm mt-4 font-normal">
                 Free to generate & edit • $9.99 to download • No credit card needed
               </p>
+              <TrustBar theme="dark" className="mt-6 justify-center lg:justify-start" />
             </div>
           </div>
 

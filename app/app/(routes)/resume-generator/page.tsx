@@ -2,7 +2,7 @@
 
 import * as z from "zod";
 import axios from "axios";
-import { FileText, Sparkles } from "lucide-react";
+import { FileText, Sparkles, Eye, Download } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useEffect, useState, useRef } from "react";
 import { toast } from "react-hot-toast";
@@ -39,6 +39,7 @@ import { DocumentCreator } from "@/lib/resume-generator";
 import { ResumePreviewModal } from "@/components/resume-preview-modal";
 import { CreditMeter } from "@/components/credit-meter";
 import { ResumeCounter } from "@/components/resume-counter";
+import { TrustBar } from "@/components/trust-bar";
 
 const ResumeGeneratorPage = () => {
   // Track client-side mounting to prevent hydration mismatch with useSearchParams
@@ -1934,7 +1935,7 @@ stringifiedMappedFormValues;
   }
 
   return (
-    <div>
+    <div className={cn(!hasPaid && previewResumeData && "pb-24")}>
       {/* Resume Preview Modal */}
       <ResumePreviewModal
         isOpen={showPreviewModal}
@@ -1954,35 +1955,54 @@ stringifiedMappedFormValues;
         }}
       />
 
+      {/* Sticky preview/download bar — follows the user once a preview exists */}
+      {!hasPaid && previewResumeData && !showPreviewModal && (
+        <div className="fixed bottom-0 left-0 right-0 z-40 animate-in slide-in-from-bottom duration-300">
+          <div className="border-t border-purple-100 bg-white/95 backdrop-blur shadow-[0_-4px_20px_-4px_rgba(0,0,0,0.1)]">
+            {/* pr-20 keeps the buttons clear of the floating chat bubble */}
+            <div className="mx-auto flex max-w-3xl items-center gap-3 px-4 py-3 sm:pr-20">
+              <p className="hidden flex-1 text-sm font-medium text-gray-700 sm:block">
+                Your resume is ready — preview it free or download the polished .docx.
+              </p>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setShowPreviewModal(true)}
+                className="h-11 flex-1 rounded-xl border-purple-300 text-base font-semibold text-purple-700 hover:bg-purple-50 sm:flex-none sm:px-6"
+              >
+                <Eye className="mr-2 h-5 w-5" />
+                Preview
+              </Button>
+              <Button
+                type="button"
+                onClick={() => {
+                  const values = form.getValues();
+                  localStorage.setItem('stored_form_values', JSON.stringify(values));
+                  window.location.assign(STRIPE_PAYMENT_LINK);
+                }}
+                className="h-11 flex-1 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 text-base font-semibold text-white shadow-lg shadow-purple-200 hover:from-purple-700 hover:to-pink-700 hover:scale-[1.02] transition-all sm:flex-none sm:px-6"
+              >
+                <Download className="mr-2 h-5 w-5" />
+                Download $9.99
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Value-prop band — single top-level element */}
-      <div className="px-4 lg:px-8 mb-8">
-        <div className="relative overflow-hidden rounded-2xl border border-purple-100 bg-gradient-to-r from-purple-50 via-white to-pink-50 px-6 py-7 md:px-10 md:py-9">
+      <div className="px-4 lg:px-8 mb-6">
+        <div className="relative overflow-hidden rounded-2xl border border-purple-100 bg-gradient-to-r from-purple-50 via-white to-pink-50 px-6 py-5 md:px-10 md:py-6">
           {/* Decorative blur */}
           <div className="absolute -top-12 -right-12 w-44 h-44 bg-gradient-to-br from-purple-200/40 to-pink-200/40 rounded-full blur-3xl pointer-events-none"></div>
           <div className="relative text-center max-w-3xl mx-auto">
             <h1 className="text-2xl md:text-3xl font-bold text-gray-900 leading-tight">
               Land more interviews with an ATS-ready resume
             </h1>
-            <p className="mt-2 text-gray-600 md:text-lg">
+            <p className="mt-1.5 text-gray-600 md:text-lg">
               Upload, tailor it to any job, and generate a recruiter-approved resume in seconds.
             </p>
-            <div className="mt-4 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm">
-              <span className="inline-flex items-center gap-1.5 font-medium text-purple-700">
-                <Sparkles className="w-4 h-4" /> ATS-Optimized
-              </span>
-              <span className="text-gray-300">·</span>
-              <span className="inline-flex items-center gap-1.5 text-gray-700">
-                <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                <strong className="text-gray-900"><ResumeCounter variant="number-only" /></strong> resumes generated
-              </span>
-              <span className="text-gray-300">·</span>
-              <span className="inline-flex items-center gap-1.5 text-gray-700">
-                <svg className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                30-day revisions
-              </span>
-            </div>
+            <TrustBar theme="light" className="mt-4" />
           </div>
         </div>
       </div>
@@ -2138,25 +2158,35 @@ stringifiedMappedFormValues;
               </div>
             </div>
 
-            {/* Preview Free Badge */}
-            <div className="mt-6 flex items-center justify-center gap-6">
-              <div className="flex items-center gap-2 text-sm">
-                <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center">
-                  <svg className="w-3 h-3 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
-                  </svg>
-                </div>
-                <span className="text-gray-600">Preview <strong className="text-green-600">FREE</strong></span>
+            {/* Preview CTA — make the free preview unmistakable */}
+            {fileHasBeenUploadedAndParsed && (
+              <div className="mt-6 flex flex-col items-center gap-2">
+                <Button
+                  type="button"
+                  disabled={isOpeningPreview || actionState === 'generating'}
+                  onClick={() => { if (previewResumeData) { setShowPreviewModal(true); } else { generatePreview(); } }}
+                  className="h-12 px-7 text-base rounded-xl font-semibold bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white shadow-lg shadow-purple-200 hover:shadow-xl hover:scale-[1.02] transition-all"
+                >
+                  {isOpeningPreview ? (
+                    <span className="flex items-center gap-2">
+                      <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                      </svg>
+                      Opening preview...
+                    </span>
+                  ) : (
+                    <span className="flex items-center gap-2">
+                      <Eye className="w-5 h-5" />
+                      Preview my resume — free
+                    </span>
+                  )}
+                </Button>
+                <p className="text-xs text-gray-500">
+                  See it free first · download the polished .docx for <strong className="text-purple-600">$9.99</strong>
+                </p>
               </div>
-              <div className="flex items-center gap-2 text-sm">
-                <div className="w-5 h-5 rounded-full bg-purple-100 flex items-center justify-center">
-                  <svg className="w-3 h-3 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586L7.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7z" clipRule="evenodd"/>
-                  </svg>
-                </div>
-                <span className="text-gray-600">Download <strong className="text-purple-600">$9.99</strong></span>
-              </div>
-            </div>
+            )}
           </div>
         </div>
       </div>
