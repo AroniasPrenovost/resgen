@@ -13,7 +13,7 @@ const faqs = [
     q: "Can't I just use ChatGPT for free?",
     a: (
       <>
-        You can. You&apos;ll spend 30&ndash;90 minutes wrestling with prompts, formatting in Google Docs, breaking ATS parsing, and re-iterating. We&apos;ve done that work: tested prompts, calibrated against the ATS systems Fortune 500s actually use, and built templates that download as clean .docx. $9.99 buys you an hour of your evening back.
+        You can. You&apos;ll spend 30&ndash;90 minutes wrestling with prompts, formatting in Google Docs, breaking ATS parsing, and re-iterating. We&apos;ve done that work: tested prompts, calibrated against the ATS systems Fortune 500s actually use, and built templates that download as clean .docx.
       </>
     ),
   },
@@ -22,14 +22,6 @@ const faqs = [
     a: (
       <>
         The AI tailors to whatever JD you paste in. We&apos;ve shipped resumes for software engineers, nurses, account executives, teachers, mechanics, and analysts. The tone, keyword density, and seniority signals adapt automatically. If it doesn&apos;t fit your role, refund — see the next question.
-      </>
-    ),
-  },
-  {
-    q: "Refund policy?",
-    a: (
-      <>
-        30 days, no questions. Email <span className="font-mono text-white">refund@resumai.services</span> with your order ID. We&apos;ll send the $9.99 back to your card within 3 business days. We don&apos;t need a reason. We don&apos;t ask you to &ldquo;try one more revision.&rdquo; We refund.
       </>
     ),
   },
@@ -45,7 +37,7 @@ const faqs = [
     q: "Do you store my resume data?",
     a: (
       <>
-        For 30 days, so you can re-download. After that it&apos;s deleted. We never share it. We never train models on it. Full policy at <span className="font-mono text-white">resumai.services/privacy</span>.
+        Your data is only stored in your local browser cookies. It&apos;s never shared, and never used to train models.
       </>
     ),
   },
