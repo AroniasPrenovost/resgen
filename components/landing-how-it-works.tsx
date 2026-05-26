@@ -17,8 +17,8 @@ const steps = [
   },
   {
     label: "03 / DOWNLOAD",
-    title: "Preview free, $9.99 to download",
-    body: "See the polished version before you pay. Pay once for the clean .docx. Edit forever in Word or Google Docs.",
+    title: "Preview free, $9.99 for a month",
+    body: "See the polished version before you pay. Pay $9.99 once for a full month — 30 generations, unlimited downloads. Edit forever in Word or Google Docs.",
     icon: <path d="M12 4v12m0 0l-4-4m4 4l4-4M4 20h16" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />,
   },
 ];

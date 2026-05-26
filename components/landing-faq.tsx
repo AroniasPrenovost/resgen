@@ -5,7 +5,7 @@ const faqs = [
     q: "Is this really one-time payment? What's the catch?",
     a: (
       <>
-        No catch. You pay $9.99 when you download. Stripe handles the transaction. We don&apos;t store your card. There&apos;s no account that auto-renews. If you need a second resume next month, you pay $9.99 again — that&apos;s the model. We&apos;d rather earn each download than trap you in a $24/month auto-renewal you forget about.
+        No catch. $9.99 buys a full month of access — 30 resume generations and unlimited downloads, not a charge per download. Stripe handles the transaction. We don&apos;t store your card. There&apos;s no account that auto-renews. When the month&apos;s up, it&apos;s up — nothing bills automatically. Need access again later? Pay another $9.99. We&apos;d rather earn it each month than trap you in a $24/month auto-renewal you forget about.
       </>
     ),
   },

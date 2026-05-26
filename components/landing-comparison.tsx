@@ -33,7 +33,7 @@ export const LandingComparison = () => {
             <div className="p-5 border-b border-[var(--border-soft)] text-[var(--text-muted)]">Real annual cost</div>
             <div className="p-5 border-b border-[var(--border-soft)] bg-[var(--surface-2)] text-center">
               <div className="font-mono text-2xl font-semibold text-emerald-400">$9.99</div>
-              <div className="text-xs text-[var(--text-faint)]">once</div>
+              <div className="text-xs text-[var(--text-faint)]">one month, no renewal</div>
             </div>
             <div className="p-5 border-b border-[var(--border-soft)] text-center"><div className="font-mono text-xl text-[var(--danger)]">$337</div><div className="text-xs text-[var(--text-faint)]">per year</div></div>
             <div className="p-5 border-b border-[var(--border-soft)] text-center"><div className="font-mono text-xl text-[var(--danger)]">$389</div><div className="text-xs text-[var(--text-faint)]">per year</div></div>

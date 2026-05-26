@@ -37,7 +37,7 @@ const secondary = [
     title: "Senior Engineer · Bellevue, WA",
     quote: (
       <>
-        &ldquo;Laid off in February. Had Zety for like a week and they charged me $24 I didn&apos;t authorize. This one is <span className="text-white font-medium">$9.99, one time, done</span>. Felt like a sane person built it.&rdquo;
+        &ldquo;Laid off in February. Had Zety for like a week and they charged me $24 I didn&apos;t authorize. Paid <span className="text-white font-medium">$9.99 here, redid my resume a bunch of times that month, and that was it</span> — no card on file waiting to bill me. Felt like a sane person built it.&rdquo;
       </>
     ),
   },

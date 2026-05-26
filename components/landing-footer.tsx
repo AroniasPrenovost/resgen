@@ -41,7 +41,7 @@ export const LandingFooter = () => {
               <div className="w-7 h-7 rounded-lg" style={{ background: "linear-gradient(135deg, #A78BFA 0%, #EC4899 100%)" }} />
               <span className="font-semibold tracking-tight text-white">ResumAI</span>
             </div>
-            <p className="text-sm text-[var(--text-muted)] leading-relaxed">AI resumes that beat the bots. $9.99 once. No subscription.</p>
+            <p className="text-sm text-[var(--text-muted)] leading-relaxed">AI resumes that beat the bots. $9.99 for a month of access. No subscription.</p>
           </div>
           {columns.map((col) => (
             <div key={col.heading}>

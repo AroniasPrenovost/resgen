@@ -6,7 +6,7 @@ const included = [
   "AI-tailored to any JD",
   "Matching cover letter",
   "ATS-tested templates",
-  ".docx + .pdf download",
+  "30 generations, unlimited downloads",
   "30-day money-back",
   "Edit forever in Word",
 ];
@@ -37,7 +37,7 @@ export const LandingPricing = () => {
             One price. <span className="italic highlight">No fine print.</span>
           </h2>
           <p className="text-[var(--text-muted)] max-w-xl mx-auto">
-            Pay $9.99 the moment you download. We don&apos;t store your card. There&apos;s nothing to cancel because there&apos;s nothing recurring.
+            Pay $9.99 once for a full month of access — 30 resume generations, unlimited downloads. We don&apos;t store your card. There&apos;s nothing to cancel because there&apos;s nothing recurring.
           </p>
         </div>
 
@@ -47,7 +47,7 @@ export const LandingPricing = () => {
             <div className="md:col-span-7">
               <div className="flex items-baseline gap-3 mb-3">
                 <span className="font-serif text-7xl text-white">$9.99</span>
-                <span className="text-[var(--text-muted)]">once, per resume download</span>
+                <span className="text-[var(--text-muted)]">once, for a full month of access</span>
               </div>
               <div className="text-sm text-[var(--text-faint)] mb-7 line-through">vs. $337/year if you forget to cancel Zety</div>
 
@@ -61,7 +61,7 @@ export const LandingPricing = () => {
               </div>
 
               <Link href="/app/resume-generator" prefetch={true} className="btn-primary rounded-full px-7 py-4 font-semibold text-white inline-flex items-center gap-2">
-                Try it free  ·  $9.99 to download
+                Try it free  ·  $9.99 for a month
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10m0 0l-4-4m4 4l-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
               </Link>
             </div>
