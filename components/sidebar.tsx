@@ -49,7 +49,7 @@ export const Sidebar = ({
   const isResumeGeneratorPage = pathname === '/app/resume-generator';
 
   return (
-    <div className="space-y-4 py-6 flex flex-col h-full bg-[#111827] text-white" style={{ width: '80px' }}>
+    <div className="space-y-4 py-6 flex flex-col h-full bg-[#0A0B14] border-r border-[#1C1E2E] text-white" style={{ width: '80px' }}>
       <div className="px-2 py-2 flex-1 flex flex-col items-center">
         {/* Logo - Icon Only */}
         <Link href="/" className="flex items-center justify-center mb-8">

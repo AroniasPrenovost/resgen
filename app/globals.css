@@ -181,3 +181,199 @@ body,
 .resume-preview a:hover {
   text-decoration: underline;
 }
+
+/* ============================================================
+   LANDING REDESIGN DESIGN SYSTEM
+   Scoped under .landing-redesign so it never touches the app UI.
+   Mirrors the resumai-redesign mockup: near-black surfaces,
+   purple→pink brand, Instrument Serif display headings.
+   ============================================================ */
+.landing-redesign {
+  --bg: #0A0B14;
+  --bg-soft: #0F1019;
+  --surface: #14151F;
+  --surface-2: #1A1C28;
+  --border: #23253A;
+  --border-soft: #1C1E2E;
+  --text: #F5F5F7;
+  --text-muted: #9097A8;
+  --text-faint: #5F6478;
+  --brand: #A78BFA;
+  --brand-2: #EC4899;
+  --success: #34D399;
+  --warn: #FBBF24;
+  --danger: #F87171;
+
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+.landing-redesign .font-serif {
+  font-family: var(--font-instrument-serif), Georgia, serif;
+}
+
+/* Ambient background mesh */
+.landing-redesign .hero-bg {
+  background:
+    radial-gradient(60% 50% at 20% 10%, rgba(167, 139, 250, 0.18) 0%, transparent 60%),
+    radial-gradient(50% 40% at 90% 20%, rgba(236, 72, 153, 0.10) 0%, transparent 65%),
+    radial-gradient(70% 60% at 50% 100%, rgba(167, 139, 250, 0.05) 0%, transparent 70%);
+}
+
+/* Subtle grid texture */
+.landing-redesign .texture-grid {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+/* Rotating word animation */
+.landing-redesign .word-rotator {
+  display: inline-block;
+  position: relative;
+  height: 1.1em;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+.landing-redesign .word-rotator span {
+  display: block;
+  animation: rotate-words 9s infinite;
+  background: linear-gradient(135deg, #A78BFA 0%, #EC4899 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  font-style: italic;
+}
+@keyframes rotate-words {
+  0%, 25% { transform: translateY(0); }
+  33%, 58% { transform: translateY(-1.1em); }
+  66%, 91% { transform: translateY(-2.2em); }
+  100% { transform: translateY(-3.3em); }
+}
+
+/* Primary CTA */
+.landing-redesign .btn-primary {
+  background: linear-gradient(135deg, #A78BFA 0%, #EC4899 100%);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.06) inset,
+    0 1px 0 rgba(255,255,255,0.18) inset,
+    0 12px 32px -8px rgba(167, 139, 250, 0.45);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.landing-redesign .btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.06) inset,
+    0 1px 0 rgba(255,255,255,0.24) inset,
+    0 18px 40px -8px rgba(167, 139, 250, 0.55);
+}
+
+/* Secondary CTA */
+.landing-redesign .btn-secondary {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  transition: all 0.18s ease;
+}
+.landing-redesign .btn-secondary:hover {
+  background: rgba(255,255,255,0.07);
+  border-color: rgba(167, 139, 250, 0.4);
+}
+
+/* Card */
+.landing-redesign .card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.025) 0%, rgba(255,255,255,0.005) 100%);
+  border: 1px solid var(--border-soft);
+  border-radius: 18px;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+.landing-redesign .card-hover:hover {
+  border-color: var(--border);
+  transform: translateY(-2px);
+}
+
+/* Comparison check / x */
+.landing-redesign .check-yes { color: var(--success); }
+.landing-redesign .check-no { color: var(--danger); }
+
+/* Resume preview shadow */
+.landing-redesign .resume-shadow {
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.06),
+    0 30px 60px -20px rgba(0,0,0,0.6),
+    0 8px 18px -6px rgba(167, 139, 250, 0.2);
+}
+
+/* Subtle entrance */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.landing-redesign .rise { animation: rise 0.7s ease-out backwards; }
+
+/* Tag */
+.landing-redesign .tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.875rem;
+  background: rgba(167, 139, 250, 0.10);
+  border: 1px solid rgba(167, 139, 250, 0.20);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #C4B5FD;
+  letter-spacing: 0.02em;
+}
+
+/* Pulse dot */
+.landing-redesign .pulse-dot { position: relative; }
+.landing-redesign .pulse-dot::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: 999px;
+  background: var(--success);
+  animation: pulse-ring 2s ease-out infinite;
+  opacity: 0.6;
+}
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+/* FAQ details */
+.landing-redesign details summary { list-style: none; cursor: pointer; }
+.landing-redesign details summary::-webkit-details-marker { display: none; }
+.landing-redesign details[open] .faq-icon { transform: rotate(45deg); }
+.landing-redesign .faq-icon { transition: transform 0.2s ease; }
+
+/* Section labels */
+.landing-redesign .section-eyebrow {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brand);
+  font-weight: 500;
+}
+
+/* Highlight */
+.landing-redesign .highlight {
+  background: linear-gradient(135deg, #A78BFA 0%, #EC4899 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* ATS badge */
+.landing-redesign .ats-badge {
+  background: linear-gradient(135deg, rgba(52, 211, 153, 0.16) 0%, rgba(52, 211, 153, 0.04) 100%);
+  border: 1px solid rgba(52, 211, 153, 0.3);
+}

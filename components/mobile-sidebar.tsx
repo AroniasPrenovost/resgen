@@ -31,7 +31,7 @@ export const MobileSidebar = ({
           <Menu />
         </Button>
       </SheetTrigger>
-      <SheetContent side="left" className="p-0">
+      <SheetContent side="left" className="p-0 w-20 bg-[#0A0B14] border-[#1C1E2E]">
         <Sidebar isPro={isPro} apiLimitCount={apiLimitCount} />
       </SheetContent>
     </Sheet>
