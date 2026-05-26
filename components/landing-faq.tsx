@@ -21,7 +21,7 @@ const faqs = [
     q: "What if it doesn't work for my industry?",
     a: (
       <>
-        The AI tailors to whatever JD you paste in. We&apos;ve shipped resumes for software engineers, nurses, account executives, teachers, mechanics, and analysts. The tone, keyword density, and seniority signals adapt automatically. If it doesn&apos;t fit your role, refund — see the next question.
+        The AI tailors to whatever job description you paste in. We&apos;ve shipped resumes for software engineers, nurses, account executives, teachers, mechanics, and analysts. The tone, keyword density, and seniority signals adapt automatically. If it doesn&apos;t fit your role, refund — see the next question.
       </>
     ),
   },
@@ -29,7 +29,7 @@ const faqs = [
     q: "Will the output sound like AI wrote it?",
     a: (
       <>
-        No, because the AI is rewriting <span className="text-white">your</span> material, not inventing from a blank page. It tightens your wording, surfaces metrics you already mentioned, and matches the JD&apos;s tone. You can preview every word before you pay — and edit anything that doesn&apos;t sound like you.
+        No, because the AI is rewriting <span className="text-white">your</span> material, not inventing from a blank page. It tightens your wording, surfaces metrics you already mentioned, and matches the job description&apos;s tone. You can preview every word before you pay — and edit anything that doesn&apos;t sound like you.
       </>
     ),
   },

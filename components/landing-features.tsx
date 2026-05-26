@@ -41,14 +41,14 @@ export const LandingFeatures = () => {
               <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-5" style={{ background: "rgba(167, 139, 250, 0.14)", border: "1px solid rgba(167, 139, 250, 0.25)" }}>
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2v3M10 15v3M2 10h3M15 10h3M4.5 4.5l2 2M13.5 13.5l2 2M4.5 15.5l2-2M13.5 6.5l2-2" stroke="#A78BFA" strokeWidth="1.8" strokeLinecap="round" /></svg>
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-white">Paste the JD. AI does the rest.</h3>
+              <h3 className="text-xl font-semibold mb-3 text-white">Paste the job description. AI does the rest.</h3>
               <p className="text-[var(--text-muted)] text-sm leading-relaxed mb-5">
                 Drop in any job posting from LinkedIn, Greenhouse, Workday. Our AI rewrites your resume to mirror the exact keywords, skills, and tone the recruiter wrote into the listing. Different job, different resume. In seconds.
               </p>
               <div className="bg-[var(--surface)] rounded-xl p-4 border border-[var(--border-soft)] space-y-2.5">
                 <div className="flex items-center gap-3 text-xs">
                   <div className="w-1.5 h-1.5 rounded-full bg-[var(--brand)]" />
-                  <span className="text-[var(--text-muted)]">JD:</span>
+                  <span className="text-[var(--text-muted)]">Job description:</span>
                   <span className="font-mono text-white truncate">&ldquo;Senior PM at Stripe, 5+ yrs growth...&rdquo;</span>
                 </div>
                 <div className="flex items-center gap-3 text-xs">

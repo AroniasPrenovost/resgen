@@ -3,7 +3,7 @@
 import Link from "next/link";
 
 const included = [
-  "AI-tailored to any JD",
+  "AI-tailored to any job description",
   "Matching cover letter",
   "ATS-tested templates",
   "30 generations, unlimited downloads",

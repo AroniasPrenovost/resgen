@@ -12,7 +12,7 @@ const steps = [
   {
     label: "02 / TAILOR",
     title: "Paste the job posting",
-    body: "AI reads the JD and rewrites your bullets to match its language, keywords, and seniority signals.",
+    body: "AI reads the job description and rewrites your bullets to match its language, keywords, and seniority signals.",
     icon: <path d="M14 4l6 6-10 10-6 1 1-6L14 4z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />,
   },
   {
