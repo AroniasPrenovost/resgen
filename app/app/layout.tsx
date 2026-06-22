@@ -1,5 +1,4 @@
-import Navbar from "@/components/navbar";
-import { Sidebar } from "@/components/sidebar";
+import { AppShell } from "@/components/app-shell";
 // import { checkSubscription } from "@/lib/subscription";
 // import { getApiLimitCount } from "@/lib/api-limit";
 
@@ -11,18 +10,7 @@ const DashboardLayout = async ({
   // const apiLimitCount = await getApiLimitCount();
   // const isPro = await checkSubscription();
 
-  return (
-    <div className="h-full relative">
-      <div className="hidden h-full md:flex md:w-20 md:flex-col md:fixed md:inset-y-0 z-80 bg-[#0A0B14]">
-        {/*<Sidebar isPro={isPro} apiLimitCount={apiLimitCount} />*/}
-       <Sidebar isPro={true} apiLimitCount={0} />
-      </div>
-      <main className="md:pl-20 pb-1">
-        <Navbar />
-        {children}
-      </main>
-    </div>
-   );
+  return <AppShell>{children}</AppShell>;
 }
 
 export default DashboardLayout;

@@ -2,7 +2,6 @@
 
 import * as z from "zod";
 import axios from "axios";
-import { FileText, Sparkles, Eye, Download } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useEffect, useState, useRef } from "react";
 import { toast } from "react-hot-toast";
@@ -37,10 +36,31 @@ import { DocumentCreator } from "@/lib/resume-generator";
 
 // Components for button experience overhaul
 import { ResumePreviewModal } from "@/components/resume-preview-modal";
-import { CreditMeter } from "@/components/credit-meter";
-import { ResumeCounter } from "@/components/resume-counter";
 import { incrementLocalGenerationCount } from "@/lib/generation-count";
-import { TrustBar } from "@/components/trust-bar";
+
+// Generator redesign — dark editorial UI matching the marketing landing page
+import { GeneratorTopbar } from "@/components/generator/generator-topbar";
+import { GeneratorHero } from "@/components/generator/generator-hero";
+import { TrustChipStrip } from "@/components/generator/trust-chip-strip";
+import {
+  TrustRail,
+  HonestMathCard,
+  LiveProofCard,
+} from "@/components/generator/trust-rail";
+import { CreditsPips } from "@/components/generator/credits-pips";
+import { PreviewDoc } from "@/components/generator/preview-doc";
+import { CheckoutPanel } from "@/components/generator/checkout-panel";
+import { StickyMobileCTA } from "@/components/generator/sticky-mobile-cta";
+import {
+  IconCheck,
+  IconFile,
+  IconCloudUp,
+  IconSpinner,
+  IconChevronDown,
+  IconSpark,
+  IconLock,
+  IconClock,
+} from "@/components/generator/icons";
 
 const ResumeGeneratorPage = () => {
   // Track client-side mounting to prevent hydration mismatch with useSearchParams
@@ -49,6 +69,21 @@ const ResumeGeneratorPage = () => {
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  // Sticky mobile CTA visibility — shown once the hero scrolls off, hidden
+  // again while the hero is in view (and, in render, once the result is open).
+  const [showStickyCta, setShowStickyCta] = useState(false);
+  useEffect(() => {
+    if (!isMounted) return;
+    const hero = document.getElementById("gen-hero");
+    if (!hero || typeof IntersectionObserver === "undefined") return;
+    const io = new IntersectionObserver(
+      (entries) => setShowStickyCta(!entries[0].isIntersecting),
+      { threshold: 0 }
+    );
+    io.observe(hero);
+    return () => io.disconnect();
+  }, [isMounted]);
 
   const router = useRouter();
   const pathname = usePathname();
@@ -278,6 +313,9 @@ const ResumeGeneratorPage = () => {
   const [uploadedFileContents, setUploadedFileContents] = useState<string>('');
   const [uploadedFileName, setUploadedFileName] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
+  // In-place parse error surfaced under the dropzone (no apologetic copy).
+  const [uploadError, setUploadError] = useState<string | null>(null);
+  const FILE_ERROR_MSG = "Couldn't read that file. Try a .docx or .txt.";
 
   // Drag and drop handlers
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
@@ -317,11 +355,12 @@ const ResumeGeneratorPage = () => {
     const isTxt = fileName.endsWith('.txt') || fileType === "text/plain";
 
     if (!isDocx && !isTxt) {
-      toast.error("Please upload a .docx or .txt file");
+      setUploadError(FILE_ERROR_MSG);
       return;
     }
 
     setUploadedFileName(file.name);
+    setUploadError(null);
 
     try {
       if (isDocx) {
@@ -336,11 +375,12 @@ const ResumeGeneratorPage = () => {
           setUploadedFileContents(text as string);
           toast.success('Resume uploaded and analyzed successfully!');
         };
+        reader.onerror = () => setUploadError(FILE_ERROR_MSG);
         reader.readAsText(file);
       }
     } catch (error) {
       console.error("Error processing file:", error);
-      toast.error("Something went wrong while processing the file.");
+      setUploadError(FILE_ERROR_MSG);
     }
   };
 
@@ -348,13 +388,16 @@ const ResumeGeneratorPage = () => {
     const file = event.target.files?.[0];
     if (file) {
       const fileType = file.type;
+      const lowerName = file.name.toLowerCase();
+      const isDocx = lowerName.endsWith('.docx') ||
+        fileType === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
+        fileType === "application/msword";
+      const isTxt = lowerName.endsWith('.txt') || fileType === "text/plain";
       setUploadedFileName(file.name);
+      setUploadError(null);
 
       try {
-        if (
-          fileType === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
-          fileType === "application/msword"
-        ) {
+        if (isDocx) {
           //
           // .docx
           //
@@ -363,7 +406,7 @@ const ResumeGeneratorPage = () => {
           setUploadedFileContents(result.value);
           console.log('successfully processed .docx file')
 
-        } else if (fileType === "text/plain") {
+        } else if (isTxt) {
           //
           // .txt
           //
@@ -372,14 +415,15 @@ const ResumeGeneratorPage = () => {
             const text = e.target?.result;
             setUploadedFileContents(text as string);
           };
+          reader.onerror = () => setUploadError(FILE_ERROR_MSG);
           reader.readAsText(file);
 
         } else {
-          alert("Unsupported file format! Please upload a PDF, Word document, or TXT file.");
+          setUploadError(FILE_ERROR_MSG);
         }
       } catch (error) {
         console.error("Error processing file:", error);
-        alert("Something went wrong while processing the .txt file.");
+        setUploadError(FILE_ERROR_MSG);
       }
     }
   };
@@ -1927,9 +1971,29 @@ stringifiedMappedFormValues;
     );
   }
 
+  // Persist what they've entered, then hand off to the existing Stripe payment
+  // link. Used by the checkout panel, the out-of-credits CTA, and the modal.
+  const goToCheckout = () => {
+    const values = form.getValues();
+    localStorage.setItem('stored_form_values', JSON.stringify(values));
+    window.location.assign(STRIPE_PAYMENT_LINK);
+  };
+
+  // Real entitlement-driven state powering the preview/checkout reveal.
+  const previewName: string =
+    (previewResumeData?.personal_info?.name as string) ||
+    (form.getValues('full_name') as string) ||
+    'Your name';
+  const previewRole: string =
+    (previewResumeData?.experiences?.[0]?.title as string) ||
+    (form.getValues('job_1_title') as string) ||
+    'Tailored to your target role';
+  const showResultReveal =
+    !hasPaid && !!previewResumeData && actionState !== 'generating';
+
   return (
-    <div className={cn(!hasPaid && previewResumeData && "pb-24")}>
-      {/* Resume Preview Modal */}
+    <>
+      {/* Resume Preview Modal — the full, free preview lives here */}
       <ResumePreviewModal
         isOpen={showPreviewModal}
         onClose={() => setShowPreviewModal(false)}
@@ -1938,9 +2002,7 @@ stringifiedMappedFormValues;
           setShowPreviewModal(false);
           // Redirect to Stripe or trigger download based on hasPaid
           if (!hasPaid) {
-            const values = form.getValues();
-            localStorage.setItem('stored_form_values', JSON.stringify(values));
-            window.location.assign(STRIPE_PAYMENT_LINK);
+            goToCheckout();
           } else {
             // Download exactly what was previewed.
             downloadResumeFromData(previewResumeData);
@@ -1948,281 +2010,143 @@ stringifiedMappedFormValues;
         }}
       />
 
-      {/* Sticky preview/download bar — follows the user once a preview exists */}
-      {!hasPaid && previewResumeData && !showPreviewModal && (
-        <div className="fixed bottom-0 left-0 right-0 z-40 animate-in slide-in-from-bottom duration-300">
-          <div className="border-t border-purple-100 bg-white/95 backdrop-blur shadow-[0_-4px_20px_-4px_rgba(0,0,0,0.1)]">
-            {/* pr-20 keeps the buttons clear of the floating chat bubble */}
-            <div className="mx-auto flex max-w-3xl items-center gap-3 px-4 py-3 sm:pr-20">
-              <p className="hidden flex-1 text-sm font-medium text-gray-700 sm:block">
-                Your resume is ready — preview it free or download the final document.
-              </p>
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => setShowPreviewModal(true)}
-                className="h-11 flex-1 rounded-xl border-purple-300 text-base font-semibold text-purple-700 hover:bg-purple-50 sm:flex-none sm:px-6"
-              >
-                <Eye className="mr-2 h-5 w-5" />
-                Preview
-              </Button>
-              <Button
-                type="button"
-                onClick={() => {
-                  const values = form.getValues();
-                  localStorage.setItem('stored_form_values', JSON.stringify(values));
-                  window.location.assign(STRIPE_PAYMENT_LINK);
-                }}
-                className="h-11 flex-1 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 text-base font-semibold text-white shadow-lg shadow-purple-200 hover:from-purple-700 hover:to-pink-700 hover:scale-[1.02] transition-all sm:flex-none sm:px-6"
-              >
-                <Download className="mr-2 h-5 w-5" />
-                Download $9.99
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* ambient glow + standalone topbar/hero — carries the marketing look */}
+      <div className="gen-atmos" aria-hidden />
+      <GeneratorTopbar />
+      <GeneratorHero />
 
-      {/* Value-prop band — single top-level element */}
-      <div className="px-4 lg:px-8 mb-6">
-        <div className="relative overflow-hidden rounded-2xl border border-purple-100 bg-gradient-to-r from-purple-50 via-white to-pink-50 px-6 py-5 md:px-10 md:py-6">
-          {/* Decorative blur */}
-          <div className="absolute -top-12 -right-12 w-44 h-44 bg-gradient-to-br from-purple-200/40 to-pink-200/40 rounded-full blur-3xl pointer-events-none"></div>
-          <div className="relative text-center max-w-3xl mx-auto">
-            <h1 className="text-2xl md:text-3xl font-bold text-gray-900 leading-tight">
-              Land more interviews with an ATS-ready resume
-            </h1>
-            <p className="mt-1.5 text-gray-600 md:text-lg">
-              Upload, tailor it to any job, and generate a recruiter-approved resume in seconds.
-            </p>
-            <TrustBar theme="light" className="mt-4" />
-          </div>
-        </div>
-      </div>
+      <div className="gen-wrap">
+        <TrustChipStrip />
+        <div className="gen-layout">
+          <div className="gen-work">
 
-      {/* Step 1 — Upload (funnel) */}
-      <div className="px-4 lg:px-8 mb-8">
-        <div>
-          <div>
-            {/* Step 1 header */}
-            <div className="flex items-center gap-3 mb-4">
-              <span className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-all ${
-                fileHasBeenUploadedAndParsed ? 'bg-green-500 text-white' : 'bg-purple-600 text-white ring-4 ring-purple-100'
-              }`}>
+          {/* STEP 1 — your resume (upload / completed state) */}
+          <section className={`gen-step${fileHasBeenUploadedAndParsed ? ' done' : ''}`}>
+            <div className="gen-step-head">
+              <div className="gen-step-no">
                 {fileHasBeenUploadedAndParsed ? (
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
-                ) : '1'}
-              </span>
+                  <IconCheck style={{ width: 15, height: 15 }} />
+                ) : (
+                  '1'
+                )}
+              </div>
               <div>
-                <p className="font-bold text-gray-900 leading-tight">Upload your resume <span className="text-xs font-medium text-gray-400">· optional</span></p>
-                <p className="text-sm text-gray-500">Have one already? Drop it in — we&apos;ll read it instantly. <span className="text-green-600 font-semibold">Free.</span></p>
+                <div className="gen-step-title">
+                  Your resume <span className="gen-opt">optional</span>
+                </div>
+                <div className="gen-step-desc">
+                  Read instantly.{' '}
+                  <span className="free">
+                    Nothing leaves your browser unless you generate.
+                  </span>
+                </div>
               </div>
             </div>
-            {/* Main Drag & Drop Zone */}
-            <div
-              onDragOver={handleDragOver}
-              onDragLeave={handleDragLeave}
-              onDrop={handleDrop}
-              className={`
-                relative rounded-2xl border-2 border-dashed transition-all duration-300 p-8 md:p-12
-                ${fileHasBeenUploadedAndParsed
-                  ? 'border-green-400 bg-green-50/50'
-                  : isOpeningPreview
-                    ? 'border-purple-400 bg-purple-50/50'
-                    : isGettingAiResponseForFileUploadProcess
-                      ? 'border-purple-400 bg-purple-50/50'
-                      : isDragging
-                        ? 'border-purple-500 bg-purple-100/50 shadow-xl shadow-purple-200 scale-[1.02]'
-                        : 'border-purple-300 bg-gradient-to-br from-white to-purple-50/30 hover:border-purple-500 hover:shadow-xl hover:shadow-purple-100'
-                }
-              `}
-            >
-              <input
-                type="file"
-                accept={ACCEPTED_FILE_TYPES}
-                onChange={handleFileChange}
-                style={{ display: "none" }}
-                id="file-upload-input"
-                disabled={fileHasBeenUploadedAndParsed}
-              />
 
-              <label
-                htmlFor="file-upload-input"
-                className={`flex flex-col items-center cursor-pointer ${fileHasBeenUploadedAndParsed ? 'cursor-default' : ''}`}
-              >
-                {/* Upload Icon */}
-                <div className={`
-                  w-20 h-20 rounded-2xl flex items-center justify-center mb-6 transition-all duration-300
-                  ${fileHasBeenUploadedAndParsed
-                    ? 'bg-green-100'
-                    : isOpeningPreview
-                      ? 'bg-gradient-to-br from-purple-500 to-pink-500 shadow-lg'
-                      : isGettingAiResponseForFileUploadProcess
-                        ? 'bg-gradient-to-br from-purple-500 to-pink-500 shadow-lg'
-                        : isDragging
-                          ? 'bg-gradient-to-br from-purple-600 to-pink-600 shadow-xl scale-110'
-                          : 'bg-gradient-to-br from-purple-500 to-pink-500 shadow-lg hover:scale-105'
-                  }
-                `}>
-                  {fileHasBeenUploadedAndParsed ? (
-                    <svg className="w-10 h-10 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                  ) : isOpeningPreview ? (
-                    <svg className="w-10 h-10 text-white animate-spin" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                  ) : isGettingAiResponseForFileUploadProcess ? (
-                    <svg className="w-10 h-10 text-white animate-spin" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                  ) : isDragging ? (
-                    <svg className="w-10 h-10 text-white animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                    </svg>
-                  ) : (
-                    <svg className="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                    </svg>
-                  )}
+            {fileHasBeenUploadedAndParsed ? (
+              <div className="gen-filechip">
+                <div className="fic">
+                  <IconFile />
                 </div>
-
-                {/* Text */}
-                {fileHasBeenUploadedAndParsed ? (
-                  <div className="text-center">
-                    <p className="text-xl font-semibold text-green-700 mb-2">Resume Uploaded</p>
-                    <p className="text-sm text-green-600 flex items-center justify-center gap-2">
-                      <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                      {uploadedFileName}
-                    </p>
+                <div style={{ minWidth: 0 }}>
+                  <div className="fname">{uploadedFileName}</div>
+                  <div className="fmeta">parsed clean · 0 errors</div>
+                </div>
+                <button
+                  type="button"
+                  className="swap"
+                  onClick={() => {
+                    setFileHasBeenUploadedAndParsed(false);
+                    setUploadError(null);
+                  }}
+                >
+                  Replace
+                </button>
+              </div>
+            ) : (
+              <>
+                <div
+                  className={`gen-drop${isDragging ? ' dragging' : ''}`}
+                  onDragOver={handleDragOver}
+                  onDragLeave={handleDragLeave}
+                  onDrop={handleDrop}
+                  onClick={() =>
+                    document.getElementById('file-upload-input')?.click()
+                  }
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      document.getElementById('file-upload-input')?.click();
+                    }
+                  }}
+                  role="button"
+                  tabIndex={0}
+                  aria-label="Upload your resume. Accepts .docx and .txt files."
+                >
+                  <input
+                    type="file"
+                    accept={ACCEPTED_FILE_TYPES}
+                    onChange={handleFileChange}
+                    style={{ display: 'none' }}
+                    id="file-upload-input"
+                  />
+                  <div className="gen-drop-ic">
+                    {isGettingAiResponseForFileUploadProcess ? (
+                      <IconSpinner className="spin" style={{ width: 28, height: 28 }} />
+                    ) : (
+                      <IconCloudUp />
+                    )}
                   </div>
-                ) : isOpeningPreview ? (
-                  <div className="text-center">
-                    <p className="text-xl font-semibold text-purple-700 mb-2">
-                      Opening preview...
-                    </p>
-                    <p className="text-purple-500">{uploadedFileName}</p>
-                  </div>
-                ) : isGettingAiResponseForFileUploadProcess ? (
-                  <div className="text-center">
-                    <p className="text-xl font-semibold text-purple-700 mb-2">
-                      Analyzing your resume...
-                    </p>
-                    <p className="text-purple-500">This may take a few seconds</p>
-                  </div>
-                ) : isDragging ? (
-                  <div className="text-center">
-                    <p className="text-xl font-semibold text-purple-700 mb-2">
-                      Release to upload
-                    </p>
-                    <p className="text-purple-500">Drop your file here</p>
-                  </div>
-                ) : (
-                  <div className="text-center">
-                    <p className="text-xl font-semibold text-gray-800 mb-2">
-                      Drop your resume here
-                    </p>
-                    <p className="text-gray-500 mb-4">or click to browse</p>
-                    <span className="inline-flex items-center px-4 py-2 bg-purple-600 text-white rounded-lg font-medium text-sm hover:bg-purple-700 transition-colors">
-                      Select File
+                  {isGettingAiResponseForFileUploadProcess ? (
+                    <>
+                      <h3>Reading your resume…</h3>
+                      <p>This takes a few seconds.</p>
+                    </>
+                  ) : isDragging ? (
+                    <>
+                      <h3>Drop to upload</h3>
+                      <p>Release your file here</p>
+                    </>
+                  ) : (
+                    <>
+                      <h3>Drop your resume here</h3>
+                      <p>or browse — we&apos;ll read it instantly</p>
+                      <span className="gen-btn-ghost">Select file</span>
+                    </>
+                  )}
+                  <div className="gen-filetypes">
+                    <span>
+                      <IconFile style={{ width: 13, height: 13 }} /> .docx
+                    </span>
+                    <span>
+                      <IconFile style={{ width: 13, height: 13 }} /> .txt
                     </span>
                   </div>
+                </div>
+                {uploadError && (
+                  <div className="gen-drop-error" role="alert">
+                    {uploadError}
+                  </div>
                 )}
-              </label>
-
-              {/* File type indicator */}
-              <div className="absolute bottom-4 left-0 right-0 flex justify-center">
-                <div className="flex items-center gap-3 text-xs text-gray-400">
-                  <span className="flex items-center gap-1">
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clipRule="evenodd"/>
-                    </svg>
-                    .docx
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clipRule="evenodd"/>
-                    </svg>
-                    .txt
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* Preview CTA — dominant after the upload's initial rewrite: this is the
-                clear "what's next". The resume is already rewritten and previewable. */}
-            {fileHasBeenUploadedAndParsed && (
-              <div className="mt-6 rounded-2xl border-2 border-purple-200 bg-gradient-to-br from-purple-50 via-white to-pink-50 p-6 md:p-8 shadow-lg shadow-purple-100 animate-in fade-in slide-in-from-bottom-2 duration-500">
-                <div className="flex flex-col items-center gap-3 text-center">
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">
-                    <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
-                    Rewritten &amp; ready
-                  </span>
-                  <h3 className="text-xl md:text-2xl font-bold text-gray-900">
-                    ✨ Your resume is ready to preview
-                  </h3>
-                  <p className="text-sm text-gray-600 max-w-md">
-                    We&apos;ve polished your content. Take a look — it&apos;s free.
-                  </p>
-                  <Button
-                    type="button"
-                    disabled={isOpeningPreview || actionState === 'generating'}
-                    onClick={() => { if (previewResumeData) { setShowPreviewModal(true); } else { generatePreview(); } }}
-                    className="mt-1 h-14 w-full max-w-sm px-8 text-lg rounded-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white shadow-lg shadow-purple-200 hover:shadow-xl hover:scale-[1.02] transition-all"
-                  >
-                    {isOpeningPreview ? (
-                      <span className="flex items-center gap-2">
-                        <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                        </svg>
-                        Opening preview...
-                      </span>
-                    ) : (
-                      <span className="flex items-center gap-2">
-                        <Eye className="w-6 h-6" />
-                        Preview my resume — free
-                      </span>
-                    )}
-                  </Button>
-                  <p className="text-xs text-gray-500">
-                    See it free first · download the polished .docx for <strong className="text-purple-600">$9.99</strong>
-                  </p>
-                </div>
-              </div>
+              </>
             )}
-          </div>
-        </div>
-      </div>
+          </section>
 
-      <div className="px-4 lg:px-8">
-        <div>
           <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="
-                rounded-2xl
-                border
-                border-gray-200
-                w-full
-                p-6
-                md:p-8
-                bg-white
-                shadow-sm
-              "
-            >
+            <form onSubmit={form.handleSubmit(onSubmit)}>
 
-            {/* Job Description Section - More Prominent */}
-            <div className="mb-8">
-              <div className="flex items-center gap-3 mb-4">
-                <span className="flex-shrink-0 w-8 h-8 rounded-full bg-purple-600 text-white flex items-center justify-center font-bold text-sm ring-4 ring-purple-100">
-                  2
-                </span>
+            {/* STEP 2 — paste the job (active) */}
+            <section className="gen-step active">
+              <div className="gen-step-head">
+                <div className="gen-step-no">2</div>
                 <div>
-                  <h3 className="font-bold text-gray-900">Paste a job description <span className="text-xs font-medium text-gray-400">· optional</span></h3>
-                  <p className="text-sm text-gray-500">Drop in a posting and we&apos;ll tailor your resume to its exact keywords. <span className="text-purple-600 font-semibold">Beats the bots.</span></p>
+                  <div className="gen-step-title">
+                    Paste the job <span className="gen-opt">recommended</span>
+                  </div>
+                  <div className="gen-step-desc">
+                    We rewrite your bullets to mirror its exact keywords, skills, and
+                    seniority signals. <b>This is what beats the bots.</b>
+                  </div>
                 </div>
               </div>
               <FormField
@@ -2231,41 +2155,49 @@ stringifiedMappedFormValues;
                   <FormItem>
                     <FormControl>
                       <Textarea
-                        className="border border-gray-200 rounded-xl p-4 min-h-[100px] focus:border-purple-400 focus:ring-2 focus:ring-purple-100 transition-all resize-none bg-gray-50/50"
+                        className="gen-jd"
                         disabled={isLoading}
-                        placeholder="Paste the job posting here and we'll optimize your resume to match the keywords and requirements..."
+                        placeholder="Paste the full posting here — title, responsibilities, requirements, the works. The more you give us, the sharper the match."
                         {...field}
                       />
                     </FormControl>
                   </FormItem>
                 )}
               />
-            </div>
+              <div className="gen-jd-hint">
+                <span className="beat">94% KEYWORD MATCH</span>
+                <span>
+                  is the average once a posting is pasted. Skip this and you&apos;re
+                  optimizing for nobody.
+                </span>
+              </div>
+            </section>
 
-            {/* Manual Entry Toggle */}
-            <div className="mb-6">
+            {/* STEP 3 — fine-tune (collapsible; holds the full editable form) */}
+            <section className="gen-step">
               <button
                 type="button"
+                className="gen-manual"
+                aria-expanded={showFormFields}
                 onClick={() => setShowFormFields(!showFormFields)}
-                className="w-full flex items-center justify-between p-4 rounded-xl border border-gray-200 hover:border-purple-300 hover:bg-purple-50/50 transition-all group"
               >
-                <div className="flex items-center gap-3">
-                  <span className="flex-shrink-0 w-8 h-8 rounded-full bg-purple-600 text-white flex items-center justify-center font-bold text-sm ring-4 ring-purple-100">
-                    3
-                  </span>
-                  <div className="text-left">
-                    <p className="font-bold text-gray-900 leading-tight">Edit details manually <span className="text-xs font-medium text-gray-400">· optional</span></p>
-                    <p className="text-sm text-gray-500">Fine-tune your information after upload.</p>
+                <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
+                  <div className="gen-step-no">3</div>
+                  <div>
+                    <div className="gen-step-title">
+                      Fine-tune the details <span className="gen-opt">optional</span>
+                    </div>
+                    <div className="gen-step-desc">
+                      Adjust anything we pulled in before generating.
+                    </div>
                   </div>
                 </div>
-                <svg className={`w-5 h-5 text-gray-400 transition-transform ${showFormFields ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
+                <IconChevronDown className="chev" style={{ width: 20, height: 20 }} />
               </button>
-            </div>
 
             {/* Form Fields - Shown when toggle clicked */}
             {showFormFields && (
+            <div className="gen-finetune" style={{ marginTop: 18 }}>
             <div className="grid grid-cols-12 gap-3 p-4 bg-gray-50/50 rounded-xl border border-gray-200">
 
               {/* PERSONAL INFO  */}
@@ -3836,208 +3768,202 @@ stringifiedMappedFormValues;
               )}
 
               </div>
-            )} {/* end showFormFields conditional */}
+              </div>
+            )}
+            </section>
 
-            {/* Generate Button Section - Clean & Modern */}
-            <div className="mt-8 pt-8 border-t border-gray-100">
-              {hasPaid ? (
-                // Paid User - Download Section
-                <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-200">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center">
-                        <svg className="w-5 h-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                        </svg>
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-gray-800">Ready to Download</h3>
-                        <p className="text-sm text-gray-500">Downloads: {numberOfDownloads}/{max_download_count} used</p>
-                      </div>
-                    </div>
-                  </div>
-                  <Button
-                    type="button"
-                    disabled={isLoading}
-                    className="w-full h-14 text-base bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white rounded-xl font-semibold shadow-lg shadow-green-200 transition-all hover:shadow-xl"
-                    onClick={() => form.handleSubmit(onSubmit)()}
-                  >
-                    {isLoading ? (
-                      <span className="flex items-center gap-2">
-                        <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
-                        </svg>
-                        Generating...
-                      </span>
-                    ) : (
-                      <span className="flex items-center gap-2">
-                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                        </svg>
-                        Download Resume
-                      </span>
-                    )}
-                  </Button>
-                </div>
-              ) : (
-                // Non-paid User - Generate & Preview Section
-                <div className="text-center">
-                  {/* Step 4 header */}
-                  <div className="flex items-center justify-center gap-3 mb-5">
-                    <span className="flex-shrink-0 w-8 h-8 rounded-full bg-purple-600 text-white flex items-center justify-center font-bold text-sm ring-4 ring-purple-100">
-                      4
-                    </span>
-                    <div className="text-left">
-                      <p className="font-bold text-gray-900 leading-tight">Generate your resume</p>
-                      <p className="text-sm text-gray-500">AI rewrites it to be sharp, ATS-ready &amp; recruiter-approved.</p>
-                    </div>
-                  </div>
-
-                  {/* Free-credit meter */}
-                  <CreditMeter used={freeGenerationsUsed} max={MAX_FREE_GENERATIONS} className="mb-5" />
-
-                  {/* Generating progress */}
-                  {actionState === 'generating' && (
-                    <div className="w-full max-w-md mx-auto mb-4">
-                      <div className="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
-                        <div
-                          className="h-full bg-gradient-to-r from-purple-500 to-pink-500 transition-all duration-300"
-                          style={{ width: `${generationProgress}%` }}
-                        ></div>
-                      </div>
-                    </div>
-                  )}
-
-                  {isOutOfCredits ? (
-                    /* OUT OF FREE CREDITS — lock generation, keep preview free, push to paywall */
-                    <div className="flex flex-col items-center gap-3">
-                      <p className="text-sm font-semibold text-gray-700">
-                        🎉 You&apos;ve used all {MAX_FREE_GENERATIONS} free generations.
-                      </p>
-                      <Button
-                        type="button"
-                        className="relative w-full max-w-md h-16 text-lg rounded-xl font-bold bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white shadow-lg shadow-green-500/30 transition-all hover:scale-[1.02]"
-                        onClick={() => {
-                          const values = form.getValues();
-                          localStorage.setItem('stored_form_values', JSON.stringify(values));
-                          window.location.assign(STRIPE_PAYMENT_LINK);
-                        }}
-                      >
-                        <span className="flex items-center justify-center gap-2">
-                          🔓 Unlock &amp; Download My Resume
-                        </span>
-                        <span className="absolute -top-2 -right-2 bg-yellow-400 text-yellow-900 text-xs font-bold px-2 py-0.5 rounded-full">
-                          $9.99
-                        </span>
-                      </Button>
-                      <button
-                        type="button"
-                        onClick={() => { if (previewResumeData) { setShowPreviewModal(true); } else { generatePreview(); } }}
-                        className="text-sm text-gray-500 hover:text-purple-600 underline underline-offset-2 transition-colors"
-                      >
-                        Preview my last version (free)
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="flex flex-col items-center gap-3">
-                      {/* Primary: Generate / Regenerate (spends 1 credit) */}
-                      <Button
-                        type="button"
-                        disabled={isLoading || actionState === 'generating'}
-                        className="w-full max-w-md h-16 text-lg rounded-xl font-bold transition-all bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white shadow-lg shadow-purple-200 hover:shadow-xl hover:scale-[1.02] disabled:opacity-70 disabled:hover:scale-100"
-                        onClick={() => runAiGeneration()}
-                      >
-                        {isLoading || actionState === 'generating' ? (
-                          <span className="flex items-center justify-center gap-2">
-                            <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
-                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
-                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
-                            </svg>
-                            Generating your resume...
-                          </span>
-                        ) : (
-                          <span className="flex items-center justify-center gap-2">
-                            <Sparkles className="w-5 h-5" />
-                            {freeGenerationsUsed > 0
-                              ? (form.watch('job_post_description') ? 'Regenerate & Tailor to Job' : 'Regenerate My Resume')
-                              : (form.watch('job_post_description') ? 'Generate & Tailor to Job' : 'Generate My Resume')}
-                          </span>
-                        )}
-                      </Button>
-                      <p className="text-xs text-gray-400">
-                        Uses 1 of your free generations · preview is always free
-                      </p>
-
-                      {/* Secondary: free preview of current version */}
-                      {previewResumeData && actionState !== 'generating' && (
-                        <button
-                          type="button"
-                          onClick={() => setShowPreviewModal(true)}
-                          className="text-sm font-medium text-purple-600 hover:text-purple-800 underline underline-offset-2 transition-colors"
-                        >
-                          👁 Preview current version — free
-                        </button>
-                      )}
-
-                      {!uploadedFileContents && !previewResumeData && (
-                        <p className="text-sm text-gray-400 mt-1">Upload above or fill in your details, then hit generate</p>
-                      )}
-                    </div>
-                  )}
-
-                  {/* Trust badges */}
-                  <div className="flex items-center justify-center gap-6 mt-6 text-xs text-gray-400">
-                    <span className="flex items-center gap-1">
-                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd"/>
-                      </svg>
-                      Secure payment
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
-                      </svg>
-                      30-day revisions
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
-                        <path fillRule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clipRule="evenodd"/>
-                      </svg>
-                      ATS-optimized
-                    </span>
-                  </div>
-                </div>
-              )}
+            {/* mobile-only proof + honest math, placed right before generate */}
+            <div className="gen-only-mobile">
+              <LiveProofCard variant="mobile" />
+              <HonestMathCard compact />
             </div>
 
-              {/*
+            {/* STEP 4 — generate (the money setup) / paid download */}
+            {hasPaid ? (
+              <section className="gen-download">
+                <div className="gen-step-head">
+                  <div className="gen-step-no grad">
+                    <IconCheck style={{ width: 15, height: 15 }} />
+                  </div>
+                  <div>
+                    <div className="gen-step-title">Ready to download</div>
+                    <div className="gen-step-desc">
+                      Downloads: {numberOfDownloads}/{max_download_count} used.{' '}
+                      <b>Regenerate and re-download as much as you like.</b>
+                    </div>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  className="gen-btn-download"
+                  disabled={isLoading}
+                  onClick={() => form.handleSubmit(onSubmit)()}
+                >
+                  {isLoading ? <IconSpinner className="spin" /> : <IconCheck />}
+                  {isLoading ? 'Generating…' : 'Download resume'}
+                </button>
+              </section>
+            ) : (
+              <section className="gen-generate">
+                <div className="gen-step-head">
+                  <div className="gen-step-no grad">4</div>
+                  <div>
+                    <div className="gen-step-title">Generate your resume</div>
+                    <div className="gen-step-desc">
+                      Rewritten sharp, ATS-ready, and recruiter-approved.{' '}
+                      <b>Preview is always free.</b>
+                    </div>
+                  </div>
+                </div>
 
-                Generate / 'purchase' button (variant #2)
+                <CreditsPips used={freeGenerationsUsed} max={MAX_FREE_GENERATIONS} />
 
-              */}
+                {actionState === 'generating' && (
+                  <div
+                    style={{
+                      height: 5,
+                      width: '100%',
+                      background: 'var(--line)',
+                      borderRadius: 3,
+                      overflow: 'hidden',
+                      margin: '0 0 16px',
+                    }}
+                    aria-hidden
+                  >
+                    <div
+                      style={{
+                        height: '100%',
+                        width: `${generationProgress}%`,
+                        background: 'var(--grad)',
+                        transition: 'width .3s ease',
+                      }}
+                    />
+                  </div>
+                )}
 
+                {isOutOfCredits ? (
+                  <>
+                    <button
+                      type="button"
+                      className="gen-btn-primary"
+                      onClick={goToCheckout}
+                    >
+                      <IconLock />
+                      Unlock &amp; download · $9.99
+                    </button>
+                    <div className="gen-gen-sub">
+                      You&apos;ve used all {MAX_FREE_GENERATIONS} free generations ·{' '}
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (previewResumeData) {
+                            setShowPreviewModal(true);
+                          } else {
+                            generatePreview();
+                          }
+                        }}
+                        style={{
+                          color: 'var(--violet)',
+                          background: 'none',
+                          border: 'none',
+                          textDecoration: 'underline',
+                          textUnderlineOffset: 3,
+                          cursor: 'pointer',
+                          font: 'inherit',
+                        }}
+                      >
+                        preview your last version free
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      type="button"
+                      className="gen-btn-primary"
+                      disabled={isLoading || actionState === 'generating'}
+                      onClick={() => runAiGeneration()}
+                    >
+                      {isLoading || actionState === 'generating' ? (
+                        <IconSpinner className="spin" />
+                      ) : (
+                        <IconSpark />
+                      )}
+                      {isLoading || actionState === 'generating'
+                        ? 'Generating your resume…'
+                        : freeGenerationsUsed > 0
+                          ? form.watch('job_post_description')
+                            ? 'Regenerate & tailor to job'
+                            : 'Regenerate my resume'
+                          : form.watch('job_post_description')
+                            ? 'Generate & tailor to job'
+                            : 'Generate my resume'}
+                    </button>
+                    <div className="gen-gen-sub">
+                      Free preview · no card · $9.99 only when you download
+                    </div>
+                    {!uploadedFileContents && !previewResumeData && (
+                      <div className="gen-gen-sub">
+                        Upload above or fill in your details, then hit generate.
+                      </div>
+                    )}
+                  </>
+                )}
+
+                <div className="gen-foot">
+                  <span className="t">
+                    <IconLock /> Stripe secured
+                  </span>
+                  <span className="t">
+                    <IconClock /> 30-day money-back
+                  </span>
+                  <span className="t">
+                    <IconCheck /> No card on file, ever
+                  </span>
+                </div>
+              </section>
+            )}
+
+            {/* ===== RESULT / MONEY MOMENT (revealed once a preview exists) ===== */}
+            {showResultReveal && (
+              <div className="gen-result">
+                <div
+                  className="gen-eyebrow"
+                  style={{ textAlign: 'left', margin: '6px 0 16px' }}
+                >
+                  Your preview is ready · unlock to download
+                </div>
+                <div className="gen-result-grid">
+                  <PreviewDoc
+                    name={previewName}
+                    role={previewRole}
+                    onPreviewFree={() => setShowPreviewModal(true)}
+                  />
+                  <CheckoutPanel onUnlock={goToCheckout} />
+                </div>
+              </div>
+            )}
 
             </form>
           </Form>
+
+          </div>{/* end .gen-work */}
+
+          <TrustRail />
+        </div>{/* end .gen-layout */}
+
+        <div className="gen-footnote">
+          Questions before you start? <a href="#">How it works</a> ·{' '}
+          <a href="#">What we do with your data</a> · <a href="#">Refund policy</a>
         </div>
-        {/* Processing indicator - only shown when loading */}
-        {isLoading && (
-          <div className="mt-8 p-6 rounded-2xl bg-gradient-to-br from-purple-50 to-pink-50 border border-purple-200">
-            <div className="flex items-center justify-center gap-4">
-              <div className="relative">
-                <div className="w-12 h-12 rounded-full border-4 border-purple-200 border-t-purple-600 animate-spin"></div>
-              </div>
-              <div>
-                <p className="font-semibold text-gray-800">Optimizing your resume...</p>
-                <p className="text-sm text-gray-500">Our AI is enhancing your content for ATS compatibility</p>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
+      </div>{/* end .gen-wrap */}
+
+      <StickyMobileCTA
+        show={showStickyCta && !showResultReveal}
+        busy={isLoading || actionState === 'generating'}
+        onGenerate={() => runAiGeneration()}
+      />
+    </>
   );
 }
 

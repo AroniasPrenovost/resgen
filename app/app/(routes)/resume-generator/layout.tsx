@@ -1,4 +1,15 @@
 import type { Metadata } from "next";
+import { Instrument_Serif } from "next/font/google";
+
+// Same display serif the marketing landing page uses — keeps the two pages
+// visually identical so brand trust carries through to checkout.
+const instrumentSerif = Instrument_Serif({
+  weight: "400",
+  style: ["normal", "italic"],
+  subsets: ["latin"],
+  variable: "--font-instrument-serif",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "AI Resume Generator – Build an ATS-Friendly Resume",
@@ -19,5 +30,9 @@ export default function ResumeGeneratorLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children}</>;
+  return (
+    <div className={`generator-redesign ${instrumentSerif.variable}`}>
+      {children}
+    </div>
+  );
 }
