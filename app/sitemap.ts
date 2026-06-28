@@ -13,6 +13,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${siteUrl}/`, lastModified: now },
     { url: `${siteUrl}/app/resume-generator`, lastModified: now },
     { url: `${siteUrl}/app/blog`, lastModified: now },
+    { url: `${siteUrl}/privacy`, lastModified: now },
+    { url: `${siteUrl}/terms`, lastModified: now },
+    { url: `${siteUrl}/contact`, lastModified: now },
   ];
 
   let posts: BlogPost[] = [];

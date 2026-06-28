@@ -37,6 +37,12 @@ import { DocumentCreator } from "@/lib/resume-generator";
 // Components for button experience overhaul
 import { ResumePreviewModal } from "@/components/resume-preview-modal";
 import { incrementLocalGenerationCount } from "@/lib/generation-count";
+import {
+  canDownload,
+  recordDownload,
+  nextAllowedLabel,
+  MAX_DOWNLOADS_PER_WINDOW,
+} from "@/lib/download-rate-limit";
 
 // Generator redesign — dark editorial UI matching the marketing landing page
 import { GeneratorTopbar } from "@/components/generator/generator-topbar";
@@ -120,15 +126,11 @@ const ResumeGeneratorPage = () => {
 
 
   const convertUploadedFileToFormInputsUsingAi = async(fileContents: string) => {
-    console.log('=== [CLIENT] convertUploadedFileToFormInputsUsingAi() START ===');
-    console.log('[CLIENT] File contents length:', fileContents?.length || 0);
-    console.log('[CLIENT] File contents (first 500 chars):', fileContents?.substring(0, 500));
 
     // get job post description
     const input = document.querySelector('input[name="job_post_description"]') as HTMLInputElement | null;
     let job_post_description = (input && input.value) ? input.value.trim() : '';
     let job_post_description_insert = job_post_description.length ? `Ensure the new resume output aligns with the given job description: ${job_post_description}` : '';
-    console.log('[CLIENT] Job post description:', job_post_description || '(none)');
 
     const resumeObjectTemplate = {
       "job_post_description": job_post_description,
@@ -233,24 +235,13 @@ const ResumeGeneratorPage = () => {
 
     // make API call
     try {
-      console.log('[CLIENT] Building API request...');
       const userMessage: ChatCompletionMessageParam = { role: "user", content: promptString };
       const newMessages = [...messages, userMessage];
-      console.log('[CLIENT] Messages array length:', newMessages.length);
-      console.log('[CLIENT] Prompt length:', promptString.length);
 
-      console.log('[CLIENT] Calling /api/resume-generator...');
       const startTime = Date.now();
       const response = await axios.post('/api/resume-generator', { messages: newMessages });
       const duration = Date.now() - startTime;
 
-      console.log('[CLIENT] API response received in', duration, 'ms');
-      console.log('[CLIENT] Response status:', response.status);
-      console.log('[CLIENT] Response data:', response.data);
-      console.log('[CLIENT] Response data type:', typeof response.data);
-      console.log('[CLIENT] Response data.content exists:', !!response.data?.content);
-      console.log('[CLIENT] Response data.content type:', typeof response.data?.content);
-      console.log('[CLIENT] Response data.content length:', response.data?.content?.length || 0);
 
       // Extract content and handle potential markdown code blocks
       let content = response.data.content;
@@ -260,28 +251,19 @@ const ResumeGeneratorPage = () => {
         throw new Error('No content in API response');
       }
 
-      console.log('[CLIENT] Raw content (first 500 chars):', content.substring(0, 500));
 
       // Strip markdown code blocks if present (```json ... ``` or ``` ... ```)
       content = content.trim();
       if (content.startsWith('```')) {
-        console.log('[CLIENT] Stripping markdown code blocks...');
         content = content.replace(/^```(?:json)?\s*\n?/, '').replace(/\n?```\s*$/, '');
       }
 
-      console.log('[CLIENT] Cleaned content (first 500 chars):', content.substring(0, 500));
-      console.log('[CLIENT] Attempting JSON.parse...');
 
       const outputObject = JSON.parse(content);
 
-      console.log('[CLIENT] JSON.parse SUCCESS!');
-      console.log('[CLIENT] Parsed object keys:', Object.keys(outputObject));
-      console.log('[CLIENT] Sample values - full_name:', outputObject.full_name);
-      console.log('[CLIENT] Sample values - email_address:', outputObject.email_address);
 
       toast.dismiss();
 
-      console.log('=== [CLIENT] convertUploadedFileToFormInputsUsingAi() SUCCESS ===');
       return response;
     } catch (error: any) {
       console.error('=== [CLIENT] ERROR in convertUploadedFileToFormInputsUsingAi ===');
@@ -300,7 +282,6 @@ const ResumeGeneratorPage = () => {
         toast.error("Something went wrong analyzing your resume. Please try again.");
       }
     } finally {
-      console.log('[CLIENT] Finally block - refreshing router');
       router.refresh();
     }
   };
@@ -403,7 +384,6 @@ const ResumeGeneratorPage = () => {
           const arrayBuffer = await file.arrayBuffer();
           const result = await mammoth.extractRawText({ arrayBuffer });
           setUploadedFileContents(result.value);
-          console.log('successfully processed .docx file')
 
         } else if (isTxt) {
           //
@@ -500,7 +480,9 @@ const ResumeGeneratorPage = () => {
 
   // resume generator download management
   const [numberOfDownloads, setNumberOfDownloads] = useState(0);
-  const max_download_count = 15;
+  // Downloads are unlimited within the paid 30-day window (matches marketing).
+  // Bursts are limited to MAX_DOWNLOADS_PER_WINDOW per rolling hour via
+  // lib/download-rate-limit.ts. `numberOfDownloads` is now just a lifetime tally.
 
   // Free AI-generation credits. A "generation" = regenerating content or
   // re-tailoring to a job description. Parsing an uploaded resume is FREE and does
@@ -565,12 +547,12 @@ const ResumeGeneratorPage = () => {
       const diffMins = diffMs / (1000 * 60);
       setDifferenceInMinutes(diffMins);
 
-      // Check if cache should be cleared
+      // Access is only ever cleared by the 30-day expiry — never by download
+      // count (downloads are unlimited; bursts are rate-limited instead).
       const isPaid = localStorage.getItem('pr_0012') === 'true';
       const clearCache1 = isPaid && (diffMins > 43200); // 30 days
-      const clearCache2 = downloads > (max_download_count - 1);
 
-      if (clearCache1 || clearCache2) {
+      if (clearCache1) {
         localStorage.removeItem('pr_0012');
         localStorage.setItem('payment_date', '');
         localStorage.setItem('x8u_000_vb_nod', '0');
@@ -581,8 +563,7 @@ const ResumeGeneratorPage = () => {
 
     // Update UI based on payment status
     if (localStorage.getItem('pr_0012') === 'true') {
-      const downloads = Number(localStorage.getItem('x8u_000_vb_nod') || '0');
-      setBuyButtonContent(`Download Now (${downloads}/${max_download_count})`);
+      setBuyButtonContent('Download Now');
 
       const paymentDate = localStorage.getItem('payment_date');
       if (paymentDate) {
@@ -601,55 +582,34 @@ const ResumeGeneratorPage = () => {
 
   // Handle file upload and AI processing
   useEffect(() => {
-    console.log('[WRAPPER] useEffect triggered, uploadedFileContents length:', uploadedFileContents?.length || 0);
 
     if (typeof window === 'undefined' || !uploadedFileContents) {
-      console.log('[WRAPPER] Early return - window undefined or no file contents');
       return;
     }
 
     const fileHasBeenUploadedAndParsed = localStorage.getItem('file_has_been_uploaded_and_parsed') === 'true';
     const hasFileBeenSelectedByUser = uploadedFileContents.length > 0;
 
-    console.log('[WRAPPER] State check:', {
-      isGettingAiResponseForFileUploadProcess,
-      hasFileBeenSelectedByUser,
-      fileHasBeenUploadedAndParsed
-    });
 
     const convertUploadedFileToFormInputsUsingAiProcess = async () => {
-      console.log('=== [WRAPPER] convertUploadedFileToFormInputsUsingAiProcess START ===');
       try {
-        console.log('[WRAPPER] Calling convertUploadedFileToFormInputsUsingAi...');
         const prefilledUserResData = await convertUploadedFileToFormInputsUsingAi(uploadedFileContents);
 
-        console.log('[WRAPPER] Got response from AI function:', !!prefilledUserResData);
-        console.log('[WRAPPER] prefilledUserResData:', prefilledUserResData);
-        console.log('[WRAPPER] prefilledUserResData?.data:', prefilledUserResData?.data);
-        console.log('[WRAPPER] prefilledUserResData?.data?.content exists:', !!prefilledUserResData?.data?.content);
 
         if (prefilledUserResData && prefilledUserResData.data && prefilledUserResData.data.content) {
-          console.log('[WRAPPER] Valid response received, processing...');
 
           // Extract and clean the content
           let content = prefilledUserResData.data.content;
-          console.log('[WRAPPER] Content type:', typeof content);
-          console.log('[WRAPPER] Content length:', content?.length);
-          console.log('[WRAPPER] Content (first 500 chars):', content?.substring(0, 500));
 
           content = content.trim();
           // Strip markdown code blocks if present
           if (content.startsWith('```')) {
-            console.log('[WRAPPER] Stripping markdown code blocks...');
             content = content.replace(/^```(?:json)?\s*\n?/, '').replace(/\n?```\s*$/, '');
           }
 
-          console.log('[WRAPPER] Attempting JSON.parse...');
           const responseObject = JSON.parse(content);
-          console.log('[WRAPPER] JSON.parse SUCCESS! Keys:', Object.keys(responseObject));
 
           // prepopulate form fields with response
-          console.log('[WRAPPER] Saving to localStorage and populating form...');
           localStorage.setItem('stored_form_values', JSON.stringify(responseObject));
           setUploadedResumeDataConvertedToForm(responseObject);
           form.reset(responseObject);
@@ -669,7 +629,6 @@ const ResumeGeneratorPage = () => {
           localStorage.setItem('file_has_been_uploaded_and_parsed', 'true');
           // Mark the upload as parsed so the UI reveals the preview action.
           setFileHasBeenUploadedAndParsed(true);
-          console.log('=== [WRAPPER] SUCCESS - Form populated with rewritten resume ===');
         } else {
           console.error('[WRAPPER] ERROR: No valid response from AI');
           console.error('[WRAPPER] prefilledUserResData was:', prefilledUserResData);
@@ -682,17 +641,14 @@ const ResumeGeneratorPage = () => {
         console.error('[WRAPPER] Error stack:', error?.stack);
         toast.error("Something went wrong analyzing your resume. Please try again.");
       } finally {
-        console.log('[WRAPPER] Finally block - setting isGettingAiResponseForFileUploadProcess to false');
         setIsGettingAiResponseForFileUploadProcess(false);
       }
     };
 
     if (!isGettingAiResponseForFileUploadProcess && hasFileBeenSelectedByUser && !fileHasBeenUploadedAndParsed) {
-      console.log('[WRAPPER] Conditions met! Starting AI processing...');
       setIsGettingAiResponseForFileUploadProcess(true);
       convertUploadedFileToFormInputsUsingAiProcess();
     } else {
-      console.log('[WRAPPER] Conditions NOT met, skipping AI processing');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uploadedFileContents]);
@@ -1511,6 +1467,10 @@ const ResumeGeneratorPage = () => {
       form.handleSubmit(onSubmit)();
       return;
     }
+    if (!canDownload()) {
+      toast.error(`You've reached ${MAX_DOWNLOADS_PER_WINDOW} downloads in the last hour. Try again in ${nextAllowedLabel()}.`, { duration: 8000 });
+      return;
+    }
     try {
       const fileName = `${(data.personal_info?.name || 'resume').replace(' ', '')}-Resume.docx`;
       const documentCreator = new DocumentCreator();
@@ -1524,6 +1484,7 @@ const ResumeGeneratorPage = () => {
       ]);
       Packer.toBlob(doc).then((blob) => saveAs(blob, fileName));
 
+      recordDownload();
       const new_download_count = numberOfDownloads + 1;
       localStorage.setItem('x8u_000_vb_nod', String(new_download_count));
       setNumberOfDownloads(new_download_count);
@@ -1555,6 +1516,13 @@ const ResumeGeneratorPage = () => {
 
     if (!hasPaid) {
       window.location.assign(STRIPE_PAYMENT_LINK);
+      return;
+    }
+
+    // Paid — but enforce the hourly download burst limit before doing any work
+    // (avoids spending an AI call when the user is rate-limited).
+    if (!canDownload()) {
+      toast.error(`You've reached ${MAX_DOWNLOADS_PER_WINDOW} downloads in the last hour. Try again in ${nextAllowedLabel()}.`, { duration: 8000 });
       return;
     }
 
@@ -1672,17 +1640,16 @@ stringifiedMappedFormValues;
 
       Packer.toBlob(doc).then(blob => {
         saveAs(blob, fileName);
-        console.log(`Successfully created resume - ${outputObject.personal_info.name}`);
       });
 
-       // increment on # of downloads
+       // record the download for the hourly limit + bump the lifetime tally
+      recordDownload();
       let new_download_count = numberOfDownloads + 1;
       localStorage.setItem('x8u_000_vb_nod', String(new_download_count)); // 'numberOfDownloads'
       setNumberOfDownloads(new_download_count);
-      let remaining_downloads = (max_download_count - new_download_count); // 3, 2, 1
 
       toast.dismiss();
-      toast.success(`Successfully generated resume, please check your downloads folder.\n\nDownloads remaining: ${remaining_downloads}`, {
+      toast.success('Successfully generated resume — please check your downloads folder.', {
         duration: 12000,
       });
 
@@ -1691,7 +1658,6 @@ stringifiedMappedFormValues;
       if (error?.response?.status === 999/* 403 */) {
         // don't want this to ever happen, 999 doesn't exist
         // proModal.onOpen();
-        console.log('something bad happened');
       } else {
 
         // Generate word doc without AI-assisted content
@@ -1708,10 +1674,9 @@ stringifiedMappedFormValues;
         ]);
         Packer.toBlob(doc).then(blob => {
           saveAs(blob, fileName);
-          console.log(`Successfully created resume (without AI) - ${mappedFormValues.personal_info.name}`);
         });
 
-        toast.error("Something went wrong with the AI connection, but your resume was still generated.\n\nThis did not count against your remaining downloads: " +  numberOfDownloads + "/" + max_download_count);
+        toast.error("Something went wrong with the AI connection, but your resume was still generated and downloaded.");
       }
     } finally {
       router.refresh();
@@ -3787,7 +3752,7 @@ stringifiedMappedFormValues;
                   <div>
                     <div className="gen-step-title">Ready to download</div>
                     <div className="gen-step-desc">
-                      Downloads: {numberOfDownloads}/{max_download_count} used.{' '}
+                      Unlimited downloads while your access is active.{' '}
                       <b>Regenerate and re-download as much as you like.</b>
                     </div>
                   </div>

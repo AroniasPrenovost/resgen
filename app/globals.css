@@ -385,6 +385,20 @@ body,
   border: 1px solid rgba(52, 211, 153, 0.3);
 }
 
+/* Legal / content pages (privacy, terms, contact) */
+.landing-redesign .legal-prose h2 {
+  color: #fff;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+}
+.landing-redesign .legal-prose p { color: var(--text-muted); }
+.landing-redesign .legal-prose a { color: #fff; text-decoration: underline; }
+.landing-redesign .legal-prose ul { list-style: disc; padding-left: 1.25rem; }
+.landing-redesign .legal-prose li { color: var(--text-muted); margin: 0.25rem 0; }
+.landing-redesign .legal-prose strong { color: #fff; }
+
 /* ============================================================
    GENERATOR REDESIGN DESIGN SYSTEM
    Scoped under .generator-redesign. Dark editorial look that

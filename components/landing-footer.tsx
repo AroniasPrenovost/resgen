@@ -6,28 +6,27 @@ const columns = [
   {
     heading: "Product",
     links: [
-      { label: "How it works", href: "#how" },
-      { label: "vs. Zety", href: "#compare" },
-      { label: "Pricing", href: "#pricing" },
-      { label: "FAQ", href: "#faq" },
+      { label: "How it works", href: "/#how" },
+      { label: "vs. Zety", href: "/#compare" },
+      { label: "Pricing", href: "/#pricing" },
+      { label: "FAQ", href: "/#faq" },
     ],
   },
   {
     heading: "Resources",
     links: [
-      { label: "ATS Guide", href: "#" },
-      { label: "Resume Templates", href: "#" },
-      { label: "Cover Letter Tips", href: "#" },
-      { label: "Blog", href: "#" },
+      { label: "Blog", href: "/app/blog" },
+      { label: "ATS Guide", href: "/app/blog" },
+      { label: "Cover Letter Tips", href: "/app/blog" },
+      { label: "Resume Generator", href: "/app/resume-generator" },
     ],
   },
   {
     heading: "Company",
     links: [
-      { label: "Privacy", href: "#" },
-      { label: "Terms", href: "#" },
-      { label: "Refund Policy", href: "#" },
-      { label: "Contact", href: "#" },
+      { label: "Privacy", href: "/privacy" },
+      { label: "Terms", href: "/terms" },
+      { label: "Contact", href: "/contact" },
     ],
   },
 ];
