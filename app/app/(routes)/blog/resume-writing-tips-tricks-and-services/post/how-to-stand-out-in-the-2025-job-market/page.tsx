@@ -1,27 +1,37 @@
 import type { Metadata } from "next";
 import { ClipboardList, User } from "lucide-react";
 import { Heading } from "@/components/heading";
+import { JsonLd } from "@/components/json-ld";
+import { blogPostSchema } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
-  title: "How to Stand Out in the 2024 Job Market",
-  description: "Discover the latest strategies to make your resume shine in the competitive 2024 job market.",
-  alternates: { canonical: "/app/blog/resume-writing-tips-tricks-and-services/post/how-to-stand-out-in-the-2024-job-market" },
+  title: "How to Stand Out in the 2025 Job Market",
+  description: "Discover the latest strategies to make your resume shine in the competitive 2025 job market.",
+  alternates: { canonical: "/app/blog/resume-writing-tips-tricks-and-services/post/how-to-stand-out-in-the-2025-job-market" },
   openGraph: {
-    title: "How to Stand Out in the 2024 Job Market | ResumAI Blog",
-    description: "Discover the latest strategies to make your resume shine in the competitive 2024 job market.",
-    url: "/app/blog/resume-writing-tips-tricks-and-services/post/how-to-stand-out-in-the-2024-job-market",
+    title: "How to Stand Out in the 2025 Job Market | ResumAI Blog",
+    description: "Discover the latest strategies to make your resume shine in the competitive 2025 job market.",
+    url: "/app/blog/resume-writing-tips-tricks-and-services/post/how-to-stand-out-in-the-2025-job-market",
     type: "article",
-    publishedTime: "2024-01-12T10:30:00.000Z",
+    publishedTime: "2025-02-26T14:15:00.000Z",
   },
 };
 
 const BlogDetailPage = async () => {
  return (
    <article className="min-h-screen bg-gray-50">
+     <JsonLd
+       data={blogPostSchema({
+         title: "How to Stand Out in the 2025 Job Market",
+         description: "Discover the latest strategies to make your resume shine in the competitive 2025 job market.",
+         slug: "how-to-stand-out-in-the-2025-job-market",
+         datePublished: "2025-02-26T14:15:00.000Z",
+       })}
+     />
      <header>
        <Heading
-         title="How to Stand Out in the 2024 Job Market"
-         description="Discover the latest strategies to make your resume shine in the competitive 2024 job market."
+         title="How to Stand Out in the 2025 Job Market"
+         description="Discover the latest strategies to make your resume shine in the competitive 2025 job market."
          icon={ClipboardList}
          iconColor="text-blue-700"
          bgColor="bg-gray-700/10"
@@ -30,7 +40,7 @@ const BlogDetailPage = async () => {
      <section className="px-8 lg:px-16 py-0 space-y-6">
        <h2 className="text-2xl font-bold text-gray-800">Introduction</h2>
        <p className="text-gray-700 custom_html">
-         The job market in 2024 is more competitive than ever. With new graduates entering the workforce and seasoned professionals seeking new opportunities, standing out is crucial. Your resume is your first impression, and it needs to be impeccable. Here are expert tips to help you revamp your resume and make it shine.
+         The job market in 2025 is more competitive than ever. With new graduates entering the workforce and seasoned professionals seeking new opportunities, standing out is crucial. Your resume is your first impression, and it needs to be impeccable. Here are expert tips to help you revamp your resume and make it shine.
        </p>
 
        <h2 className="text-2xl font-bold text-gray-800">Tailor Your Resume for Each Job</h2>
@@ -71,7 +81,7 @@ const BlogDetailPage = async () => {
 
        <h2 className="text-2xl font-bold text-gray-800">Conclusion</h2>
        <p className="text-gray-700 custom_html">
-         Revamping your resume for the 2024 job market is essential to stand out among the competition. Tailor your resume for each job, showcase your achievements, optimize for ATS, and keep it concise. Ready to create a standout resume? Visit our <a href="https://www.resumai.services/app/resume-generator" className="text-blue-700 hover:underline" title="ResumAI - Resume Generator">ResumAI - Resume Generator</a> to get started.
+         Revamping your resume for the 2025 job market is essential to stand out among the competition. Tailor your resume for each job, showcase your achievements, optimize for ATS, and keep it concise. Ready to create a standout resume? Visit our <a href="https://www.resumai.services/app/resume-generator" className="text-blue-700 hover:underline" title="ResumAI - Resume Generator">ResumAI - Resume Generator</a> to get started.
        </p>
      </section>
      <footer className="bg-gray-100 p-6 mt-8">

@@ -12,7 +12,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: `${siteUrl}/`, lastModified: now },
     { url: `${siteUrl}/app/resume-generator`, lastModified: now },
-    { url: `${siteUrl}/app/dashboard`, lastModified: now },
     { url: `${siteUrl}/app/blog`, lastModified: now },
   ];
 

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { ClipboardList, User } from "lucide-react";
 import { Heading } from "@/components/heading";
+import { JsonLd } from "@/components/json-ld";
+import { blogPostSchema } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
   title: "Job Search Journeys: Navigating the Resume Writing Maze for Success",
@@ -11,13 +13,21 @@ export const metadata: Metadata = {
     description: "Insights for Crafting an SEO-Optimized Resume",
     url: "/app/blog/resume-writing-tips-tricks-and-services/post/job-search-journeys-navigating-the-resume-writing-maze-for-success",
     type: "article",
-    publishedTime: "2023-05-18T13:20:00.000Z",
+    publishedTime: "2025-06-19T09:00:00.000Z",
   },
 };
 
 const BlogDetailPage = async () => {
  return (
    <article className="min-h-screen bg-gray-50">
+     <JsonLd
+       data={blogPostSchema({
+         title: "Job Search Journeys: Navigating the Resume Writing Maze for Success",
+         description: "Insights for Crafting an SEO-Optimized Resume",
+         slug: "job-search-journeys-navigating-the-resume-writing-maze-for-success",
+         datePublished: "2025-06-19T09:00:00.000Z",
+       })}
+     />
      <header>
        <Heading
          title="Job Search Journeys: Navigating the Resume Writing Maze for Success"

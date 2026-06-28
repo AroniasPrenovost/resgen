@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { ClipboardList, User } from "lucide-react";
 import { Heading } from "@/components/heading";
+import { JsonLd } from "@/components/json-ld";
+import { blogPostSchema } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
   title: "Crafting a Resume that Shines Brighter than a Diamond",
@@ -11,13 +13,21 @@ export const metadata: Metadata = {
     description: "Learn how to stand out like a diamond in the rough.",
     url: "/app/blog/resume-writing-tips-tricks-and-services/post/crafting-a-resume-that-shines-brighter-than-a-diamond",
     type: "article",
-    publishedTime: "2024-09-17T11:30:00.000Z",
+    publishedTime: "2026-03-03T11:30:00.000Z",
   },
 };
 
 const BlogDetailPage = async () => {
  return (
    <article className="min-h-screen bg-gray-50">
+     <JsonLd
+       data={blogPostSchema({
+         title: "Crafting a Resume that Shines Brighter than a Diamond",
+         description: "Learn how to stand out like a diamond in the rough.",
+         slug: "crafting-a-resume-that-shines-brighter-than-a-diamond",
+         datePublished: "2026-03-03T11:30:00.000Z",
+       })}
+     />
      <header>
        <Heading
          title="Crafting a Resume that Shines Brighter than a Diamond"

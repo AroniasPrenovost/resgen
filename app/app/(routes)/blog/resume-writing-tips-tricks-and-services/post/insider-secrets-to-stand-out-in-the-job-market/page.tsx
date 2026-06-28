@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { ClipboardList, User } from "lucide-react";
 import { Heading } from "@/components/heading";
+import { JsonLd } from "@/components/json-ld";
+import { blogPostSchema } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
   title: "Insider Secrets To Stand Out In The Job Market",
@@ -11,13 +13,21 @@ export const metadata: Metadata = {
     description: "Tips and Tricks to Elevate Your Resume Game",
     url: "/app/blog/resume-writing-tips-tricks-and-services/post/insider-secrets-to-stand-out-in-the-job-market",
     type: "article",
-    publishedTime: "2024-03-07T16:15:00.000Z",
+    publishedTime: "2025-10-07T13:00:00.000Z",
   },
 };
 
 const BlogDetailPage = async () => {
  return (
    <article className="min-h-screen bg-gray-50">
+     <JsonLd
+       data={blogPostSchema({
+         title: "Insider Secrets To Stand Out In The Job Market",
+         description: "Tips and Tricks to Elevate Your Resume Game",
+         slug: "insider-secrets-to-stand-out-in-the-job-market",
+         datePublished: "2025-10-07T13:00:00.000Z",
+       })}
+     />
      <header>
        <Heading
          title="Insider Secrets To Stand Out In The Job Market"

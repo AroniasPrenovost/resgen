@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { ClipboardList, User } from "lucide-react";
 import { Heading } from "@/components/heading";
+import { JsonLd } from "@/components/json-ld";
+import { blogPostSchema } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
   title: "Revamp Your Resume: Expert Tips for Landing Your Dream Job",
@@ -11,13 +13,21 @@ export const metadata: Metadata = {
     description: "Unlock the Secrets to Crafting a Winning Resume",
     url: "/app/blog/resume-writing-tips-tricks-and-services/post/revamp-your-resume-expert-tips-for-landing-your-dream-job",
     type: "article",
-    publishedTime: "2023-02-22T10:15:00.000Z",
+    publishedTime: "2025-05-08T13:20:00.000Z",
   },
 };
 
 const BlogDetailPage = async () => {
  return (
    <article className="min-h-screen bg-gray-50">
+     <JsonLd
+       data={blogPostSchema({
+         title: "Revamp Your Resume: Expert Tips for Landing Your Dream Job",
+         description: "Unlock the Secrets to Crafting a Winning Resume",
+         slug: "revamp-your-resume-expert-tips-for-landing-your-dream-job",
+         datePublished: "2025-05-08T13:20:00.000Z",
+       })}
+     />
      <header>
        <Heading
          title="Revamp Your Resume: Expert Tips for Landing Your Dream Job"

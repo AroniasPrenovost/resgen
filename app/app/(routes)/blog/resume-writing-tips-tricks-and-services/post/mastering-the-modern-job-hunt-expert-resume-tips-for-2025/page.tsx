@@ -1,26 +1,36 @@
 import type { Metadata } from "next";
 import { ClipboardList, User } from "lucide-react";
 import { Heading } from "@/components/heading";
+import { JsonLd } from "@/components/json-ld";
+import { blogPostSchema } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
-  title: "Mastering the Modern Job Hunt: Expert Resume Tips for 2024",
+  title: "Mastering the Modern Job Hunt: Expert Resume Tips for 2025",
   description: "Unlock the secrets to crafting a standout resume and navigating the job market with confidence.",
-  alternates: { canonical: "/app/blog/resume-writing-tips-tricks-and-services/post/mastering-the-modern-job-hunt-expert-resume-tips-for-2024" },
+  alternates: { canonical: "/app/blog/resume-writing-tips-tricks-and-services/post/mastering-the-modern-job-hunt-expert-resume-tips-for-2025" },
   openGraph: {
-    title: "Mastering the Modern Job Hunt: Expert Resume Tips for 2024 | ResumAI Blog",
+    title: "Mastering the Modern Job Hunt: Expert Resume Tips for 2025 | ResumAI Blog",
     description: "Unlock the secrets to crafting a standout resume and navigating the job market with confidence.",
-    url: "/app/blog/resume-writing-tips-tricks-and-services/post/mastering-the-modern-job-hunt-expert-resume-tips-for-2024",
+    url: "/app/blog/resume-writing-tips-tricks-and-services/post/mastering-the-modern-job-hunt-expert-resume-tips-for-2025",
     type: "article",
-    publishedTime: "2023-08-14T15:30:00.000Z",
+    publishedTime: "2025-02-04T09:30:00.000Z",
   },
 };
 
 const BlogDetailPage = async () => {
   return (
     <article className="min-h-screen bg-gray-50">
+      <JsonLd
+        data={blogPostSchema({
+          title: "Mastering the Modern Job Hunt: Expert Resume Tips for 2025",
+          description: "Unlock the secrets to crafting a standout resume and navigating the job market with confidence.",
+          slug: "mastering-the-modern-job-hunt-expert-resume-tips-for-2025",
+          datePublished: "2025-02-04T09:30:00.000Z",
+        })}
+      />
       <header>
         <Heading
-          title="Mastering the Modern Job Hunt: Expert Resume Tips for 2024"
+          title="Mastering the Modern Job Hunt: Expert Resume Tips for 2025"
           description="Unlock the secrets to crafting a standout resume and navigating the job market with confidence."
           icon={ClipboardList}
           iconColor="text-blue-700"
@@ -30,7 +40,7 @@ const BlogDetailPage = async () => {
       <section className="px-8 lg:px-16 py-0 space-y-6">
         <h2 className="text-2xl font-bold text-gray-800">Introduction</h2>
         <p className="text-gray-700 custom_html">
-          Welcome to the modern job hunt, where the rules have changed, and the competition is fiercer than ever. Whether you are a new grad, a seasoned professional, or someone looking to make a career pivot, your resume is your ticket to getting noticed. In this blog post, we will dive into expert resume tips for 2024 that will help you stand out in the crowded job market.
+          Welcome to the modern job hunt, where the rules have changed, and the competition is fiercer than ever. Whether you are a new grad, a seasoned professional, or someone looking to make a career pivot, your resume is your ticket to getting noticed. In this blog post, we will dive into expert resume tips for 2025 that will help you stand out in the crowded job market.
         </p>
 
         <h2 className="text-2xl font-bold text-gray-800">Understanding the Modern Resume</h2>

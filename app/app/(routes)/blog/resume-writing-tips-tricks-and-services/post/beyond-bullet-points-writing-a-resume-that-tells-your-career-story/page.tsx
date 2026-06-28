@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { ClipboardList, User } from "lucide-react";
 import { Heading } from "@/components/heading";
+import { JsonLd } from "@/components/json-ld";
+import { blogPostSchema } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
   title: "Beyond Bullet Points: Writing A Resume That Tells Your Career Story",
@@ -11,13 +13,21 @@ export const metadata: Metadata = {
     description: "Tips and Tricks for Writing a Resume That Stands Out",
     url: "/app/blog/resume-writing-tips-tricks-and-services/post/beyond-bullet-points-writing-a-resume-that-tells-your-career-story",
     type: "article",
-    publishedTime: "2026-01-10T13:45:00.000Z",
+    publishedTime: "2026-06-24T10:15:00.000Z",
   },
 };
 
 const BlogDetailPage = async () => {
  return (
    <article className="min-h-screen bg-gray-50">
+     <JsonLd
+       data={blogPostSchema({
+         title: "Beyond Bullet Points: Writing A Resume That Tells Your Career Story",
+         description: "Tips and Tricks for Writing a Resume That Stands Out",
+         slug: "beyond-bullet-points-writing-a-resume-that-tells-your-career-story",
+         datePublished: "2026-06-24T10:15:00.000Z",
+       })}
+     />
      <header>
        <Heading
          title="Beyond Bullet Points: Writing A Resume That Tells Your Career Story"

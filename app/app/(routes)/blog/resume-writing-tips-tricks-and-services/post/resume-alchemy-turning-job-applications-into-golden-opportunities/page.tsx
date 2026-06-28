@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { ClipboardList, User } from "lucide-react";
 import { Heading } from "@/components/heading";
+import { JsonLd } from "@/components/json-ld";
+import { blogPostSchema } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
   title: "Resume Alchemy: Turning Job Applications Into Golden Opportunities",
@@ -11,13 +13,21 @@ export const metadata: Metadata = {
     description: "Unlock the secrets to crafting a winning resume that shines like gold in the tech industry.",
     url: "/app/blog/resume-writing-tips-tricks-and-services/post/resume-alchemy-turning-job-applications-into-golden-opportunities",
     type: "article",
-    publishedTime: "2024-11-04T15:00:00.000Z",
+    publishedTime: "2026-04-21T15:00:00.000Z",
   },
 };
 
 const BlogDetailPage = async () => {
  return (
    <article className="min-h-screen bg-gray-50">
+     <JsonLd
+       data={blogPostSchema({
+         title: "Resume Alchemy: Turning Job Applications Into Golden Opportunities",
+         description: "Unlock the secrets to crafting a winning resume that shines like gold in the tech industry.",
+         slug: "resume-alchemy-turning-job-applications-into-golden-opportunities",
+         datePublished: "2026-04-21T15:00:00.000Z",
+       })}
+     />
      <header>
        <Heading
          title="Resume Alchemy: Turning Job Applications Into Golden Opportunities"

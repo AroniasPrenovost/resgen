@@ -1,26 +1,36 @@
 import type { Metadata } from "next";
 import { ClipboardList, User } from "lucide-react";
 import { Heading } from "@/components/heading";
+import { JsonLd } from "@/components/json-ld";
+import { blogPostSchema } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
-  title: "Resume Reboot: How to Make Your Application Shine in 2024",
+  title: "Resume Reboot: How to Make Your Application Shine in 2025",
   description: "Discover the latest tips and tricks to make your resume stand out",
   alternates: { canonical: "/app/blog/resume-writing-tips-tricks-and-services/post/resume-reboot-how-to-make-your-application-shine" },
   openGraph: {
-    title: "Resume Reboot: How to Make Your Application Shine in 2024 | ResumAI Blog",
+    title: "Resume Reboot: How to Make Your Application Shine in 2025 | ResumAI Blog",
     description: "Discover the latest tips and tricks to make your resume stand out",
     url: "/app/blog/resume-writing-tips-tricks-and-services/post/resume-reboot-how-to-make-your-application-shine",
     type: "article",
-    publishedTime: "2024-04-21T13:00:00.000Z",
+    publishedTime: "2025-11-11T16:15:00.000Z",
   },
 };
 
 const BlogDetailPage = async () => {
  return (
    <article className="min-h-screen bg-gray-50">
+     <JsonLd
+       data={blogPostSchema({
+         title: "Resume Reboot: How to Make Your Application Shine in 2025",
+         description: "Discover the latest tips and tricks to make your resume stand out",
+         slug: "resume-reboot-how-to-make-your-application-shine",
+         datePublished: "2025-11-11T16:15:00.000Z",
+       })}
+     />
      <header>
        <Heading
-         title="Resume Reboot: How to Make Your Application Shine in 2024"
+         title="Resume Reboot: How to Make Your Application Shine in 2025"
          description="Discover the latest tips and tricks to make your resume stand out"
          icon={ClipboardList}
          iconColor="text-blue-700"
@@ -30,7 +40,7 @@ const BlogDetailPage = async () => {
      <section className="px-8 lg:px-16 py-0 space-y-6">
        <h2 className="text-2xl font-bold text-gray-800">Introduction</h2>
        <p className="text-gray-700 custom_html">
-         Welcome to 2024, where the job market is a literal hellscape. Whether you are a new grad, a seasoned professional, or someone looking to make a career change, your resume is your ticket to landing that dream job. But how do you make your application shine? Let us dive into some fresh strategies to give your resume a reboot.
+         Welcome to 2025, where the job market is a literal hellscape. Whether you are a new grad, a seasoned professional, or someone looking to make a career change, your resume is your ticket to landing that dream job. But how do you make your application shine? Let us dive into some fresh strategies to give your resume a reboot.
        </p>
 
        <h2 className="text-2xl font-bold text-gray-800">Tailor Your Resume for Each Job</h2>
@@ -71,7 +81,7 @@ const BlogDetailPage = async () => {
 
        <h2 className="text-2xl font-bold text-gray-800">Conclusion</h2>
        <p className="text-gray-700 custom_html">
-         In 2024, making your resume shine requires a combination of customization, showcasing achievements, optimizing for ATS, and leveraging your network. By following these tips, you will be well on your way to landing your dream job.
+         In 2025, making your resume shine requires a combination of customization, showcasing achievements, optimizing for ATS, and leveraging your network. By following these tips, you will be well on your way to landing your dream job.
        </p>
        <p>
         Ready to give your resume a reboot? Check out our <a href="https://www.resumai.services/app/resume-generator" className="text-blue-700 hover:underline" title="ResumAI - Resume Generator">Resume Generator</a> today!

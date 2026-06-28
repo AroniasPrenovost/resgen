@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { ClipboardList, User } from "lucide-react";
 import { Heading } from "@/components/heading";
+import { JsonLd } from "@/components/json-ld";
+import { blogPostSchema } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
   title: "Crafting Your Dream Job: Insider Tips for a Winning Resume",
@@ -11,13 +13,21 @@ export const metadata: Metadata = {
     description: "Unlock the secrets to creating a resume that stands out in this competitive job market.",
     url: "/app/blog/resume-writing-tips-tricks-and-services/post/crafting-your-dream-job-insider-tips-for-a-winning-resume",
     type: "article",
-    publishedTime: "2023-01-15T14:30:00.000Z",
+    publishedTime: "2025-04-15T10:30:00.000Z",
   },
 };
 
 const BlogDetailPage = async () => {
   return (
     <article className="min-h-screen bg-gray-50">
+      <JsonLd
+        data={blogPostSchema({
+          title: "Crafting Your Dream Job: Insider Tips for a Winning Resume",
+          description: "Unlock the secrets to creating a resume that stands out in this competitive job market.",
+          slug: "crafting-your-dream-job-insider-tips-for-a-winning-resume",
+          datePublished: "2025-04-15T10:30:00.000Z",
+        })}
+      />
       <header>
         <Heading
           title="Crafting Your Dream Job: Insider Tips for a Winning Resume"

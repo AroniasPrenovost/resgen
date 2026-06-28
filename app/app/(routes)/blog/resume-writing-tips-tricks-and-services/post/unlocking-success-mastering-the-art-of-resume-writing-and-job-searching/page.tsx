@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { ClipboardList, User } from "lucide-react";
 import { Heading } from "@/components/heading";
+import { JsonLd } from "@/components/json-ld";
+import { blogPostSchema } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
   title: "Unlocking Success: Mastering the Art of Resume Writing and Job Searching",
@@ -11,13 +13,21 @@ export const metadata: Metadata = {
     description: "Tips and Tricks for Crafting the Perfect Resume and Navigating the Job Market",
     url: "/app/blog/resume-writing-tips-tricks-and-services/post/unlocking-success-mastering-the-art-of-resume-writing-and-job-searching",
     type: "article",
-    publishedTime: "2023-04-08T16:45:00.000Z",
+    publishedTime: "2025-05-29T16:45:00.000Z",
   },
 };
 
 const BlogDetailPage = async () => {
  return (
    <article className="min-h-screen bg-gray-50">
+     <JsonLd
+       data={blogPostSchema({
+         title: "Unlocking Success: Mastering the Art of Resume Writing and Job Searching",
+         description: "Tips and Tricks for Crafting the Perfect Resume and Navigating the Job Market",
+         slug: "unlocking-success-mastering-the-art-of-resume-writing-and-job-searching",
+         datePublished: "2025-05-29T16:45:00.000Z",
+       })}
+     />
      <header>
        <Heading
          title="Unlocking Success: Mastering the Art of Resume Writing and Job Searching"

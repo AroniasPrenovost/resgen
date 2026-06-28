@@ -1,27 +1,37 @@
 import type { Metadata } from "next";
 import { ClipboardList, User } from "lucide-react";
 import { Heading } from "@/components/heading";
+import { JsonLd } from "@/components/json-ld";
+import { blogPostSchema } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
-  title: "Opening Career Doors In 2024",
-  description: "Discover the secrets to crafting a resume that stands out in the competitive job market of 2024.",
-  alternates: { canonical: "/app/blog/resume-writing-tips-tricks-and-services/post/opening-career-doors-in-2024" },
+  title: "Opening Career Doors In 2025",
+  description: "Discover the secrets to crafting a resume that stands out in the competitive job market of 2025.",
+  alternates: { canonical: "/app/blog/resume-writing-tips-tricks-and-services/post/opening-career-doors-in-2025" },
   openGraph: {
-    title: "Opening Career Doors In 2024 | ResumAI Blog",
-    description: "Discover the secrets to crafting a resume that stands out in the competitive job market of 2024.",
-    url: "/app/blog/resume-writing-tips-tricks-and-services/post/opening-career-doors-in-2024",
+    title: "Opening Career Doors In 2025 | ResumAI Blog",
+    description: "Discover the secrets to crafting a resume that stands out in the competitive job market of 2025.",
+    url: "/app/blog/resume-writing-tips-tricks-and-services/post/opening-career-doors-in-2025",
     type: "article",
-    publishedTime: "2024-12-16T10:15:00.000Z",
+    publishedTime: "2025-03-20T11:00:00.000Z",
   },
 };
 
 const BlogDetailPage = async () => {
   return (
     <article className="min-h-screen bg-gray-50">
+      <JsonLd
+        data={blogPostSchema({
+          title: "Opening Career Doors In 2025",
+          description: "Discover the secrets to crafting a resume that stands out in the competitive job market of 2025.",
+          slug: "opening-career-doors-in-2025",
+          datePublished: "2025-03-20T11:00:00.000Z",
+        })}
+      />
       <header>
         <Heading
-          title="Opening Career Doors In 2024"
-          description="Discover the secrets to crafting a resume that stands out in the competitive job market of 2024."
+          title="Opening Career Doors In 2025"
+          description="Discover the secrets to crafting a resume that stands out in the competitive job market of 2025."
           icon={ClipboardList}
           iconColor="text-blue-700"
           bgColor="bg-gray-700/10"
@@ -30,7 +40,7 @@ const BlogDetailPage = async () => {
       <section className="px-8 lg:px-16 py-0 space-y-6">
         <h2 className="text-2xl font-bold text-gray-800">The Resume Revolution</h2>
         <p className="text-gray-700 custom_html">
-          In the ever-evolving landscape of job hunting, the <strong>resume</strong> remains your golden ticket. As we step into 2024, the art of resume writing has transformed into a strategic endeavor. It is not just about listing your experiences; it is about telling your story in a way that resonates with potential employers. With the right approach, you can unlock career doors you never imagined.
+          In the ever-evolving landscape of job hunting, the <strong>resume</strong> remains your golden ticket. As we step into 2025, the art of resume writing has transformed into a strategic endeavor. It is not just about listing your experiences; it is about telling your story in a way that resonates with potential employers. With the right approach, you can unlock career doors you never imagined.
         </p>
 
         <h2 className="text-2xl font-bold text-gray-800">Crafting Your Unique Narrative</h2>
@@ -71,7 +81,7 @@ const BlogDetailPage = async () => {
 
         <h2 className="text-2xl font-bold text-gray-800">Conclusion</h2>
         <p className="text-gray-700 custom_html">
-          Mastering the art of resume writing in 2024 is about more than just listing your experiences. It is about crafting a compelling narrative that showcases your unique value. By focusing on key elements, incorporating keywords, and paying attention to design, you can create a resume that opens doors to new career opportunities. Ready to take the next step? Visit our <a href="https://www.resumai.services/app/resume-generator" className="text-blue-700 hover:underline" title="ResumAI - Resume Generator">ResumAI - Resume Generator</a> to start crafting your standout resume today.
+          Mastering the art of resume writing in 2025 is about more than just listing your experiences. It is about crafting a compelling narrative that showcases your unique value. By focusing on key elements, incorporating keywords, and paying attention to design, you can create a resume that opens doors to new career opportunities. Ready to take the next step? Visit our <a href="https://www.resumai.services/app/resume-generator" className="text-blue-700 hover:underline" title="ResumAI - Resume Generator">ResumAI - Resume Generator</a> to start crafting your standout resume today.
         </p>
       </section>
       <footer className="bg-gray-100 p-6 mt-8">

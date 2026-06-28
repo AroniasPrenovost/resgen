@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { ClipboardList, User } from "lucide-react";
 import { Heading } from "@/components/heading";
+import { JsonLd } from "@/components/json-ld";
+import { blogPostSchema } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
   title: "Open Career Doors with a Slick Resume",
@@ -11,13 +13,21 @@ export const metadata: Metadata = {
     description: "Master the art of resume writing with these expert tips and open the door to your dream job.",
     url: "/app/blog/resume-writing-tips-tricks-and-services/post/open-career-doors-with-a-slick-resume",
     type: "article",
-    publishedTime: "2024-08-02T14:20:00.000Z",
+    publishedTime: "2026-01-20T14:20:00.000Z",
   },
 };
 
 const BlogDetailPage = async () => {
  return (
    <article className="min-h-screen bg-gray-50">
+     <JsonLd
+       data={blogPostSchema({
+         title: "Open Career Doors with a Slick Resume",
+         description: "Master the art of resume writing with these expert tips and open the door to your dream job.",
+         slug: "open-career-doors-with-a-slick-resume",
+         datePublished: "2026-01-20T14:20:00.000Z",
+       })}
+     />
      <header>
        <Heading
          title="Open Career Doors with a Slick Resume"

@@ -6,6 +6,8 @@ import { Analytics } from "@vercel/analytics/react"
 
 import { ToasterProvider } from '@/components/toaster-provider'
 import { CrispProvider } from '@/components/crisp-provider'
+import { JsonLd } from '@/components/json-ld'
+import { organizationSchema, websiteSchema } from '@/lib/structured-data'
 
 import './globals.css'
 
@@ -43,26 +45,19 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   openGraph: {
+    // Social card image is supplied site-wide by app/opengraph-image.tsx.
     type: 'website',
     siteName,
     url: siteUrl,
     title: defaultTitle,
     description: defaultDescription,
-    images: [
-      {
-        url: '/transcript.png',
-        width: 1200,
-        height: 630,
-        alt: 'ResumAI – AI-Powered Resume Generator',
-      },
-    ],
     locale: 'en_US',
   },
   twitter: {
+    // Card image is supplied site-wide by app/twitter-image.tsx.
     card: 'summary_large_image',
     title: defaultTitle,
     description: defaultDescription,
-    images: ['/transcript.png'],
   },
   robots: {
     index: true,
@@ -93,6 +88,7 @@ export default async function RootLayout({
       <html lang="en" suppressHydrationWarning>
         <CrispProvider />
         <body className={font.className}>
+          <JsonLd data={[organizationSchema(), websiteSchema()]} />
           <ToasterProvider />
           {children}
           <Analytics />
