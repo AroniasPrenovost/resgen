@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 const columns = [
   {
     heading: "Product",
@@ -38,10 +40,12 @@ export const LandingFooter = () => {
         <div className="grid md:grid-cols-4 gap-8 mb-10">
           <div>
             <div className="flex items-center gap-2.5 mb-4">
-              <div className="w-7 h-7 rounded-lg" style={{ background: "linear-gradient(135deg, #A78BFA 0%, #EC4899 100%)" }} />
+              <div className="relative h-7 w-7">
+                <Image fill sizes="28px" alt="ResumAI logo" src="/transcript.png" />
+              </div>
               <span className="font-semibold tracking-tight text-white">ResumAI</span>
             </div>
-            <p className="text-sm text-[var(--text-muted)] leading-relaxed">AI resumes that beat the bots. $9.99 for a month of access. No subscription.</p>
+            <p className="text-sm text-[var(--text-muted)] leading-relaxed">AI resumes that beat the bots. $9.99 for 30 days of access. No subscription.</p>
           </div>
           {columns.map((col) => (
             <div key={col.heading}>

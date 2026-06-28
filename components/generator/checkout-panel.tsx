@@ -44,7 +44,7 @@ export function CheckoutPanel({
         </li>
         <li>
           <IconCheck />
-          <span>Full month of access</span>
+          <span>30 days of access</span>
         </li>
       </ul>
 
@@ -73,7 +73,7 @@ export function CheckoutPanel({
         </li>
       </ul>
       <div className="co-secure">
-        <IconLock /> Stripe secured · 30-day money-back
+        <IconLock /> Stripe secured
       </div>
     </div>
   );

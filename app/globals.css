@@ -7,7 +7,14 @@ body,
 :root {
   height: 100%;
 }
- 
+
+:root {
+  /* System serif stack standing in for the old Instrument Serif web font.
+     Defined here so every `var(--font-instrument-serif)` usage resolves
+     without fetching any remote font (no build-time or runtime font load). */
+  --font-instrument-serif: Georgia, "Times New Roman", serif;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -449,7 +456,7 @@ body,
   display: flex; align-items: center; justify-content: space-between; gap: 18px;
 }
 .generator-redesign .gen-brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 18px; letter-spacing: -.01em; color: var(--ink); }
-.generator-redesign .gen-brand .mark { width: 26px; height: 26px; border-radius: 8px; background: var(--grad); box-shadow: 0 4px 14px rgba(217, 75, 209, .45); }
+.generator-redesign .gen-brand .mark { position: relative; width: 26px; height: 26px; border-radius: 8px; overflow: hidden; }
 .generator-redesign .gen-topbar-trust { display: flex; align-items: center; gap: 20px; font-size: 12.5px; color: var(--ink-soft); }
 .generator-redesign .gen-topbar-trust .t { display: flex; align-items: center; gap: 7px; }
 .generator-redesign .gen-topbar-trust svg { width: 14px; height: 14px; flex: none; }

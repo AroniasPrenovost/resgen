@@ -13,7 +13,7 @@ export const LandingHero = () => {
           <div className="lg:col-span-6 rise" style={{ animationDelay: "0.1s" }}>
             <span className="tag mb-6">
               <span className="relative w-1.5 h-1.5 rounded-full bg-emerald-400 pulse-dot" />
-              $9.99 for a month. No subscription. Ever.
+              $9.99 for 30 days. No subscription. Ever.
             </span>
 
             <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl leading-[1.05] tracking-tight mb-6 text-white">
@@ -27,7 +27,7 @@ export const LandingHero = () => {
             </h1>
 
             <p className="text-lg text-[var(--text-muted)] max-w-xl mb-8 leading-relaxed">
-              Upload your resume. Paste any job posting. We rewrite it to beat the ATS bots and land on a recruiter&apos;s desk. Pay <span className="text-white font-medium">$9.99 once</span> for a full month — 30 resume generations, unlimited downloads. Not per download. That&apos;s it.
+              Upload your resume. Paste any job posting. We rewrite it to beat the ATS bots and land on a recruiter&apos;s desk. Pay <span className="text-white font-medium">$9.99</span> for 30 days — 30 resume generations, unlimited downloads. Not per download. That&apos;s it.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 mb-6">
@@ -45,7 +45,7 @@ export const LandingHero = () => {
             </div>
 
             <div className="flex flex-wrap items-center gap-5 text-xs text-[var(--text-faint)]">
-              {["No credit card", "Preview before you pay", "30-day refund"].map((label) => (
+              {["No credit card", "Preview before you pay"].map((label) => (
                 <div key={label} className="flex items-center gap-1.5">
                   <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M13 4L6 11l-3-3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
                   {label}

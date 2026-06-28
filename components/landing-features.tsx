@@ -23,7 +23,7 @@ export const LandingFeatures = () => {
               </div>
               <h3 className="text-xl font-semibold mb-3 text-white">One payment. Done forever.</h3>
               <p className="text-[var(--text-muted)] text-sm leading-relaxed mb-5">
-                $9.99 unlocks a full month — 30 resume generations, unlimited downloads. No card on file. No &ldquo;14-day trial&rdquo; that bills $24 next week. No &ldquo;we couldn&apos;t process your cancellation&rdquo; emails. We don&apos;t have your card after checkout.
+                $9.99 unlocks 30 days — 30 resume generations, unlimited downloads. No card on file. No &ldquo;14-day trial&rdquo; that bills $24 next week. No &ldquo;we couldn&apos;t process your cancellation&rdquo; emails. We don&apos;t have your card after checkout.
               </p>
               <div className="bg-[var(--surface)] rounded-xl p-4 border border-[var(--border-soft)]">
                 <div className="flex items-center gap-3 text-xs">

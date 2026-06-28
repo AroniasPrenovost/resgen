@@ -12,7 +12,7 @@ export const LandingFinalCta = () => {
           A resume worth sending, <span className="italic highlight">in minutes</span>.
         </h2>
         <p className="text-lg text-[var(--text-muted)] mb-10 max-w-xl mx-auto">
-          Upload your current resume. Paste a job description. Preview the polished version free. Unlock a full month of access for $9.99 when you&apos;re ready.
+          Upload your current resume. Paste a job description. Preview the polished version free. Unlock 30 days of access for $9.99 when you&apos;re ready.
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center mb-6">
           <Link href="/app/resume-generator" prefetch={true} className="btn-primary rounded-full px-8 py-4 font-semibold text-white inline-flex items-center justify-center gap-2">
@@ -23,9 +23,7 @@ export const LandingFinalCta = () => {
         <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-[var(--text-faint)]">
           <span>No credit card to start</span>
           <span className="w-1 h-1 rounded-full bg-[var(--text-faint)]" />
-          <span>$9.99 once for a month of access</span>
-          <span className="w-1 h-1 rounded-full bg-[var(--text-faint)]" />
-          <span>30-day refund</span>
+          <span>$9.99 for 30 days of access</span>
         </div>
       </div>
     </section>

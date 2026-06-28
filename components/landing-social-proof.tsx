@@ -44,10 +44,6 @@ export const LandingSocialProof = () => {
               <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="2" y="6" width="12" height="8" rx="1.5" stroke="currentColor" strokeWidth="1.5" /><path d="M5 6V4a3 3 0 016 0v2" stroke="currentColor" strokeWidth="1.5" /></svg>
               <span>Stripe secured checkout</span>
             </div>
-            <div className="flex items-center gap-2">
-              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 1l6 3v4c0 3.5-2.5 6.5-6 7-3.5-.5-6-3.5-6-7V4l6-3z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" /></svg>
-              <span>30-day money back</span>
-            </div>
             <div className="hidden md:flex items-center gap-2">
               <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" strokeWidth="1.5" /><path d="M8 5v3l2 2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" /></svg>
               <span>Ready in under 60 seconds</span>

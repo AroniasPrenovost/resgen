@@ -59,7 +59,6 @@ import {
   IconChevronDown,
   IconSpark,
   IconLock,
-  IconClock,
 } from "@/components/generator/icons";
 
 const ResumeGeneratorPage = () => {
@@ -3913,9 +3912,6 @@ stringifiedMappedFormValues;
                 <div className="gen-foot">
                   <span className="t">
                     <IconLock /> Stripe secured
-                  </span>
-                  <span className="t">
-                    <IconClock /> 30-day money-back
                   </span>
                   <span className="t">
                     <IconCheck /> No card on file, ever

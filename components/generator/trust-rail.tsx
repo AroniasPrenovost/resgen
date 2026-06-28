@@ -7,7 +7,6 @@ import {
   BEFORE_AFTER,
   TESTIMONIAL,
 } from "@/lib/social-proof";
-import { IconShieldCheck } from "./icons";
 
 /**
  * Honest-math mini-table. The rail's whole job is consistency with the landing
@@ -95,33 +94,12 @@ export function LiveProofCard({
   );
 }
 
-/** 30-day money-back guarantee card (desktop rail). */
-export function GuaranteeCard() {
-  return (
-    <div className="gen-rail-card">
-      <div className="gen-guarantee">
-        <div className="gic">
-          <IconShieldCheck />
-        </div>
-        <div>
-          <h4>30-day money-back</h4>
-          <p>
-            Download, use it, and if it doesn&apos;t feel like a sane person built
-            it — full refund. No maze.
-          </p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/** Desktop sticky trust rail composing the three cards. */
+/** Desktop sticky trust rail composing the trust cards. */
 export function TrustRail() {
   return (
     <aside className="gen-rail gen-only-desktop">
       <HonestMathCard />
       <LiveProofCard variant="rail" />
-      <GuaranteeCard />
     </aside>
   );
 }

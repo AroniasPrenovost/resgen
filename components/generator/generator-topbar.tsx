@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 import { RATING, BUILT_THIS_MONTH } from "@/lib/social-proof";
 import { IconStar, IconLock } from "./icons";
 
@@ -13,7 +15,9 @@ export function GeneratorTopbar() {
     <div className="gen-topbar">
       <div className="gen-topbar-inner">
         <div className="gen-brand">
-          <span className="mark" aria-hidden />
+          <span className="mark" aria-hidden>
+            <Image fill sizes="26px" alt="" src="/transcript.png" />
+          </span>
           ResumAI
         </div>
         <div className="gen-topbar-trust">

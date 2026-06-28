@@ -5,7 +5,7 @@ const faqs = [
     q: "Is this really one-time payment? What's the catch?",
     a: (
       <>
-        No catch. $9.99 buys a full month of access — 30 resume generations and unlimited downloads, not a charge per download. Stripe handles the transaction. We don&apos;t store your card. There&apos;s no account that auto-renews. When the month&apos;s up, it&apos;s up — nothing bills automatically. Need access again later? Pay another $9.99. We&apos;d rather earn it each month than trap you in a $24/month auto-renewal you forget about.
+        No catch. $9.99 buys 30 days of access — 30 resume generations and unlimited downloads, not a charge per download. Stripe handles the transaction. We don&apos;t store your card. There&apos;s no account that auto-renews. When the 30 days are up, that&apos;s it — nothing bills automatically. Need access again later? Pay another $9.99. We&apos;d rather earn it each time than trap you in a $24/month auto-renewal you forget about.
       </>
     ),
   },
@@ -21,7 +21,7 @@ const faqs = [
     q: "What if it doesn't work for my industry?",
     a: (
       <>
-        The AI tailors to whatever job description you paste in. We&apos;ve shipped resumes for software engineers, nurses, account executives, teachers, mechanics, and analysts. The tone, keyword density, and seniority signals adapt automatically. If it doesn&apos;t fit your role, refund — see the next question.
+        The AI tailors to whatever job description you paste in. We&apos;ve shipped resumes for software engineers, nurses, account executives, teachers, mechanics, and analysts. The tone, keyword density, and seniority signals adapt automatically.
       </>
     ),
   },
