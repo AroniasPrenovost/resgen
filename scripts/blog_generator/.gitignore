@@ -1,0 +1,11 @@
+# The generator's private, local-only state / history / learnings.
+# These are the bot's memory — they stay on your machine, out of the repo.
+personas.json
+topics_log.json
+history.json
+
+# transient
+generator.log
+_selftest_page.tsx
+__pycache__/
+*.pyc

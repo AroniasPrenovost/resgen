@@ -2,12 +2,11 @@
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
 
+import { ratelimit, getClientIp } from "@/lib/ratelimit";
+
 // Edge runtime for longer timeout (30s vs 10s on Hobby plan)
 export const runtime = 'edge';
 export const maxDuration = 30;
-
-// import { checkSubscription } from "@/lib/subscription";
-// import { incrementApiLimit, checkApiLimit } from "@/lib/api-limit";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -16,46 +15,45 @@ const openai = new OpenAI({
 export async function POST(
   req: Request
 ) {
-  console.log('=== [API] /api/resume-generator POST called ===');
-
   try {
-    // const { userId } = auth();
+    if (!process.env.OPENAI_API_KEY) {
+      console.error('[API] OpenAI API key not configured');
+      return new NextResponse("OpenAI API Key not configured.", { status: 500 });
+    }
+
+    // Per-IP rate limit. Each request is a gpt-4o call, so this is the main guard
+    // against the endpoint being scripted into a large bill. Fails open if Upstash
+    // isn't configured or is unreachable (so a limiter outage can't break the app).
+    if (ratelimit) {
+      try {
+        const ip = getClientIp(req);
+        const { success, limit, remaining, reset } = await ratelimit.limit(ip);
+        if (!success) {
+          return new NextResponse(
+            JSON.stringify({ error: "Too many requests. Please slow down and try again shortly." }),
+            {
+              status: 429,
+              headers: {
+                "Content-Type": "application/json",
+                "X-RateLimit-Limit": String(limit),
+                "X-RateLimit-Remaining": String(remaining),
+                "X-RateLimit-Reset": String(reset),
+              },
+            }
+          );
+        }
+      } catch (limiterError: any) {
+        // Don't let a limiter outage take down generation — allow the request.
+        console.error('[API] rate limiter error, allowing request:', limiterError?.message || limiterError);
+      }
+    }
+
     const body = await req.json();
     const { messages } = body;
 
-    console.log('[API] Request body received, messages count:', messages?.length || 0);
-
-    // if (!userId) {
-    //   return new NextResponse("Unauthorized", { status: 401 });
-    // }
-
-    if (!process.env.OPENAI_API_KEY) {
-      console.error('[API] ERROR: OpenAI API Key not configured!');
-      return new NextResponse("OpenAI API Key not configured.", { status: 500 });
-    }
-    console.log('[API] OpenAI API Key exists:', process.env.OPENAI_API_KEY?.substring(0, 10) + '...');
-
     if (!messages) {
-      console.error('[API] ERROR: No messages in request');
       return new NextResponse("Messages are required", { status: 400 });
     }
-
-    // Log first message content (truncated)
-    if (messages[0]?.content) {
-      console.log('[API] First message content (first 200 chars):', messages[0].content.substring(0, 200));
-    }
-
-    // const freeTrial = await checkApiLimit(); // HACK: this endpoint where we throw the error for non-paying users
-    // const isPro = await checkSubscription();
-
-    // console.log({ isPro, freeTrial });
-
-    // if (!freeTrial && !isPro) {
-    //   return new NextResponse("Free trial has expired. Please upgrade to pro.", { status: 403 });
-    // }
-
-    console.log('[API] Calling OpenAI API with gpt-4o...');
-    const startTime = Date.now();
 
     const response = await openai.chat.completions.create({
       model: "gpt-4o",
@@ -68,30 +66,13 @@ export async function POST(
       max_tokens: 16000,
     });
 
-    const finishReason = response.choices[0]?.finish_reason;
-    if (finishReason === 'length') {
-      console.warn('[API] WARNING: response truncated by token limit (finish_reason=length)');
+    if (response.choices[0]?.finish_reason === 'length') {
+      console.warn('[API] Response truncated by token limit (finish_reason=length)');
     }
 
-    const duration = Date.now() - startTime;
-    console.log('[API] OpenAI response received in', duration, 'ms');
-    console.log('[API] Response role:', response.choices[0]?.message?.role);
-    console.log('[API] Response content length:', response.choices[0]?.message?.content?.length || 0);
-    console.log('[API] Response content (first 300 chars):', response.choices[0]?.message?.content?.substring(0, 300));
-    console.log('[API] Usage:', response.usage);
-
-    // if (!isPro) {
-    //   await incrementApiLimit();
-    // }
-
-    console.log('[API] Returning successful response');
     return NextResponse.json(response.choices[0].message);
   } catch (error: any) {
-    console.error('=== [API] ERROR in /api/resume-generator ===');
-    console.error('[API] Error name:', error?.name);
-    console.error('[API] Error message:', error?.message);
-    console.error('[API] Error status:', error?.status);
-    console.error('[API] Full error:', error);
+    console.error('[API] /api/resume-generator error:', error?.message || error);
     return new NextResponse("Internal Error", { status: 500 });
   }
 }

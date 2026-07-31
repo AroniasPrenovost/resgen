@@ -274,7 +274,9 @@ const ResumeGeneratorPage = () => {
       console.error('[CLIENT] Axios response data:', error?.response?.data);
       console.error('[CLIENT] Full error object:', error);
 
-      if (error?.response?.status === 403) {
+      if (error?.response?.status === 429) {
+        toast.error("You're going a bit fast — please wait a minute and try again.");
+      } else if (error?.response?.status === 403) {
         toast.error("Access denied. Please check your subscription.");
       } else if (error?.response?.status === 500) {
         toast.error("Server error. The AI service may be temporarily unavailable.");
@@ -1455,7 +1457,12 @@ const ResumeGeneratorPage = () => {
           return refunded;
         });
       }
-      toast.error('Generation failed — your free credit was not used. Please try again.');
+      const status = (error as any)?.response?.status;
+      toast.error(
+        status === 429
+          ? "You're going a bit fast — please wait a minute and try again. Your free credit was not used."
+          : 'Generation failed — your free credit was not used. Please try again.'
+      );
       console.error('AI generation error:', error);
     }
   };
