@@ -359,7 +359,19 @@ def build_messages(news_item, voice, persona, avoid_titles):
             "positive: focus on what the reader controls, never fear or doom."
         )
     else:
-        hook = f"This post is a resume-writing how-to on: {news_item['title']}."
+        hook_item = news_item.get("hook")
+        if hook_item:
+            src = f' (source: {hook_item["source"]})' if hook_item.get("source") else ""
+            hook = (
+                f"This post is a resume-writing how-to on: {news_item['title']}.\n"
+                f'Open with a light, one- or two-sentence nod to a recent headline — '
+                f'"{hook_item["title"]}"{src} — then pivot straight into the how-to. '
+                "The headline is only a way in for variety: reference it briefly and "
+                "move on. Do not analyse it, quote it at length, or let it steer the "
+                "advice."
+            )
+        else:
+            hook = f"This post is a resume-writing how-to on: {news_item['title']}."
         hook_rule = (
             "Write a concrete, example-driven resume-writing how-to. Show the "
             "reader exactly what to do on their own resume — before/after bullet "
@@ -546,26 +558,43 @@ def _job_relevant(item: dict) -> bool:
 
 
 def pick_news(max_age_days: int) -> dict:
-    # Resume-writing how-tos are the default. Only ride the news when a headline
-    # is genuinely about jobs/hiring, and even then it is only a hook.
-    if random.random() < RESUME_TOPIC_CHANCE:
-        angle = _resume_angle()
-        LOG.info("topic: resume-writing how-to: %s", angle["title"])
-        return angle
-
+    # Always pull a fresh, novel headline from the career/job-market feeds so
+    # every post can at least nod to something recent — that variety is what
+    # keeps the evergreen resume how-tos from reading interchangeably.
     topics = load_topics_log()
     titles = existing_titles()
     covered = covered_keyword_sets(topics, titles)
     item = news.select_novel(covered, max_age_days=max_age_days)
-    if item and _job_relevant(item):
+
+    # A headline that is genuinely about jobs/hiring can drive the whole post
+    # (news-driven mode). Otherwise — or on a coin flip favouring evergreen
+    # how-tos — we write a resume how-to but still bolt the headline on as a
+    # light, even gratuitous, hook so no two intros open the same way.
+    if item and _job_relevant(item) and random.random() >= RESUME_TOPIC_CHANCE:
         item["real"] = True
-        LOG.info("news hook (job-relevant): %s", item["title"])
+        LOG.info("news-driven (job-relevant): %s", item["title"])
         return item
+
+    angle = _resume_angle()
     if item:
-        LOG.info("skipped off-topic headline (%s); using resume how-to", item["title"])
+        angle["hook"] = {
+            "title": item["title"],
+            "url": item.get("url", ""),
+            "source": item.get("source", ""),
+            "keywords": item.get("keywords") or news._keywords(item["title"]),
+        }
+        LOG.info("resume how-to: %s  |  news nod: %s", angle["title"], item["title"])
     else:
-        LOG.warning("no fresh news found; using resume how-to")
-    return _resume_angle()
+        LOG.warning("no fresh news found; resume how-to with no news nod")
+    return angle
+
+
+def _referenced_news(news_item: dict) -> dict:
+    """The headline a post actually cites: the item itself for news-driven
+    posts, or the light hook attached to a resume how-to (empty if neither)."""
+    if news_item.get("real"):
+        return news_item
+    return news_item.get("hook") or {}
 
 
 def generate_once(args) -> bool:
@@ -637,15 +666,16 @@ def generate_once(args) -> bool:
     except Exception as e:  # never let caption generation break a good post
         LOG.error("social draft generation failed: %s", e)
 
+    ref = _referenced_news(news_item)
     topics = load_topics_log()
     topics.append({
         "date": content["date"],
         "slug": content["slug"],
         "title": content["title"],
         "author": persona["name"],
-        "news_title": news_item.get("title", ""),
-        "news_url": news_item.get("url", ""),
-        "keywords": sorted(news_item.get("keywords") or []),
+        "news_title": ref.get("title", ""),
+        "news_url": ref.get("url", ""),
+        "keywords": sorted(set(news_item.get("keywords") or []) | set(ref.get("keywords") or [])),
     })
     save_topics_log(topics)
 
@@ -667,8 +697,8 @@ def generate_once(args) -> bool:
             "style": voice["cleverness"],
         },
         "topical": bool(news_item.get("real")),
-        "news_title": news_item.get("title", ""),
-        "news_url": news_item.get("url", ""),
+        "news_title": ref.get("title", ""),
+        "news_url": ref.get("url", ""),
         "pushed": not args.no_push,
     })
 
@@ -690,22 +720,57 @@ def generate_once(args) -> bool:
     return True
 
 
+def _next_interval_seconds(args, interval: float) -> float:
+    """One jittered inter-post gap, floored so we never hot-loop."""
+    jitter = random.randint(-args.jitter_minutes, args.jitter_minutes) * 60
+    return max(600, interval + jitter)
+
+
 def run_loop(args):
     interval = args.interval_hours * 3600
     LOG.info("loop started: every ~%sh, model=%s, push=%s",
              args.interval_hours, args.model, not args.no_push)
-    if not args.no_run_on_start:
+
+    # Restart-safe scheduling: decide when the next post is genuinely due from
+    # the timestamps persisted in state.json (last_run / next_run), so stopping
+    # and restarting the program never fires an extra post. We generate on
+    # startup only when we are actually overdue (or have never run before).
+    now = datetime.now(timezone.utc)
+    state = load_state()
+    stored_next = _parse_iso(state.get("next_run") or "")
+    last_run = _parse_iso(state.get("last_run") or "")
+
+    if args.no_run_on_start:
+        wake = now + timedelta(seconds=_next_interval_seconds(args, interval))
+        LOG.info("startup run suppressed (--no-run-on-start)")
+    elif stored_next and stored_next > now:
+        wake = stored_next
+        LOG.info("restart-safe: resuming stored schedule, next run ~%s UTC",
+                 wake.strftime("%Y-%m-%d %H:%M"))
+    elif last_run and (now - last_run).total_seconds() < interval:
+        # We posted recently (this or a prior process) but no future next_run
+        # was persisted — wait out the remainder instead of posting again now.
+        wake = last_run + timedelta(seconds=_next_interval_seconds(args, interval))
+        if wake <= now:
+            wake = now + timedelta(seconds=60)
+        LOG.info("restart-safe: last post %.1fh ago, next run ~%s UTC",
+                 (now - last_run).total_seconds() / 3600, wake.strftime("%Y-%m-%d %H:%M"))
+    else:
+        if last_run:
+            LOG.info("overdue (last post %.1fh ago, interval %.1fh); generating now",
+                     (now - last_run).total_seconds() / 3600, interval / 3600)
         _safe_generate(args)
+        wake = datetime.now(timezone.utc) + timedelta(seconds=_next_interval_seconds(args, interval))
+
     while True:
-        jitter = random.randint(-args.jitter_minutes, args.jitter_minutes) * 60
-        sleep_for = max(600, interval + jitter)
-        wake = datetime.now(timezone.utc).timestamp() + sleep_for
-        next_run_iso = datetime.fromtimestamp(wake, timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.000Z")
-        LOG.info("sleeping %.1fh (next run ~%s UTC)", sleep_for / 3600,
-                 datetime.fromtimestamp(wake, timezone.utc).strftime("%H:%M"))
-        update_state(next_run=next_run_iso)
+        # Persist the wake time BEFORE sleeping so a restart mid-sleep resumes
+        # this same schedule rather than starting a fresh one.
+        update_state(next_run=wake.strftime("%Y-%m-%dT%H:%M:%S.000Z"))
+        sleep_for = max(0.0, wake.timestamp() - datetime.now(timezone.utc).timestamp())
+        LOG.info("sleeping %.1fh (next run ~%s UTC)", sleep_for / 3600, wake.strftime("%H:%M"))
         time.sleep(sleep_for)
         _safe_generate(args)
+        wake = datetime.now(timezone.utc) + timedelta(seconds=_next_interval_seconds(args, interval))
 
 
 def _safe_generate(args):
