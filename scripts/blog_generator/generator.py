@@ -228,13 +228,19 @@ def build_messages(news_item, voice, persona, avoid_titles):
             + (f', published {news_item["published"]}.' if news_item.get("published") else ".")
         )
         hook_rule = (
-            "Open from this real, current news event, then pivot naturally into "
-            "practical resume, job-search, or career advice. The news is the hook; "
-            "the value is the advice."
+            "Open from this real, current news event, then pivot fast into "
+            "practical, do-it-today resume and job-application advice. The news is "
+            "only the hook; the heart of every post is helping the reader build a "
+            "stronger, tailored resume. Frame it positively: focus on what the "
+            "reader controls and the momentum they can build, never fear or doom."
         )
     else:
         hook = f"Angle for this post: {news_item['title']}."
-        hook_rule = "Ground the post in this current job-market theme and make it genuinely useful."
+        hook_rule = (
+            "Ground the post in this current job-market theme, keep it "
+            "resume-centric and action-oriented, and frame it around opportunity "
+            "and what the reader can do today rather than anxiety."
+        )
 
     system = (
         "You are a specific, real human writer contributing to the ResumAI blog. "
@@ -249,8 +255,22 @@ def build_messages(news_item, voice, persona, avoid_titles):
         "aside or rhetorical question is good. Perfect symmetry reads as fake.\n"
         "- Do not sound like SEO filler or a LinkedIn motivational post.\n"
         f"- Never use these worn phrases: {BANNED}.\n"
-        "- Do not end with a section literally titled Conclusion unless it genuinely fits.\n"
-        "- Mention ResumAI naturally and sparingly; the CTA carries the pitch.\n\n"
+        "- Do not end with a section literally titled Conclusion unless it genuinely fits.\n\n"
+        "What every post is really for:\n"
+        "- This blog exists to win ResumAI customers, not to rank for keywords. "
+        "When usefulness and SEO pull in different directions, choose usefulness "
+        "and persuasion every time. Never keyword-stuff or write for a crawler.\n"
+        "- Keep the post centered on the resume and the job application — the "
+        "part of the search the reader actually controls. General career advice "
+        "(networking, upskilling) can appear as a hook, but the payload of the "
+        "post is 'here is how to make your resume and application stronger,' "
+        "which is exactly what ResumAI does.\n"
+        "- Frame everything positively: momentum, opportunity, and the concrete "
+        "next move. Even off grim news, be reassuring and action-oriented, never "
+        "doom-y or anxious.\n"
+        "- Make ResumAI feel like the obvious, low-effort way to act on the "
+        "advice — woven in where it fits naturally, and landed cleanly in the "
+        "CTA. Confident and specific about the payoff, not spammy.\n\n"
         "Return ONLY valid JSON, no prose around it."
     )
 
@@ -284,8 +304,11 @@ def build_messages(news_item, voice, persona, avoid_titles):
         + "\n".join(f"- {t}" for t in avoid_titles[-24:])
         + "\n\n"
         "Structure: include one bulleted list somewhere only if it earns its place, "
-        "and at most one highlighted callout. The headline must be specific to THIS "
-        "post's angle, not a generic 'resume tips' title.\n\n"
+        "and at most one highlighted callout. At least one section must give "
+        "concrete, do-it-today resume or application advice — the tailoring, "
+        "phrasing, and ATS work ResumAI automates. End on an encouraging, "
+        "forward-looking note. The headline must be specific to THIS post's angle, "
+        "not a generic 'resume tips' title.\n\n"
         "Return JSON with exactly this shape:\n"
         + json.dumps(schema, indent=2)
     )

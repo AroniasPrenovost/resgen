@@ -6,13 +6,13 @@ import { blogPostSchema } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
   title: "Staying Employable in Times of AI Job Cuts",
-  description: "How to safeguard your career amid AI-driven layoffs.",
+  description: "Layoffs are rising, but the sharpest, most tailored resume still wins interviews. Here's how to make yours one of them.",
   alternates: {
     canonical: "/app/blog/resume-writing-tips-tricks-and-services/post/staying-employable-in-times-of-ai-job-cuts",
   },
   openGraph: {
     title: "Staying Employable in Times of AI Job Cuts | ResumAI Blog",
-    description: "How to safeguard your career amid AI-driven layoffs.",
+    description: "Layoffs are rising, but the sharpest, most tailored resume still wins interviews. Here's how to make yours one of them.",
     url: "/app/blog/resume-writing-tips-tricks-and-services/post/staying-employable-in-times-of-ai-job-cuts",
     type: "article",
     publishedTime: "2026-07-31T23:42:38.000Z",
@@ -25,7 +25,7 @@ const BlogDetailPage = async () => {
       <JsonLd
         data={blogPostSchema({
           title: "Staying Employable in Times of AI Job Cuts",
-          description: "How to safeguard your career amid AI-driven layoffs.",
+          description: "Layoffs are rising, but the sharpest, most tailored resume still wins interviews. Here's how to make yours one of them.",
           slug: "staying-employable-in-times-of-ai-job-cuts",
           datePublished: "2026-07-31T23:42:38.000Z",
         })}
@@ -33,45 +33,41 @@ const BlogDetailPage = async () => {
       <header>
         <Heading
           title={"Staying Employable in Times of AI Job Cuts"}
-          description={"Stay ahead in the job market despite AI disruptions."}
+          description={"The market is shifting, but a sharp, tailored resume is still the lever you control."}
           icon={Compass}
           iconColor="text-violet-500"
           bgColor="bg-violet-500/10"
         />
       </header>
       <section className="px-8 lg:px-16 py-0 space-y-6">
-        <p className="text-gray-700 custom_html">Chime slashing 10% of its workforce due to AI efficiencies is a hard pill to swallow, but it&apos;s not an isolated event. As more companies turn to automation, staying employable takes on a new dimension.</p>
+        <p className="text-gray-700 custom_html">Chime just cut 10% of its team and pointed to AI efficiencies &mdash; and it won&apos;t be the last headline like it. But here&apos;s the part actually worth your attention: the biggest lever you control in any market is how clearly your resume matches the job in front of you. That&apos;s fixable today, and it&apos;s where a little effort pays off fastest.</p>
 
-        <h2 className="text-2xl font-bold text-gray-800">Identify Your Transferable Skills</h2>
+        <h2 className="text-2xl font-bold text-gray-800">Put Your Energy Where It Moves the Needle</h2>
 
-        <p className="text-gray-700 custom_html">When a job loss strikes, the first step is to take stock of your skills. Not just the tasks you&apos;ve done at work, but the underlying skills that you can take anywhere. Are you a problem-solver, a mediator, or a data whisperer? These are transferable skills that you can sell to potential employers.</p>
+        <p className="text-gray-700 custom_html">You can&apos;t stop a company from restructuring. You can decide how sharp and specific you look on paper when the right role opens up. In every market I&apos;ve hired in, the people who tailor beat the people who blast out one generic file &mdash; so that&apos;s where your energy belongs: the resume and the application itself.</p>
+
+        <h2 className="text-2xl font-bold text-gray-800">Tailor Every Resume to the Role</h2>
+
+        <p className="text-gray-700 custom_html">A generic resume asks the reader to do the work of connecting you to the job. A tailored one hands them the match on a plate. It doesn&apos;t take hours &mdash; it takes a few focused edits every time you apply.</p>
 
         <ul className="list-disc pl-5 space-y-2 text-gray-700">
-          <li className="custom_html"><strong>Communication::</strong> Essential across all industries, hone your ability to convey ideas clearly.</li>
-          <li className="custom_html"><strong>Adaptability::</strong> Showcase your ability to pivot and learn new skills quickly.</li>
-          <li className="custom_html"><strong>Tech Savvy::</strong> Understanding current technology trends is vital, even outside tech roles.</li>
+          <li className="custom_html"><strong>Mirror the posting:</strong> Pull the exact skills and job titles the description uses, and make sure your resume reflects the same language.</li>
+          <li className="custom_html"><strong>Lead with outcomes:</strong> &ldquo;Cut onboarding time 30%&rdquo; lands far harder than &ldquo;responsible for onboarding.&rdquo;</li>
+          <li className="custom_html"><strong>Trim the noise:</strong> Cut anything that doesn&apos;t support this specific role so your strongest, most relevant work stands out.</li>
         </ul>
 
-        <h2 className="text-2xl font-bold text-gray-800">Don&apos;t Underestimate the Power of Networking</h2>
+        <h2 className="text-2xl font-bold text-gray-800">Get Past the Screener First</h2>
 
-        <p className="text-gray-700 custom_html">If AI is taking your job, human connection is your new best friend. Reach out to former colleagues, join industry groups, and don&apos;t be shy about asking for introductions. Real opportunities often come from the people you know.</p>
-
-        <h2 className="text-2xl font-bold text-gray-800">Customize Your Resume for Each Application</h2>
-
-        <p className="text-gray-700 custom_html">It&apos;s tempting to blast out the same resume when you&apos;re in a crunch, but this rarely works. Tailor your resume for each job application by emphasizing different skills and achievements based on the job description. Hiring managers want to see that you understand the job and how you fit.</p>
-
-        <h2 className="text-2xl font-bold text-gray-800">Consider Continuous Learning</h2>
-
-        <p className="text-gray-700 custom_html">Nothing makes you more employable than staying relevant. Look into online courses, certifications, or even part-time schooling to fill in any gaps. This shows prospective employers that you&apos;re proactive and committed to evolving with the industry.</p>
+        <p className="text-gray-700 custom_html">Most resumes are read by software before a person ever sees them. That&apos;s not a reason to panic &mdash; it&apos;s a checklist. Use the words from the posting, keep the formatting clean and simple, and make your most relevant experience easy to find in the top third of the page.</p>
 
         <div className="border-l-4 border-blue-700 pl-4 text-gray-700 space-y-2">
-          <p className="custom_html"><strong>Remember::</strong> Your learning doesn&apos;t have to be formal. Reading industry reports or following thought leaders can also keep you ahead of the curve.</p>
+          <p className="custom_html"><strong>The reframe:</strong> A layoff wave isn&apos;t the end of your options. It&apos;s a reason to show up sharper than everyone still sending the same generic resume into the void.</p>
         </div>
 
         <p className="text-gray-700 custom_html">
-          Ready to make your next move? Use ResumAI&apos;s Resume Generator to craft the perfect application.{" "}
+          You don&apos;t have to do the tailoring by hand. ResumAI rewrites your experience into a focused, ATS-ready resume for each role you want &mdash; try the{" "}
           <a href="https://www.resumai.services/app/resume-generator" className="text-blue-700 hover:underline" title="ResumAI - Resume Generator">Resume Generator</a>{" "}
-          and spend your energy on the jobs that matter.
+          and tailor your next application in minutes, not hours.
         </p>
       </section>
       <footer className="bg-gray-100 p-6 mt-8">

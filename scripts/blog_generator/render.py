@@ -168,7 +168,7 @@ def _h2(text: str) -> str:
 def _bullets(items) -> str:
     lines = [f'{I}<ul className="list-disc pl-5 space-y-2 text-gray-700">']
     for it in items:
-        lead = (it.get("lead") or "").strip() if isinstance(it, dict) else ""
+        lead = (it.get("lead") or "").strip().rstrip(":").strip() if isinstance(it, dict) else ""
         text = (it.get("text") if isinstance(it, dict) else str(it)) or ""
         if lead:
             lines.append(
@@ -183,7 +183,7 @@ def _bullets(items) -> str:
 def _callout(items) -> str:
     lines = [f'{I}<div className="border-l-4 border-blue-700 pl-4 text-gray-700 space-y-2">']
     for it in items:
-        lead = (it.get("lead") or "").strip() if isinstance(it, dict) else ""
+        lead = (it.get("lead") or "").strip().rstrip(":").strip() if isinstance(it, dict) else ""
         text = (it.get("text") if isinstance(it, dict) else str(it)) or ""
         if lead:
             lines.append(
