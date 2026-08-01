@@ -29,12 +29,13 @@ import random
 import subprocess
 import sys
 import time
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import news
 import personas
 import render
+import social
 
 # --------------------------------------------------------------------------
 # Paths
@@ -46,11 +47,13 @@ BLOG_JSON = REPO_ROOT / "public/blog_posts.json"
 TOPICS_LOG = HERE / "topics_log.json"
 PERSONAS_FILE = HERE / "personas.json"
 HISTORY_FILE = HERE / "history.json"
+STATE_FILE = HERE / "state.json"
+SOCIAL_DRAFTS_DIR = HERE / "social_drafts"
 LOG_FILE = HERE / "generator.log"
 ENV_FILE = REPO_ROOT / ".env"
 
 # Local-only state files (gitignored): the bot's private memory. Never committed.
-STATE_FILES = (PERSONAS_FILE, TOPICS_LOG, HISTORY_FILE)
+STATE_FILES = (PERSONAS_FILE, TOPICS_LOG, HISTORY_FILE, STATE_FILE)
 
 COMMIT_TRAILER = "Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>"
 
@@ -89,20 +92,42 @@ BANNED = (
     "in the realm of, testament to, elevate your, embark on a journey"
 )
 
-FALLBACK_ANGLES = [
-    "the surge in AI-screening of resumes and what job seekers can do about it",
-    "why application response rates keep dropping and how to beat the odds",
-    "the rise of skills-based hiring over degree requirements",
-    "how ghost jobs and endless interview loops are changing job-search strategy",
-    "the return-to-office push and how it reshapes what employers want on a resume",
-    "what a strong LinkedIn profile should borrow from a good resume",
-    "how to talk about an employment gap without apologizing for it",
-    "why tailoring beats volume, and how to tailor fast",
+# Concrete resume-writing how-to angles. These are the backbone of the blog:
+# specific, do-it-today instruction on writing and improving a resume, not
+# general career or workplace commentary.
+RESUME_ANGLES = [
+    "how to write resume bullet points that lead with a measurable result",
+    "turning a vague job duty into a quantified achievement on your resume",
+    "writing a resume summary a hiring manager actually reads",
+    "the resume keywords that get you past applicant tracking systems (ATS)",
+    "how to tailor one master resume to a specific job posting in minutes",
+    "strong action verbs that make your resume bullets hit harder",
+    "formatting a resume so it stays clean, skimmable, and ATS-safe",
+    "what to cut to get your resume down to one focused page",
+    "how to describe an employment gap on your resume without apologizing",
+    "rewriting responsibilities as accomplishments on your resume",
+    "a cover letter that complements your resume instead of repeating it",
+    "listing skills on a resume so they match what recruiters search for",
+    "building a strong resume when you have little or no work experience",
+    "the career-change resume: reframing past experience for a new field",
 ]
 
-# Mostly ride real news for topicality, but sometimes go evergreen so the blog
-# does not read as a pure news feed. "Often topical, but varied in topic."
-EVERGREEN_CHANCE = 0.18
+# The blog is a resume-writing help blog first. A large share of posts are pure
+# resume how-tos (independent of the news); the rest use a genuinely job- or
+# hiring-related headline as a hook that still pays off in resume advice.
+RESUME_TOPIC_CHANCE = 0.4
+
+# A news headline is only worth riding if it clearly touches jobs, hiring, or
+# the job search. Anything else (office politics, workplace-trust think-pieces)
+# is skipped in favour of a concrete resume-writing angle.
+JOB_RELEVANT_TERMS = {
+    "resume", "resumes", "cv", "cover", "letter", "application", "applications",
+    "applicant", "applicants", "apply", "hiring", "hire", "hires", "recruiter",
+    "recruiters", "recruiting", "recruitment", "interview", "interviews",
+    "candidate", "candidates", "career", "careers", "layoff", "layoffs",
+    "workforce", "employer", "employers", "employment", "unemployment",
+    "jobseeker", "jobseekers", "ats", "skills", "talent",
+}
 
 # --------------------------------------------------------------------------
 # Logging
@@ -191,6 +216,104 @@ def append_history(record: dict):
     HISTORY_FILE.write_text(json.dumps(history, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
 
+def load_state() -> dict:
+    """Small, gitignored runtime-state pointer: last run, last post, counters.
+
+    Kept separate from the append-only history so a running loop can read/write a
+    tiny fixed-size file (the bot's 'where was I') instead of parsing an
+    ever-growing log every time."""
+    if STATE_FILE.exists():
+        try:
+            return json.loads(STATE_FILE.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            return {}
+    return {}
+
+
+def save_state(state: dict):
+    STATE_FILE.write_text(json.dumps(state, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+
+
+def update_state(**changes) -> dict:
+    """Read-modify-write the runtime state with the given fields."""
+    state = load_state()
+    state.update(changes)
+    save_state(state)
+    return state
+
+
+# Keep the rolling run log bounded: enough history to always cover a 7-day
+# window with headroom, but small enough to stay a tiny file.
+RUN_LOG_RETENTION_DAYS = 30
+
+
+def _parse_iso(ts: str) -> datetime | None:
+    try:
+        return datetime.strptime(ts, "%Y-%m-%dT%H:%M:%S.000Z").replace(tzinfo=timezone.utc)
+    except (TypeError, ValueError):
+        return None
+
+
+def _prune_and_summarize(runs: list[dict], now: datetime) -> tuple[list[dict], dict]:
+    """Drop runs older than the retention window and tally the last 7 days."""
+    keep_after = now - timedelta(days=RUN_LOG_RETENTION_DAYS)
+    week_after = now - timedelta(days=7)
+    kept, succ, fail = [], 0, 0
+    for r in runs:
+        t = _parse_iso(r.get("timestamp", ""))
+        if t is None or t < keep_after:
+            continue
+        kept.append(r)
+        if t >= week_after:
+            if r.get("ok"):
+                succ += 1
+            else:
+                fail += 1
+    total = succ + fail
+    summary = {
+        "successes": succ,
+        "failures": fail,
+        "total": total,
+        "success_pct": round(100 * succ / total, 1) if total else None,
+    }
+    return kept, summary
+
+
+def record_run(ok: bool, stage: str | None = None, error=None, **extra) -> dict:
+    """Stamp a run (success or failure) into the runtime state.
+
+    Keeps a small rolling `recent_runs` log and a `last_7_days` success tally so
+    we can see how often the bot is failing without walking the full history.
+    `posts_generated` (successes) and `failures` stay cumulative for all time."""
+    now = datetime.now(timezone.utc)
+    ts = now_iso()
+    state = load_state()
+
+    entry: dict = {"timestamp": ts, "ok": bool(ok)}
+    if not ok:
+        entry["stage"] = stage or "unknown"
+        if error is not None:
+            entry["error"] = str(error)[:300]
+
+    runs, summary = _prune_and_summarize((state.get("recent_runs") or []) + [entry], now)
+    state["recent_runs"] = runs
+    state["last_7_days"] = summary
+    state["last_run"] = ts
+    if ok:
+        state["posts_generated"] = int(state.get("posts_generated", 0)) + 1
+    else:
+        state["failures"] = int(state.get("failures", 0)) + 1
+        state["last_failure"] = {"timestamp": ts, "stage": entry["stage"],
+                                 "error": str(error)[:500] if error is not None else ""}
+    state.update(extra)
+    save_state(state)
+
+    LOG.info("run %s | 7-day: %d/%d ok (%s%% success, %d failed)",
+             "ok" if ok else f"FAILED[{entry['stage']}]",
+             summary["successes"], summary["total"], summary["success_pct"], summary["failures"])
+    return state
+
+
 def existing_titles() -> list[str]:
     try:
         return [p["title"] for p in json.loads(BLOG_JSON.read_text(encoding="utf-8"))]
@@ -228,18 +351,20 @@ def build_messages(news_item, voice, persona, avoid_titles):
             + (f', published {news_item["published"]}.' if news_item.get("published") else ".")
         )
         hook_rule = (
-            "Open from this real, current news event, then pivot fast into "
-            "practical, do-it-today resume and job-application advice. The news is "
-            "only the hook; the heart of every post is helping the reader build a "
-            "stronger, tailored resume. Frame it positively: focus on what the "
-            "reader controls and the momentum they can build, never fear or doom."
+            "Spend at most the first two or three sentences on this news event. "
+            "The rest of the post is a concrete, do-it-today resume-writing "
+            "how-to: specific wording, before/after bullet examples, and exactly "
+            "what to change on the page. The news is only the hook; the payoff is "
+            "helping the reader write a stronger, tailored resume. Keep it "
+            "positive: focus on what the reader controls, never fear or doom."
         )
     else:
-        hook = f"Angle for this post: {news_item['title']}."
+        hook = f"This post is a resume-writing how-to on: {news_item['title']}."
         hook_rule = (
-            "Ground the post in this current job-market theme, keep it "
-            "resume-centric and action-oriented, and frame it around opportunity "
-            "and what the reader can do today rather than anxiety."
+            "Write a concrete, example-driven resume-writing how-to. Show the "
+            "reader exactly what to do on their own resume — before/after bullet "
+            "examples, specific phrasing, action verbs, real wording — not general "
+            "career or workplace commentary. Keep it upbeat and practical."
         )
 
     system = (
@@ -410,24 +535,37 @@ def commit_and_push(paths: list[Path], title: str, push: bool):
 # --------------------------------------------------------------------------
 # Orchestration
 # --------------------------------------------------------------------------
+def _resume_angle() -> dict:
+    angle = random.choice(RESUME_ANGLES)
+    return {"title": angle, "real": False, "keywords": news._keywords(angle)}
+
+
+def _job_relevant(item: dict) -> bool:
+    kws = set(item.get("keywords") or []) | news._keywords(item.get("title", ""))
+    return bool(kws & JOB_RELEVANT_TERMS)
+
+
 def pick_news(max_age_days: int) -> dict:
-    # Usually ride real, recent news; occasionally go evergreen for topic variety.
-    if random.random() < EVERGREEN_CHANCE:
-        angle = random.choice(FALLBACK_ANGLES)
-        LOG.info("topic: evergreen angle (variety): %s", angle)
-        return {"title": angle, "real": False, "keywords": news._keywords(angle)}
+    # Resume-writing how-tos are the default. Only ride the news when a headline
+    # is genuinely about jobs/hiring, and even then it is only a hook.
+    if random.random() < RESUME_TOPIC_CHANCE:
+        angle = _resume_angle()
+        LOG.info("topic: resume-writing how-to: %s", angle["title"])
+        return angle
 
     topics = load_topics_log()
     titles = existing_titles()
     covered = covered_keyword_sets(topics, titles)
     item = news.select_novel(covered, max_age_days=max_age_days)
-    if item:
+    if item and _job_relevant(item):
         item["real"] = True
-        LOG.info("news hook: %s", item["title"])
+        LOG.info("news hook (job-relevant): %s", item["title"])
         return item
-    angle = random.choice(FALLBACK_ANGLES)
-    LOG.warning("no fresh news found; using fallback angle: %s", angle)
-    return {"title": angle, "real": False, "keywords": news._keywords(angle)}
+    if item:
+        LOG.info("skipped off-topic headline (%s); using resume how-to", item["title"])
+    else:
+        LOG.warning("no fresh news found; using resume how-to")
+    return _resume_angle()
 
 
 def generate_once(args) -> bool:
@@ -459,12 +597,16 @@ def generate_once(args) -> bool:
         raw = call_llm(system, user, args.model, args.temperature)
     except Exception as e:
         LOG.error("LLM call failed: %s", e)
+        if not args.dry_run:
+            record_run(False, "llm_call", e)
         return False
 
     try:
         content = coerce_content(raw, persona)
     except Exception as e:
         LOG.error("content invalid: %s", e)
+        if not args.dry_run:
+            record_run(False, "coerce_content", e)
         return False
 
     if args.dry_run:
@@ -475,6 +617,25 @@ def generate_once(args) -> bool:
 
     page = render.write_post(content, POSTS_DIR)
     entry = render.update_blog_json(content, BLOG_JSON)
+
+    # Ready-to-paste social captions (LinkedIn/X/Facebook/Discord), written to a
+    # gitignored local folder. Discord additionally auto-posts if a webhook URL
+    # is configured; everything else is copy-and-paste.
+    try:
+        draft, drafts = social.write_drafts(content, SOCIAL_DRAFTS_DIR)
+        LOG.info("social drafts saved to %s", draft.relative_to(HERE))
+        # Print the captions straight to the terminal so they can be copied
+        # without opening the file.
+        LOG.info("%s", social.format_drafts_block(content, drafts))
+        webhook = os.environ.get("DISCORD_WEBHOOK_URL")
+        if webhook:
+            try:
+                social.post_to_discord(drafts["Discord"], webhook)
+                LOG.info("posted to Discord")
+            except Exception as e:
+                LOG.error("Discord post failed (draft still saved): %s", e)
+    except Exception as e:  # never let caption generation break a good post
+        LOG.error("social draft generation failed: %s", e)
 
     topics = load_topics_log()
     topics.append({
@@ -511,6 +672,16 @@ def generate_once(args) -> bool:
         "pushed": not args.no_push,
     })
 
+    # Tiny fixed-size runtime-state pointer (gitignored): the quick "where was I"
+    # the loop can consult without walking the full history.
+    record_run(True, last_post={
+        "title": content["title"],
+        "slug": content["slug"],
+        "date": content["date"],
+        "author": persona["name"],
+        "pushed": not args.no_push,
+    })
+
     LOG.info("wrote %s", page.relative_to(REPO_ROOT))
     # Commit ONLY the site content. Local state (personas/topics/history) is
     # gitignored and stays on this machine.
@@ -529,8 +700,10 @@ def run_loop(args):
         jitter = random.randint(-args.jitter_minutes, args.jitter_minutes) * 60
         sleep_for = max(600, interval + jitter)
         wake = datetime.now(timezone.utc).timestamp() + sleep_for
+        next_run_iso = datetime.fromtimestamp(wake, timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.000Z")
         LOG.info("sleeping %.1fh (next run ~%s UTC)", sleep_for / 3600,
                  datetime.fromtimestamp(wake, timezone.utc).strftime("%H:%M"))
+        update_state(next_run=next_run_iso)
         time.sleep(sleep_for)
         _safe_generate(args)
 
@@ -540,6 +713,11 @@ def _safe_generate(args):
         generate_once(args)
     except Exception as e:  # never let one bad run kill the loop
         LOG.exception("unexpected error in generation: %s", e)
+        try:
+            if not args.dry_run:
+                record_run(False, "unexpected", e)
+        except Exception:  # recording must never itself kill the loop
+            pass
 
 
 # --------------------------------------------------------------------------
@@ -615,6 +793,8 @@ def main():
     pers.add_argument("--no-save", action="store_true",
                       help="preview only; do not persist seeding/retirements")
 
+    sub.add_parser("state", help="print the local runtime state (last run, last post, counts)")
+
     args = ap.parse_args()
     if args.cmd == "once":
         ok = generate_once(args)
@@ -625,6 +805,19 @@ def main():
         selftest(args)
     elif args.cmd == "personas":
         show_personas(args)
+    elif args.cmd == "state":
+        state = load_state()
+        if not state:
+            print(f"no state yet ({STATE_FILE.name} not written)")
+        else:
+            print(json.dumps(state, indent=2, ensure_ascii=False))
+            # Recompute the 7-day window live so the printed rate is never stale.
+            _, wk = _prune_and_summarize(state.get("recent_runs") or [], datetime.now(timezone.utc))
+            if wk["total"]:
+                print(f"\nLast 7 days: {wk['successes']}/{wk['total']} runs succeeded "
+                      f"({wk['success_pct']}% success, {wk['failures']} failed)")
+            else:
+                print("\nLast 7 days: no runs recorded")
 
 
 def show_personas(args):

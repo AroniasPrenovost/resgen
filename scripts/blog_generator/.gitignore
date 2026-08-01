@@ -3,6 +3,10 @@
 personas.json
 topics_log.json
 history.json
+state.json
+
+# Ready-to-paste social captions the author copies out by hand. Local only.
+social_drafts/
 
 # transient
 generator.log
