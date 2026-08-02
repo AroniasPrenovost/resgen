@@ -3,9 +3,11 @@
 Static blog-post generator for the ResumAI site.
 
 This is a standalone author's helper. It is NOT imported by the Next.js app and
-is never called at request time. Running it finds a recent, novel news item,
-asks an LLM for structured post content, renders the exact TSX the site's blog
-uses (build-safe, entities and all), writes the page.tsx, appends the entry to
+is never called at request time. Running it builds a researched backbone from a
+separate web-search call (real, current, cited facts; RSS/evergreen as a
+self-healing fallback), asks an LLM for structured post content in the voice of
+a rotating author, renders the exact TSX the site's blog uses (build-safe,
+entities and all), writes the page.tsx, appends the entry to
 public/blog_posts.json, records the topic so it is not repeated, and (by
 default) commits and pushes to the current branch.
 
@@ -32,9 +34,11 @@ import time
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
+import headlines
 import news
 import personas
 import render
+import research
 import social
 
 # --------------------------------------------------------------------------
@@ -48,12 +52,13 @@ TOPICS_LOG = HERE / "topics_log.json"
 PERSONAS_FILE = HERE / "personas.json"
 HISTORY_FILE = HERE / "history.json"
 STATE_FILE = HERE / "state.json"
+RESEARCH_LOG = HERE / "research_log.json"
 SOCIAL_DRAFTS_DIR = HERE / "social_drafts"
 LOG_FILE = HERE / "generator.log"
 ENV_FILE = REPO_ROOT / ".env"
 
 # Local-only state files (gitignored): the bot's private memory. Never committed.
-STATE_FILES = (PERSONAS_FILE, TOPICS_LOG, HISTORY_FILE, STATE_FILE)
+STATE_FILES = (PERSONAS_FILE, TOPICS_LOG, HISTORY_FILE, STATE_FILE, RESEARCH_LOG)
 
 COMMIT_TRAILER = "Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>"
 
@@ -339,12 +344,43 @@ def covered_keyword_sets(topics: list[dict], titles: list[str]) -> list[set[str]
 # --------------------------------------------------------------------------
 # Prompt + LLM
 # --------------------------------------------------------------------------
-def build_messages(news_item, voice, persona, avoid_titles):
+def _backbone_prompt(backbone: dict) -> tuple[str, str]:
+    """The hook + rule for a post built on a researched backbone: the real,
+    cited facts are the spine and the credibility; the resume how-to is the
+    payoff."""
+    fact_lines = "\n".join(
+        f'- {f["point"]}' + (f' (source: {f["source"]})' if f.get("source") else "")
+        for f in backbone.get("facts", [])
+    )
+    hook = (
+        f"This post is built on fresh research. Angle: {backbone['angle']}.\n"
+        "Ground it in these real, recent facts. Weave them in naturally and "
+        "attribute them in plain language (e.g. \"a 2026 LinkedIn survey found…\"). "
+        "Use ONLY these facts — do not invent or embellish statistics:\n"
+        f"{fact_lines}"
+        + (f'\n\nA suggested opening hook: {backbone["hook"]}' if backbone.get("hook") else "")
+    )
+    hook_rule = (
+        "Open with the hook, spend at most the first short paragraph on the "
+        "research, then pivot into a concrete, do-it-today resume-writing how-to: "
+        "specific wording, before/after bullet examples, and exactly what to change "
+        "on the page. The research is the credibility; the payoff is helping the "
+        "reader write a stronger, tailored resume. Cite a fact or two where it "
+        "earns the point, but never let the data crowd out the practical advice. "
+        "Keep it positive: focus on what the reader controls, never fear or doom."
+    )
+    return hook, hook_rule
+
+
+def build_messages(news_item, voice, persona, avoid_titles, headline_brief=""):
     tone = voice["tone"]
     verbosity_label, verbosity_note = voice["verbosity"]
     cleverness = voice["cleverness"]
 
-    if news_item.get("real"):
+    backbone = news_item.get("backbone")
+    if backbone:
+        hook, hook_rule = _backbone_prompt(backbone)
+    elif news_item.get("real"):
         hook = (
             f'A recent news headline: "{news_item["title"]}"'
             + (f' (source: {news_item["source"]})' if news_item.get("source") else "")
@@ -392,7 +428,10 @@ def build_messages(news_item, voice, persona, avoid_titles):
         "aside or rhetorical question is good. Perfect symmetry reads as fake.\n"
         "- Do not sound like SEO filler or a LinkedIn motivational post.\n"
         f"- Never use these worn phrases: {BANNED}.\n"
-        "- Do not end with a section literally titled Conclusion unless it genuinely fits.\n\n"
+        "- Do not end with a section literally titled Conclusion unless it genuinely fits.\n"
+        "- The title and the section headings are written by the same person as the "
+        "body — plain and human, not a marketing template. Vary how headings read; "
+        "do not make every one a '-ing' gerund phrase.\n\n"
         "What every post is really for:\n"
         "- This blog exists to win ResumAI customers, not to rank for keywords. "
         "When usefulness and SEO pull in different directions, choose usefulness "
@@ -412,7 +451,8 @@ def build_messages(news_item, voice, persona, avoid_titles):
     )
 
     schema = {
-        "title": "string, a specific, click-worthy but honest headline (<= 90 chars)",
+        "title": "string, the headline written in the HEADLINE BRIEF's shape — "
+                 "specific and human, not a generic 'resume tips' title (<= 90 chars)",
         "meta_description": "string, <= 155 chars, for SEO",
         "subtitle": "string, one short line shown under the title",
         "intro": "string, an opening paragraph with NO heading (may be empty string)",
@@ -440,12 +480,13 @@ def build_messages(news_item, voice, persona, avoid_titles):
         f"Do NOT rewrite topics we already covered. Avoid these existing titles:\n"
         + "\n".join(f"- {t}" for t in avoid_titles[-24:])
         + "\n\n"
-        "Structure: include one bulleted list somewhere only if it earns its place, "
+        + (headline_brief + "\n\n" if headline_brief else "")
+        + "Structure: include one bulleted list somewhere only if it earns its place, "
         "and at most one highlighted callout. At least one section must give "
         "concrete, do-it-today resume or application advice — the tailoring, "
         "phrasing, and ATS work ResumAI automates. End on an encouraging, "
-        "forward-looking note. The headline must be specific to THIS post's angle, "
-        "not a generic 'resume tips' title.\n\n"
+        "forward-looking note. The headline must be specific to THIS post's angle "
+        "and follow the HEADLINE BRIEF above.\n\n"
         "Return JSON with exactly this shape:\n"
         + json.dumps(schema, indent=2)
     )
@@ -613,15 +654,63 @@ def generate_once(args) -> bool:
     persona = personas.pick(roster)
     voice = personas.sample_voice(persona)
 
-    news_item = pick_news(args.max_age_days)
     avoid = existing_titles()
+
+    # Build the post's backbone from a SEPARATE web-search call first: real,
+    # current, cited facts are what make the topic authentic rather than an
+    # evergreen rehash. If research finds nothing fresh (or is disabled), self-heal
+    # by falling back to the existing RSS / evergreen path so a post always ships.
+    news_item = None
+    if not getattr(args, "no_research", False):
+        try:
+            backbone = research.build_backbone(
+                RESEARCH_LOG, model=args.model, now=now, dry_run=args.dry_run,
+            )
+        except Exception as e:
+            LOG.error("research step errored, falling back to RSS: %s", e)
+            backbone = None
+        if backbone:
+            primary = backbone["facts"][0] if backbone.get("facts") else {}
+            news_item = {
+                "title": backbone["angle"],
+                "real": False,
+                "keywords": backbone["keywords"],
+                "backbone": backbone,
+                # Carry the primary source so topic memory + history record it
+                # exactly like any other news hook.
+                "hook": {
+                    "title": backbone.get("hook") or backbone["angle"],
+                    "url": primary.get("url", ""),
+                    "source": primary.get("source", ""),
+                    "keywords": backbone["keywords"],
+                },
+            }
+    if news_item is None:
+        news_item = pick_news(args.max_age_days)
+
+    # Sample a headline shape — weighted to the author's personality and steered
+    # away from the shapes/openings the last few posts already used — so titles
+    # stop converging on one formula.
+    recent_shapes = load_state().get("recent_headline_shapes") or []
+    shape = headlines.pick_shape(persona, recent_shapes)
+    headline_brief = headlines.format_brief(
+        shape,
+        headlines.recent_openings(avoid),
+        headlines.banned_bits(avoid),   # seed clichés + words recent titles overused
+    )
 
     LOG.info("author: %s — %s | tone=%s posts=%d",
              persona["name"], persona["role"], persona["traits"]["tone"],
              persona.get("posts_written", 0))
     LOG.info("voice: length=%s | style=%r", voice["verbosity"][0], voice["cleverness"][:32])
+    LOG.info("headline shape: %s", shape["name"])
+    if news_item.get("backbone"):
+        bb = news_item["backbone"]
+        LOG.info("topic: RESEARCHED — %s (%d cited facts)", bb["angle"][:70], len(bb["facts"]))
+    else:
+        LOG.info("topic: %s (RSS/evergreen fallback)", news_item["title"][:70])
 
-    system, user = build_messages(news_item, voice, persona, avoid)
+    system, user = build_messages(news_item, voice, persona, avoid, headline_brief)
     try:
         raw = call_llm(system, user, args.model, args.temperature)
     except Exception as e:
@@ -640,8 +729,9 @@ def generate_once(args) -> bool:
 
     if args.dry_run:
         LOG.info("[dry-run] would write post: %s (slug=%s)", content["title"], content["slug"])
-        LOG.info("[dry-run] by %s | icon=%s sections=%d",
-                 persona["name"], content["icon"], len(content["sections"]))
+        LOG.info("[dry-run] by %s | icon=%s sections=%d shape=%s researched=%s",
+                 persona["name"], content["icon"], len(content["sections"]),
+                 shape["name"], bool(news_item.get("backbone")))
         return True
 
     page = render.write_post(content, POSTS_DIR)
@@ -697,14 +787,17 @@ def generate_once(args) -> bool:
             "style": voice["cleverness"],
         },
         "topical": bool(news_item.get("real")),
+        "research": bool(news_item.get("backbone")),
         "news_title": ref.get("title", ""),
         "news_url": ref.get("url", ""),
         "pushed": not args.no_push,
     })
 
     # Tiny fixed-size runtime-state pointer (gitignored): the quick "where was I"
-    # the loop can consult without walking the full history.
-    record_run(True, last_post={
+    # the loop can consult without walking the full history. Also remember the
+    # last handful of headline shapes so the next run can steer clear of them.
+    recent_shapes = (load_state().get("recent_headline_shapes") or []) + [shape["name"]]
+    record_run(True, recent_headline_shapes=recent_shapes[-8:], last_post={
         "title": content["title"],
         "slug": content["slug"],
         "date": content["date"],
@@ -835,6 +928,8 @@ def add_common(p):
                    help="only consider news no older than this")
     p.add_argument("--no-push", action="store_true", help="commit but do not push")
     p.add_argument("--dry-run", action="store_true", help="generate but write nothing")
+    p.add_argument("--no-research", action="store_true",
+                   help="skip the web-search backbone; use RSS/evergreen topics only")
 
 
 def main():
@@ -858,6 +953,12 @@ def main():
     pers.add_argument("--no-save", action="store_true",
                       help="preview only; do not persist seeding/retirements")
 
+    hl = sub.add_parser("headlines", help="preview sampled headline briefs (no API call)")
+    hl.add_argument("-n", type=int, default=8, help="how many to sample")
+
+    rs = sub.add_parser("research", help="preview a live research backbone (hits the web-search API)")
+    rs.add_argument("--model", default=os.environ.get("BLOGGEN_MODEL", "gpt-4o"))
+
     sub.add_parser("state", help="print the local runtime state (last run, last post, counts)")
 
     args = ap.parse_args()
@@ -870,6 +971,10 @@ def main():
         selftest(args)
     elif args.cmd == "personas":
         show_personas(args)
+    elif args.cmd == "headlines":
+        show_headlines(args)
+    elif args.cmd == "research":
+        show_research(args)
     elif args.cmd == "state":
         state = load_state()
         if not state:
@@ -892,6 +997,33 @@ def show_personas(args):
     if changed and not args.no_save:
         personas.save_roster(PERSONAS_FILE, roster)
     print(personas.summarize(roster))
+
+
+def show_research(args):
+    """Run one live research backbone and print it. Hits the web-search API but
+    persists nothing (dry-run), so it is safe to eyeball topic quality."""
+    now = datetime.now(timezone.utc)
+    backbone = research.build_backbone(RESEARCH_LOG, model=args.model, now=now, dry_run=True)
+    if not backbone:
+        print("no backbone produced (search failed, or every query came back stale)")
+        return
+    print(json.dumps(backbone, indent=2, ensure_ascii=False))
+
+
+def show_headlines(args):
+    """Sample a few headline briefs across the real roster so the variety can be
+    eyeballed without spending a token. Persists nothing."""
+    now = datetime.now(timezone.utc)
+    roster, _ = personas.ensure_roster(PERSONAS_FILE, now)
+    active = roster["active"] or [{"name": "Sample", "traits": {"tone": "candid"}}]
+    recent: list[str] = []
+    for _ in range(args.n):
+        persona = random.choice(active)
+        shape = headlines.pick_shape(persona, recent)
+        recent.append(shape["name"])
+        tone = persona.get("traits", {}).get("tone", "?")
+        print(f"{persona['name']:<18} tone={tone:<11} -> shape={shape['name']}")
+        print(f"    e.g.  {shape['examples'][0]}")
 
 
 if __name__ == "__main__":

@@ -73,6 +73,13 @@ python3 generator.py selftest --out /tmp/page.tsx
 # Show the current author roster (their tone, post count, and when each retires).
 # Seeds the roster on first run and retires/refills expired authors.
 python3 generator.py personas
+
+# Preview sampled headline briefs (no API call) — eyeball the title variety.
+python3 generator.py headlines -n 8
+
+# Preview a live research backbone (angle + cited facts + hook).
+# NOTE: this one DOES hit the web-search API; it just persists nothing.
+python3 generator.py research
 ```
 
 ### Leaving `loop` running in the background
@@ -92,10 +99,15 @@ the pid with `pgrep -f "generator.py loop"`).
 
 ## What one run actually does
 
-1. **Finds recent news.** Pulls the last ~30 days of career / job-market /
-   workplace headlines from Google News RSS. No extra API key — pure stdlib.
+1. **Researches a backbone.** Makes a **separate web-search API call** and
+   distils it into the post's spine: a specific angle, 3–5 real and current facts
+   (each with a source), and a hook (see [Research backbone](#research-backbone)).
+   If research comes up empty or stale, it **falls back** to Google News RSS
+   headlines (last ~30 days, stdlib-only) or an evergreen resume angle — so a
+   post always ships.
 2. **Avoids repeats.** Skips anything overlapping a topic already covered
-   (tracked in `topics_log.json`, pre-seeded with every existing post).
+   (tracked in `topics_log.json`, pre-seeded with every existing post) — and the
+   research step keeps its own freshness memory on top (`research_log.json`).
 3. **Writes as one of a roster of real-feeling authors.** Each post is bylined
    by a persistent persona with a consistent-but-varying voice (see
    [Authors & voice](#authors--voice) below), so the blog reads like a handful
@@ -145,6 +157,57 @@ it deliberately picks an evergreen career angle instead, so the blog reads like
 a blog and not a news wire. Tune the mix via `EVERGREEN_CHANCE` in
 `generator.py`.
 
+### Research backbone
+
+The old topic source was Google News RSS — fine, but it's just *headlines*, so
+posts leaned generic. Before writing, the generator now makes a **separate
+web-search API call** (`research.py`, via OpenAI's Responses `web_search` tool —
+no new key or account) and distils the results into a **backbone**: a specific,
+resume-relevant **angle**, a **hook**, and **3–5 real, current facts each with a
+source URL**. The writer builds the post on that spine and attributes the facts
+in plain language — which is what makes a topic feel authentic and current
+instead of like an evergreen rehash.
+
+It carries **its own freshness memory and self-healing**, separate from the RSS
+topic log:
+
+- Every backbone is recorded in `research_log.json` (query, angle, keywords,
+  source URLs), pruned after ~45 days.
+- Each run **rotates the search query** away from recently-used themes and
+  **novelty-checks** the distilled brief against recent entries; a stale or
+  duplicate result makes it **retry with a different query** (a few attempts)
+  rather than serving the same facts twice.
+- If every attempt fails — no key, empty search, all stale — it returns nothing
+  and the run **falls back** to the RSS/evergreen path. A post always ships.
+
+Preview a live backbone with `python3 generator.py research`, or turn the whole
+step off with `--no-research` (posts then use RSS/evergreen topics only).
+
+### Headline variety
+
+The body already gets a distinct voice per author — the **headline** now gets
+the same treatment (`headlines.py`). Left to itself the model defaults hard to
+one title formula (`Punchy Phrase: Explanatory Subtitle`) and a small pool of
+favourite verbs (Crafting, Mastering, Unlocking, Unleash, Elevate…), so a run of
+posts reads like one template.
+
+Instead, each run **samples one of 12 headline shapes** — plain statement,
+imperative, honest question, number lead, contrarian take, first-person line,
+"how to X without Y", specific-scenario, specific listicle, before/after quote
+contrast, "if you…" conditional, or (rarely) the classic two-part colon. The
+shape is **weighted toward the author's personality** (a wry author reaches for a
+contrarian jab; an analytical one leads with a number) and **steered away from
+the shapes and opening words the last few posts already used** (tracked in
+`state.json`).
+
+The **ban-list of worn headline vocabulary is dynamic**: a static seed of known
+AI clichés (`crafting`, `mastering`, `unlocking`, `dream job`…) **plus any
+flavour word the recent titles have started overusing**, mined live from
+`blog_posts.json` each run — while core domain words (`resume`, `ATS`, `cover
+letter`…) are never banned. So if the model latches onto a new crutch, the list
+self-heals and pushes it off. Preview the variety with
+`python3 generator.py headlines`.
+
 ---
 
 ## Options
@@ -156,6 +219,7 @@ a blog and not a news wire. Tune the mix via `EVERGREEN_CHANCE` in
 | `--max-age-days` | once, loop | `30` | ignore news older than this |
 | `--no-push` | once, loop | off | commit locally, don't push |
 | `--dry-run` | once, loop | off | generate, write nothing |
+| `--no-research` | once, loop | off | skip the web-search backbone; RSS/evergreen topics only |
 | `--interval-hours` | loop | `8` | cadence (8h ≈ 3×/day) |
 | `--jitter-minutes` | loop | `45` | ± randomness so posts aren't clockwork |
 | `--no-run-on-start` | loop | off | wait one interval before the first post |
@@ -168,8 +232,10 @@ a blog and not a news wire. Tune the mix via `EVERGREEN_CHANCE` in
 |------|------|
 | `generator.py` | orchestration, model call, git, CLI |
 | `render.py` | TSX template + entity escaping + file writes |
-| `news.py` | Google News RSS fetch + novelty selection |
+| `news.py` | Google News RSS fetch + novelty selection (fallback topic source) |
+| `research.py` | web-search backbone: angle + cited facts + hook, with self-healing freshness memory |
 | `personas.py` | author roster: trait profiles, drift, lifespan/retirement, voice sampling |
+| `headlines.py` | headline shapes, persona-weighted sampling, worn-word ban-list |
 | `requirements.txt` | the single dependency (`openai`) |
 
 ### Local state / history (gitignored — the bot's private memory)
@@ -182,6 +248,8 @@ automatically on the first run if missing, so a fresh checkout just works.
 | `personas.json` | the live roster (active + retired authors) |
 | `topics_log.json` | every topic covered — the anti-repeat memory (seeded from existing posts) |
 | `history.json` | append-only log of every post generated (author, voice, news hook, model…) |
+| `state.json` | tiny runtime pointer: last run, restart-safe schedule, recent headline shapes |
+| `research_log.json` | web-search backbone memory — used angles/queries/sources, for freshness |
 | `generator.log` | run log |
 
 Only the **site content** — the new `page.tsx` and `public/blog_posts.json` —
