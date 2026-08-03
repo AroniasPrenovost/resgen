@@ -37,6 +37,7 @@ from pathlib import Path
 import headlines
 import news
 import personas
+import quirks
 import render
 import research
 import social
@@ -476,7 +477,8 @@ def build_messages(news_item, voice, persona, avoid_titles, headline_brief=""):
         f"- {persona_line}. {persona_bio}\n"
         f"- Tone: {tone}\n"
         f"- Length: {verbosity_label}. {verbosity_note}\n"
-        f"- Style: {cleverness}\n\n"
+        f"- Style: {cleverness}\n"
+        f"{quirks.prompt_block(persona)}\n\n"
         f"Do NOT rewrite topics we already covered. Avoid these existing titles:\n"
         + "\n".join(f"- {t}" for t in avoid_titles[-24:])
         + "\n\n"
@@ -651,6 +653,10 @@ def generate_once(args) -> bool:
     # authors and refill, then pick whoever is up and sample their voice.
     roster, _ = personas.ensure_roster(PERSONAS_FILE, now)
     personas.lifecycle(roster, now)
+    # Backfill imperfection fingerprints for any author predating them. It is
+    # deterministic per author id, so even unsaved (dry-run) backfills come out
+    # identical next time — self-healing without state.
+    quirks.ensure_roster_quirks(roster)
     persona = personas.pick(roster)
     voice = personas.sample_voice(persona)
 
@@ -727,6 +733,16 @@ def generate_once(args) -> bool:
             record_run(False, "coerce_content", e)
         return False
 
+    # Apply the author's human fingerprint (habitual misspellings, spelling
+    # preferences, dash habit, the occasional slip) to the body prose. A
+    # failure here must never cost us a good post — publish clean instead.
+    try:
+        content, quirk_report = quirks.humanize(content, persona)
+        LOG.info("humanized: %s", quirks.report_line(quirk_report))
+    except Exception as e:
+        quirk_report = {}
+        LOG.error("quirk pass failed; publishing clean copy: %s", e)
+
     if args.dry_run:
         LOG.info("[dry-run] would write post: %s (slug=%s)", content["title"], content["slug"])
         LOG.info("[dry-run] by %s | icon=%s sections=%d shape=%s researched=%s",
@@ -786,6 +802,7 @@ def generate_once(args) -> bool:
             "length": voice["verbosity"][0],
             "style": voice["cleverness"],
         },
+        "quirks": quirk_report,
         "topical": bool(news_item.get("real")),
         "research": bool(news_item.get("backbone")),
         "news_title": ref.get("title", ""),
@@ -953,6 +970,10 @@ def main():
     pers.add_argument("--no-save", action="store_true",
                       help="preview only; do not persist seeding/retirements")
 
+    qk = sub.add_parser("quirks", help="show each author's typo/spelling fingerprint + a demo pass")
+    qk.add_argument("--no-save", action="store_true",
+                    help="preview only; do not persist backfilled fingerprints")
+
     hl = sub.add_parser("headlines", help="preview sampled headline briefs (no API call)")
     hl.add_argument("-n", type=int, default=8, help="how many to sample")
 
@@ -971,6 +992,8 @@ def main():
         selftest(args)
     elif args.cmd == "personas":
         show_personas(args)
+    elif args.cmd == "quirks":
+        show_quirks(args)
     elif args.cmd == "headlines":
         show_headlines(args)
     elif args.cmd == "research":
@@ -997,6 +1020,38 @@ def show_personas(args):
     if changed and not args.no_save:
         personas.save_roster(PERSONAS_FILE, roster)
     print(personas.summarize(roster))
+
+
+def show_quirks(args):
+    """Print every active author's imperfection fingerprint, then run one
+    author's fingerprint over a canned paragraph so the effect can be
+    eyeballed. Offline; persists only backfilled fingerprints."""
+    now = datetime.now(timezone.utc)
+    roster, seeded = personas.ensure_roster(PERSONAS_FILE, now)
+    changed = quirks.ensure_roster_quirks(roster) or seeded
+    if changed and not args.no_save:
+        personas.save_roster(PERSONAS_FILE, roster)
+    for p in roster["active"]:
+        print(quirks.describe(p))
+        print()
+
+    demo_author = roster["active"][0]
+    demo = {
+        "slug": "quirk-demo",
+        "intro": (
+            "You definitely want to separate your achievements from your duties — "
+            "a lot of resumes bury them. Until you receive a callback, keep tailoring "
+            "toward each posting. It's OK to keep things simple… and don't forget that "
+            "\"Led a team of 12 — cut costs 30%\" stays untouched because it is quoted. "
+            "Consistent, relevant wording is what recruiters notice occasionally."
+        ),
+        "sections": [],
+    }
+    before = demo["intro"]
+    _, report = quirks.humanize(demo, demo_author)
+    print(f"demo ({demo_author['name']}, {quirks.report_line(report)}):")
+    print(f"  before: {before}")
+    print(f"  after:  {demo['intro']}")
 
 
 def show_research(args):

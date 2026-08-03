@@ -23,6 +23,8 @@ import uuid
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
+import quirks
+
 TARGET_ROSTER = 6
 MIN_LIFESPAN_DAYS = 60       # ~2 months
 MAX_LIFESPAN_DAYS = 730      # ~2 years
@@ -160,8 +162,9 @@ def new_persona(now: datetime, used_names: set[str], born: datetime | None = Non
     traits = _make_traits()
     years = random.randint(6, 22)
     lifespan = random.uniform(MIN_LIFESPAN_DAYS, MAX_LIFESPAN_DAYS)
+    pid = uuid.uuid4().hex[:8]
     return {
-        "id": uuid.uuid4().hex[:8],
+        "id": pid,
         "name": name,
         "role": random.choice(ROLES),
         "years": years,
@@ -170,6 +173,7 @@ def new_persona(now: datetime, used_names: set[str], born: datetime | None = Non
         "expires": _iso(born + timedelta(days=lifespan)),
         "traits": traits,
         "origin": {k: traits[k] for k in DRIFTING},   # bounds for drift
+        "quirks": quirks.generate(pid),   # typo/spelling fingerprint, stable for life
         "posts_written": 0,
         "last_used": None,
     }
@@ -288,6 +292,9 @@ def touch_and_drift(persona: dict, now: datetime | None = None):
         cur = persona["traits"].get(k, base)
         nudged = cur + random.gauss(0, 0.03)
         persona["traits"][k] = round(_clamp(nudged, base - 0.2, base + 0.2), 3)
+    # The imperfection fingerprint wanders the same way: slip rate walks, and
+    # rarely a misspelling is finally learned (or a new one picked up).
+    quirks.drift(persona)
 
 
 def _jit(x: float, sigma: float = 0.12) -> float:

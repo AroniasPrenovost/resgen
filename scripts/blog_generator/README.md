@@ -77,6 +77,10 @@ python3 generator.py personas
 # Preview sampled headline briefs (no API call) — eyeball the title variety.
 python3 generator.py headlines -n 8
 
+# Show each author's typo/spelling fingerprint and a before/after demo of the
+# humanizing pass (no API call).
+python3 generator.py quirks
+
 # Preview a live research backbone (angle + cited facts + hook).
 # NOTE: this one DOES hit the web-search API; it just persists nothing.
 python3 generator.py research
@@ -148,6 +152,47 @@ not a random name each time. This is what makes it read as authentic.
   reset the blog's apparent history.
 
 See the roster any time with `python3 generator.py personas`.
+
+### Human fingerprints (typos, spelling habits, tics)
+
+Real writers are imperfect in *consistent* ways — and that consistency is the
+fingerprint. Every author is born with one (`quirks.py`), generated
+**deterministically from their persona id**, so if `personas.json` is ever
+lost or an old roster predates the feature, the exact same fingerprint
+regenerates — self-healing without state. Each fingerprint has two layers:
+
+- **A stable error layer** the author doesn't know about: 2–4 words they
+  habitually misspell (`seperate`, `definately`, `untill`, `recieve`…) the
+  same way in every post, plus spelling *preferences* that aren't errors
+  (`towards` vs `toward`, `judgement` vs `judgment`, `OK` vs `okay`,
+  `e-mail`…), a dash habit (em dash, plain hyphen, or "never — commas
+  instead") and an ellipsis habit (`…` vs `...`). These persist even when the
+  author proofreads, because they believe they're correct.
+- **A fluctuating noise layer**: fat-finger slips (each author has a
+  signature mode — transposed, dropped, or doubled letters) at a per-author
+  rate around 0.25–1.4 per 1000 words. Seeded per post, so ~1 post in 6 is a
+  "proofread day" with zero slips and the occasional one is "rushed" with
+  more — the way a real person's care level wanders. Some authors also
+  occasionally drop an apostrophe (`dont`). Capped at 3 slips/post.
+
+The pass is applied **mechanically after the model call** (`quirks.humanize`),
+never by the LLM — so it's reliable and consistent. It only touches body
+prose: titles, headings, meta descriptions, the CTA, and **anything inside
+quotes** (the before/after resume examples readers copy) are never altered.
+Core domain words (`resume`, `recruiter`, `ATS`…) are protected from slips.
+Everything it emits is plain ASCII, so it can't break the TSX escaper.
+
+The prompt side gets the softer half of the fingerprint: each author's
+ingrained habits ("starts sentences with And or But", "asides in
+parentheses") and one or two pet phrases they reach for — so the voice itself
+carries the same authorial signature the spelling does.
+
+**And it drifts.** Each post, the slip rate random-walks (bounded); rarely an
+author finally *learns* one of their misspellings, or picks up a new one, or
+swaps a pet phrase — voices age the way real ones do without becoming someone
+else. New authors get fresh fingerprints at birth. Inspect everything with
+`python3 generator.py quirks` (prints each fingerprint plus a live
+before/after demo paragraph).
 
 ### Topic variety
 
@@ -235,6 +280,7 @@ self-heals and pushes it off. Preview the variety with
 | `news.py` | Google News RSS fetch + novelty selection (fallback topic source) |
 | `research.py` | web-search backbone: angle + cited facts + hook, with self-healing freshness memory |
 | `personas.py` | author roster: trait profiles, drift, lifespan/retirement, voice sampling |
+| `quirks.py` | per-author human fingerprints: habitual misspellings, spelling preferences, slip rate, tics — applied post-model, quote-safe |
 | `headlines.py` | headline shapes, persona-weighted sampling, worn-word ban-list |
 | `requirements.txt` | the single dependency (`openai`) |
 
