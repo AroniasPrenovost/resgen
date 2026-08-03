@@ -17,11 +17,12 @@ A **standalone authoring helper** that writes SEO blog posts into this repo for 
 cd scripts/blog_generator
 pip install -r requirements.txt          # only dependency: openai
 
-# 2. generate ONE post right now (writes files, commits, pushes to main)
-python3 generator.py once
-
-# 3. …or run it forever on a human weekly rhythm (~3 posts/wk) and walk away
+# 2. run it forever — the intended mode. Publishes ~3 posts/wk on a human
+#    editorial rhythm (see "The loop" below) and needs no supervision.
 python3 generator.py loop
+
+# 3. …or generate just ONE post right now (writes files, commits, pushes to main)
+python3 generator.py once
 ```
 
 That's it. Every other command below is a variation on those two.
@@ -91,6 +92,14 @@ python3 generator.py quirks
 # Preview a live research backbone (angle + cited facts + hook).
 # NOTE: this one DOES hit the web-search API; it just persists nothing.
 python3 generator.py research
+
+# Show open + recently closed multi-part series (parts written, each one's
+# secret fate: finish, or quietly stop early). No API call.
+python3 generator.py series
+
+# Print the loop's runtime state: last run, last post, next scheduled post,
+# and a 7-day success/failure tally. The quick "is it healthy?" check.
+python3 generator.py state
 ```
 
 ### Leaving `loop` running in the background
@@ -110,12 +119,21 @@ the pid with `pgrep -f "generator.py loop"`).
 
 ## What one run actually does
 
-1. **Researches a backbone.** Makes a **separate web-search API call** and
-   distils it into the post's spine: a specific angle, 3–5 real and current facts
-   (each with a source), and a hook (see [Research backbone](#research-backbone)).
-   If research comes up empty or stale, it **falls back** to Google News RSS
-   headlines (last ~30 days, stdlib-only) or an evergreen resume angle — so a
-   post always ships.
+1. **Decides what kind of post this is**, in priority order:
+   - **A series continuation** — if an open multi-part series is due, this run
+     writes its next part, by the same author (see
+     [Multi-part series](#multi-part-series-part-13--including-abandoned-ones)).
+   - **A "tailor your resume for X" entry** — roughly 1 in 4 runs targets one
+     big employer or field with its own web research (see
+     [that series](#the-tailor-your-resume-for-x-series)).
+   - **A regular researched post** — a **separate web-search API call**
+     distilled into the post's spine: a specific angle, 4–6 real and current
+     facts (each with a source), and a hook (see
+     [Research backbone](#research-backbone)). If research comes up empty or
+     stale, it **falls back** to Google News RSS headlines (last ~30 days,
+     stdlib-only) or an evergreen resume angle — so a post always ships. A
+     regular post sometimes opens a **new 2–3-part series** (title carries
+     "Part 1").
 2. **Avoids repeats.** Skips anything overlapping a topic already covered
    (tracked in `topics_log.json`, pre-seeded with every existing post) — and the
    research step keeps its own freshness memory on top (`research_log.json`).
@@ -123,15 +141,65 @@ the pid with `pgrep -f "generator.py loop"`).
    by a persistent persona with a consistent-but-varying voice (see
    [Authors & voice](#authors--voice) below), so the blog reads like a handful
    of real people — not one AI voice.
-4. **Renders build-safe TSX.** `render.py` templates the exact markup the site's
+4. **Writes it with real depth.** Posts run 4–7 sections depending on the
+   author's verbosity, and every post must include at least two before/after
+   resume examples with adaptable wording and at least two sections of
+   concrete, do-it-today advice — a piece worth bookmarking, not a listicle.
+   Afterwards the author's human fingerprint (habitual typos, spelling
+   preferences, tics) is applied mechanically to the body prose.
+5. **Renders build-safe TSX.** `render.py` templates the exact markup the site's
    blog uses and **auto-escapes every entity** (`&apos;`, `&ldquo;`, `&mdash;`,
    `&lt;`, `&#123;`…). The model never writes TSX, so a stray quote, brace, or
    angle bracket can't break the build.
-5. **Publishes.** Writes `…/post/<slug>/page.tsx`, appends the entry to
+6. **Publishes.** Writes `…/post/<slug>/page.tsx`, appends the entry to
    `public/blog_posts.json` (keeping the OG/JSON-LD/index dates in sync), then
    **commits and pushes ONLY those two site files** to your current branch (skip
-   with `--no-push`). Its own memory (personas / topics / history) is updated
-   locally but **never committed** — see below.
+   with `--no-push`). Ready-to-paste social captions land in `social_drafts/`
+   (local only; Discord auto-posts if a webhook is configured). Its own memory
+   (personas / topics / history / series) is updated locally but **never
+   committed** — see below.
+
+---
+
+## The loop — how the blog actually runs
+
+`python3 generator.py loop` is the intended mode: a long-running process that
+does everything above on a **human editorial rhythm**, hands-off. What it
+guarantees:
+
+**Human publish times, honestly earned.** `rhythm.py` samples each next
+publish moment from a weekday/hour distribution instead of a fixed interval:
+Mon–Thu are the busiest days, Friday tapers, weekends are mostly quiet; times
+peak mid-morning with a smaller after-lunch shelf and a thin evening tail, and
+nothing fires overnight. Days get skipped, the odd day gets two posts, and
+minutes/seconds are uniform so nothing lands on the hour. At the default
+`--posts-per-week 3` a simulated year comes out at ~3.2/week with gaps ranging
+from a few hours to several days. Crucially, posts **publish at the moment
+they're generated** — so the date on the page, in `blog_posts.json`, and on
+the git commit are all the same genuine timestamp. Nothing is backdated or
+faked; the rhythm changes *when the work happens*, never what the page claims.
+
+**Restart-safe.** The next wake time is persisted to `state.json` *before*
+sleeping, so stopping and restarting the process resumes the same schedule —
+never an extra post. A minimum 3.5h gap between posts holds across restarts.
+If the machine was asleep past a scheduled slot, the loop catches up **only if
+"now" is an hour a person would plausibly publish** — woken at 3am, it waits
+for morning. A stored wake time at an implausible hour (e.g. left over from an
+older scheduler) is detected and resampled.
+
+**Self-healing.** A failed run (model error, bad JSON, network) never kills
+the loop — it's recorded and the next slot is simply sampled as usual. Every
+run lands in a rolling 7-day success/failure tally.
+
+**Monitoring.** `python3 generator.py state` shows the last run, last post,
+the next scheduled post, and the 7-day tally; `tail -f generator.log` watches
+it live; `python3 generator.py series` shows open story arcs. The loop logs
+every decision it makes (author, topic mode, headline shape, quirk pass,
+next wake time).
+
+Pace and clock are tunable: `--posts-per-week` (default 3) scales the whole
+rhythm; `--tz` pins it to a specific IANA timezone (default: this machine's
+clock).
 
 ---
 
@@ -203,11 +271,13 @@ before/after demo paragraph).
 
 ### Topic variety
 
-The generator **usually rides real, recent news** (novelty-checked against
-everything already written) so posts stay topical. Roughly **~18% of the time**
-it deliberately picks an evergreen career angle instead, so the blog reads like
-a blog and not a news wire. Tune the mix via `RESUME_TOPIC_CHANCE` in
-`generator.py`.
+The primary topic source is the [research backbone](#research-backbone) — a
+fresh web search per post. When research comes up empty the generator falls
+back to Google News RSS: a genuinely job/hiring-relevant headline drives the
+post ~60% of the time, otherwise (or on the `RESUME_TOPIC_CHANCE` coin flip)
+it writes a concrete resume how-to from `RESUME_ANGLES` with the headline as a
+light opening nod — so the blog stays topical without reading like a news
+wire, and no two intros open the same way.
 
 ### The "tailor your resume for X" series
 
@@ -318,18 +388,8 @@ self-heals and pushes it off. Preview the variety with
 | `--jitter-minutes` | loop | — | deprecated, ignored (scheduling follows the rhythm) |
 | `--no-run-on-start` | loop | off | never publish at startup, even if a post was missed |
 
-### How `loop` picks publish times
-
-`rhythm.py` samples each next publish moment from a weekday/hour distribution
-instead of a fixed interval: Mon–Thu are the busiest days, Friday tapers,
-weekends are mostly quiet; times peak mid-morning with a smaller after-lunch
-shelf and a thin evening tail, and nothing fires overnight. Days get skipped,
-some days get two posts, and minutes/seconds are uniform so nothing lands on
-the hour. A minimum 3.5h gap holds even across restarts, and if the process
-wakes up overdue at an hour nobody publishes (say 3am), it waits for the next
-plausible slot instead of posting immediately. Because posts publish at the
-moment they're generated, the dates on the page, in `blog_posts.json`, and in
-the git history are all the same genuine timestamp.
+Scheduling details live in [The loop](#the-loop--how-the-blog-actually-runs)
+above.
 
 ---
 
@@ -369,13 +429,16 @@ is what gets committed and pushed. Generated posts land in
 
 ---
 
-## Current state (first run notes)
+## Current state (as of 2026-08-03)
 
-- The **first post** — the "doomjobbing" trend
-  (`…/post/doomjobbing-why-mass-applying-backfires-and-tailored-resumes-win/`) —
-  was written by hand to seed the pattern. It plus these script files are sitting
-  **uncommitted** in your working tree for you to review. **Nothing has been
-  pushed yet** — your first `once`/`loop` run will be the first live push.
+- The generator ran live Jul 31 – Aug 3 (9 posts, ~3/day on the old fixed
+  8-hour interval). **All 9 were deleted** (commit `f00e6d6`) — they predate
+  the current format (deeper posts, 3/wk rhythm, tailoring + multi-part
+  series). The blog is back to its 17 pre-generator posts; the local topic
+  log was pruned so those topics can be re-covered properly.
+- The loop is **not currently running**. Start it with
+  `python3 generator.py loop` — it picks up the stored schedule (or samples a
+  fresh, plausible slot) and takes it from there.
 - The pipeline was verified with `next lint` **and** `tsc --noEmit` against a
   deliberately hostile test post (quotes, apostrophes, `<>`, `{}`, `&`, em-dashes
   in every field → both clean).
