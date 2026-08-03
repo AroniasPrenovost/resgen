@@ -20,7 +20,7 @@ pip install -r requirements.txt          # only dependency: openai
 # 2. generate ONE post right now (writes files, commits, pushes to main)
 python3 generator.py once
 
-# 3. …or run it forever, ~3x/day, and walk away
+# 3. …or run it forever on a human weekly rhythm (~3 posts/wk) and walk away
 python3 generator.py loop
 ```
 
@@ -61,9 +61,16 @@ python3 generator.py once --no-push
 # and does no git. Great for a quick sanity check that everything's wired up.
 python3 generator.py once --dry-run
 
-# Run continuously, ~3x/day (every 8h with ±45min jitter so it isn't robotic).
+# Run continuously on a human editorial rhythm (~3 posts/week by default):
+# weekday-morning-heavy, light weekends, quiet overnight, most days skipped,
+# the rare two-post day. Posts publish the moment they generate, so the
+# dates on the site are always the genuine publish times — no fixed interval,
+# no 2am posts, no clockwork gaps.
 # Leave this in a terminal, a tmux/screen session, or background it (see below).
 python3 generator.py loop
+python3 generator.py loop --posts-per-week 5        # faster pace
+python3 generator.py loop --tz America/New_York     # rhythm in a specific tz
+                                                    # (default: this machine's clock)
 
 # Sanity-check the renderer only — builds one canned post full of tricky
 # characters and writes it to the path you give. No news, no model, no git.
@@ -199,8 +206,48 @@ before/after demo paragraph).
 The generator **usually rides real, recent news** (novelty-checked against
 everything already written) so posts stay topical. Roughly **~18% of the time**
 it deliberately picks an evergreen career angle instead, so the blog reads like
-a blog and not a news wire. Tune the mix via `EVERGREEN_CHANCE` in
+a blog and not a news wire. Tune the mix via `RESUME_TOPIC_CHANCE` in
 `generator.py`.
+
+### The "tailor your resume for X" series
+
+Roughly **1 in 4 posts** (`TAILOR_TOPIC_CHANCE`) is the next entry in a series:
+*how to tailor your resume for Google / Walmart / nursing jobs / federal
+government jobs…* — drawn from `TAILOR_TARGETS` in `generator.py` (~30 big,
+always-hiring employers plus ~10 field/role targets). Each series post:
+
+- runs a **targeted web search** on that employer's hiring process and
+  resume screening (`research.build_target_backbone`) — the post only ships if
+  real, cited facts come back, so nothing about a company is ever invented;
+- must put the literal phrase **"resume for {target}"** in the title (which is
+  also what people actually search), so the series is recognizable and each
+  target is provably covered once — the picker scans existing titles and skips
+  targets already done;
+- walks each resume section toward that employer with before/after examples,
+  and says plainly when a point is general craft rather than company-specific.
+
+A research miss just falls through to a regular post and leaves the target
+uncovered for a later roll.
+
+### Multi-part series (Part 1–3) — including abandoned ones
+
+Roughly **1 in 7 regular posts** (`START_CHANCE` in `series.py`) opens a
+planned **2- or 3-part series**: the title carries "Part 1" and the post
+promises, in the author's voice, what the next part will dig into.
+Continuations arrive a few posts later (55% chance per run, so parts land days
+apart, never back-to-back), **always by the same author**, opening with a
+natural first-person recap ("in part 1 I covered…").
+
+The human part: every series rolls a **secret fate at birth** — about 60%
+get finished, but **a third are quietly abandoned after Part 1** (and a few
+three-parters stall at two). A forgotten series is never mentioned again — no
+apology, no cleanup — it just sits there, the way abandoned series sit on real
+blogs. A series whose author retires mid-thread is abandoned too.
+
+State lives in `series.json` (gitignored, local-only). Inspect open and
+recently closed series with `python3 generator.py series`. Never during a
+"tailor your resume for X" post; at most 2 series open at once; hard cap 3
+parts.
 
 ### Research backbone
 
@@ -208,7 +255,7 @@ The old topic source was Google News RSS — fine, but it's just *headlines*, so
 posts leaned generic. Before writing, the generator now makes a **separate
 web-search API call** (`research.py`, via OpenAI's Responses `web_search` tool —
 no new key or account) and distils the results into a **backbone**: a specific,
-resume-relevant **angle**, a **hook**, and **3–5 real, current facts each with a
+resume-relevant **angle**, a **hook**, and **4–6 real, current facts each with a
 source URL**. The writer builds the post on that spine and attributes the facts
 in plain language — which is what makes a topic feel authentic and current
 instead of like an evergreen rehash.
@@ -265,9 +312,24 @@ self-heals and pushes it off. Preview the variety with
 | `--no-push` | once, loop | off | commit locally, don't push |
 | `--dry-run` | once, loop | off | generate, write nothing |
 | `--no-research` | once, loop | off | skip the web-search backbone; RSS/evergreen topics only |
-| `--interval-hours` | loop | `8` | cadence (8h ≈ 3×/day) |
-| `--jitter-minutes` | loop | `45` | ± randomness so posts aren't clockwork |
-| `--no-run-on-start` | loop | off | wait one interval before the first post |
+| `--posts-per-week` | loop | `3` | average pace the rhythm aims for (or set `BLOGGEN_POSTS_PER_WEEK`) |
+| `--tz` | loop | `local` | IANA timezone the rhythm lives in, e.g. `America/New_York` (or set `BLOGGEN_TZ`) |
+| `--interval-hours` | loop | — | deprecated, ignored (scheduling follows the rhythm) |
+| `--jitter-minutes` | loop | — | deprecated, ignored (scheduling follows the rhythm) |
+| `--no-run-on-start` | loop | off | never publish at startup, even if a post was missed |
+
+### How `loop` picks publish times
+
+`rhythm.py` samples each next publish moment from a weekday/hour distribution
+instead of a fixed interval: Mon–Thu are the busiest days, Friday tapers,
+weekends are mostly quiet; times peak mid-morning with a smaller after-lunch
+shelf and a thin evening tail, and nothing fires overnight. Days get skipped,
+some days get two posts, and minutes/seconds are uniform so nothing lands on
+the hour. A minimum 3.5h gap holds even across restarts, and if the process
+wakes up overdue at an hour nobody publishes (say 3am), it waits for the next
+plausible slot instead of posting immediately. Because posts publish at the
+moment they're generated, the dates on the page, in `blog_posts.json`, and in
+the git history are all the same genuine timestamp.
 
 ---
 
@@ -282,6 +344,8 @@ self-heals and pushes it off. Preview the variety with
 | `personas.py` | author roster: trait profiles, drift, lifespan/retirement, voice sampling |
 | `quirks.py` | per-author human fingerprints: habitual misspellings, spelling preferences, slip rate, tics — applied post-model, quote-safe |
 | `headlines.py` | headline shapes, persona-weighted sampling, worn-word ban-list |
+| `rhythm.py` | human publishing rhythm: weekday/hour-weighted next-post sampling for `loop` |
+| `series.py` | multi-part series (Part 1–3): start/continue/finish — or quietly abandon |
 | `requirements.txt` | the single dependency (`openai`) |
 
 ### Local state / history (gitignored — the bot's private memory)
@@ -296,6 +360,7 @@ automatically on the first run if missing, so a fresh checkout just works.
 | `history.json` | append-only log of every post generated (author, voice, news hook, model…) |
 | `state.json` | tiny runtime pointer: last run, restart-safe schedule, recent headline shapes |
 | `research_log.json` | web-search backbone memory — used angles/queries/sources, for freshness |
+| `series.json` | open + closed multi-part series (parts written, each one's secret fate) |
 | `generator.log` | run log |
 
 Only the **site content** — the new `page.tsx` and `public/blog_posts.json` —

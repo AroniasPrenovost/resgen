@@ -13,7 +13,7 @@ default) commits and pushes to the current branch.
 
 Usage:
     python3 generator.py once                 # generate one post now
-    python3 generator.py loop                 # run ~3x/day, forever
+    python3 generator.py loop                 # publish on a human weekly rhythm, forever
     python3 generator.py once --dry-run       # generate but write nothing
     python3 generator.py once --no-push       # write + commit, do not push
     python3 generator.py selftest --out /tmp/page.tsx   # render a canned post
@@ -40,6 +40,8 @@ import personas
 import quirks
 import render
 import research
+import rhythm
+import series
 import social
 
 # --------------------------------------------------------------------------
@@ -54,12 +56,14 @@ PERSONAS_FILE = HERE / "personas.json"
 HISTORY_FILE = HERE / "history.json"
 STATE_FILE = HERE / "state.json"
 RESEARCH_LOG = HERE / "research_log.json"
+SERIES_FILE = HERE / "series.json"
 SOCIAL_DRAFTS_DIR = HERE / "social_drafts"
 LOG_FILE = HERE / "generator.log"
 ENV_FILE = REPO_ROOT / ".env"
 
 # Local-only state files (gitignored): the bot's private memory. Never committed.
-STATE_FILES = (PERSONAS_FILE, TOPICS_LOG, HISTORY_FILE, STATE_FILE, RESEARCH_LOG)
+STATE_FILES = (PERSONAS_FILE, TOPICS_LOG, HISTORY_FILE, STATE_FILE, RESEARCH_LOG,
+               SERIES_FILE)
 
 COMMIT_TRAILER = "Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>"
 
@@ -122,6 +126,27 @@ RESUME_ANGLES = [
 # resume how-tos (independent of the news); the rest use a genuinely job- or
 # hiring-related headline as a hook that still pays off in resume advice.
 RESUME_TOPIC_CHANCE = 0.4
+
+# "Tailor your resume for X" series: big, name-recognition employers that are
+# always hiring, plus a handful of field/role targets that get the same
+# treatment. Each target is covered once — the picker skips any target already
+# named in an existing title — and the post only ships if the targeted web
+# research comes back with real cited facts (never on invented claims about a
+# company).
+TAILOR_TARGETS = [
+    "Google", "Amazon", "Microsoft", "Apple", "Meta", "Netflix", "Tesla",
+    "Salesforce", "IBM", "Intel", "Boeing", "Deloitte", "Accenture",
+    "JPMorgan Chase", "Bank of America", "Goldman Sachs", "Walmart", "Target",
+    "Costco", "Starbucks", "McDonald's", "Home Depot", "UPS", "FedEx",
+    "CVS Health", "UnitedHealth Group", "Marriott", "Delta Air Lines",
+    "Disney", "Nike",
+    # field / role targets — same tailoring lens, different audience
+    "nursing jobs", "software engineering roles", "data analyst roles",
+    "teaching jobs", "sales roles", "customer service jobs",
+    "warehouse and logistics jobs", "federal government jobs",
+    "internships", "early-stage startups",
+]
+TAILOR_TOPIC_CHANCE = 0.25
 
 # A news headline is only worth riding if it clearly touches jobs, hiring, or
 # the job search. Anything else (office politics, workplace-trust think-pieces)
@@ -353,6 +378,28 @@ def _backbone_prompt(backbone: dict) -> tuple[str, str]:
         f'- {f["point"]}' + (f' (source: {f["source"]})' if f.get("source") else "")
         for f in backbone.get("facts", [])
     )
+    target = backbone.get("target")
+    if target:
+        hook = (
+            f"This post is a deep dive in a series: tailoring a resume "
+            f"specifically for {target}.\n"
+            "Ground every claim about them in these real, cited facts — "
+            "attribute in plain language, and do NOT invent details about their "
+            "hiring process, culture, or numbers beyond what is listed:\n"
+            f"{fact_lines}"
+            + (f'\n\nA suggested opening hook: {backbone["hook"]}' if backbone.get("hook") else "")
+        )
+        hook_rule = (
+            f"Walk the reader through adapting each part of their resume for "
+            f"{target}: which keywords and skills to mirror from their postings, "
+            "how to reframe bullets toward what they value, and what their "
+            "screening process means for format and length. Include before/after "
+            "bullet examples rewritten toward this employer. Where a point is "
+            "general resume craft rather than specific to them, say so plainly — "
+            f"only the cited facts speak for {target}. The reader should finish "
+            "with a resume visibly closer to what this application needs."
+        )
+        return hook, hook_rule
     hook = (
         f"This post is built on fresh research. Angle: {backbone['angle']}.\n"
         "Ground it in these real, recent facts. Weave them in naturally and "
@@ -373,13 +420,40 @@ def _backbone_prompt(backbone: dict) -> tuple[str, str]:
     return hook, hook_rule
 
 
+def _series_next_prompt(sn: dict) -> tuple[str, str]:
+    """The hook + rule when this post is the next part of the author's own
+    open series: recap briefly in their voice, then a genuinely new facet."""
+    prev = "\n".join(f'- Part {p["n"]}: "{p["title"]}"' for p in sn["parts"])
+    hook = (
+        f"This post is Part {sn['next_n']} of your own {sn['planned']}-part "
+        f"series. The series thread: {sn['angle']}.\nAlready published:\n{prev}"
+    )
+    hook_rule = (
+        "Write the next installment, not a rehash. Open by picking the thread "
+        "back up the way the same writer naturally would — a one- or two-sentence "
+        "recap in first person (\"in part 1 I covered…\") — then go deep on a NEW "
+        "facet of the thread with the same concrete, before/after resume advice "
+        f"as always. The title MUST contain \"Part {sn['next_n']}\" and read as "
+        "an obvious sibling of the earlier title(s)."
+        + (" This is the final part: land the series, and close the loop on what "
+           "part 1 promised."
+           if sn["next_n"] >= sn["planned"] else
+           " Do not wrap up the whole series yet — there is another part to come, "
+           "and you can say so.")
+    )
+    return hook, hook_rule
+
+
 def build_messages(news_item, voice, persona, avoid_titles, headline_brief=""):
     tone = voice["tone"]
     verbosity_label, verbosity_note = voice["verbosity"]
     cleverness = voice["cleverness"]
 
     backbone = news_item.get("backbone")
-    if backbone:
+    series_next = news_item.get("series_next")
+    if series_next:
+        hook, hook_rule = _series_next_prompt(series_next)
+    elif backbone:
         hook, hook_rule = _backbone_prompt(backbone)
     elif news_item.get("real"):
         hook = (
@@ -483,12 +557,28 @@ def build_messages(news_item, voice, persona, avoid_titles, headline_brief=""):
         + "\n".join(f"- {t}" for t in avoid_titles[-24:])
         + "\n\n"
         + (headline_brief + "\n\n" if headline_brief else "")
-        + "Structure: include one bulleted list somewhere only if it earns its place, "
-        "and at most one highlighted callout. At least one section must give "
-        "concrete, do-it-today resume or application advice — the tailoring, "
-        "phrasing, and ATS work ResumAI automates. End on an encouraging, "
-        "forward-looking note. The headline must be specific to THIS post's angle "
-        "and follow the HEADLINE BRIEF above.\n\n"
+        + (
+            f'HEADLINE CONSTRAINT: the title MUST contain the exact phrase '
+            f'"resume for {backbone["target"]}" (any capitalization).\n\n'
+            if backbone and backbone.get("target") else ""
+        )
+        + (
+            f'SERIES: you have decided this post opens a '
+            f'{news_item["series_start"]["planned"]}-part series on this topic. '
+            'The title MUST contain "Part 1". The post must stand alone, but in '
+            "your own voice explicitly promise what the next part(s) will dig "
+            "into (e.g. \"in part 2 I'll…\").\n\n"
+            if news_item.get("series_start") else ""
+        )
+        + "Structure: this is a substantial piece the reader should want to "
+        "bookmark, not a quick listicle. Include at least two before/after resume "
+        "examples with real wording the reader can adapt to their own page. "
+        "Bulleted lists (up to two) and at most one highlighted callout, where "
+        "they earn their place. At least two sections must give concrete, "
+        "do-it-today resume or application advice — the tailoring, phrasing, and "
+        "ATS work ResumAI automates. End on an encouraging, forward-looking note. "
+        "The headline must be specific to THIS post's angle and follow the "
+        "HEADLINE BRIEF above.\n\n"
         "Return JSON with exactly this shape:\n"
         + json.dumps(schema, indent=2)
     )
@@ -504,7 +594,7 @@ def call_llm(system, user, model, temperature):
         messages=[{"role": "system", "content": system}, {"role": "user", "content": user}],
         response_format={"type": "json_object"},
         temperature=temperature,
-        max_tokens=4000,
+        max_tokens=8000,
     )
     return json.loads(resp.choices[0].message.content)
 
@@ -595,6 +685,17 @@ def _resume_angle() -> dict:
     return {"title": angle, "real": False, "keywords": news._keywords(angle)}
 
 
+def _pick_tailor_target() -> str | None:
+    """An uncovered 'tailor your resume for X' target, or None once the well is
+    dry. Every series post's title is required to contain the literal phrase
+    'resume for {target}', so a title scan is a reliable been-there check."""
+    covered = " ".join(
+        existing_titles() + [t.get("title", "") for t in load_topics_log()]
+    ).lower()
+    pool = [t for t in TAILOR_TARGETS if f"resume for {t.lower()}" not in covered]
+    return random.choice(pool) if pool else None
+
+
 def _job_relevant(item: dict) -> bool:
     kws = set(item.get("keywords") or []) | news._keywords(item.get("title", ""))
     return bool(kws & JOB_RELEVANT_TERMS)
@@ -657,24 +758,76 @@ def generate_once(args) -> bool:
     # deterministic per author id, so even unsaved (dry-run) backfills come out
     # identical next time — self-healing without state.
     quirks.ensure_roster_quirks(roster)
-    persona = personas.pick(roster)
+
+    # Multi-part series: decide BEFORE the author pick whether this run writes
+    # the next part of an open series — a continuation must carry the same
+    # byline. pick_continuation also closes stale/orphaned series, so persist
+    # its housekeeping (not in dry-run).
+    series_state = series.load(SERIES_FILE)
+    continuation = series.pick_continuation(
+        series_state, [p["name"] for p in roster["active"]], now)
+    if not args.dry_run:
+        series.save(SERIES_FILE, series_state)
+
+    if continuation is not None:
+        persona = next(p for p in roster["active"]
+                       if p["name"] == continuation["author"])
+    else:
+        persona = personas.pick(roster)
     voice = personas.sample_voice(persona)
 
     avoid = existing_titles()
+    if continuation is not None:
+        # The earlier parts are deliberately being continued — they don't
+        # belong on the do-not-repeat list for this run.
+        own = {p["title"] for p in continuation["parts"]}
+        avoid = [t for t in avoid if t not in own]
 
     # Build the post's backbone from a SEPARATE web-search call first: real,
     # current, cited facts are what make the topic authentic rather than an
     # evergreen rehash. If research finds nothing fresh (or is disabled), self-heal
     # by falling back to the existing RSS / evergreen path so a post always ships.
+    # A series continuation skips all of that: its topic is the thread itself.
     news_item = None
-    if not getattr(args, "no_research", False):
-        try:
-            backbone = research.build_backbone(
-                RESEARCH_LOG, model=args.model, now=now, dry_run=args.dry_run,
-            )
-        except Exception as e:
-            LOG.error("research step errored, falling back to RSS: %s", e)
-            backbone = None
+    if continuation is not None:
+        next_n = len(continuation["parts"]) + 1
+        news_item = {
+            "title": f"part {next_n}: {continuation['angle']}",
+            "real": False,
+            "keywords": news._keywords(continuation["angle"]),
+            "series_next": {
+                "next_n": next_n,
+                "planned": continuation["planned"],
+                "angle": continuation["angle"],
+                "parts": continuation["parts"],
+            },
+        }
+        LOG.info("series: continuing %r — part %d/%d (by %s)",
+                 continuation["angle"][:60], next_n, continuation["planned"],
+                 continuation["author"])
+    if news_item is None and not getattr(args, "no_research", False):
+        backbone = None
+        # Sometimes the post is the next entry in the "tailor your resume for X"
+        # series: targeted research on one employer or field instead of the
+        # rotating trend themes. A research miss just falls through to a
+        # regular post — the target stays uncovered for a later roll.
+        if random.random() < TAILOR_TOPIC_CHANCE:
+            tailor_target = _pick_tailor_target()
+            if tailor_target:
+                try:
+                    backbone = research.build_target_backbone(
+                        RESEARCH_LOG, model=args.model, target=tailor_target,
+                        now=now, dry_run=args.dry_run,
+                    )
+                except Exception as e:
+                    LOG.error("target research errored for %r: %s", tailor_target, e)
+        if backbone is None:
+            try:
+                backbone = research.build_backbone(
+                    RESEARCH_LOG, model=args.model, now=now, dry_run=args.dry_run,
+                )
+            except Exception as e:
+                LOG.error("research step errored, falling back to RSS: %s", e)
         if backbone:
             primary = backbone["facts"][0] if backbone.get("facts") else {}
             news_item = {
@@ -693,6 +846,16 @@ def generate_once(args) -> bool:
             }
     if news_item is None:
         news_item = pick_news(args.max_age_days)
+
+    # Maybe open a NEW multi-part series with this post as its Part 1 — never
+    # on top of a continuation or a "tailor your resume for X" post. The fate
+    # (finish, or quietly stop early) is sealed now and kept secret.
+    if continuation is None and not (news_item.get("backbone") or {}).get("target"):
+        series_plan = series.may_start(series_state)
+        if series_plan:
+            news_item["series_start"] = series_plan
+            LOG.info("series: opening a planned %d-parter (fate: writes %d)",
+                     series_plan["planned"], series_plan["will_write"])
 
     # Sample a headline shape — weighted to the author's personality and steered
     # away from the shapes/openings the last few posts already used — so titles
@@ -785,6 +948,23 @@ def generate_once(args) -> bool:
     })
     save_topics_log(topics)
 
+    # Series bookkeeping: register this post as the next part of its series,
+    # or open the new series it starts.
+    if continuation is not None:
+        series.record_part(series_state, continuation, {
+            "n": len(continuation["parts"]) + 1,
+            "slug": content["slug"], "title": content["title"],
+            "date": content["date"],
+        })
+        series.save(SERIES_FILE, series_state)
+    elif news_item.get("series_start"):
+        series.start(series_state, angle=content["title"], author=persona["name"],
+                     plan=news_item["series_start"],
+                     part1={"n": 1, "slug": content["slug"],
+                            "title": content["title"], "date": content["date"]},
+                     now=now)
+        series.save(SERIES_FILE, series_state)
+
     # Record the byline and let the author's traits drift a touch, then persist.
     personas.touch_and_drift(persona, now)
     personas.save_roster(PERSONAS_FILE, roster)
@@ -830,57 +1010,72 @@ def generate_once(args) -> bool:
     return True
 
 
-def _next_interval_seconds(args, interval: float) -> float:
-    """One jittered inter-post gap, floored so we never hot-loop."""
-    jitter = random.randint(-args.jitter_minutes, args.jitter_minutes) * 60
-    return max(600, interval + jitter)
+def _sample_next_wake(args) -> datetime:
+    """The next publish moment under the human rhythm, honouring the minimum
+    gap since the last successful post (read fresh from state each time)."""
+    state = load_state()
+    last_post = _parse_iso((state.get("last_post") or {}).get("date") or "") \
+        or _parse_iso(state.get("last_run") or "")
+    return rhythm.next_publish_time(
+        datetime.now(timezone.utc), tz_name=args.tz,
+        posts_per_week=args.posts_per_week, last_post_utc=last_post)
 
 
 def run_loop(args):
-    interval = args.interval_hours * 3600
-    LOG.info("loop started: every ~%sh, model=%s, push=%s",
-             args.interval_hours, args.model, not args.no_push)
+    LOG.info("loop started: human rhythm ~%.1f posts/wk (tz=%s), model=%s, push=%s",
+             args.posts_per_week, args.tz, args.model, not args.no_push)
 
     # Restart-safe scheduling: decide when the next post is genuinely due from
     # the timestamps persisted in state.json (last_run / next_run), so stopping
-    # and restarting the program never fires an extra post. We generate on
-    # startup only when we are actually overdue (or have never run before).
+    # and restarting the program never fires an extra post.
     now = datetime.now(timezone.utc)
     state = load_state()
     stored_next = _parse_iso(state.get("next_run") or "")
     last_run = _parse_iso(state.get("last_run") or "")
 
-    if args.no_run_on_start:
-        wake = now + timedelta(seconds=_next_interval_seconds(args, interval))
-        LOG.info("startup run suppressed (--no-run-on-start)")
-    elif stored_next and stored_next > now:
+    if stored_next and stored_next > now and rhythm.plausible_hour(stored_next, args.tz):
+        # A stored future wake time wins — unless it lands at an hour the
+        # rhythm could never produce (i.e. it came from the old fixed-interval
+        # scheduler), in which case it gets resampled once.
         wake = stored_next
-        LOG.info("restart-safe: resuming stored schedule, next run ~%s UTC",
-                 wake.strftime("%Y-%m-%d %H:%M"))
-    elif last_run and (now - last_run).total_seconds() < interval:
-        # We posted recently (this or a prior process) but no future next_run
-        # was persisted — wait out the remainder instead of posting again now.
-        wake = last_run + timedelta(seconds=_next_interval_seconds(args, interval))
-        if wake <= now:
-            wake = now + timedelta(seconds=60)
-        LOG.info("restart-safe: last post %.1fh ago, next run ~%s UTC",
-                 (now - last_run).total_seconds() / 3600, wake.strftime("%Y-%m-%d %H:%M"))
+        LOG.info("restart-safe: resuming stored schedule, next post ~%s",
+                 rhythm.describe(wake, args.tz))
+    elif args.no_run_on_start:
+        wake = _sample_next_wake(args)
+        LOG.info("startup run suppressed (--no-run-on-start); next post ~%s",
+                 rhythm.describe(wake, args.tz))
+    elif (stored_next is None and last_run is None) or (stored_next and stored_next <= now):
+        # First ever run, or a scheduled post was missed while the process was
+        # down. Catch up immediately only if right now is an hour a person
+        # would plausibly hit publish; a 3am laptop wake-up waits for morning.
+        if rhythm.plausible_hour(now, args.tz):
+            if last_run:
+                LOG.info("overdue (last post %.1fh ago); publishing now",
+                         (now - last_run).total_seconds() / 3600)
+            _safe_generate(args)
+            wake = _sample_next_wake(args)
+        else:
+            wake = _sample_next_wake(args)
+            LOG.info("overdue, but this is no hour to publish; next post ~%s",
+                     rhythm.describe(wake, args.tz))
     else:
-        if last_run:
-            LOG.info("overdue (last post %.1fh ago, interval %.1fh); generating now",
-                     (now - last_run).total_seconds() / 3600, interval / 3600)
-        _safe_generate(args)
-        wake = datetime.now(timezone.utc) + timedelta(seconds=_next_interval_seconds(args, interval))
+        # Posted recently with no future wake persisted — just pick the next
+        # slot; the rhythm's minimum gap keeps it honest.
+        wake = _sample_next_wake(args)
+        LOG.info("restart-safe: last post %.1fh ago, next post ~%s",
+                 (now - last_run).total_seconds() / 3600 if last_run else 0.0,
+                 rhythm.describe(wake, args.tz))
 
     while True:
         # Persist the wake time BEFORE sleeping so a restart mid-sleep resumes
         # this same schedule rather than starting a fresh one.
         update_state(next_run=wake.strftime("%Y-%m-%dT%H:%M:%S.000Z"))
         sleep_for = max(0.0, wake.timestamp() - datetime.now(timezone.utc).timestamp())
-        LOG.info("sleeping %.1fh (next run ~%s UTC)", sleep_for / 3600, wake.strftime("%H:%M"))
+        LOG.info("sleeping %.1fh (next post ~%s)", sleep_for / 3600,
+                 rhythm.describe(wake, args.tz))
         time.sleep(sleep_for)
         _safe_generate(args)
-        wake = datetime.now(timezone.utc) + timedelta(seconds=_next_interval_seconds(args, interval))
+        wake = _sample_next_wake(args)
 
 
 def _safe_generate(args):
@@ -957,10 +1152,18 @@ def main():
     once = sub.add_parser("once", help="generate a single post now")
     add_common(once)
 
-    loop = sub.add_parser("loop", help="generate ~3x/day, forever")
+    loop = sub.add_parser("loop", help="publish on a human weekly rhythm, forever")
     add_common(loop)
-    loop.add_argument("--interval-hours", type=float, default=8.0)
-    loop.add_argument("--jitter-minutes", type=int, default=45)
+    loop.add_argument("--posts-per-week", type=float,
+                      default=float(os.environ.get("BLOGGEN_POSTS_PER_WEEK", 3)),
+                      help="average posts per week the rhythm aims for")
+    loop.add_argument("--tz", default=os.environ.get("BLOGGEN_TZ", rhythm.DEFAULT_TZ),
+                      help="IANA timezone the publishing rhythm lives in "
+                           "('local' = this machine's clock)")
+    loop.add_argument("--interval-hours", type=float, default=None,
+                      help="(deprecated, ignored — scheduling follows the rhythm)")
+    loop.add_argument("--jitter-minutes", type=int, default=None,
+                      help="(deprecated, ignored — scheduling follows the rhythm)")
     loop.add_argument("--no-run-on-start", action="store_true")
 
     st = sub.add_parser("selftest", help="render a canned post to prove build-safety")
@@ -980,6 +1183,8 @@ def main():
     rs = sub.add_parser("research", help="preview a live research backbone (hits the web-search API)")
     rs.add_argument("--model", default=os.environ.get("BLOGGEN_MODEL", "gpt-4o"))
 
+    sub.add_parser("series", help="show open + recently closed multi-part series")
+
     sub.add_parser("state", help="print the local runtime state (last run, last post, counts)")
 
     args = ap.parse_args()
@@ -998,6 +1203,8 @@ def main():
         show_headlines(args)
     elif args.cmd == "research":
         show_research(args)
+    elif args.cmd == "series":
+        print(series.summarize(series.load(SERIES_FILE)))
     elif args.cmd == "state":
         state = load_state()
         if not state:

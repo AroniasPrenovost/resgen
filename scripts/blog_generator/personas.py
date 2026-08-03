@@ -68,9 +68,12 @@ TONE_SIGNATURES = {
 }
 
 VERBOSITY_LEVELS = {
-    "tight": "Keep it lean. Short paragraphs, 3 sections, no filler.",
-    "medium": "A comfortable read. 4 sections, a mix of short and medium paragraphs.",
-    "expansive": "Give it room. 5 to 6 sections and a couple of longer, thoughtful paragraphs.",
+    "tight": "Lean but complete. 4 focused sections, short paragraphs, no filler — "
+             "the depth comes from worked examples, not word count.",
+    "medium": "A proper read. 5 sections with worked examples throughout, a mix of "
+              "short and medium paragraphs.",
+    "expansive": "Give it room. 6 to 7 sections, several longer, thoughtful "
+                 "paragraphs, and examples that build on each other through the piece.",
 }
 
 CLEVERNESS_LEVELS = [

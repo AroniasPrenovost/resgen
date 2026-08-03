@@ -60,6 +60,13 @@ QUERY_THEMES = [
     "salary transparency and job offer trends {year}",
 ]
 
+# The query behind a "tailor your resume for X" post: pinned to one employer or
+# field instead of the rotating trend themes above.
+TARGET_QUERY = (
+    "getting hired at {target} {year}: hiring process, what recruiters and the "
+    "resume screening look for, application and resume tips"
+)
+
 
 # --------------------------------------------------------------------------
 # History / freshness memory (its own log, self-healing)
@@ -210,7 +217,7 @@ def distill(client, query: str, search_text: str, sources: list[dict], model: st
         f"Search query: {query}\n\nWeb-search notes:\n{search_text}\n\n"
         + src_block
         + "Produce a research brief that could anchor a concrete resume-writing "
-        "how-to. Include 3 to 5 facts, each specific and job/hiring/resume-relevant.\n\n"
+        "how-to. Include 4 to 6 facts, each specific and job/hiring/resume-relevant.\n\n"
         "Return JSON with exactly this shape:\n" + json.dumps(schema, indent=2)
     )
     resp = client.chat.completions.create(
@@ -236,7 +243,7 @@ def _clean_facts(raw) -> list[dict]:
             "source": (f.get("source") or "").strip()[:120],
             "url": (f.get("url") or "").strip()[:400],
         })
-        if len(facts) >= 5:
+        if len(facts) >= 6:
             break
     return facts
 
@@ -320,6 +327,68 @@ def build_backbone(
 
     LOG.warning("research: no novel backbone after %d attempts; falling back", attempts)
     return None
+
+
+def build_target_backbone(
+    log_path: Path,
+    model: str,
+    target: str,
+    now: datetime | None = None,
+    dry_run: bool = False,
+) -> dict | None:
+    """A backbone for one 'tailor your resume for {target}' series post.
+
+    Same search-then-distill pipeline as build_backbone, but the query, angle,
+    and log entry are pinned to the target. Returns None on any miss so the
+    caller can fall back to a regular post — a company post never ships on
+    invented claims about that company."""
+    now = now or datetime.now(timezone.utc)
+    if not os.environ.get("OPENAI_API_KEY"):
+        LOG.warning("research: no OPENAI_API_KEY; skipping target research")
+        return None
+
+    from openai import OpenAI
+    client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
+
+    query = TARGET_QUERY.format(target=target, year=now.year)
+    try:
+        text, sources = web_search(client, query, model)
+        brief = distill(client, query, text, sources, model)
+    except Exception as e:
+        LOG.info("research: target search failed for %r: %s", target, e)
+        return None
+
+    facts = _clean_facts(brief.get("facts"))
+    if len(facts) < 2:
+        LOG.info("research: thin target brief for %r; falling back", target)
+        return None
+
+    angle = f"how to tailor your resume for {target}"
+    kws = news._keywords(angle) | news._keywords(target)
+    for f in facts:
+        kws |= news._keywords(f["point"])
+
+    backbone = {
+        "query": query,
+        "theme": f"target:{target}",
+        "angle": angle,
+        "hook": (brief.get("hook") or "").strip(),
+        "facts": facts,
+        "keywords": sorted(kws),
+        "sources": [f["url"] for f in facts if f.get("url")],
+        "target": target,
+    }
+    if not dry_run:
+        record(log_path, {
+            "timestamp": _iso(now),
+            "theme": backbone["theme"],
+            "query": query,
+            "angle": angle,
+            "keywords": backbone["keywords"],
+            "urls": backbone["sources"],
+        }, now)
+    LOG.info("research backbone: TARGET %s | %d facts", target, len(facts))
+    return backbone
 
 
 # --------------------------------------------------------------------------
