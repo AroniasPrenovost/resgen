@@ -98,6 +98,22 @@ DASH_HABIT = {
     "hyphen": "when you want a dash you just type a plain hyphen - like that",
 }
 
+# Habits that have a clear structural expression — the model honors rules more
+# reliably than personality descriptions, so these get turned into explicit
+# mandates in the prompt rather than staying as vague personality notes.
+_STRUCTURAL_MANDATES = {
+    "you like a one-sentence paragraph when a point deserves it":
+        "At least one paragraph in the post must be a single sentence, standing alone.",
+    "you ask the reader a question and then answer it yourself":
+        "In at least one section, open with a direct question to the reader, then answer it in the very next sentence.",
+    "you end sections with a plain, direct takeaway line":
+        "End at least two sections with a single plain sentence — no bullet, no callout, just one direct takeaway line.",
+    "you sometimes start a sentence with And or But":
+        "Let one or two sentences begin with And or But.",
+    "you tuck quick asides into parentheses (like this)":
+        "Include one parenthetical aside somewhere in the body prose.",
+}
+
 # Words a fat-finger slip must never land on: the blog's core vocabulary
 # (misspelling "resume" on a resume blog undermines the whole post) plus
 # URL fragments.
@@ -201,11 +217,27 @@ def drift(persona: dict):
 def prompt_block(persona: dict) -> str:
     q = ensure_quirks(persona)
     habits = list(q.get("habits") or [])
-    habits.append(DASH_HABIT.get(q.get("dash_style", "em"), DASH_HABIT["em"]))
+    dash_desc = DASH_HABIT.get(q.get("dash_style", "em"), DASH_HABIT["em"])
     pets = ", ".join(f'"{p}"' for p in q.get("pet_phrases") or [])
-    lines = [f"- Ingrained habits (subtle, consistent across your posts): " + "; ".join(habits) + "."]
+
+    # Split habits into structural mandates (the model must honour these visibly
+    # in the post's shape) vs tonal habits (voice/register notes).
+    mandates = [_STRUCTURAL_MANDATES[h] for h in habits if h in _STRUCTURAL_MANDATES]
+    tonal = [h for h in habits if h not in _STRUCTURAL_MANDATES]
+    tonal.append(dash_desc)
+
+    lines = [f"- Ingrained habits (tonal, consistent across your posts): " + "; ".join(tonal) + "."]
+    if mandates:
+        lines.append(
+            "- Structural habits — honour ALL of these visibly in this post's shape: "
+            + " ".join(mandates)
+        )
     if pets:
-        lines.append(f"- Phrases you naturally reach for (at most ONE per post, only where it genuinely fits): {pets}.")
+        lines.append(
+            f"- Pet phrases you reach for naturally: {pets}. "
+            "Use exactly one, woven into body prose mid-post (not in the closing sentence), "
+            "only where it earns its place as an aside or moment of candour — never parked at the end as a kicker."
+        )
     return "\n".join(lines)
 
 
@@ -319,6 +351,13 @@ def _inject_slip(text: str, mode: str, rng: random.Random, protected: set) -> tu
         cands = [m for m in re.finditer(r"\b[a-z]{5,14}\b", seg) if m.group(0) not in protected]
         rng.shuffle(cands)
         for m in cands[:6]:
+            # Skip words near an all-caps acronym (e.g. GMAC, ATS, AI) — those
+            # are almost always citation or technical contexts where a real
+            # person would be careful, not sloppy.
+            window = (seg[max(0, m.start() - 30):m.start()]
+                      + seg[m.end():min(len(seg), m.end() + 30)])
+            if re.search(r'\b[A-Z]{2,}\b', window):
+                continue
             slip = _make_slip(m.group(0), mode, rng)
             if slip and slip != m.group(0):
                 done["hit"] = True

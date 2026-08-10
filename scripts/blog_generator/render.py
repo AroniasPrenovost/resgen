@@ -118,6 +118,9 @@ const BlogDetailPage = async () => {
           description: "__META_DESC__",
           slug: "__SLUG__",
           datePublished: "__PUBDATE__",
+          authorName: "__AUTHOR_NAME_JS__",
+          authorRole: "__AUTHOR_ROLE_JS__",
+          faqs: __FAQS_JSON__,
         })}
       />
       <header>
@@ -156,6 +159,13 @@ export default BlogDetailPage;
 RESUME_GEN_URL = "https://www.resumai.services/app/resume-generator"
 I = "        "   # 8-space indent for section children
 
+# Maps a post's icon/accent color to the matching callout border class so the
+# left-bar accent varies between posts rather than always being blue.
+_ACCENT_TO_BORDER = {
+    "text-blue-700": "border-blue-700",
+    "text-violet-500": "border-violet-500",
+}
+
 
 def _p(text: str) -> str:
     return f'{I}<p className="text-gray-700 custom_html">{jsx_text(text)}</p>'
@@ -163,6 +173,10 @@ def _p(text: str) -> str:
 
 def _h2(text: str) -> str:
     return f'{I}<h2 className="text-2xl font-bold text-gray-800">{jsx_text(text)}</h2>'
+
+
+def _h3(text: str) -> str:
+    return f'{I}<h3 className="text-lg font-semibold text-gray-800 mt-2">{jsx_text(text)}</h3>'
 
 
 def _bullets(items) -> str:
@@ -180,8 +194,8 @@ def _bullets(items) -> str:
     return "\n".join(lines)
 
 
-def _callout(items) -> str:
-    lines = [f'{I}<div className="border-l-4 border-blue-700 pl-4 text-gray-700 space-y-2">']
+def _callout(items, border: str = "border-blue-700") -> str:
+    lines = [f'{I}<div className="border-l-4 {border} pl-4 text-gray-700 space-y-2">']
     for it in items:
         lead = (it.get("lead") or "").strip().rstrip(":").strip() if isinstance(it, dict) else ""
         text = (it.get("text") if isinstance(it, dict) else str(it)) or ""
@@ -193,6 +207,21 @@ def _callout(items) -> str:
             lines.append(f'{I}  <p className="custom_html">{jsx_text(text)}</p>')
     lines.append(f"{I}</div>")
     return "\n".join(lines)
+
+
+def _faq_section(faqs: list) -> str:
+    """Render FAQs as visible H3+paragraph pairs before the CTA. These are also
+    emitted as FAQPage schema so Google can surface them as rich results."""
+    if not faqs:
+        return ""
+    blocks = [_h2("Frequently Asked Questions")]
+    for faq in faqs:
+        q = (faq.get("question") or "").strip()
+        a = (faq.get("answer") or "").strip()
+        if q and a:
+            blocks.append(_h3(q))
+            blocks.append(_p(a))
+    return "\n\n".join(blocks) if len(blocks) > 1 else ""
 
 
 def _cta(content) -> str:
@@ -209,6 +238,7 @@ def _cta(content) -> str:
 
 
 def _build_body(content) -> str:
+    border = _ACCENT_TO_BORDER.get(content.get("icon_color", ""), "border-blue-700")
     blocks = []
     if content.get("intro"):
         blocks.append(_p(content["intro"]))
@@ -221,7 +251,10 @@ def _build_body(content) -> str:
         if sec.get("bullets"):
             blocks.append(_bullets(sec["bullets"]))
         if sec.get("callout"):
-            blocks.append(_callout(sec["callout"]))
+            blocks.append(_callout(sec["callout"], border=border))
+    faq_block = _faq_section(content.get("faqs") or [])
+    if faq_block:
+        blocks.append(faq_block)
     blocks.append(_cta(content))
     return "\n\n".join(blocks)
 
@@ -241,8 +274,11 @@ def render_page_tsx(content: dict) -> str:
         "__ICON_COLOR__": content.get("icon_color", "text-blue-700"),
         "__BG_COLOR__": content.get("bg_color", "bg-gray-700/10"),
         "__AUTHOR_NAME__": jsx_text(author.get("name", "The ResumAI Team")),
+        "__AUTHOR_NAME_JS__": js_str(author.get("name", "")),
         "__AUTHOR_ROLE__": jsx_text(author.get("role", "Career Writer")),
+        "__AUTHOR_ROLE_JS__": js_str(author.get("role", "")),
         "__AUTHOR_BIO__": jsx_text(author.get("bio", "")),
+        "__FAQS_JSON__": json.dumps(content.get("faqs") or [], ensure_ascii=False),
         "__BODY__": body,
     }
     out = TEMPLATE

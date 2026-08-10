@@ -539,11 +539,22 @@ def build_messages(news_item, voice, persona, avoid_titles, headline_brief=""):
                 "callout": "OPTIONAL array of {lead, text} for a highlighted aside, or omit",
             }
         ],
+        "faqs": [
+            {
+                "question": "string — a short, specific question a job seeker would type "
+                            "into Google about this post's topic (People Also Ask style)",
+                "answer": "string — a concise 1-3 sentence answer that matches advice "
+                          "already in the post above",
+            }
+        ],
         "cta": "string, ONE sentence that leads into a link to ResumAI's Resume Generator",
     }
 
     persona_line = f"{persona['name']}, {persona['role']}"
     persona_bio = persona.get("bio", "")
+    tone_anchor = personas.TONE_ANCHORS.get(
+        persona.get("traits", {}).get("tone", ""), ""
+    )
 
     user = (
         f"{hook}\n\n{hook_rule}\n\n"
@@ -552,8 +563,13 @@ def build_messages(news_item, voice, persona, avoid_titles, headline_brief=""):
         f"- Tone: {tone}\n"
         f"- Length: {verbosity_label}. {verbosity_note}\n"
         f"- Style: {cleverness}\n"
-        f"{quirks.prompt_block(persona)}\n\n"
-        f"Do NOT rewrite topics we already covered. Avoid these existing titles:\n"
+        + (
+            f"- Opening register (voice model — write your first paragraph in this "
+            f"spirit, do NOT copy it verbatim): \"{tone_anchor}\"\n"
+            if tone_anchor else ""
+        )
+        + f"{quirks.prompt_block(persona)}\n\n"
+        + f"Do NOT rewrite topics we already covered. Avoid these existing titles:\n"
         + "\n".join(f"- {t}" for t in avoid_titles[-24:])
         + "\n\n"
         + (headline_brief + "\n\n" if headline_brief else "")
@@ -577,6 +593,9 @@ def build_messages(news_item, voice, persona, avoid_titles, headline_brief=""):
         "they earn their place. At least two sections must give concrete, "
         "do-it-today resume or application advice — the tailoring, phrasing, and "
         "ATS work ResumAI automates. End on an encouraging, forward-looking note. "
+        "Vary the form of section headings across the piece: some as noun phrases, "
+        "some as direct questions, some as short imperatives — do not let them all "
+        "follow the same grammatical pattern. "
         "The headline must be specific to THIS post's angle and follow the "
         "HEADLINE BRIEF above.\n\n"
         "Return JSON with exactly this shape:\n"
@@ -628,6 +647,15 @@ def coerce_content(raw: dict, persona: dict) -> dict:
     if not sections:
         raise ValueError("LLM returned no usable sections")
 
+    faqs = []
+    for faq in raw.get("faqs") or []:
+        if isinstance(faq, dict) and faq.get("question") and faq.get("answer"):
+            faqs.append({
+                "question": str(faq["question"]).strip(),
+                "answer": str(faq["answer"]).strip(),
+            })
+    faqs = faqs[:3]  # cap at 3 for FAQ schema eligibility
+
     icon_color, bg_color = random.choice(COLOR_COMBOS)
     base_slug = render.slugify(title)
     slug = render.unique_slug(base_slug, POSTS_DIR)
@@ -638,6 +666,7 @@ def coerce_content(raw: dict, persona: dict) -> dict:
         "subtitle": subtitle,
         "intro": (raw.get("intro") or "").strip(),
         "sections": sections,
+        "faqs": faqs,
         "cta": (raw.get("cta") or "Ready to put this into practice?").strip(),
         "cta_tail": random.choice(CTA_TAILS),
         "slug": slug,

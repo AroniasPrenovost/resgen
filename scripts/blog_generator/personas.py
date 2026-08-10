@@ -67,6 +67,45 @@ TONE_SIGNATURES = {
     "storyteller": "story-driven, opens with a scene or a person before the point",
 }
 
+# One sample opening sentence per tone — a voice model, not a template. Injected
+# into the prompt so the model has a concrete register anchor for the first
+# paragraph rather than just a prose description of a personality.
+TONE_ANCHORS = {
+    "wry": (
+        "Hiring managers have a way of remembering the resumes they almost skipped "
+        "— usually because something small made them stop."
+    ),
+    "warm": (
+        "If you're staring at a resume that doesn't feel like you yet, "
+        "I promise that's a fixable problem."
+    ),
+    "plainspoken": (
+        "Here is what actually gets you past the first screen, "
+        "and it is not what most posts about this topic say."
+    ),
+    "analytical": (
+        "The data on this is clearer than the career-advice industry would like to admit."
+    ),
+    "energetic": (
+        "The job you want is out there — what's standing between you and it "
+        "is usually a one-paragraph fix on your resume."
+    ),
+    "candid": (
+        "I'll tell you what I'd tell a friend who asked me to look at their resume over coffee."
+    ),
+    "contrarian": (
+        "Most resume advice you'll find online is solving the wrong problem."
+    ),
+    "reassuring": (
+        "Job searching is exhausting, and it's okay to admit that the process "
+        "makes no sense sometimes."
+    ),
+    "storyteller": (
+        "A few months ago I watched a candidate lose an offer because of one line "
+        "on their resume — not a lie, just the wrong framing."
+    ),
+}
+
 VERBOSITY_LEVELS = {
     "tight": "Lean but complete. 4 focused sections, short paragraphs, no filler — "
              "the depth comes from worked examples, not word count.",

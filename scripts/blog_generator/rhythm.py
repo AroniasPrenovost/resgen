@@ -25,10 +25,11 @@ from zoneinfo import ZoneInfo
 # a small in-house editorial team. Override with --tz / BLOGGEN_TZ (IANA name).
 DEFAULT_TZ = "local"
 
-# Relative likelihood a given weekday gets a post (Mon..Sun). Weekday-heavy,
-# Friday tapering, weekends mostly quiet. Sums to 5.0 and is scaled by
-# --posts-per-week (so the default of 3 multiplies these by 0.6).
-WEEKDAY_WEIGHT = [1.0, 0.95, 0.95, 0.9, 0.7, 0.2, 0.3]
+# Relative likelihood a given weekday gets a post (Mon..Sun). Deliberately
+# lumpy — Monday and Wednesday are heavy, Tuesday and Thursday light, Friday
+# medium — so the week-to-week pattern doesn't feel like a drip schedule.
+# Weekends are possible but uncommon. Scaled by --posts-per-week.
+WEEKDAY_WEIGHT = [1.0, 0.55, 1.0, 0.5, 0.85, 0.35, 0.2]
 _BASE_WEEK = sum(WEEKDAY_WEIGHT)
 
 # Relative likelihood of each local publish hour. Morning peak, a smaller
@@ -41,11 +42,12 @@ HOUR_WEIGHT = {
 }
 
 # Chance (before --posts-per-week scaling) that a day which already got a post
-# gets a second one later the same day.
-SECOND_POST_PROB = 0.12
+# gets a second one later the same day. Slightly elevated so burst days happen
+# often enough to feel organic.
+SECOND_POST_PROB = 0.16
 
 # Never publish twice within this many hours, even across restarts.
-MIN_GAP_HOURS = 3.5
+MIN_GAP_HOURS = 2.5
 
 
 def resolve_tz(name: str | None):
