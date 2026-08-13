@@ -687,7 +687,27 @@ def git(*args) -> subprocess.CompletedProcess:
     )
 
 
+def _typecheck() -> bool:
+    """Run tsc --noEmit from the repo root. Returns True if clean."""
+    try:
+        result = subprocess.run(
+            ["npx", "tsc", "--noEmit"],
+            cwd=REPO_ROOT, capture_output=True, text=True, timeout=120,
+        )
+        if result.returncode != 0:
+            LOG.error("TypeScript type-check failed — aborting commit:\n%s",
+                      (result.stdout + result.stderr).strip())
+            return False
+        return True
+    except Exception as e:
+        LOG.error("TypeScript type-check could not run: %s — aborting commit", e)
+        return False
+
+
 def commit_and_push(paths: list[Path], title: str, push: bool):
+    if not _typecheck():
+        LOG.error("post written to disk but NOT committed (type errors above)")
+        return
     try:
         git("add", *[str(p) for p in paths])
         msg = f"Automated: new blog post — {title}\n\n{COMMIT_TRAILER}"

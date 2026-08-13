@@ -106,7 +106,7 @@ export function blogPostSchema(post: {
       ? { "@type": "Person", name: post.authorName, ...(post.authorRole ? { jobTitle: post.authorRole } : {}) }
       : { "@type": "Organization", name: SITE_NAME, url: SITE_URL };
 
-  const schemas: object[] = [
+  const schemas: Record<string, unknown>[] = [
     {
       "@context": "https://schema.org",
       "@type": "BlogPosting",
