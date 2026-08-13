@@ -89,15 +89,24 @@ export function breadcrumbSchema(items: { name: string; path: string }[]) {
   };
 }
 
-/** BlogPosting + matching breadcrumb trail for a single article. */
+/** BlogPosting + breadcrumb trail + optional FAQ rich-result for a single article. */
 export function blogPostSchema(post: {
   title: string;
   description: string;
   slug: string;
   datePublished: string;
+  authorName?: string;
+  authorRole?: string;
+  faqs?: { question: string; answer: string }[];
 }) {
   const url = abs(`/app/blog/resume-writing-tips-tricks-and-services/post/${post.slug}`);
-  return [
+
+  const author =
+    post.authorName
+      ? { "@type": "Person", name: post.authorName, ...(post.authorRole ? { jobTitle: post.authorRole } : {}) }
+      : { "@type": "Organization", name: SITE_NAME, url: SITE_URL };
+
+  const schemas: object[] = [
     {
       "@context": "https://schema.org",
       "@type": "BlogPosting",
@@ -109,7 +118,7 @@ export function blogPostSchema(post: {
       url,
       mainEntityOfPage: { "@type": "WebPage", "@id": url },
       image: LOGO_URL,
-      author: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
+      author,
       publisher: { "@id": `${SITE_URL}/#organization` },
     },
     breadcrumbSchema([
@@ -118,4 +127,10 @@ export function blogPostSchema(post: {
       { name: post.title, path: `/app/blog/resume-writing-tips-tricks-and-services/post/${post.slug}` },
     ]),
   ];
+
+  if (post.faqs && post.faqs.length > 0) {
+    schemas.push(faqSchema(post.faqs));
+  }
+
+  return schemas;
 }

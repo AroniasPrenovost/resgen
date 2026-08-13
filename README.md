@@ -26,16 +26,17 @@ Features:
 
 ## Blog post generator (content engine)
 
-A standalone Python helper that auto-writes SEO blog posts into this repo
-(news-driven, build-safe TSX + `public/blog_posts.json`). **It is not part of the
-Next.js app** — it never runs at request time; you run it yourself.
+A standalone Python helper that auto-writes researched, in-depth SEO blog posts
+into this repo (web-search-backed, build-safe TSX + `public/blog_posts.json`).
+**It is not part of the Next.js app** — it never runs at request time; you run
+it yourself.
 
 ➡️ **Full docs & commands: [`scripts/blog_generator/README.md`](scripts/blog_generator/README.md)**
 
 ```shell
 cd scripts/blog_generator && pip install -r requirements.txt
-python3 generator.py once      # one post now
-python3 generator.py loop      # ~3x/day, forever
+python3 generator.py loop      # the intended mode: ~3 posts/wk on a human rhythm
+python3 generator.py once      # or just one post now
 ```
 
 ### Prerequisites
@@ -146,7 +147,7 @@ https://app.crisp.chat/initiate/signup/?locale=en
 | `npm run dev`           | Starts a development instance of the app |
 | `npx prisma studio`     | Opens Prisma database editor             |
 | `python3 scripts/blog_generator/generator.py once` | Generate one blog post ([docs](scripts/blog_generator/README.md)) |
-| `python3 scripts/blog_generator/generator.py loop` | Auto-generate posts ~3x/day ([docs](scripts/blog_generator/README.md)) |
+| `python3 scripts/blog_generator/generator.py loop` | Auto-publish ~3 posts/wk on a human rhythm ([docs](scripts/blog_generator/README.md)) |
 
 ### Favicon
 https://realfavicongenerator.net/
