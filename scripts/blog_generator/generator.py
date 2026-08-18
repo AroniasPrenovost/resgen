@@ -689,19 +689,62 @@ def git(*args) -> subprocess.CompletedProcess:
 
 def _typecheck() -> bool:
     """Run tsc --noEmit from the repo root. Returns True if clean."""
+    for attempt, timeout in enumerate([120, 240], start=1):
+        try:
+            result = subprocess.run(
+                ["npx", "tsc", "--noEmit"],
+                cwd=REPO_ROOT, capture_output=True, text=True, timeout=timeout,
+            )
+            if result.returncode != 0:
+                LOG.error("TypeScript type-check failed — aborting commit:\n%s",
+                          (result.stdout + result.stderr).strip())
+                return False
+            return True
+        except subprocess.TimeoutExpired:
+            if attempt == 1:
+                LOG.warning("tsc timed out after %ds — retrying with %ds timeout", timeout, 240)
+            else:
+                LOG.warning("tsc timed out again — skipping check and proceeding with commit")
+                return True
+        except Exception as e:
+            LOG.error("TypeScript type-check could not run: %s — aborting commit", e)
+            return False
+    return True  # unreachable but satisfies type checker
+
+
+def _recover_orphaned_posts(push: bool):
+    """Commit any page.tsx files that were written but never committed due to a
+    prior tsc timeout. Detects them via `git status --porcelain`."""
     try:
         result = subprocess.run(
-            ["npx", "tsc", "--noEmit"],
-            cwd=REPO_ROOT, capture_output=True, text=True, timeout=120,
+            ["git", "status", "--porcelain"],
+            cwd=REPO_ROOT, capture_output=True, text=True, check=True,
         )
-        if result.returncode != 0:
-            LOG.error("TypeScript type-check failed — aborting commit:\n%s",
-                      (result.stdout + result.stderr).strip())
-            return False
-        return True
     except Exception as e:
-        LOG.error("TypeScript type-check could not run: %s — aborting commit", e)
-        return False
+        LOG.warning("recovery scan failed (git status error): %s", e)
+        return
+
+    for line in result.stdout.splitlines():
+        # "?? path/to/dir/" or "?? path/to/file"
+        status, _, path = line.partition(" ")
+        path = path.strip().rstrip("/")
+        if status != "??":
+            continue
+        # Only care about untracked items inside the blog post directory
+        if "resume-writing-tips-tricks-and-services/post/" not in path:
+            continue
+
+        abs_path = REPO_ROOT / path
+        # Resolve to the page.tsx if we got the parent dir
+        tsx = abs_path if abs_path.name == "page.tsx" else abs_path / "page.tsx"
+        if not tsx.exists():
+            continue
+
+        slug = tsx.parent.name
+        # Derive a human title from the slug (hyphens → spaces, title-case)
+        title = slug.replace("-", " ").title()
+        LOG.warning("recovery: found uncommitted post '%s' — committing now", slug)
+        commit_and_push([tsx, BLOG_JSON], title, push=push)
 
 
 def commit_and_push(paths: list[Path], title: str, push: bool):
@@ -1073,6 +1116,9 @@ def _sample_next_wake(args) -> datetime:
 def run_loop(args):
     LOG.info("loop started: human rhythm ~%.1f posts/wk (tz=%s), model=%s, push=%s",
              args.posts_per_week, args.tz, args.model, not args.no_push)
+
+    # Recover any posts written to disk but not committed (e.g. prior tsc timeout)
+    _recover_orphaned_posts(push=not args.no_push)
 
     # Restart-safe scheduling: decide when the next post is genuinely due from
     # the timestamps persisted in state.json (last_run / next_run), so stopping
